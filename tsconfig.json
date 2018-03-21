@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "amd",
+    "target": "ES6",
+    "outDir": "./build/js",
+    "pretty": true
+  },
+
+  "compileOnSave": false,
+
+  "include": [
+    "src/ts/**/*"
+  ],
+
+  "exclude": [
+    "node_modules"
+  ]
+}
