@@ -13,11 +13,17 @@ export class Item extends DOMElement {
   readonly initialPosition: ItemPosition;
   position: ItemPosition;
 
-  constructor (node: JQuery, parent: ItemGroup, position: ItemPosition) {
+  // Utility score
+  utility: number;
+
+  constructor (node: JQuery, parent: ItemGroup,
+               position?: ItemPosition, highlighted: boolean = false, utility: number = 0) {
     super(node, parent);
 
     this.initialPosition = position;
     this.position = position;
+
+    this.utility = utility;
   }
 
   // Build an Item object from provided server data
