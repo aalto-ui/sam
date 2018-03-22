@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "amd",
+    "module": "commonjs",
     "target": "ES6",
     "outDir": "./build/js",
     "pretty": true
