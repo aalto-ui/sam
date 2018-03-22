@@ -10,11 +10,14 @@ export type GroupPosition = number;
 
 
 export class ItemGroup extends AdaptiveElement {
+  type: string = "group";
+
   // Ordered list of menu items
   items: Item[];
 
   constructor (node: JQuery, parent: Menu, items: Item[]) {
     super(node, parent);
+    this.tagWithPosition();
 
     this.items = items;
   }

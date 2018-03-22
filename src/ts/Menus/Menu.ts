@@ -5,11 +5,14 @@ import { Item } from "./Item";
 
 
 export class Menu extends AdaptiveElement {
+  type: string = "menu";
+
   // Ordered list of menu item groups
   groups: ItemGroup[];
 
   constructor (node: JQuery, groups: ItemGroup[]) {
     super(node);
+    this.tagWithPosition();
 
     this.groups = groups;
   }

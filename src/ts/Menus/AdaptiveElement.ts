@@ -7,6 +7,10 @@ export type Selector = JQuery | string;
 
 
 export class AdaptiveElement {
+  // Descriptive type of the adaptive element
+  // This property should be set by any class extending this one
+  type: string = "generic";
+
   // Reference to the related jQuery node
   node: JQuery;
 
@@ -23,5 +27,16 @@ export class AdaptiveElement {
   static fromSelector (selector: Selector, parent: AdaptiveElement = null) {
     let node = parent ? parent.node.find(selector) : $(selector);
     return new AdaptiveElement(node, parent, selector)
+  }
+
+  // Tag the related element
+  // It takes the form of an attribute data-<attr> = <value>
+  tag (name: string, value: string) {
+    this.node.attr("data-awm-" + name, value);
+  }
+
+  tagWithPosition () {
+    console.log(this.type);
+    this.tag(this.type, this.node.index().toString());
   }
 }
