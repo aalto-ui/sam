@@ -23,8 +23,9 @@ export class AdaptiveElement {
   }
 
   // Build a AdaptiveElement object from a given jQuery selector
+  // Note: if a valid parent is provided, the selector is only applied to this element and its descendants to fetch the node
   static fromSelector (selector: Selector, parent: AdaptiveElement = null) {
-    let node = $(selector);
+    let node = parent ? parent.node.find(selector) : $(selector);
     return new AdaptiveElement(node, parent, selector)
   }
 }
