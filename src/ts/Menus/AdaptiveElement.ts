@@ -3,7 +3,7 @@ import * as $ from "jquery";
 
 // Internally used type for and element selector
 // It should be compatible with expected types by jQuery selector tool
-export type Selector = JQuery | string;
+export type Selector = JQuery | HTMLElement | string;
 
 
 export class AdaptiveElement {
