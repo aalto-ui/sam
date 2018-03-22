@@ -21,8 +21,6 @@ export class ServerDataManager {
   }
 
   static parseRawData (rawData: RawServerData): ServerData {
-    // TODO
-
-    return null;
+    return JSON.parse(rawData);
   }
 }
