@@ -1,5 +1,5 @@
 import * as $ from "jquery";
-import { DOMElement } from "./DOMElement";
+import { AdaptiveElement } from "./AdaptiveElement";
 import { ItemGroup } from "./ItemGroup";
 
 
@@ -8,7 +8,7 @@ import { ItemGroup } from "./ItemGroup";
 export type ItemPosition = number;
 
 
-export class Item extends DOMElement {
+export class Item extends AdaptiveElement {
   // Utility score
   utility: number;
 

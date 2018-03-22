@@ -6,7 +6,7 @@ import * as $ from "jquery";
 type Selector = JQuery | string;
 
 
-export class DOMElement {
+export class AdaptiveElement {
   // Selector to reach the element
   selector: Selector | null;
 
@@ -14,17 +14,17 @@ export class DOMElement {
   node: JQuery;
 
   // Reference to the parent element
-  parent: DOMElement | null;
+  parent: AdaptiveElement | null;
 
-  constructor (node: JQuery, parent: DOMElement = null, selector: Selector = null) {
+  constructor (node: JQuery, parent: AdaptiveElement = null, selector: Selector = null) {
     this.node     = node;
     this.selector = selector;
     this.parent = parent;
   }
 
-  // Build a DOMElement object from a given jQuery selector
-  static fromSelector (selector: Selector, parent: DOMElement = null) {
+  // Build a AdaptiveElement object from a given jQuery selector
+  static fromSelector (selector: Selector, parent: AdaptiveElement = null) {
     let node = $(selector);
-    return new DOMElement(node, parent, selector)
+    return new AdaptiveElement(node, parent, selector)
   }
 }

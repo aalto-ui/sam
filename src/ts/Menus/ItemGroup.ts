@@ -1,5 +1,5 @@
 import * as $ from "jquery";
-import { DOMElement } from "./DOMElement";
+import { AdaptiveElement } from "./AdaptiveElement";
 import { Item } from "./Item";
 import { Menu } from "./Menu";
 
@@ -9,7 +9,7 @@ import { Menu } from "./Menu";
 export type GroupPosition = number;
 
 
-export class ItemGroup extends DOMElement {
+export class ItemGroup extends AdaptiveElement {
   // Ordered list of menu items
   items: Item[];
 
