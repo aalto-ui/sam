@@ -1,0 +1,53 @@
+{
+  "menus": [
+    {
+      "selector": "#awm-main-menu",
+      "groups": [
+        {
+          "selector": 0,
+          "items": [
+            {
+              "selector": 0,
+              "score": 0.42,
+              "highlight": false,
+              "position": 1
+            },
+
+            {
+              "selector": 1,
+              "score": 0.84,
+              "highlight": true,
+              "position": 0
+            },
+
+            {
+              "selector": 2,
+              "score": 0.21,
+              "highlight": false,
+              "position": 2
+            }
+          ]
+        },
+
+        {
+          "selector": 1,
+          "items": [
+            {
+              "selector": 0,
+              "score": 0.33,
+              "highlight": false,
+              "position": 0
+            },
+
+            {
+              "selector": 1,
+              "score": 0.66,
+              "highlight": false,
+              "position": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
