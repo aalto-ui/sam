@@ -13,16 +13,9 @@ export class ItemGroup extends DOMElement {
   // Ordered list of menu items
   items: Item[];
 
-  // Initial and current position of the group
-  readonly initialPosition: GroupPosition;
-  position: GroupPosition;
-
-  constructor (node: JQuery, parent: Menu, items: Item[], position: GroupPosition) {
+  constructor (node: JQuery, parent: Menu, items: Item[]) {
     super(node, parent);
 
     this.items = items;
-
-    this.initialPosition = position;
-    this.position = position;
   }
 }
