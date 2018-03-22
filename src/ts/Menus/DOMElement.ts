@@ -13,14 +13,18 @@ export class DOMElement {
   // Reference to the related jQuery node
   node: JQuery;
 
-  constructor (node: JQuery, selector: Selector = null) {
+  // Reference to the parent element
+  parent: DOMElement | null;
+
+  constructor (node: JQuery, parent: DOMElement = null, selector: Selector = null) {
     this.node     = node;
     this.selector = selector;
+    this.parent = parent;
   }
 
   // Build a DOMElement object from a given jQuery selector
-  static fromSelector (selector: Selector) {
+  static fromSelector (selector: Selector, parent: DOMElement = null) {
     let node = $(selector);
-    return new DOMElement(node, selector)
+    return new DOMElement(node, parent, selector)
   }
 }
