@@ -1,5 +1,6 @@
 import * as $ from "jquery";
 import { DOMElement } from "./DOMElement";
+import { ItemGroup } from "./ItemGroup";
 
 
 // Item positions are positive integers
@@ -12,15 +13,22 @@ export class Item extends DOMElement {
   readonly initialPosition: ItemPosition;
   position: ItemPosition;
 
-  constructor (node: JQuery, position: ItemPosition) {
-    super(node);
+  constructor (node: JQuery, parent: ItemGroup, position: ItemPosition) {
+    super(node, parent);
 
     this.initialPosition = position;
     this.position = position;
   }
 
   // Build an Item object from provided server data
-  static fromServerData (data: object) {
-    // TODO
+  static fromServerData (data: object, parent: ItemGroup): Item {
+    let node = typeof data["selector"] === "string"
+             ? $(data["selector"])
+             : parent.node.children().eq(data["selector"]);
+
+    let position = data["position"];
+    let items = [];
+
+    return new Item(node, parent, position);
   }
 }
