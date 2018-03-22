@@ -1,5 +1,5 @@
 import { Menu } from "../Menus/Menu";
-import { ServerData } from "../ServerDataManager";
+import { ServerData } from "../ServerData/ServerDataManager";
 
 // Generic parent class for a menu adaptation
 // Any adaptation technique should extend this interface
