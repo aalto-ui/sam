@@ -25,16 +25,4 @@ export class Item extends DOMElement {
 
     this.utility = utility;
   }
-
-  // Build an Item object from provided server data
-  static fromServerData (data: object, parent: ItemGroup): Item {
-    let node = typeof data["selector"] === "string"
-             ? $(data["selector"])
-             : parent.node.children().eq(data["selector"]);
-
-    let position = data["position"];
-    let items = [];
-
-    return new Item(node, parent, position);
-  }
 }

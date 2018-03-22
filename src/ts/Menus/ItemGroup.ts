@@ -25,23 +25,4 @@ export class ItemGroup extends DOMElement {
     this.initialPosition = position;
     this.position = position;
   }
-
-  // Build a ItemGroup object from provided server data
-  static fromServerData (data: object, parent: Menu): ItemGroup {
-    let node = typeof data["selector"] === "string"
-             ? $(data["selector"])
-             : parent.node.children().eq(data["selector"]);
-
-    let position = data["position"];
-    let items = [];
-
-    let group = new ItemGroup(node, parent, items, position);
-
-    for (let itemData of data["items"]) {
-      let item = Item.fromServerData(itemData, group);
-      items.push(item);
-    }
-
-    return group;
-  }
 }

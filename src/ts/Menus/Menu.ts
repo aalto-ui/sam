@@ -12,19 +12,4 @@ export class Menu extends DOMElement {
 
     this.groups = groups;
   }
-
-  // Build a Menu object from provided server data
-  static fromServerData (data: object): Menu {
-    let node = $(data["selector"]);
-    let groups = [];
-
-    let menu = new Menu(node, groups);
-
-    for (let groupData of data["groups"]) {
-      let group = ItemGroup.fromServerData(groupData, menu);
-      groups.push(group);
-    }
-
-    return menu;
-  }
 }
