@@ -20,7 +20,12 @@ export class Menu extends AdaptiveElement {
     let groups = [];
     let menu = new Menu(menuNode, groups);
 
-    menuNode.find(groupSelector).addBack().each(function (_, element) {
+    let groupElements = menuNode.find(groupSelector);
+    if (groupElements.length === 0) {
+      groupElements = menuNode;
+    }
+    
+    groupElements.each(function (_, element) {
       let groupNode = $(element);
 
       let items = [];
