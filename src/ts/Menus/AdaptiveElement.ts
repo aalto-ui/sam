@@ -17,8 +17,9 @@ export class AdaptiveElement {
   // Reference to the parent element
   parent: AdaptiveElement | null;
 
+
   constructor (node: JQuery, parent: AdaptiveElement = null, selector: Selector = null) {
-    this.node     = node;
+    this.node = node;
     this.parent = parent;
   }
 
