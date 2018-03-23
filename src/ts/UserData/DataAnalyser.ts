@@ -86,10 +86,10 @@ export class DataAnalyser {
         analysis[id.menuPos].nbClicks / analysis.totalNbClicks;
 
       analysis[id.menuPos][id.groupPos].clickFrequency =
-        analysis[id.menuPos][id.groupPos].nbClicks / analysis[id.menuPos].totalNbClicks;
+        analysis[id.menuPos][id.groupPos].nbClicks / analysis[id.menuPos].nbClicks;
 
       analysis[id.menuPos][id.groupPos][id.itemPos].clickFrequency =
-        analysis[id.menuPos][id.groupPos][id.itemPos].nbClicks / analysis[id.menuPos][id.groupPos].totalNbClicks;
+        analysis[id.menuPos][id.groupPos][id.itemPos].nbClicks / analysis[id.menuPos][id.groupPos].nbClicks;
     }
 
     for (let itemClick of itemClickData) {
