@@ -3,7 +3,9 @@
     "module": "commonjs",
     "target": "ES6",
     "outDir": "./build/js",
-    "pretty": true
+    "pretty": true,
+    "alwaysStrict": true,
+    "strictPropertyInitialization": true
   },
 
   "compileOnSave": false,
