@@ -21,4 +21,13 @@ export class ItemGroup extends AdaptiveElement {
 
     this.items = items;
   }
+
+  static findNodeWithPositionTags (menuPos: number, groupPos: number) {
+    let menu = Menu.findNodeWithPositionTag(menuPos);
+    if (menu.attr("data-awm-group") === groupPos.toString()) {
+      return menu;
+    }
+
+    return menu.find(`[data-awm-group=${groupPos}]`);
+  }
 }

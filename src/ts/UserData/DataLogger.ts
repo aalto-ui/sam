@@ -38,22 +38,24 @@ export class DataLogger {
     let timestamp = event.timeStamp;
     let pathname = window.location.pathname;
 
-    // Get the related item, group and menu tags
-    function getTag (name: string) {
+    // Get the related item, group and menu position tags
+    function getTagValue (name: string) {
       return $(event.target).closest(`[data-awm-${name}]`).attr(`data-awm-${name}`);
     }
 
-    let itemTag = getTag("item");
-    let groupTag = getTag("group");
-    let menuTag = getTag("menu");
+    let itemPos = getTagValue("item");
+    let groupPos = getTagValue("group");
+    let menuPos = getTagValue("menu");
 
     // Log all this in the database
     this.database.addTableEntry("item-clicks", {
       timestamp: timestamp,
       pathname: pathname,
-      itemTag: itemTag,
-      groupTag: groupTag,
-      menuTag: menuTag
+      itemID: {
+        itemPos: itemPos,
+        groupPos: groupPos,
+        menuPos: menuPos
+      }
     });
   }
 

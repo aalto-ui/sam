@@ -27,7 +27,7 @@ export class Menu extends AdaptiveElement {
     if (groupElements.length === 0) {
       groupElements = menuNode;
     }
-    
+
     groupElements.each(function (_, element) {
       let groupNode = $(element);
 
@@ -44,5 +44,9 @@ export class Menu extends AdaptiveElement {
     });
 
     return menu;
+  }
+
+  static findNodeWithPositionTag (menuPos: number) {
+    return $(`[data-awm-menu=${menuPos}]`);
   }
 }
