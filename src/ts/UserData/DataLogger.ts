@@ -34,6 +34,10 @@ export class DataLogger {
   }
 
   onMenuItemClick (event: JQuery.Event) {
+    // Get the event timestamp and the current url pathname
+    let timestamp = event.timeStamp;
+    let pathname = window.location.pathname;
+
     // Get the related item, group and menu tags
     function getTag (name: string) {
       return $(event.target).closest(`[data-awm-${name}]`).attr(`data-awm-${name}`);
@@ -43,22 +47,24 @@ export class DataLogger {
     let groupTag = getTag("group");
     let menuTag = getTag("menu");
 
-    // Also get the event timestamp and the current url pathname
-    let timestamp = event.timeStamp;
-    let pathname = window.location.pathname;
-
-    console.log(itemTag, groupTag, menuTag, timestamp, pathname);
-
     // Log all this in the database
-    // TODO
+    this.database.addTableEntry("item-clicks", {
+      timestamp: timestamp,
+      pathname: pathname,
+      itemTag: itemTag,
+      groupTag: groupTag,
+      menuTag: menuTag
+    });
   }
 
   logCurrentPageVisit () {
+    // Get the event timestamp and the current url pathname
+    let timestamp = Date.now();
     let pathname = window.location.pathname;
 
-    console.log(pathname);
-
-    // Log all this in the database
-    // TODO
+    this.database.addTableEntry("page-visits", {
+      timestamp: timestamp,
+      pathname: pathname
+    });
   }
 }
