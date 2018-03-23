@@ -8,6 +8,13 @@ import { Menu } from "./Menu";
 // Position 0 corresponds to the first (top) group
 export type GroupPosition = number;
 
+// Group identifier
+// An groupID is formed by the position tags of a menu and a group
+export interface GroupID {
+  menuPos: number;
+  groupPos: number;
+};
+
 
 export class ItemGroup extends AdaptiveElement {
   type: string = "group";

@@ -30,12 +30,8 @@ export class Item extends AdaptiveElement {
   }
 
   static findNodeWithPositionTags (menuPos: number, groupPos: number, itemPos: number) {
-    let menu = ItemGroup.findWithPositionTags(menuPos, groupPos);
-    if (menu.attr("data-awm-group") === groupPos.toString()) {
-      return menu;
-    }
-
-    return menu.find(`[data-awm-group=${groupPos}]`);
+    let group = ItemGroup.findNodeWithPositionTags(menuPos, groupPos);
+    return group.find(`[data-awm-item=${groupPos}]`);
   }
 
   static findNodeWithID (id: ItemID) {
