@@ -11,5 +11,8 @@ $(document).ready(function () {
   menus.push(Menu.fromSelectors("#awm-other-menu", "#awm-other-menu", "li"));
   console.log(menus);
 
-  let logger = new DataLogger(new Database());
+  let db = new Database();
+  let logger = new DataLogger(db);
+
+  console.log(window.localStorage)
 });
