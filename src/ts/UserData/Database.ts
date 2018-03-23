@@ -63,6 +63,10 @@ export class Database {
 
   // Set up the default tables, only if they do not exist yet
   initWithDefaultTables () {
+    if (! this.data) {
+      this.data = new Map();
+    }
+
     for (let defaultTable of Database.DEFAULT_TABLES) {
       if (! this.data.has(defaultTable.name)) {
         this.addTable(defaultTable.name, defaultTable.template);
