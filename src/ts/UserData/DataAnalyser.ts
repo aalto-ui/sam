@@ -42,13 +42,10 @@ export class DataAnalyser {
     // Get the item click data
     let itemClickData = this.database.getTableEntries("item-clicks");
 
-    // Initialize the analysis object with IDs and immediate values
+    // Initialize the analysis object
     let analysis = {
-      totalNbClicks: 0
+      totalNbPageM: itemClickData.length
     };
-
-    // Set immediately available constants
-    analysis.totalNbClicks = itemClickData.length;
 
     // Create required fields and count clicks with different granularities
 
