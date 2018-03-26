@@ -37,4 +37,9 @@ export class Item extends AdaptiveElement {
   static findNodeWithID (id: ItemID) {
     return Item.findNodeWithPositionTags(id.menuPos, id.groupPos, id.itemPos);
   }
+
+  static findAllNodes () {
+    return $("[data-awm-item]");
+  }
+
 }
