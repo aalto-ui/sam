@@ -42,4 +42,11 @@ export class Item extends AdaptiveElement {
     return $("[data-awm-item]");
   }
 
+  static getNodeItemID (itemNode: JQuery) {
+    return {
+      itemPos: parseInt(itemNode.attr("data-awm-item")),
+      groupPos: parseInt(itemNode.closest("[data-awm-group]").attr("data-awm-group")),
+      menuPos: parseInt(itemNode.closest("[data-awm-menu]").attr("data-awm-menu"))
+    };
+  }
 }
