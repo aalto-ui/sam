@@ -17,4 +17,5 @@ $(document).ready(function () {
   let analyser = new DataAnalyser(db);
 
   console.log(analyser.analyseItemClicks());
+  console.log(analyser.analysePageVisits());
 });

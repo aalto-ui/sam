@@ -44,7 +44,7 @@ export class DataAnalyser {
 
     // Initialize the analysis object
     let analysis = {
-      totalNbPageM: itemClickData.length
+      totalNbClicks: itemClickData.length
     };
 
     // Create required fields and count clicks with different granularities
@@ -98,8 +98,44 @@ export class DataAnalyser {
     return analysis;
   }
 
+
   // Compute and return an analysis of the page visits
   analysePageVisits () {
-    // TODO
+    // Get the page visits data
+    let pageVisitsData = this.database.getTableEntries("page-visits");
+
+    // Initialize the analysis object
+    let analysis = {
+      totalNbVisits: pageVisitsData.length,
+      totalNbUniqueVisits: 0,
+      nbVisits: new Map(),
+      visitFrequencies: new Map()
+    };
+
+    // Compute/update the frequency and number of visits of each page
+    function updateNbVisits (visit: object) {
+      let pathname = visit["pathname"];
+
+      let nbVisits = 0;
+      if (analysis.nbVisits.has(pathname)) {
+        nbVisits = analysis.nbVisits.get(pathname);
+      }
+      else {
+        // If the pathname has never been seen before, increase the nb of unique visits
+        analysis.totalNbUniqueVisits += 1;
+      }
+
+      analysis.nbVisits.set(pathname, nbVisits + 1);
+    }
+
+    function computeFrequency (nbVisits: number, pathname: string) {
+      let frequency = nbVisits / analysis.totalNbVisits;
+      analysis.visitFrequencies.set(pathname, frequency);
+    }
+
+    pageVisitsData.forEach(updateNbVisits);
+    analysis.nbVisits.forEach(computeFrequency);
+
+    return analysis;
   }
 }
