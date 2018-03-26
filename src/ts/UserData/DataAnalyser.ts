@@ -44,7 +44,8 @@ export class DataAnalyser {
 
     // Initialize the analysis object
     let analysis = {
-      totalNbClicks: itemClickData.length
+      totalNbClicks: itemClickData.length,
+      menus: []
     };
 
     // Create required fields and count clicks with different granularities
@@ -52,22 +53,25 @@ export class DataAnalyser {
     // Helper function checking if all fields related ton an item ID are available or not
     // If some are missing, they are added and initialized
     function createAllFieldsIfRequired (id: ItemID) {
-      function createFieldIfRequired (object, field) {
+      function createFieldIfRequired (object, field, objectProp?) {
         if (object[field] === undefined) {
           object[field] = { nbClicks: 0, clickFrequency: 0 };
+          if (objectProp) {
+            object[field][objectProp] = {};
+          }
         }
       }
 
-      createFieldIfRequired(analysis, id.menuPos);
-      createFieldIfRequired(analysis[id.menuPos], id.groupPos);
-      createFieldIfRequired(analysis[id.menuPos][id.groupPos], id.itemPos);
+      createFieldIfRequired(analysis.menus, id.menuPos, "groups");
+      createFieldIfRequired(analysis.menus[id.menuPos].groups, id.groupPos, "items");
+      createFieldIfRequired(analysis.menus[id.menuPos].groups[id.groupPos].items, id.itemPos);
     }
 
     // Iterate over all item clicks and update the analysis
     function countClick (id: ItemID) {
-      analysis[id.menuPos].nbClicks += 1;
-      analysis[id.menuPos][id.groupPos].nbClicks += 1;
-      analysis[id.menuPos][id.groupPos][id.itemPos].nbClicks += 1;
+      analysis.menus[id.menuPos].nbClicks += 1;
+      analysis.menus[id.menuPos].groups[id.groupPos].nbClicks += 1;
+      analysis.menus[id.menuPos].groups[id.groupPos].items[id.itemPos].nbClicks += 1;
     }
 
     for (let itemClick of itemClickData) {
@@ -79,14 +83,17 @@ export class DataAnalyser {
 
     // Iterate again to compute frequencies
     function computeFrequencies (id: ItemID) {
-      analysis[id.menuPos].clickFrequency =
-        analysis[id.menuPos].nbClicks / analysis.totalNbClicks;
+      analysis.menus[id.menuPos].clickFrequency =
+          analysis.menus[id.menuPos].nbClicks
+        / analysis.totalNbClicks;
 
-      analysis[id.menuPos][id.groupPos].clickFrequency =
-        analysis[id.menuPos][id.groupPos].nbClicks / analysis[id.menuPos].nbClicks;
+      analysis.menus[id.menuPos].groups[id.groupPos].clickFrequency =
+          analysis.menus[id.menuPos].groups[id.groupPos].nbClicks
+        / analysis.menus[id.menuPos].nbClicks;
 
-      analysis[id.menuPos][id.groupPos][id.itemPos].clickFrequency =
-        analysis[id.menuPos][id.groupPos][id.itemPos].nbClicks / analysis[id.menuPos][id.groupPos].nbClicks;
+      analysis.menus[id.menuPos].groups[id.groupPos].items[id.itemPos].clickFrequency =
+          analysis.menus[id.menuPos].groups[id.groupPos].items[id.itemPos].nbClicks
+        / analysis.menus[id.menuPos].groups[id.groupPos].nbClicks;
     }
 
     for (let itemClick of itemClickData) {
