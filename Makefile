@@ -13,7 +13,7 @@ build:
 # Resolve all imports (located in build folder) to make a single script
 compact: build
 	@echo "Compacting..."
-	@node_modules/browserify/bin/cmd.js build/js/awm.js -o build/mod.js
+	@node_modules/browserify/bin/cmd.js build/js/awm.js -o build/js/mod.js
 
 # Cleaning rule
 clean:
