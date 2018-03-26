@@ -1,3 +1,9 @@
 body {
   background: lightgrey;
 }
+
+/* Highlighting */
+
+.awm-highlighted {
+  background-color: yellow;
+}

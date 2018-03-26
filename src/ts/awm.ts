@@ -3,6 +3,7 @@ import { Menu } from "./Menus/Menu";
 import { DataLogger } from "./UserData/DataLogger";
 import { Database } from "./UserData/Database";
 import { DataAnalyser } from "./UserData/DataAnalyser";
+import { HighlightMostClickedItems } from "./Adaptations/Highlighting/HighlightMostClickedItems";
 
 $(document).ready(function () {
   console.log("AWM library initialised");
@@ -18,4 +19,6 @@ $(document).ready(function () {
 
   console.log(analyser.analyseItemClicks());
   console.log(analyser.analysePageVisits());
+
+  HighlightMostClickedItems.apply(analyser);
 });
