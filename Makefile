@@ -7,7 +7,7 @@ all: compact
 build:
 	@echo "Building..."
 	@mkdir -p build
-	@cp -R -f src/example.html src/example_data.json build
+	@cp -R -f src/html src/css build
 	@node_modules/typescript/bin/tsc
 
 # Resolve all imports (located in build folder) to make a single script
