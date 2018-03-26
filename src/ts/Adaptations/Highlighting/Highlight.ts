@@ -1,11 +1,11 @@
 import * as $ from "jquery";
-import { Adaptation } from "./Adaptation";
-import { AdaptiveElement } from "../Menus/AdaptiveElement";
-import { ItemID, Item } from "../Menus/Item";
+import { Adaptation } from "../Adaptation";
+import { AdaptiveElement } from "../../Menus/AdaptiveElement";
+import { ItemID, Item } from "../../Menus/Item";
 
 
-export class Highlight extends Adaptation {
-  protected static readonly HIGHLIGHTED_ELEMENT_CLASS = "awm-highlighted";
+export abstract class Highlight extends Adaptation {
+  protected static readonly HIGHLIGHTED_ELEMENT_CLASS: string = "awm-highlighted";
 
 
   private static onNode (node: JQuery) {
