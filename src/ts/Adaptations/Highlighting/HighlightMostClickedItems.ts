@@ -27,27 +27,29 @@ export class HighlightMostClickedItems extends Highlight {
     let itemClickAnalysis = analyser.analyseItemClicks();
 
     // Map each item of the current page to their logged nb of click
-    let clickPerItem = new Map();
-    let itemNodes = Item.findAllNodes();
-    console.log("All nodes", itemNodes);
+    let itemsNbClicks = new Map();
 
+    let itemNodes = Item.findAllNodes();
     for (let node of itemNodes) {
       let id = Item.getNodeItemID($(node));
+      let idString = Item.itemIDToString(id);
+
       try {
         let nbClicks = itemClickAnalysis.menus[id.menuPos].groups[id.groupPos].items[id.itemPos].nbClicks;
-        clickPerItem.set(itemIDToString(id), nbClicks);
+        itemsNbClicks.set(idString, nbClicks);
       }
       catch {
-        clickPerItem.set(itemIDToString(id), 0);
+        itemsNbClicks.set(idString, 0);
       }
     }
 
     // DEBUG: add scores and IDs to item inner HTML
-    for (let tuple of [...clickPerItem.entries()]) {
+
+    for (let tuple of [...itemsNbClicks.entries()]) {
       let stringID = tuple[0];
       let nbClicks = tuple[1];
 
-      let id = itemIDFromString(tuple[0]);
+      let id = Item.itemIDFromString(tuple[0]);
       let node = Item.findNodeWithID(id);
 
       console.log("Append info to", node, id);
@@ -55,14 +57,18 @@ export class HighlightMostClickedItems extends Highlight {
     }
 
     // Turn the map into a list sorted by the nb of clicks
-    let itemsSortedByNbClicks = [...clickPerItem.entries()].sort((e1, e2) => {
-      return e2[1] - e1[1];
-    });
+    let itemsSortedByNbClicks = [...itemsNbClicks.entries()]
+      .map(tuple => {
+        return { id: Item.itemIDFromString(tuple[0]), nbClicks: tuple[1] };
+      })
+      .sort((e1, e2) => {
+        return e2.nbClicks - e1.nbClicks;
+      });
 
-    // If required, filter that list to only highlight already clicked items
+    // If required, filter that list to only keep already clicked items
     if (! this.ONLY_HIGHLIGHT_CLICKED_ITEMS) {
       itemsSortedByNbClicks = itemsSortedByNbClicks.filter(e => {
-        e[1] > 0;
+        return e.nbClicks > 0;
       });
     }
 
@@ -70,9 +76,8 @@ export class HighlightMostClickedItems extends Highlight {
     Highlight.reset();
 
     let nbHighlightedItems = 0;
-    for (let stringIDNbClicksCouple of itemsSortedByNbClicks) {
-      let id = itemIDFromString(stringIDNbClicksCouple[0]);
-      Highlight.onItemWithID(id);
+    for (let item of itemsSortedByNbClicks) {
+      Highlight.onItemWithID(item.id);
 
       nbHighlightedItems++;
       if (nbHighlightedItems === this.MAX_NB_HIGHLIGHTED_ITEMS) {
