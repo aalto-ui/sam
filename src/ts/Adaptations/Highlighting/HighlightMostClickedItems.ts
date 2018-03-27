@@ -1,7 +1,8 @@
 import * as $ from "jquery";
 import { Highlight } from "./Highlight";
 import { DataAnalyser } from "../../UserData/DataAnalyser";
-import { Item, ItemID } from "../../Menus/Item";
+import { Item } from "../../Menus/Item";
+import { Menu } from "../../Menus/Menu";
 
 
 export class HighlightMostClickedItems extends Highlight {
@@ -11,55 +12,62 @@ export class HighlightMostClickedItems extends Highlight {
   // If true, only highlight items which have already been clicked at least once
   private static ONLY_HIGHLIGHT_CLICKED_ITEMS: boolean = true;
 
-  // If true, the 'most' clicked items stats concern the whole website,
-  // and not the current page only; this means some page may have no highlighted
-  // items even though some have already been clicked
-
-  // TODO: use this parameter
-  // private static USE_SITE_WISE_STATS: boolean = false;
+  // If true, only compute stats concerning the local clicks
+  // In other words, only consider pathnames equal to the one of the current page
+  private static ONLY_CONSIDER_LOCAl_CLICKS: boolean = false;
 
   // TODO: clean and split code
   // Stats and node analysis should be moved elsewhere
 
-  static apply (analyser: DataAnalyser) {
+  static apply (menus: Menu[], analyser: DataAnalyser) {
     let itemClickAnalysis = analyser.analyseItemClicks();
 
     // Map each item of the current page to their logged nb of click
+    let currentPagePathname = window.location.pathname;
     let itemsNbClicks = new Map();
 
-    let itemNodes = Item.findAllNodes();
-    for (let node of itemNodes) {
-      let id = Item.getNodeItemID($(node));
-      let idString = Item.itemIDToString(id);
+    let allItems = Menu.getAllMenusItems(menus);
+    for (let item of allItems) {
+      let itemID = item.getID();
+      let groupID = item.parent.getID();
+      let menuID = item.parent.parent.getID();
 
+      // Attempt to find click data on current item in the logs
       try {
-        let nbClicks = itemClickAnalysis.menus[id.menuPos].groups[id.groupPos].items[id.itemPos].nbClicks;
-        itemsNbClicks.set(idString, nbClicks);
+        let analysedItem = itemClickAnalysis.menus[menuID].groups[groupID].items[itemID];
+        let nbClicks = analysedItem.nbClicks;
+
+        // If required, only consider the number of clicks from current page pathname
+        if (this.ONLY_CONSIDER_LOCAl_CLICKS && analysedItem.sourcePathnames.has(currentPagePathname)) {
+          let nbClicks = analysedItem.nbClicksByPathname.get(currentPagePathname);
+        }
+        else {
+          let nbClicks = 0;
+        }
+
+        itemsNbClicks.set(item, nbClicks);
       }
       catch {
-        itemsNbClicks.set(idString, 0);
+        itemsNbClicks.set(item, 0);
       }
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // DEBUG: add scores and IDs to item inner HTML
+    // DEBUG: add scores and IDs to items inner HTML
 
-    for (let tuple of [...itemsNbClicks.entries()]) {
-      let stringID = tuple[0];
-      let nbClicks = tuple[1];
-
-      let id = Item.itemIDFromString(tuple[0]);
-      let node = Item.findNodeWithID(id);
+    for (let item of allItems) {
+      let id = item.getID();
+      let nbClicks = itemsNbClicks.get(item);
 
       //console.log("Append info to", node, id);
-      //node.html(node.html() + ` id: ${stringID} /  nbClicks: ${nbClicks}`);
+      item.node.html(item.node.html() + `<small>(id: ${id} /  nbClicks: ${nbClicks})</small>`);
     }
     ////////////////////////////////////////////////////////////////////////////
 
     // Turn the map into a list sorted by the nb of clicks
-    let itemsSortedByNbClicks = [...itemsNbClicks.entries()]
+    let sortedItemsAndNbClicks = [...itemsNbClicks.entries()]
       .map(tuple => {
-        return { id: Item.itemIDFromString(tuple[0]), nbClicks: tuple[1] };
+        return { item: tuple[0], nbClicks: tuple[1] };
       })
       .sort((e1, e2) => {
         return e2.nbClicks - e1.nbClicks;
@@ -67,17 +75,19 @@ export class HighlightMostClickedItems extends Highlight {
 
     // If required, filter that list to only keep already clicked items
     if (this.ONLY_HIGHLIGHT_CLICKED_ITEMS) {
-      itemsSortedByNbClicks = itemsSortedByNbClicks.filter(e => {
+      sortedItemsAndNbClicks = sortedItemsAndNbClicks.filter(e => {
         return e.nbClicks > 0;
       });
     }
+
+    console.log("Sorted items to highlight", sortedItemsAndNbClicks);
 
     // Only highlight the most clicked items, whose IDs are at the top that list
     Highlight.reset();
 
     let nbHighlightedItems = 0;
-    for (let item of itemsSortedByNbClicks) {
-      Highlight.onItemWithID(item.id);
+    for (let itemAndNbClicks of sortedItemsAndNbClicks) {
+      Highlight.onElement(itemAndNbClicks.item);
 
       nbHighlightedItems++;
       if (nbHighlightedItems === this.MAX_NB_HIGHLIGHTED_ITEMS) {

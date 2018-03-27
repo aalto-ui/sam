@@ -22,16 +22,21 @@ $(document).ready(function () {
   //console.log("MENUS", menus);
 
   // DEBUG: setup for page<1-6>.html
-  let mainMenu = Menu.fromSelectors("#main-menu", ".menu-group", "li > a");
-  console.log("Menu", mainMenu);
+  // TODO: make a simpler init for lists of links, e.g. automatically using :eq(pos)
+  let mainMenu = Menu.fromSelectors("#main-menu", {
+    ".menu-group": [0,1,2,3,4,5].map(i => { return `li:eq(${i}) > a`})
+  });
+
+  let menus = [mainMenu];
+  console.log("Menu", menus);
 
   let db = new Database();
   debug_db = db; // debug
-  let logger = new DataLogger(db);
+  let logger = new DataLogger(db, menus);
   let analyser = new DataAnalyser(db);
 
   console.log("ITEM CLICK ANALYSIS", analyser.analyseItemClicks());
   console.log("PAGE VISITS ANALYSIS", analyser.analysePageVisits());
 
-  HighlightMostClickedItems.apply(analyser);
+  HighlightMostClickedItems.apply(menus, analyser);
 });

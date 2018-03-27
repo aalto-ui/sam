@@ -1,7 +1,7 @@
 import * as $ from "jquery";
 import { Adaptation } from "../Adaptation";
 import { AdaptiveElement } from "../../Menus/AdaptiveElement";
-import { ItemID, Item } from "../../Menus/Item";
+import { Item } from "../../Menus/Item";
 
 
 export abstract class Highlight extends Adaptation {
@@ -16,7 +16,7 @@ export abstract class Highlight extends Adaptation {
     node.removeClass(this.HIGHLIGHTED_ELEMENT_CLASS);
   }
 
-  /*
+  
   protected static onElement (element: AdaptiveElement) {
     this.onNode(element.node);
   }
@@ -24,17 +24,7 @@ export abstract class Highlight extends Adaptation {
   protected static offElement (element: AdaptiveElement) {
     this.offNode(element.node);
   }
-  */
 
-  protected static onItemWithID (id: ItemID) {
-    let itemNode = Item.findNodeWithID(id);
-    this.onNode(itemNode);
-  }
-
-  protected static offItemWithID (id: ItemID) {
-    let itemNode = Item.findNodeWithID(id);
-    this.offNode(itemNode);
-  }
 
   protected static reset () {
     $(this.HIGHLIGHTED_ELEMENT_CLASS).removeClass(this.HIGHLIGHTED_ELEMENT_CLASS);

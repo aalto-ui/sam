@@ -1,7 +1,4 @@
 import { Database } from "./Database";
-import { ItemID } from "../Menus/Item";
-import { GroupID } from "../Menus/ItemGroup";
-import { MenuID } from "../Menus/Menu";
 
 
 export class DataAnalyser {
@@ -27,54 +24,66 @@ export class DataAnalyser {
 
     // Helper function checking if all fields related ton an item ID are available or not
     // If some are missing, they are added and initialized
-    function createAllFieldsIfRequired (id: ItemID) {
-      function createFieldIfRequired (object, field, objectProp?) {
-        if (object[field] === undefined) {
-          object[field] = { nbClicks: 0, clickFrequency: 0 };
-          if (objectProp) {
-            object[field][objectProp] = {};
+    function createAllFieldsIfRequired (IDs, pathname: string) {
+      function createFieldIfRequired (object, key, newFieldKey?, newFieldValue = {}) {
+        if (object[key] === undefined) {
+          object[key] = { nbClicks: 0, clickFrequency: 0 };
+          if (newFieldKey) {
+            object[key][newFieldKey] = newFieldValue;
           }
         }
       }
 
-      createFieldIfRequired(analysis.menus, id.menuPos, "groups");
-      createFieldIfRequired(analysis.menus[id.menuPos].groups, id.groupPos, "items");
-      createFieldIfRequired(analysis.menus[id.menuPos].groups[id.groupPos].items, id.itemPos);
+      createFieldIfRequired(analysis.menus, IDs.menu, "groups");
+      createFieldIfRequired(analysis.menus[IDs.menu].groups, IDs.group, "items");
+      createFieldIfRequired(analysis.menus[IDs.menu].groups[IDs.group].items, IDs.item, "nbClicksByPathname", new Map());
+
+      if (! analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].nbClicksByPathname.has(pathname)) {
+        analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].nbClicksByPathname.set(pathname, 0);
+      }
     }
 
     // Iterate over all item clicks and update the analysis
-    function countClick (id: ItemID) {
-      analysis.menus[id.menuPos].nbClicks += 1;
-      analysis.menus[id.menuPos].groups[id.groupPos].nbClicks += 1;
-      analysis.menus[id.menuPos].groups[id.groupPos].items[id.itemPos].nbClicks += 1;
+    function processClick (IDs, pathname: string) {
+      let menu = analysis.menus[IDs.menu];
+
+      // Count a click
+      menu.nbClicks += 1;
+      menu.groups[IDs.group].nbClicks += 1;
+      menu.groups[IDs.group].items[IDs.item].nbClicks += 1;
+
+      // Add the source pathname to the set
+      let currentNbClicksFromPathname = menu.groups[IDs.group].items[IDs.item].nbClicksByPathname.get(pathname);
+      menu.groups[IDs.group].items[IDs.item].nbClicksByPathname.set(pathname, currentNbClicksFromPathname + 1);
     }
 
     for (let itemClick of itemClickData) {
-      let id: ItemID = itemClick["itemID"];
+      let IDs = itemClick["IDs"];
+      let pathname: string = itemClick["pathname"];
 
-      createAllFieldsIfRequired(id);
-      countClick(id);
+      createAllFieldsIfRequired(IDs, pathname);
+      processClick(IDs, pathname);
     }
 
     // Iterate again to compute frequencies
-    function computeFrequencies (id: ItemID) {
-      analysis.menus[id.menuPos].clickFrequency =
-          analysis.menus[id.menuPos].nbClicks
+    function computeFrequencies (IDs) {
+      analysis.menus[IDs.menu].clickFrequency =
+          analysis.menus[IDs.menu].nbClicks
         / analysis.totalNbClicks;
 
-      analysis.menus[id.menuPos].groups[id.groupPos].clickFrequency =
-          analysis.menus[id.menuPos].groups[id.groupPos].nbClicks
-        / analysis.menus[id.menuPos].nbClicks;
+      analysis.menus[IDs.menu].groups[IDs.group].clickFrequency =
+          analysis.menus[IDs.menu].groups[IDs.group].nbClicks
+        / analysis.menus[IDs.menu].nbClicks;
 
-      analysis.menus[id.menuPos].groups[id.groupPos].items[id.itemPos].clickFrequency =
-          analysis.menus[id.menuPos].groups[id.groupPos].items[id.itemPos].nbClicks
-        / analysis.menus[id.menuPos].groups[id.groupPos].nbClicks;
+      analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].clickFrequency =
+          analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].nbClicks
+        / analysis.menus[IDs.menu].groups[IDs.group].nbClicks;
     }
 
     for (let itemClick of itemClickData) {
-      let id: ItemID = itemClick["itemID"];
+      let IDs = itemClick["IDs"];
 
-      computeFrequencies(id);
+      computeFrequencies(IDs);
     }
 
     return analysis;

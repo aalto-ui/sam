@@ -7,5 +7,5 @@ export abstract class Adaptation {
 
   // Adapt the page menus, using the given data analyser if required
   // This method must be implemented appropriately by any concrete child class!
-  static apply (analyser?: DataAnalyser) { }
+  static apply (menus: Menu[], analyser?: DataAnalyser) { }
 }

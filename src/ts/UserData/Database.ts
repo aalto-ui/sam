@@ -35,7 +35,11 @@ export class Database {
       template: {
         timestamp: 0,
         pathname: "",
-        itemID: {}
+        IDs: {
+          item: "",
+          group: "",
+          menu: ""
+        }
       }
     },
 

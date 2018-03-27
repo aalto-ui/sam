@@ -1,16 +1,19 @@
 import * as $ from "jquery";
 import { Database } from "./Database";
+import { Menu } from "../Menus/Menu";
+import { Item } from "../Menus/Item";
 
 export class DataLogger {
   // The database to use for logging
   private database: Database;
 
-  // The callback method to use to log clicks on items
-  private itemClickCallback = (event) => { this.onMenuItemClick(event); };
+  // List of the current page adaptive menus
+  private menus: Menu[];
 
 
-  constructor (database: Database) {
+  constructor (database: Database, menus: Menu[]) {
     this.database = database;
+    this.menus = menus;
 
     this.start();
   }
@@ -20,40 +23,31 @@ export class DataLogger {
     this.logCurrentPageVisit();
   }
 
-  stop () {
-    this.stopListeningForPageLoads();
-  }
-
   startListeningForItemClicks () {
-    $("[data-awm-item]").on("click", this.itemClickCallback);
+    let self = this;
+    let allItems = Menu.getAllMenusItems(this.menus);
+
+    for (let item of allItems) {
+      item.node.on("click", function (event) {
+        event.preventDefault();
+        self.onMenuItemClick(event, item);
+      });
+    }
   }
 
-  stopListeningForPageLoads () {
-    $("[data-awm-item]").off("click", this.itemClickCallback);
-  }
-
-  onMenuItemClick (event: JQuery.Event) {
+  onMenuItemClick (event: JQuery.Event, item: Item) {
     // Get the event timestamp and the current url pathname
     let timestamp = event.timeStamp;
     let pathname = window.location.pathname;
 
-    // Get the related item, group and menu position tags
-    function getTagValue (name: string) {
-      return $(event.target).closest(`[data-awm-${name}]`).attr(`data-awm-${name}`);
-    }
-
-    let itemPos = getTagValue("item");
-    let groupPos = getTagValue("group");
-    let menuPos = getTagValue("menu");
-
-    // Log all this in the database
+    // Log all this in the database, with related IDs
     this.database.addTableEntry("item-clicks", {
       timestamp: timestamp,
       pathname: pathname,
-      itemID: {
-        itemPos: itemPos,
-        groupPos: groupPos,
-        menuPos: menuPos
+      IDs: {
+        item: item.getID(),
+        group: item.parent.getID(),
+        menu: item.parent.parent.getID()
       }
     });
   }

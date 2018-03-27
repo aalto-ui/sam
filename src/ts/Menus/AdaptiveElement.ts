@@ -17,17 +17,14 @@ export class AdaptiveElement {
   // Reference to the parent element
   parent: AdaptiveElement | null;
 
+  // Possibly relative selector used to identify and find the node
+  selector: string;
 
-  constructor (node: JQuery, parent: AdaptiveElement = null, selector: Selector = null) {
+
+  constructor (node: JQuery, selector: string = null, parent: AdaptiveElement = null) {
     this.node = node;
     this.parent = parent;
-  }
-
-  // Build a AdaptiveElement object from a given jQuery selector
-  // Note: if a valid parent is provided, the selector is only applied to this element and its descendants to fetch the node
-  static fromSelector (selector: Selector, parent: AdaptiveElement = null) {
-    let node = parent ? parent.node.find(selector) : $(selector);
-    return new AdaptiveElement(node, parent, selector)
+    this.selector = selector;
   }
 
   // Tag the related element
@@ -36,7 +33,20 @@ export class AdaptiveElement {
     this.node.attr("data-awm-" + name, value);
   }
 
-  tagWithPosition () {
-    this.tag(this.type, this.node.index().toString());
+  // Return a standalone jQuery selector,
+  // based on the selectors of this element and all its (grand-)parents
+  // This methods assumes an adaptive element can be uniquely identified by its selector!
+  toSelector (): string {
+    let parentSelector = "";
+    if (this.parent && this.parent.node !== this.node) {
+      parentSelector = this.parent.toSelector();
+    }
+
+    return parentSelector + " " + this.selector;
+  }
+
+  // Return an unique ID for the element, based on its selector
+  getID (): string {
+    return this.type + "/" + this.toSelector();
   }
 }
