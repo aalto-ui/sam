@@ -6,21 +6,27 @@ import { DataAnalyser } from "./UserData/DataAnalyser";
 import { HighlightMostClickedItems } from "./Adaptations/Highlighting/HighlightMostClickedItems";
 
 // For debug purposes: reset the log database
-this._db = <Database> null;
+let debug_db = null;
 window["emptyDatabase"] = function emptyDatabase () {
-  this._db.data = null;
+  debug_db.data = null;
   localStorage.clear();
 }
 
 $(document).ready(function () {
   console.log("AWM library initialised");
 
-  let menus = [];
-  menus.push(Menu.fromSelectors("#awm-main-menu", ".menu-group", "li"));
-  menus.push(Menu.fromSelectors("#awm-other-menu", "#awm-other-menu", "li"));
-  console.log("MENUS", menus);
+  // DEBUG: setup for example.html
+  //let menus = [];
+  //menus.push(Menu.fromSelectors("#awm-main-menu", ".menu-group", "li"));
+  //menus.push(Menu.fromSelectors("#awm-other-menu", "#awm-other-menu", "li"));
+  //console.log("MENUS", menus);
 
-  let db = new Database(); this._db = db;
+  // DEBUG: setup for page<1-6>.html
+  let mainMenu = Menu.fromSelectors("#main-menu", ".menu-group", "li > a");
+  console.log("Menu", mainMenu);
+
+  let db = new Database();
+  debug_db = db; // debug
   let logger = new DataLogger(db);
   let analyser = new DataAnalyser(db);
 
