@@ -4,31 +4,6 @@ import { GroupID } from "../Menus/ItemGroup";
 import { MenuID } from "../Menus/Menu";
 
 
-// Note: types not relevant anymore?
-//
-// // Interfaces for the proposed analysis output objects
-// // They should be treated as references for what this module can provide!
-// interface DataAnalysis {}
-//
-// interface ItemClickAnalysis extends DataAnalysis {
-//   totalNbClicks: number,
-//   menus: {
-//     nbClicks: number,
-//     clickFrequency: number,
-//     groups: menus: {
-//       nbClicks: number,
-//       clickFrequency: number,
-//       items:
-//     }
-//   }
-// }
-//
-// interface PageVisitsAnalysis extends DataAnalysis {
-//   nbVisits: Map<string, number>,
-//   visitFrequency: Map<string, number>
-// }
-
-
 export class DataAnalyser {
   // The database to analyse
   private database: Database;
