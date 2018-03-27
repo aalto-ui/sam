@@ -19,14 +19,11 @@ export interface ItemID {
 export class Item extends AdaptiveElement {
   type: string = "item";
 
-  // Utility score
-  utility: number;
-
-  constructor (node: JQuery, parent: ItemGroup, utility: number = 0) {
+  constructor (node: JQuery, parent: ItemGroup) {
     super(node, parent);
     this.tagWithPosition();
+  }
 
-    this.utility = utility;
   }
 
   static findNodeWithPositionTags (menuPos: number, groupPos: number, itemPos: number) {
