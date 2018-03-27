@@ -66,7 +66,7 @@ export class HighlightMostClickedItems extends Highlight {
       });
 
     // If required, filter that list to only keep already clicked items
-    if (! this.ONLY_HIGHLIGHT_CLICKED_ITEMS) {
+    if (this.ONLY_HIGHLIGHT_CLICKED_ITEMS) {
       itemsSortedByNbClicks = itemsSortedByNbClicks.filter(e => {
         return e.nbClicks > 0;
       });
