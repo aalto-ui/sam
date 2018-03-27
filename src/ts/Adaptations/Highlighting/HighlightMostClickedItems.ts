@@ -26,20 +26,6 @@ export class HighlightMostClickedItems extends Highlight {
 
     let itemClickAnalysis = analyser.analyseItemClicks();
 
-    // TODO: helper functions to move elsewhere
-    function itemIDToString (id: ItemID) {
-      return id.menuPos.toString() + "-" + id.groupPos.toString() + "-" + id.itemPos.toString();
-    }
-
-    function itemIDFromString (stringID: string) {
-      let splitStringID = stringID.split("-");
-      return {
-        menuPos: parseInt(splitStringID[0]),
-        groupPos: parseInt(splitStringID[1]),
-        itemPos: parseInt(splitStringID[2])
-      };
-    }
-
     // Map each item of the current page to their logged nb of click
     let clickPerItem = new Map();
     let itemNodes = Item.findAllNodes();

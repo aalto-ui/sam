@@ -49,4 +49,17 @@ export class Item extends AdaptiveElement {
       menuPos: parseInt(itemNode.closest("[data-awm-menu]").attr("data-awm-menu"))
     };
   }
+
+  static itemIDToString (id: ItemID) {
+    return id.menuPos.toString() + "-" + id.groupPos.toString() + "-" + id.itemPos.toString();
+  }
+
+  static itemIDFromString (idString: string) {
+    let splitStringID = idString.split("-");
+    return {
+      menuPos: parseInt(splitStringID[0]),
+      groupPos: parseInt(splitStringID[1]),
+      itemPos: parseInt(splitStringID[2])
+    };
+  }
 }
