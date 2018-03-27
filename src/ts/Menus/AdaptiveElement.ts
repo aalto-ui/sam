@@ -37,7 +37,6 @@ export class AdaptiveElement {
   }
 
   tagWithPosition () {
-    console.log(this.type);
     this.tag(this.type, this.node.index().toString());
   }
 }

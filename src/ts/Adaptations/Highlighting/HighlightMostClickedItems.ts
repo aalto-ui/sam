@@ -22,8 +22,6 @@ export class HighlightMostClickedItems extends Highlight {
   // Stats and node analysis should be moved elsewhere
 
   static apply (analyser: DataAnalyser) {
-    console.log("Begin highlighting");
-
     let itemClickAnalysis = analyser.analyseItemClicks();
 
     // Map each item of the current page to their logged nb of click
@@ -43,6 +41,7 @@ export class HighlightMostClickedItems extends Highlight {
       }
     }
 
+    ////////////////////////////////////////////////////////////////////////////
     // DEBUG: add scores and IDs to item inner HTML
 
     for (let tuple of [...itemsNbClicks.entries()]) {
@@ -52,9 +51,10 @@ export class HighlightMostClickedItems extends Highlight {
       let id = Item.itemIDFromString(tuple[0]);
       let node = Item.findNodeWithID(id);
 
-      console.log("Append info to", node, id);
-      node.html(node.html() + ` id: ${stringID} /  nbClicks: ${nbClicks}`);
+      //console.log("Append info to", node, id);
+      //node.html(node.html() + ` id: ${stringID} /  nbClicks: ${nbClicks}`);
     }
+    ////////////////////////////////////////////////////////////////////////////
 
     // Turn the map into a list sorted by the nb of clicks
     let itemsSortedByNbClicks = [...itemsNbClicks.entries()]
@@ -83,8 +83,6 @@ export class HighlightMostClickedItems extends Highlight {
       if (nbHighlightedItems === this.MAX_NB_HIGHLIGHTED_ITEMS) {
         break;
       }
-
-      console.log("Highlighting done");
     }
   }
 }

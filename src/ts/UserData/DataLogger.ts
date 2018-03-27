@@ -25,7 +25,6 @@ export class DataLogger {
   }
 
   startListeningForItemClicks () {
-    console.log($("[data-awm-item]"));
     $("[data-awm-item]").on("click", this.itemClickCallback);
   }
 

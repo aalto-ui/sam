@@ -57,8 +57,7 @@ export class Database {
     this.loadFromLocalStorageOrInit();
     this.startSaveOnPageUnload();
 
-    console.log("Databse loaded:");
-    console.log(this.data);
+    console.log("Database loaded:", this.data);
   }
 
   // Set up the default tables, only if they do not exist yet

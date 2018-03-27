@@ -11,14 +11,14 @@ $(document).ready(function () {
   let menus = [];
   menus.push(Menu.fromSelectors("#awm-main-menu", ".menu-group", "li"));
   menus.push(Menu.fromSelectors("#awm-other-menu", "#awm-other-menu", "li"));
-  console.log(menus);
+  console.log("MENUS", menus);
 
   let db = new Database();
   let logger = new DataLogger(db);
   let analyser = new DataAnalyser(db);
 
-  console.log(analyser.analyseItemClicks());
-  console.log(analyser.analysePageVisits());
+  console.log("ITEM CLICK ANALYSIS", analyser.analyseItemClicks());
+  console.log("PAGE VISITS ANALYSIS", analyser.analysePageVisits());
 
   HighlightMostClickedItems.apply(analyser);
 });
