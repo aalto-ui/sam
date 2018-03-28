@@ -29,7 +29,6 @@ export class DataLogger {
 
     for (let item of allItems) {
       item.node.on("click", function (event) {
-        event.preventDefault();
         self.onMenuItemClick(event, item);
       });
     }
