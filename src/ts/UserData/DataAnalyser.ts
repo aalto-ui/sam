@@ -98,7 +98,7 @@ export class DataAnalyser {
     // Initialize the analysis object
     let analysis = {
       totalNbVisits: pageVisitsData.length,
-      totalNbUniqueVisits: 0,
+      nbUniquePathnames: 0,
       nbVisits: new Map(),
       visitFrequencies: new Map()
     };
@@ -112,8 +112,8 @@ export class DataAnalyser {
         nbVisits = analysis.nbVisits.get(pathname);
       }
       else {
-        // If the pathname has never been seen before, increase the nb of unique visits
-        analysis.totalNbUniqueVisits += 1;
+        // If the pathname has never been seen before, increase the nb of unique pathnames visited so far
+        analysis.nbUniquePathnames += 1;
       }
 
       analysis.nbVisits.set(pathname, nbVisits + 1);
