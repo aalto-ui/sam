@@ -38,11 +38,13 @@ export class HighlightMostClickedItems extends Highlight {
         let nbClicks = analysedItem.nbClicks;
 
         // If required, only consider the number of clicks from current page pathname
-        if (this.ONLY_CONSIDER_LOCAl_CLICKS && analysedItem.sourcePathnames.has(currentPagePathname)) {
-          let nbClicks = analysedItem.nbClicksByPathname.get(currentPagePathname);
-        }
-        else {
-          let nbClicks = 0;
+        if (this.ONLY_CONSIDER_LOCAl_CLICKS) {
+          if (analysedItem.nbClicksByPathname.has(currentPagePathname)) {
+            nbClicks = analysedItem.nbClicksByPathname.get(currentPagePathname);
+          }
+          else {
+            nbClicks = 0;
+          }
         }
 
         itemsNbClicks.set(item, nbClicks);
@@ -60,7 +62,8 @@ export class HighlightMostClickedItems extends Highlight {
       let nbClicks = itemsNbClicks.get(item);
 
       //console.log("Append info to", node, id);
-      item.node.html(item.node.html() + `<small>(id: ${id} /  nbClicks: ${nbClicks})</small>`);
+      // item.node.html(item.node.html() + `<small>(id: ${id} /  nbClicks: ${nbClicks})</small>`);
+      item.node.html(item.node.html() + `<small> (${nbClicks})</small>`);
     }
     ////////////////////////////////////////////////////////////////////////////
 
