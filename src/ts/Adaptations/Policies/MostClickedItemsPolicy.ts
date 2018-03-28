@@ -1,25 +1,27 @@
-import * as $ from "jquery";
-import { Highlight } from "./Highlight";
+import { ItemListPolicy } from "./ItemListPolicy";
+import { Menu } from "../../Menus/Menu";
 import { DataAnalyser } from "../../UserData/DataAnalyser";
 import { Item } from "../../Menus/Item";
-import { Menu } from "../../Menus/Menu";
 
 
-export class HighlightMostClickedItems extends Highlight {
-  // Maximum number of items to hghlight
-  private static MAX_NB_HIGHLIGHTED_ITEMS: number = 2;
+export class MostClickedItemListPolicy implements ItemListPolicy {
+  // Maximum number of items to keep
+  maxNbItems: number = 2;
 
-  // If true, only highlight items which have already been clicked at least once
-  private static ONLY_HIGHLIGHT_CLICKED_ITEMS: boolean = true;
+  // If true, only keep items which have already been clicked at least once
+  onlyClickedItems: boolean = true;
 
   // If true, only compute stats concerning the local clicks
   // In other words, only consider pathnames equal to the one of the current page
-  private static ONLY_CONSIDER_LOCAl_CLICKS: boolean = false;
+  onlyLocalClicks: boolean = false;
 
-  // TODO: clean and split code
-  // Stats and node analysis should be moved elsewhere
 
-  static apply (menus: Menu[], analyser: DataAnalyser) {
+  constructor () {
+
+  }
+
+  getItemList (menus: Menu[], analyser?: DataAnalyser): Item[] {
+  getItemList (menus: Menu[], analyser: DataAnalyser): Item[] {
     let itemClickAnalysis = analyser.analyseItemClicks();
 
     // Map each item of the current page to their logged nb of click
@@ -38,7 +40,7 @@ export class HighlightMostClickedItems extends Highlight {
         let nbClicks = analysedItem.nbClicks;
 
         // If required, only consider the number of clicks from current page pathname
-        if (this.ONLY_CONSIDER_LOCAl_CLICKS) {
+        if (this.onlyLocalClicks) {
           if (analysedItem.nbClicksByPathname.has(currentPagePathname)) {
             nbClicks = analysedItem.nbClicksByPathname.get(currentPagePathname);
           }
@@ -77,25 +79,21 @@ export class HighlightMostClickedItems extends Highlight {
       });
 
     // If required, filter that list to only keep already clicked items
-    if (this.ONLY_HIGHLIGHT_CLICKED_ITEMS) {
+    if (this.onlyClickedItems) {
       sortedItemsAndNbClicks = sortedItemsAndNbClicks.filter(e => {
         return e.nbClicks > 0;
       });
     }
 
-    console.log("Sorted items to highlight", sortedItemsAndNbClicks);
-
-    // Only highlight the most clicked items, whose IDs are at the top that list
-    Highlight.reset();
-
-    let nbHighlightedItems = 0;
-    for (let itemAndNbClicks of sortedItemsAndNbClicks) {
-      Highlight.onElement(itemAndNbClicks.item);
-
-      nbHighlightedItems++;
-      if (nbHighlightedItems === this.MAX_NB_HIGHLIGHTED_ITEMS) {
-        break;
-      }
+    // Keep and return at most the maxNbItems first items
+    if (sortedItemsAndNbClicks.length > this.maxNbItems) {
+      sortedItemsAndNbClicks = sortedItemsAndNbClicks.slice(0, this.maxNbItems);
     }
+
+    console.log("Sorted items", sortedItemsAndNbClicks);
+
+    return sortedItemsAndNbClicks.map(e => {
+      return e.item;
+    });
   }
 }
