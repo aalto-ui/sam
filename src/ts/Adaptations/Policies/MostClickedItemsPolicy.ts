@@ -16,44 +16,44 @@ export class MostClickedItemListPolicy implements ItemListPolicy {
   onlyLocalClicks: boolean = false;
 
 
-  constructor () {
+  constructor () { }
 
+  private getItemNbClicks (item: Item, analysis: {menus: object}) {
+    let currentPagePathname = window.location.pathname;
+
+    let itemID = item.getID();
+    let groupID = item.parent.getID();
+    let menuID = item.parent.parent.getID();
+
+    // Attempt to find click data on current item in the logs
+    try {
+      let analysedItem = analysis.menus[menuID].groups[groupID].items[itemID];
+
+      // If required, only consider the number of clicks from current page pathname
+      if (this.onlyLocalClicks) {
+        if (analysedItem.nbClicksByPathname.has(currentPagePathname)) {
+          return analysedItem.nbClicksByPathname.get(currentPagePathname);
+        }
+        else {
+          return 0;
+        }
+      }
+
+      return analysedItem.nbClicks;
+    }
+    catch {
+      return 0;
+    } 
   }
 
-  getItemList (menus: Menu[], analyser?: DataAnalyser): Item[] {
-  getItemList (menus: Menu[], analyser: DataAnalyser): Item[] {
-    let itemClickAnalysis = analyser.analyseItemClicks();
-
-    // Map each item of the current page to their logged nb of click
-    let currentPagePathname = window.location.pathname;
-    let itemsNbClicks = new Map();
-
+  private mapItemsToNbClicks (menus: Menu[], analysis: {menus: object}): Map<Item, number> {
+    let itemsMappedToNbClicks = new Map();
     let allItems = Menu.getAllMenusItems(menus);
+
     for (let item of allItems) {
-      let itemID = item.getID();
-      let groupID = item.parent.getID();
-      let menuID = item.parent.parent.getID();
-
-      // Attempt to find click data on current item in the logs
-      try {
-        let analysedItem = itemClickAnalysis.menus[menuID].groups[groupID].items[itemID];
-        let nbClicks = analysedItem.nbClicks;
-
-        // If required, only consider the number of clicks from current page pathname
-        if (this.onlyLocalClicks) {
-          if (analysedItem.nbClicksByPathname.has(currentPagePathname)) {
-            nbClicks = analysedItem.nbClicksByPathname.get(currentPagePathname);
-          }
-          else {
-            nbClicks = 0;
-          }
-        }
-
-        itemsNbClicks.set(item, nbClicks);
-      }
-      catch {
-        itemsNbClicks.set(item, 0);
-      }
+      let nbClicks = this.getItemNbClicks(item, analysis);
+      console.log(nbClicks);
+      itemsMappedToNbClicks.set(item, nbClicks);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -61,7 +61,7 @@ export class MostClickedItemListPolicy implements ItemListPolicy {
 
     for (let item of allItems) {
       let id = item.getID();
-      let nbClicks = itemsNbClicks.get(item);
+      let nbClicks = itemsMappedToNbClicks.get(item);
 
       //console.log("Append info to", node, id);
       // item.node.html(item.node.html() + `<small>(id: ${id} /  nbClicks: ${nbClicks})</small>`);
@@ -69,8 +69,12 @@ export class MostClickedItemListPolicy implements ItemListPolicy {
     }
     ////////////////////////////////////////////////////////////////////////////
 
+    return itemsMappedToNbClicks;
+  }
+
+  private sortAnFilterMappedItems (itemsMappedToNbClicks: Map<Item, number>) {
     // Turn the map into a list sorted by the nb of clicks
-    let sortedItemsAndNbClicks = [...itemsNbClicks.entries()]
+    let sortedItemsAndNbClicks = [...itemsMappedToNbClicks.entries()]
       .map(tuple => {
         return { item: tuple[0], nbClicks: tuple[1] };
       })
@@ -90,10 +94,15 @@ export class MostClickedItemListPolicy implements ItemListPolicy {
       sortedItemsAndNbClicks = sortedItemsAndNbClicks.slice(0, this.maxNbItems);
     }
 
-    console.log("Sorted items", sortedItemsAndNbClicks);
-
     return sortedItemsAndNbClicks.map(e => {
       return e.item;
     });
+  }
+
+  getItemList (menus: Menu[], analyser: DataAnalyser): Item[] {
+    let itemClickAnalysis = analyser.analyseItemClicks();
+
+    let itemsMappedToNbClicks = this.mapItemsToNbClicks(menus, itemClickAnalysis);
+    return this.sortAnFilterMappedItems(itemsMappedToNbClicks);
   }
 }
