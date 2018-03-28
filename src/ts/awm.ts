@@ -5,6 +5,7 @@ import { Database } from "./UserData/Database";
 import { DataAnalyser } from "./UserData/DataAnalyser";
 import { MostClickedItemListPolicy } from "./Adaptations/Policies/MostClickedItemsPolicy";
 import { Highlight } from "./Adaptations/Highlighting/Highlight";
+import { MostVisitedLinksPolicy } from "./Adaptations/Policies/MostVisitedLinksPolicy";
 
 // For debug purposes: reset the log database
 let debug_db = null;
@@ -39,7 +40,8 @@ $(document).ready(function () {
   console.log("ITEM CLICK ANALYSIS", analyser.analyseItemClicks());
   console.log("PAGE VISITS ANALYSIS", analyser.analysePageVisits());
 
-  let policy = new MostClickedItemListPolicy();
+  // let policy = new MostClickedItemListPolicy();
+  let policy = new MostVisitedLinksPolicy();
   let adaptation = Highlight;
 
   adaptation.apply(menus, policy, analyser);
