@@ -55,7 +55,6 @@ export class MostClickedItemListPolicy implements ItemListPolicy {
 
     for (let item of allItems) {
       let nbClicks = this.getItemNbClicks(item, analysis);
-      console.log(nbClicks);
       itemsMappedToNbClicks.set(item, nbClicks);
     }
 
