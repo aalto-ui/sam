@@ -4,6 +4,24 @@
   background-color: rgba(255, 255, 0, 0.4);
 }
 
+/* Debug */
+
+#debug-switch-policy-button,
+#debug-reset-history-button {
+  position: absolute;
+  right: 10px;
+  height: 35px;
+  padding: 5px;
+}
+
+#debug-switch-policy-button {
+  top: 10px;
+}
+
+#debug-reset-history-button {
+  top: 50px;
+}
+
 /* Test pages */
 
 body {

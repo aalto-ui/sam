@@ -3,6 +3,9 @@ import { Menu } from "../../Menus/Menu";
 import { DataAnalyser } from "../../UserData/DataAnalyser";
 import { Item } from "../../Menus/Item";
 
+////////////// DEBUG
+let debug_nb_clicks_already_added_flag = false;
+
 
 export class MostClickedItemListPolicy implements ItemListPolicy {
   // Maximum number of items to keep
@@ -43,7 +46,7 @@ export class MostClickedItemListPolicy implements ItemListPolicy {
     }
     catch {
       return 0;
-    } 
+    }
   }
 
   private mapItemsToNbClicks (menus: Menu[], analysis: {menus: object}): Map<Item, number> {
@@ -59,14 +62,19 @@ export class MostClickedItemListPolicy implements ItemListPolicy {
     ////////////////////////////////////////////////////////////////////////////
     // DEBUG: add scores and IDs to items inner HTML
 
-    for (let item of allItems) {
-      let id = item.getID();
-      let nbClicks = itemsMappedToNbClicks.get(item);
+    if (! debug_nb_clicks_already_added_flag) {
+      for (let item of allItems) {
+        let id = item.getID();
+        let nbClicks = itemsMappedToNbClicks.get(item);
 
-      //console.log("Append info to", node, id);
-      // item.node.html(item.node.html() + `<small>(id: ${id} /  nbClicks: ${nbClicks})</small>`);
-      item.node.html(item.node.html() + `<small> (${nbClicks})</small>`);
+        //console.log("Append info to", node, id);
+        // item.node.html(item.node.html() + `<small>(id: ${id} /  nbClicks: ${nbClicks})</small>`);
+        item.node.html(item.node.html() + `<small> (${nbClicks})</small>`);
+      }
+
+      debug_nb_clicks_already_added_flag = true;
     }
+
     ////////////////////////////////////////////////////////////////////////////
 
     return itemsMappedToNbClicks;

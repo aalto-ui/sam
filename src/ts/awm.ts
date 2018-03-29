@@ -40,9 +40,45 @@ $(document).ready(function () {
   console.log("ITEM CLICK ANALYSIS", analyser.analyseItemClicks());
   console.log("PAGE VISITS ANALYSIS", analyser.analysePageVisits());
 
+/*
   // let policy = new MostClickedItemListPolicy();
   let policy = new MostVisitedLinksPolicy();
   let adaptation = Highlight;
 
-  adaptation.apply(menus, policy, analyser);
+  adaptation.apply(menus, debug_policies[debug_policy_index], analyser);
+*/
+
+  let adaptation = Highlight;
+
+  ////////////////////////////////////////////////////////////
+  // For test purposes: switch between policies
+
+  let debug_policies = [new MostClickedItemListPolicy, new MostVisitedPagesPolicy()];
+  let debug_policy_index = parseInt(localStorage.getItem("awm-debug-cur-policy-index")) || 0;
+  let debug_adaptation = Highlight;
+
+  window["switchPolicy"] = function switchPolicy () {
+    debug_policy_index = (debug_policy_index + 1) % debug_policies.length;
+
+    adaptation.reset();
+    adaptation.apply(menus, debug_policies[debug_policy_index], analyser);
+
+    // Save policy in local storage for next page
+    localStorage.setItem("awm-debug-cur-policy-index", debug_policy_index.toString());
+
+    $("#debug-switch-policy-button").html("Switch highlight policy (current: " + debug_policies[debug_policy_index].constructor.name + ")");
+  }
+
+  adaptation.apply(menus, debug_policies[debug_policy_index], analyser);
+
+  // Add control buttons to the page
+  $("body").prepend($("<button>")
+    .html("Switch highlight policy (current: " + debug_policies[debug_policy_index].constructor.name + ")")
+    .attr("id", "debug-switch-policy-button")
+    .click(event => { window["switchPolicy"](); }));
+
+  $("body").prepend($("<button>")
+    .html("Reset history (require page reloading)")
+    .attr("id", "debug-reset-history-button")
+    .click(event => { window["emptyDatabase"](); }));
 });
