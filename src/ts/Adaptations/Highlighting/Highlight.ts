@@ -35,7 +35,7 @@ export class Highlight extends Adaptation {
   }
 
   static reset () {
-    $(Highlight.HIGHLIGHTED_ELEMENT_CLASS).removeClass(Highlight.HIGHLIGHTED_ELEMENT_CLASS);
+    $("." + Highlight.HIGHLIGHTED_ELEMENT_CLASS).removeClass(Highlight.HIGHLIGHTED_ELEMENT_CLASS);
   }
 
   static apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
