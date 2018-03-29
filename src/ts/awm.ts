@@ -5,7 +5,7 @@ import { Database } from "./UserData/Database";
 import { DataAnalyser } from "./UserData/DataAnalyser";
 import { MostClickedItemListPolicy } from "./Adaptations/Policies/MostClickedItemsPolicy";
 import { Highlight } from "./Adaptations/Highlighting/Highlight";
-import { MostVisitedLinksPolicy } from "./Adaptations/Policies/MostVisitedLinksPolicy";
+import { MostVisitedPagesPolicy } from "./Adaptations/Policies/MostVisitedPagesPolicy";
 
 // For debug purposes: reset the log database
 let debug_db = null;

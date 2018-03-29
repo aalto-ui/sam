@@ -5,17 +5,17 @@ import { DataAnalyser } from "../../UserData/DataAnalyser";
 import { Item } from "../../Menus/Item";
 
 
-export class MostVisitedLinksPolicy implements ItemListPolicy {
+export class MostVisitedPagesPolicy implements ItemListPolicy {
   // Maximum number of items to keep
   maxNbItems: number = 1;
 
   // If true, ignore the number of visits of the current page
-  ignoreCurrentPage: boolean = true;
+  ignoreCurrentPage: boolean = false;
 
   // Maximum number of clicks on an item allowed to keep it
   // In other words, ignore links to most visited pages
   // if they have been clicked more than this number of times
-  maxNbClicksThreshold: number = 5;
+  maxNbClicksThreshold: number = 10000;
 
   // Minimum number of visits of a page required to consider it
   minPageNbVisits: number = 1;
