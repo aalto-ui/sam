@@ -10,7 +10,7 @@ import { MostVisitedPagesPolicy } from "./Adaptations/Policies/MostVisitedPagesP
 // For debug purposes: reset the log database
 let debug_db = null;
 window["emptyDatabase"] = function emptyDatabase () {
-  debug_db.data = null;
+  debug_db.data = {};
   localStorage.clear();
 }
 
