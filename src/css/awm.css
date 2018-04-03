@@ -1,7 +1,7 @@
 /* Highlighting */
 
 .awm-highlighted {
-  background-color: rgba(255, 255, 0, 0.4);
+  background-color: rgba(255, 255, 0, 0.5);
 }
 
 /* Debug */
@@ -41,15 +41,13 @@ h1 {
 
 #main-menu {
   float: left;
-  padding: 10px;
-  background-color: #222222;
+  padding: 20px;
   font-size: bold;
-  color: white;
 }
 
 #main-menu ul {
   margin: 0;
-  padding: 0;
+  padding: 10px;
   list-style: none;
   line-height: 120%;
 }
@@ -57,22 +55,24 @@ h1 {
 #main-menu a,
 #main-menu a:hover,
 #main-menu a:visited {
-  color: white;
+  color: black;
   text-decoration: none;
 }
 
  #main-menu-title {
-   margin: 0 0 10px 0;
+   margin: 0 0 20px 0;
    font-size: 120%;
    text-align: center;
    text-transform: capitalize;
  }
 
 .menu {
+  background-color: #DDEEDD;
   border: 2px dashed green;
 }
 
 .menu-group {
+  background-color: #EEDDDD;
   border: 2px dashed red;
 }
 
