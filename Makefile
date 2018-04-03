@@ -1,7 +1,15 @@
 .PHONY: build clean
 
 # Main rule
-all: compact
+all: package_test
+
+# Setup rule (install dependencies)
+init:
+	@echo "Initializing..."
+	@npm install typescript
+	@npm install jquery
+	@npm install @types/jquery
+	@npm install browserify
 
 # Building rule
 build:
@@ -11,9 +19,17 @@ build:
 	@node_modules/typescript/bin/tsc
 
 # Resolve all imports (located in build folder) to make a single script
-compact: build
-	@echo "Compacting..."
+browserify: build
+	@echo "Browserifying..."
 	@node_modules/browserify/bin/cmd.js build/js/awm.js -o build/js/mod.js
+
+# Make a standalone test directory (ready to be shared)
+package_test: build browserify
+	@echo "Packaging..."
+	@mkdir -p build/awm-test
+	@cp -R -f build/html build/css build/awm-test
+	@mkdir -p build/awm-test/js # Only one js file is required
+	@cp -f build/js/mod.js build/awm-test/js
 
 # Cleaning rule
 clean:
