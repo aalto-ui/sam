@@ -106,14 +106,31 @@ export class Database {
     return table;
   }
 
-  // Return the list of entries of a table with the given name
-  // Returns undefined if it does not exist
-  getTableEntries (name: string): Entry[] {
+  // Return true if there is at least one entry in the table with the given name, passing the given test function
+  // Otherwise, or if the table does not exist, return false
+  hasTableEntry (name: string, test: (Entry) => boolean) {
+    if (! this.data.has(name)) {
+      return false;
+    }
+
+    return this.data.get(name).entries
+      .some(test);
+  }
+
+  // Return the list of entries of a table with the given name, possibly filtered by the given test function
+  // Returns undefined if the table does not exist
+  getTableEntries (name: string, test: (Entry) => boolean = (_) => { return true; }): Entry[] {
     if (! this.data.has(name)) {
       return undefined;
     }
 
-    return this.data.get(name).entries;
+    let entries = this.data.get(name).entries;
+
+    if (test) {
+      return entries.filter(test);
+    }
+
+    return entries;
   }
 
   // Add an entry to the table with the given name
@@ -144,6 +161,13 @@ export class Database {
 
     table.entries.push(entry);
     return true;
+  }
+
+  // Edit the entries of the table with the given name, optionnaly filtered with the given test function
+  // The edit function is applied to every matching item, and must modify it in-place
+  editTableEntries (name: string, edit: (Entry) => void, test?: (Entry) => boolean) {
+    this.getTableEntries(name, test)
+      .forEach(edit);
   }
 
   // If the local storage is available, returns true;
