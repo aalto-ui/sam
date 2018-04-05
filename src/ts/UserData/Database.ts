@@ -43,6 +43,19 @@ export class Database {
       }
     },
 
+    // Table for items nb clicks
+    {
+      name: "item-nb-clicks",
+      template: {
+        nbClicks: 0,
+        IDs: {
+          item: "",
+          group: "",
+          menu: ""
+        }
+      }
+    },
+
     // Table for visited pages logs
     {
       name: "page-visits",
@@ -51,6 +64,15 @@ export class Database {
         pathname: ""
       }
     },
+
+    // Table for time spent on pages (in ms)
+    {
+      name: "page-visit-time",
+      template: {
+        pathname: "",
+        timeSpent: 0
+      }
+    }
   ];
 
   // The callback method to use to save the database on page unload

@@ -10,16 +10,22 @@ export class DataLogger {
   // List of the current page adaptive menus
   private menus: Menu[];
 
+  // Timestamp on page load
+  private pageLoadTimestamp: number;
+
 
   constructor (database: Database, menus: Menu[]) {
     this.database = database;
     this.menus = menus;
+    this.pageLoadTimestamp = Date.now();
 
     this.start();
   }
 
   start () {
     this.startListeningForItemClicks();
+    this.startListeningForPageBeforeUnload();
+
     this.logCurrentPageVisit();
   }
 
@@ -34,21 +40,70 @@ export class DataLogger {
     }
   }
 
+  startListeningForPageBeforeUnload () {
+    let self = this;
+
+    $(window).on("beforeunload", function (event) {
+      self.onPageBeforeUnload(event);
+    });
+  }
+
   onMenuItemClick (event: JQuery.Event, item: Item) {
-    // Get the event timestamp and the current url pathname
+    // Get the event timestamp, current url pathname and compute element IDs
     let timestamp = event.timeStamp;
     let pathname = window.location.pathname;
 
-    // Log all this in the database, with related IDs
+    let IDs = {
+      item: item.getID(),
+      group: item.parent.getID(),
+      menu: item.parent.parent.getID()
+    };
+
+    // Log the item click
     this.database.addTableEntry("item-clicks", {
       timestamp: timestamp,
       pathname: pathname,
-      IDs: {
-        item: item.getID(),
-        group: item.parent.getID(),
-        menu: item.parent.parent.getID()
-      }
+      IDs: IDs
     });
+
+    // Set or update the item click number
+    function entrySelector (entry) {
+      return entry.IDs.item === item.getID();
+    }
+
+    if (this.database.hasTableEntry("item-nb-clicks", entrySelector)) {
+      this.database.editTableEntries("item-nb-clicks", (entry) => {
+        entry.nbClicks += 1;
+      }, entrySelector);
+    }
+    else {
+      this.database.addTableEntry("item-nb-clicks", {
+        nbClicks: 1,
+        IDs: IDs
+      });
+    }
+  }
+
+  onPageBeforeUnload (event: JQuery.Event) {
+    let pathname = window.location.pathname;
+    let currentVisitTime = Date.now() - this.pageLoadTimestamp;
+
+    // Set or update the time spent on current page
+    function entrySelector (entry) {
+      return entry.pathname === pathname;
+    }
+
+    if (this.database.hasTableEntry("page-visit-time", entrySelector)) {
+      this.database.editTableEntries("page-visit-time", (entry) => {
+        entry.timeSpent += currentVisitTime;
+      }, entrySelector);
+    }
+    else {
+      this.database.addTableEntry("page-visit-time", {
+        pathname: pathname,
+        timeSpent: currentVisitTime
+      });
+    }
   }
 
   logCurrentPageVisit () {
