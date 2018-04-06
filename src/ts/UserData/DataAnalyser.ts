@@ -11,14 +11,26 @@ export class DataAnalyser {
 
   // Compute and return an analysis of item clicks
   analyseItemClicks () {
-    // Get the item click data
+    // Get the data
     let itemClickData = this.database.getTableEntries("item-clicks");
+    let itemNbClicksData = this.database.getTableEntries("item-nb-clicks");
 
     // Initialize the analysis object
     let analysis = {
       totalNbClicks: itemClickData.length,
+      itemsNbClicks: {},
+      itemsClickFrequencies: {}, // Among ALL logged clicks (in alla daptive menus)
       menus: []
     };
+
+    // Set up the items nb clicks and frequency
+    for (let itemData of itemNbClicksData) {
+      let itemID = itemData["IDs"]["item"];
+      let itemNbClicks = itemData["nbClicks"];
+
+      analysis.itemsNbClicks[itemID] = itemNbClicks;
+      analysis.itemsClickFrequencies[itemID] = itemNbClicks / analysis.totalNbClicks;
+    }
 
     // Create required fields and count clicks with different granularities
 
@@ -92,15 +104,17 @@ export class DataAnalyser {
 
   // Compute and return an analysis of the page visits
   analysePageVisits () {
-    // Get the page visits data
+    // Get the data
     let pageVisitsData = this.database.getTableEntries("page-visits");
+    let pageVisitDurationsData = this.database.getTableEntries("page-visit-durations");
 
     // Initialize the analysis object
     let analysis = {
       totalNbVisits: pageVisitsData.length,
       nbUniquePathnames: 0,
       nbVisits: new Map(),
-      visitFrequencies: new Map()
+      visitFrequencies: new Map(),
+      visitDurations: new Map()
     };
 
     // Compute/update the frequency and number of visits of each page
@@ -126,6 +140,11 @@ export class DataAnalyser {
 
     pageVisitsData.forEach(updateNbVisits);
     analysis.nbVisits.forEach(computeFrequency);
+
+    // Turn visit durations data into a map
+    for (let visitedPage of pageVisitDurationsData) {
+      analysis.visitDurations.set(visitedPage["pathname"], visitedPage["duration"]);
+    }
 
     return analysis;
   }
