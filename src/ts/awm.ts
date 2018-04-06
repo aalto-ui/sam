@@ -73,7 +73,11 @@ $(document).ready(function () {
   }
 
   // Add control buttons to the page
-  $("body").prepend($("<select>")
+  let controlsContainer = $("<div>")
+    .attr("id", "debug-controls-container");
+  $("body").prepend(controlsContainer);
+
+  controlsContainer.append($("<select>")
     .attr("id", "debug-switch-policy-menu")
     .change(event => { updatePolicy(); }));
 
@@ -89,7 +93,7 @@ $(document).ready(function () {
     $("#debug-switch-policy-menu").append(option);
   }
 
-  $("body").prepend($("<button>")
+  controlsContainer.append($("<button>")
     .html("Reset history (require page reloading)")
     .attr("id", "debug-reset-history-button")
     .click(event => { window["emptyDatabase"](); }));
