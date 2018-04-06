@@ -14,7 +14,8 @@ This library requires the following packages, e.g. installed using `npm`:
 
 Then, simply use the provided Makefile commands:
 * `make build` compiles Typescript sources to Javascript (in the `build/js` folder).
-* `make compact` resolves all imports to produce a single `mod.js` (in the `build` folder).
+* `make browserify` resolves all imports to produce a single `mod.js` (in the `build/js` folder).
+* `make package_test` make a standalone directory ready to be shared with test/examples HTML sources.
 * `make clean` removes all built files.
 
-The best option is to simply run `make`, which runs both `build`and `compact` commands.
+The best option is to simply run `make`, which runs both `build`, `browserify` and `package_test` commands.
