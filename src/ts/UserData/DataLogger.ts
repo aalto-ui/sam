@@ -111,7 +111,10 @@ export class DataLogger {
     let timestamp = Date.now();
     let pathname = window.location.pathname;
 
-    this.database.addTableEntry("page-visits", {
+    // Log it as a delayed addition to the database
+    // This prevents current page visit to be taken into account
+    // when the database data is analyzed on page load!
+    this.database.delayTableEntryAddition("page-visits", {
       timestamp: timestamp,
       pathname: pathname
     });
