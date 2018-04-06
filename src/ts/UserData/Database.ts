@@ -75,13 +75,22 @@ export class Database {
     }
   ];
 
-  // The callback method to use to save the database on page unload
-  private pageUnloadCallback = (event) => { this.saveInLocalStorage(); };
+  // Map of delayed database entry additions, to be executed on page unload
+  // Keys are table names, values are list of entries to add to the related table
+  private delayedEntryAdditions: Map<string, Entry[]>;
+
+  // The callback method on page unload
+  private pageUnloadCallback = (event) => {
+    this.addAllDelayedTableEntries();
+    this.saveInLocalStorage();
+  };
 
 
   constructor () {
+    this.delayedEntryAdditions = new Map();
+
     this.loadFromLocalStorageOrInit();
-    this.startSaveOnPageUnload();
+    this.startWatchingForPageUnload();
 
     console.log("Database loaded:", this.data);
   }
@@ -185,6 +194,33 @@ export class Database {
     return true;
   }
 
+  // Save an entry addition for later, delayed actual addition
+  // It will be added to the database on the next addAllDelayedTableEntries call
+  delayTableEntryAddition (name: string, entry: Entry) {
+    if (! this.delayedEntryAdditions.has(name)) {
+      this.delayedEntryAdditions.set(name, [entry]);
+    }
+    else {
+      this.delayedEntryAdditions.get(name).push(entry);
+    }
+  }
+
+  // Add all delayed table entries saved for later addition, and empty the delayed addition map
+  // Returns true on success, false if any addition failed (see addTableEntry failure cases)
+  private addAllDelayedTableEntries (checkFormat: boolean = false): boolean {
+    let success = true;
+
+    for (let tableName of this.delayedEntryAdditions.keys()) {
+      let entries = this.delayedEntryAdditions.get(tableName);
+      for (let entry of entries) {
+        success = success && this.addTableEntry(tableName, entry, checkFormat);
+      }
+    }
+
+    this.delayedEntryAdditions.clear();
+    return success;
+  }
+
   // Edit the entries of the table with the given name, optionnaly filtered with the given test function
   // The edit function is applied to every matching item, and must modify it in-place
   editTableEntries (name: string, edit: (Entry) => void, test?: (Entry) => boolean) {
@@ -253,13 +289,13 @@ export class Database {
     }
   }
 
-  // Start saving the database data in the local storage when the user leaves the page
-  startSaveOnPageUnload () {
+  // Start listening for page closing/leaving
+  startWatchingForPageUnload () {
     $(window).on("unload", this.pageUnloadCallback);
   }
 
-  // Stop saving the database data in the local storage when the user leaves the page
-  stopSaveOnPageUnload () {
+  // Stop listening for page closing/leaving
+  stopWatchingForPageUnload () {
     $(window).off("unload", this.pageUnloadCallback);
   }
 }
