@@ -8,6 +8,7 @@ import { Highlight } from "./Adaptations/Highlighting/Highlight";
 import { MostVisitedPagesPolicy } from "./Adaptations/Policies/MostVisitedPagesPolicy";
 import { LongestVisitDurationPolicy } from "./Adaptations/Policies/LongestVisitDurationPolicy";
 import { MostRecentVisitsPolicy } from "./Adaptations/Policies/MostRecentVisitsPolicy";
+import { SerialPositionCurvePolicy } from "./Adaptations/Policies/SerialPositionCurvePolicy";
 
 // For debug purposes: reset the log database
 let debug_db = null;
@@ -58,7 +59,8 @@ $(document).ready(function () {
     "Most clicked items policy": new MostClickedItemListPolicy(),
     "Most visited pages policy": new MostVisitedPagesPolicy(),
     "Longest visit duration policy": new LongestVisitDurationPolicy(),
-    "Most recent visits policy": new MostRecentVisitsPolicy()
+    "Most recent visits policy": new MostRecentVisitsPolicy(),
+    "Serial-Position curve policy": new SerialPositionCurvePolicy()
   };
 
   let policyKey = localStorage.getItem("awm-debug-cur-policy-key") || Object.keys(adaptationPolicies)[0];
