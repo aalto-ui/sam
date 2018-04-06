@@ -68,7 +68,7 @@ export class MostClickedItemListPolicy implements ItemListPolicy {
 
         //console.log("Append info to", node, id);
         // item.node.html(item.node.html() + `<small>(id: ${id} /  nbClicks: ${nbClicks})</small>`);
-        item.node.html(item.node.html() + `<small> (${nbClicks})</small>`);
+        item.node.html(item.node.html() + `<span id="debug-item-nb-clicks"> (${nbClicks})</small>`);
       }
 
       debug_nb_clicks_already_added_flag = true;

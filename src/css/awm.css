@@ -6,20 +6,25 @@
 
 /* Debug */
 
-#debug-switch-policy-button,
+#debug-switch-policy-menu,
 #debug-reset-history-button {
   position: absolute;
   right: 10px;
-  height: 35px;
+  width: 250px;
   padding: 5px;
 }
 
-#debug-switch-policy-button {
+#debug-switch-policy-menu {
   top: 10px;
 }
 
 #debug-reset-history-button {
   top: 50px;
+}
+
+#debug-item-nb-clicks {
+  font-size: 80%;
+  color: #7F5E1D;
 }
 
 /* Test pages */
