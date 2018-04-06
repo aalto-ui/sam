@@ -67,10 +67,10 @@ export class Database {
 
     // Table for time spent on pages (in ms)
     {
-      name: "page-visit-time",
+      name: "page-visit-durations",
       template: {
         pathname: "",
-        timeSpent: 0
+        duration: 0
       }
     }
   ];

@@ -93,15 +93,15 @@ export class DataLogger {
       return entry.pathname === pathname;
     }
 
-    if (this.database.hasTableEntry("page-visit-time", entrySelector)) {
-      this.database.editTableEntries("page-visit-time", (entry) => {
-        entry.timeSpent += currentVisitTime;
+    if (this.database.hasTableEntry("page-visit-durations", entrySelector)) {
+      this.database.editTableEntries("page-visit-durations", (entry) => {
+        entry.duration += currentVisitTime;
       }, entrySelector);
     }
     else {
-      this.database.addTableEntry("page-visit-time", {
+      this.database.addTableEntry("page-visit-durations", {
         pathname: pathname,
-        timeSpent: currentVisitTime
+        duration: currentVisitTime
       });
     }
   }
