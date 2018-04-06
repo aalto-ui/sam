@@ -12,7 +12,7 @@ import { MostRecentVisitsPolicy } from "./Adaptations/Policies/MostRecentVisitsP
 // For debug purposes: reset the log database
 let debug_db = null;
 window["emptyDatabase"] = function emptyDatabase () {
-  debug_db.data = {};
+  debug_db.data = new Map();
   localStorage.clear();
 }
 
