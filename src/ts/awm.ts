@@ -6,6 +6,7 @@ import { DataAnalyser } from "./UserData/DataAnalyser";
 import { MostClickedItemListPolicy } from "./Adaptations/Policies/MostClickedItemsPolicy";
 import { Highlight } from "./Adaptations/Highlighting/Highlight";
 import { MostVisitedPagesPolicy } from "./Adaptations/Policies/MostVisitedPagesPolicy";
+import { LongestVisitDurationPolicy } from "./Adaptations/Policies/LongestVisitDurationPolicy";
 
 // For debug purposes: reset the log database
 let debug_db = null;
@@ -48,37 +49,51 @@ $(document).ready(function () {
   adaptation.apply(menus, debug_policies[debug_policy_index], analyser);
 */
 
-  let adaptation = Highlight;
-
   ////////////////////////////////////////////////////////////
   // For test purposes: switch between policies
 
-  let debug_policies = [new MostClickedItemListPolicy, new MostVisitedPagesPolicy()];
-  let debug_policy_index = parseInt(localStorage.getItem("awm-debug-cur-policy-index")) || 0;
-  let debug_adaptation = Highlight;
+  let adaptation = Highlight;
+  let adaptationPolicies = {
+    "Most clicked items policy": new MostClickedItemListPolicy(),
+    "Most visited pages policy": new MostVisitedPagesPolicy(),
+    "Longest visit duration policy": new LongestVisitDurationPolicy()
+  };
 
-  window["switchPolicy"] = function switchPolicy () {
-    debug_policy_index = (debug_policy_index + 1) % debug_policies.length;
+  let policyKey = localStorage.getItem("awm-debug-cur-policy-key") || Object.keys(adaptationPolicies)[0];
+
+  function updatePolicy () {
+    let policyKey = <string> $("#debug-switch-policy-menu").val();
+
+    console.log("New policy: ", policyKey);
 
     adaptation.reset();
-    adaptation.apply(menus, debug_policies[debug_policy_index], analyser);
+    adaptation.apply(menus, adaptationPolicies[policyKey], analyser);
 
-    // Save policy in local storage for next page
-    localStorage.setItem("awm-debug-cur-policy-index", debug_policy_index.toString());
-
-    $("#debug-switch-policy-button").html("Switch highlight policy (current: " + debug_policies[debug_policy_index].constructor.name + ")");
+    localStorage.setItem("awm-debug-cur-policy-key", policyKey);
   }
 
-  adaptation.apply(menus, debug_policies[debug_policy_index], analyser);
-
   // Add control buttons to the page
-  $("body").prepend($("<button>")
-    .html("Switch highlight policy (current: " + debug_policies[debug_policy_index].constructor.name + ")")
-    .attr("id", "debug-switch-policy-button")
-    .click(event => { window["switchPolicy"](); }));
+  $("body").prepend($("<select>")
+    .attr("id", "debug-switch-policy-menu")
+    .change(event => { updatePolicy(); }));
+
+  for (let key in adaptationPolicies) {
+    let option = $("<option>")
+      .attr("val", key)
+      .html(key);
+
+    if (key === policyKey) {
+      option.prop("selected", true);
+    }
+
+    $("#debug-switch-policy-menu").append(option);
+  }
 
   $("body").prepend($("<button>")
     .html("Reset history (require page reloading)")
     .attr("id", "debug-reset-history-button")
     .click(event => { window["emptyDatabase"](); }));
+
+    // Apply the selected adaptation on page load
+    updatePolicy();
 });
