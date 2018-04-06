@@ -36,8 +36,4 @@ export class Item extends AdaptiveElement {
     let node = parent.node.find(selector);
     return new Item(node, selector, parent);
   }
-
-  static findAllNodes () {
-    return $("[data-awm-item]");
-  }
 }
