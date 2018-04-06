@@ -72,26 +72,11 @@ export class MostVisitedPagesPolicy implements ItemListPolicy {
     // Find the first (at most) maxNbItems associations between an item and a page
     let selectedItems = [];
 
-    // Helper function to find all elements from a root node
-    // which are links containing a given pathname
-    function findRelatedLinkNodes (node: JQuery, pathname: string) {
-      let linkNodes = node.add(node.find("a"));
-
-      // Only keep links whose href attribute match the end of the current page pathname
-      return linkNodes.filter((index, element) => {
-        let href = $(element).attr("href");
-        return href.length > 0
-            && pathname.endsWith(href);
-      });
-    }
-
     for (let page of pagesSortedByNbVisits) {
       for (let item of filteredItems) {
-        let relatedLinkNodes = findRelatedLinkNodes(item.node, page.pathname);
-        // console.log("Searching for pathname:", page.pathname);
-        // console.log("relatedLinkNodes", relatedLinkNodes);
+        let matchingLinkNodes = item.findLinkNodes(page.pathname);
 
-        if (relatedLinkNodes.length > 0) {
+        if (matchingLinkNodes.length > 0) {
           selectedItems.push(item);
           break;
         }

@@ -88,9 +88,9 @@ export class MostRecentVisitsPolicy implements ItemListPolicy {
     // Only keep and return the top maxNbItems items
     for (let page of pagesSortedByRecency) {
       for (let item of filteredItems) {
-        let relatedLinkNodes = findRelatedLinkNodes(item.node, page.pathname);
+        let matchingLinkNodes = item.findLinkNodes(page.pathname);
 
-        if (relatedLinkNodes.length > 0) {
+        if (matchingLinkNodes.length > 0) {
           selectedItems.push(item);
           break;
         }
