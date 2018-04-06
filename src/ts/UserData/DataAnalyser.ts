@@ -114,10 +114,11 @@ export class DataAnalyser {
       nbUniquePathnames: 0,
       nbVisits: new Map(),
       visitFrequencies: new Map(),
-      visitDurations: new Map()
+      visitDurations: new Map(),
+      lastVisitTimestamps: new Map()
     };
 
-    // Compute/update the frequency and number of visits of each page
+    // Compute/update the number, frequency and recency of visits of each page
     function updateNbVisits (visit: object) {
       let pathname = visit["pathname"];
 
@@ -131,6 +132,14 @@ export class DataAnalyser {
       }
 
       analysis.nbVisits.set(pathname, nbVisits + 1);
+
+      // Map each visited pathname to the last visit timestamp
+      let mostRecentTimestamp = visit["timestamp"];
+      if (analysis.lastVisitTimestamps.has(pathname)) {
+        mostRecentTimestamp = Math.max(mostRecentTimestamp, analysis.lastVisitTimestamps.get(pathname));
+      }
+
+      analysis.lastVisitTimestamps.set(pathname, mostRecentTimestamp);
     }
 
     function computeFrequency (nbVisits: number, pathname: string) {
