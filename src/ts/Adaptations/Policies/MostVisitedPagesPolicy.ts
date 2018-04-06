@@ -56,13 +56,11 @@ export class MostVisitedPagesPolicy implements ItemListPolicy {
     let items = Menu.getAllMenusItems(menus);
     let filteredItems = items.filter(item => {
       let itemID = item.getID();
-      let groupID = item.parent.getID();
-      let menuID = item.parent.parent.getID();
 
       // Attempt to find click data on current item in the logs
       try {
-        let analysedItem = itemClickAnalysis.menus[menuID].groups[groupID].items[itemID];
-        return analysedItem.nbClicks <= this.maxNbClicksThreshold;
+        let itemNbClick = itemClickAnalysis.itemsNbClicks[itemID];
+        return itemNbClick <= this.maxNbClicksThreshold;
       }
       catch {
         return true;
