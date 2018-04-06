@@ -115,11 +115,13 @@ export class DataAnalyser {
       nbVisits: new Map(),
       visitFrequencies: new Map(),
       visitDurations: new Map(),
+      firstVisitTimestamps: new Map(),
       lastVisitTimestamps: new Map()
     };
 
-    // Compute/update the number, frequency and recency of visits of each page
-    function updateNbVisits (visit: object) {
+    // Compute/update the number, frequency, primacy and recency
+    // (resp. first and last visit timestamps) of visits for each page
+    function processPageVisit (visit: object) {
       let pathname = visit["pathname"];
 
       let nbVisits = 0;
@@ -133,13 +135,19 @@ export class DataAnalyser {
 
       analysis.nbVisits.set(pathname, nbVisits + 1);
 
-      // Map each visited pathname to the last visit timestamp
-      let mostRecentTimestamp = visit["timestamp"];
-      if (analysis.lastVisitTimestamps.has(pathname)) {
-        mostRecentTimestamp = Math.max(mostRecentTimestamp, analysis.lastVisitTimestamps.get(pathname));
+      // Map each visited pathname to the first and last visit timestamps
+      let firstTimestamp = visit["timestamp"];
+      let lastTimestamp = visit["timestamp"];
+
+      // Note: if one map has an entry for the pathname, the other must have it as well
+      if (analysis.firstVisitTimestamps.has(pathname)) {
+        firstTimestamp = Math.min(firstTimestamp, analysis.firstVisitTimestamps.get(pathname));
+        lastTimestamp = Math.max(lastTimestamp, analysis.lastVisitTimestamps.get(pathname));
       }
 
-      analysis.lastVisitTimestamps.set(pathname, mostRecentTimestamp);
+      analysis.firstVisitTimestamps.set(pathname, firstTimestamp);
+      analysis.lastVisitTimestamps.set(pathname, lastTimestamp);
+
     }
 
     function computeFrequency (nbVisits: number, pathname: string) {
@@ -147,7 +155,7 @@ export class DataAnalyser {
       analysis.visitFrequencies.set(pathname, frequency);
     }
 
-    pageVisitsData.forEach(updateNbVisits);
+    pageVisitsData.forEach(processPageVisit);
     analysis.nbVisits.forEach(computeFrequency);
 
     // Turn visit durations data into a map
