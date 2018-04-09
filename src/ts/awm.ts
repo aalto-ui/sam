@@ -29,7 +29,7 @@ $(document).ready(function () {
   // DEBUG: setup for page<1-6>.html
   // TODO: make a simpler init for lists of links, e.g. automatically using :eq(pos)
   let mainMenu = Menu.fromSelectors("#main-menu", {
-    ".menu-group": [0,1,2,3,4,5].map(i => { return `li:eq(${i}) > a`})
+    ".menu-group": [0,1,2,3,4,5].map(i => { return `li:eq(${i})`})
   });
 
   let menus = [mainMenu];
