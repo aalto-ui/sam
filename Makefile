@@ -21,7 +21,7 @@ build:
 # Resolve all imports (located in build folder) to make a single script
 browserify: build
 	@echo "Browserifying..."
-	@node_modules/browserify/bin/cmd.js build/js/awm.js -o build/js/mod.js
+	@node_modules/browserify/bin/cmd.js build/js/main.js -o build/js/mod.js
 
 # Make a standalone test directory (ready to be shared)
 package_test: build browserify
