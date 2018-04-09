@@ -96,7 +96,7 @@ export class Database {
   }
 
   // Set up the default tables, only if they do not exist yet
-  initWithDefaultTables () {
+  private initWithDefaultTables () {
     if (! this.data) {
       this.data = new Map();
     }
@@ -135,6 +135,21 @@ export class Database {
     this.data.delete(name);
 
     return table;
+  }
+
+  // Completely empty the database
+  // If clearLocalStorage is set to true, also clear the related local storage entry
+  // If defaultInit is set to true, re-init the database using initWithDefaultTables
+  empty (clearLocalStorage: boolean = true, defaultInit: boolean = true) {
+    this.data.clear();
+
+    if (defaultInit) {
+      this.initWithDefaultTables();
+    }
+
+    if (clearLocalStorage && Database.checkLocalStorageAvailability()) {
+      window.localStorage.removeItem(Database.LOCAL_STORAGE_KEY);
+    }
   }
 
   // Return true if there is at least one entry in the table with the given name, passing the given test function
@@ -230,7 +245,7 @@ export class Database {
 
   // If the local storage is available, returns true;
   // otherwise, print an error message in the console and return false
-  private checkLocalStorageAvailability (): boolean {
+  private static checkLocalStorageAvailability (): boolean {
     if (! window.localStorage) {
       console.error("Error: local storage is not available to the database");
       return false;
@@ -258,7 +273,7 @@ export class Database {
   // Save the database data in the local storage
   // If the local storage is not available, an error is printed in the console and nothing happens
   saveInLocalStorage () {
-    if (! this.checkLocalStorageAvailability()) {
+    if (! Database.checkLocalStorageAvailability()) {
       return;
     }
 
@@ -269,7 +284,7 @@ export class Database {
   // Load the database data from the local storage
   // If the local storage is not available, an error is printed in the console and nothing happens
   loadFromLocalStorage () {
-    if (! this.checkLocalStorageAvailability()) {
+    if (! Database.checkLocalStorageAvailability()) {
       return;
     }
 
