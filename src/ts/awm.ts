@@ -5,6 +5,7 @@ import { Database } from "./UserData/Database";
 import { DataAnalyser } from "./UserData/DataAnalyser";
 import { MostClickedItemListPolicy } from "./Adaptations/Policies/MostClickedItemsPolicy";
 import { Highlight } from "./Adaptations/Highlighting/Highlight";
+import { Reorder } from "./Adaptations/Reordering/Reorder";
 import { MostVisitedPagesPolicy } from "./Adaptations/Policies/MostVisitedPagesPolicy";
 import { LongestVisitDurationPolicy } from "./Adaptations/Policies/LongestVisitDurationPolicy";
 import { MostRecentVisitsPolicy } from "./Adaptations/Policies/MostRecentVisitsPolicy";
@@ -54,7 +55,7 @@ $(document).ready(function () {
   ////////////////////////////////////////////////////////////
   // For test purposes: switch between policies
 
-  let adaptation = Highlight;
+  let adaptation = Reorder;
   let adaptationPolicies = {
     "Most clicked items policy": new MostClickedItemListPolicy(),
     "Most visited pages policy": new MostVisitedPagesPolicy(),
