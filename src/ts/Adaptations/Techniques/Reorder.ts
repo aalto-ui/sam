@@ -1,5 +1,5 @@
 import * as $ from "jquery";
-import { Adaptation } from "../Adaptation";
+import { AdaptationTechnique } from "../Adaptation";
 import { AdaptiveElement } from "../../Menus/AdaptiveElement";
 import { Menu } from "../../Menus/Menu";
 import { ItemListPolicy } from "../Policies/ItemListPolicy";
@@ -10,7 +10,7 @@ import { DataAnalyser } from "../../UserData/DataAnalyser";
 type Position = number;
 
 
-export class Reorder extends Adaptation {
+export class Reorder extends AdaptationTechnique {
   private static readonly REORDERED_ELEMENT_CLASS: string = "awm-reordered";
 
   private static initialPositions: Map<HTMLElement, number> = new Map();

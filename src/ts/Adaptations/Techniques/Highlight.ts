@@ -1,12 +1,12 @@
 import * as $ from "jquery";
-import { Adaptation } from "../Adaptation";
+import { AdaptationTechnique } from "../Adaptation";
 import { AdaptiveElement } from "../../Menus/AdaptiveElement";
 import { Menu } from "../../Menus/Menu";
 import { ItemListPolicy } from "../Policies/ItemListPolicy";
 import { DataAnalyser } from "../../UserData/DataAnalyser";
 
 
-export class Highlight extends Adaptation {
+export class Highlight extends AdaptationTechnique {
   private static readonly HIGHLIGHTED_ELEMENT_CLASS: string = "awm-highlighted";
 
 
