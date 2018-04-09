@@ -1,33 +1,11 @@
 import * as $ from "jquery";
 import { Menu } from "./Menus/Menu";
-import { DataLogger } from "./UserData/DataLogger";
-import { Database } from "./UserData/Database";
-import { DataAnalyser } from "./UserData/DataAnalyser";
-import { MostClickedItemListPolicy } from "./Adaptations/Policies/MostClickedItemsPolicy";
-import { Highlight } from "./Adaptations/Techniques/Highlight";
-import { Reorder } from "./Adaptations/Techniques/Reorder";
-import { MostVisitedPagesPolicy } from "./Adaptations/Policies/MostVisitedPagesPolicy";
-import { LongestVisitDurationPolicy } from "./Adaptations/Policies/LongestVisitDurationPolicy";
-import { MostRecentVisitsPolicy } from "./Adaptations/Policies/MostRecentVisitsPolicy";
-import { SerialPositionCurvePolicy } from "./Adaptations/Policies/SerialPositionCurvePolicy";
+import { AdaptiveWebMenus } from "./awm";
 
-// For debug purposes: reset the log database
-let db: Database = null;
-window["emptyDatabase"] = function emptyDatabase () {
-  db.empty();
-}
 
 $(document).ready(function () {
-  console.log("AWM library initialised");
-
-  // DEBUG: setup for example.html
-  //let menus = [];
-  //menus.push(Menu.fromSelectors("#awm-main-menu", ".menu-group", "li"));
-  //menus.push(Menu.fromSelectors("#awm-other-menu", "#awm-other-menu", "li"));
-  //console.log("MENUS", menus);
-
   // DEBUG: setup for page<1-6>.html
-  // TODO: make a simpler init for lists of links, e.g. automatically using :eq(pos)
+  // TODO: make a simpler init for lists of links/no group, e.g. automatically using :eq(pos)
   let mainMenu = Menu.fromSelectors("#main-menu", {
     ".menu-group": [0,1,2,3,4,5].map(i => { return `li:eq(${i})`})
   });
@@ -35,72 +13,108 @@ $(document).ready(function () {
   let menus = [mainMenu];
   console.log("Menu", menus);
 
-  db = new Database();
-  let logger = new DataLogger(db, menus);
-  let analyser = new DataAnalyser(db);
+  let awm = new AdaptiveWebMenus(menus);
+  console.log("AWM library initialised");
 
-  console.log("ITEM CLICK ANALYSIS", analyser.analyseItemClicks());
-  console.log("PAGE VISITS ANALYSIS", analyser.analysePageVisits());
 
-/*
-  // let policy = new MostClickedItemListPolicy();
-  let policy = new MostVisitedLinksPolicy();
-  let adaptation = Highlight;
+  // DEBUG
+  window["awm"] = awm;
 
-  adaptation.apply(menus, debug_policies[debug_policy_index], analyser);
-*/
 
   ////////////////////////////////////////////////////////////
-  // For test purposes: switch between policies
+  // DEBUG: user interface for controlling the library
 
-  let adaptation = Reorder;
-  let adaptationPolicies = {
-    "Most clicked items policy": new MostClickedItemListPolicy(),
-    "Most visited pages policy": new MostVisitedPagesPolicy(),
-    "Longest visit duration policy": new LongestVisitDurationPolicy(),
-    "Most recent visits policy": new MostRecentVisitsPolicy(),
-    "Serial-Position curve policy": new SerialPositionCurvePolicy()
-  };
+  let adaptations = awm.adaptations;
 
-  let policyKey = localStorage.getItem("awm-debug-cur-policy-key") || Object.keys(adaptationPolicies)[0];
+  let techniqueName = localStorage.getItem("awm-debug-technique-name")
+                   || Object.keys(adaptations)[0];
+  let policyName = localStorage.getItem("awm-debug-policy-name")
+                || Object.keys(adaptations[techniqueName].policies)[0];
 
-  function updatePolicy () {
-    let policyKey = <string> $("#debug-switch-policy-menu").val();
+                console.log("p name", policyName);
 
-    console.log("New policy: ", policyKey);
+  function updateTechnique () {
+    techniqueName = <string> $("#awm-debug-switch-technique-menu").val();
+    policyName = <string> $("#awm-debug-switch-policy-menu").val();
 
-    adaptation.reset();
-    adaptation.apply(menus, adaptationPolicies[policyKey], analyser);
+    awm.switchAdaptationTechnique(techniqueName, policyName);
 
-    localStorage.setItem("awm-debug-cur-policy-key", policyKey);
+    localStorage.setItem("awm-debug-technique-name", techniqueName);
+    localStorage.setItem("awm-debug-policy-name", policyName);
+
+    updatePolicyOptions();
   }
 
-  // Add control buttons to the page
+  function updatePolicy () {
+    policyName = <string> $("#awm-debug-switch-policy-menu").val();
+
+    awm.switchAdaptationPolicy(policyName);
+
+    localStorage.setItem("awm-debug-policy-name", policyName);
+  }
+
+  function updatePolicyOptions () {
+    $("#awm-debug-switch-policy-menu").empty();
+
+    for (let name of awm.getAllAdaptationPoliciesNames(techniqueName)) {
+      let option = $("<option>")
+        .attr("val", name)
+        .html(name);
+
+      console.log("name", name);
+      console.log("policyName", policyName);
+
+      if (name === policyName) {
+        option.prop("selected", true);
+      }
+
+      $("#awm-debug-switch-policy-menu").append(option);
+    }
+  }
+
+  // Add a control container to the page
   let controlsContainer = $("<div>")
-    .attr("id", "debug-controls-container");
+    .attr("id", "awm-debug-controls-container");
   $("body").prepend(controlsContainer);
 
+  // List of techniques (static)
+  controlsContainer.append($("<label>")
+    .attr("for", "awm-debug-switch-technique-menu")
+    .html("Technique:"));
+
   controlsContainer.append($("<select>")
-    .attr("id", "debug-switch-policy-menu")
-    .change(event => { updatePolicy(); }));
+    .attr("id", "awm-debug-switch-technique-menu")
+    .change(event => { updateTechnique(); }));
 
-  for (let key in adaptationPolicies) {
+  for (let name of awm.getAllAdaptationTechniqueNames()) {
     let option = $("<option>")
-      .attr("val", key)
-      .html(key);
+      .attr("val", name)
+      .html(name);
 
-    if (key === policyKey) {
+    if (name === techniqueName) {
       option.prop("selected", true);
     }
 
-    $("#debug-switch-policy-menu").append(option);
+    $("#awm-debug-switch-technique-menu").append(option);
   }
 
-  controlsContainer.append($("<button>")
-    .html("Reset history (require page reloading)")
-    .attr("id", "debug-reset-history-button")
-    .click(event => { window["emptyDatabase"](); }));
+  // List of policies (dynamic)
+  controlsContainer.append($("<label>")
+    .attr("for", "awm-debug-switch-policy-menu")
+    .html("Policy:"));
 
-    // Apply the selected adaptation on page load
-    updatePolicy();
+  controlsContainer.append($("<select>")
+    .attr("id", "awm-debug-switch-policy-menu")
+    .change(event => { updatePolicy(); }));
+
+  updatePolicyOptions();
+
+  // History cleaner
+  controlsContainer.append($("<button>")
+    .html("Clear history (require page reloading)")
+    .attr("id", "awm-debug-clear-history-button")
+    .click(event => { awm.clearHistory(); }));
+
+  // Apply the current technique + policy on page load
+  updateTechnique();
 });

@@ -12,23 +12,37 @@
 
 /* Debug */
 
-#debug-controls-container{
+#awm-debug-controls-container {
   position: absolute;
   top: 10px;
   right: 10px;
   width: 270px;
   padding: 10px;
   background: rgba(0, 0, 0, 0.5);
+  font-size: 80%;
 }
 
-#debug-switch-policy-menu,
-#debug-reset-history-button {
+#awm-debug-controls-container > * {
   display: block;
   width: 100%;
   padding: 5px;
 }
 
-#debug-item-nb-clicks {
+#awm-debug-controls-container > select,
+#awm-debug-controls-container > label {
+  display: inline-block;
+}
+
+#awm-debug-controls-container > label {
+  font-size: 80%;
+  color: #FFFFFF;
+}
+
+#awm-debug-clear-history-button {
+  margin: 5px 0 0 0;
+}
+
+#awm-debug-item-nb-clicks {
   font-size: 80%;
   color: #7F5E1D;
 }

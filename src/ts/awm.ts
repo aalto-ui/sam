@@ -1,106 +1,193 @@
 import * as $ from "jquery";
+
 import { Menu } from "./Menus/Menu";
-import { DataLogger } from "./UserData/DataLogger";
 import { Database } from "./UserData/Database";
+import { DataLogger } from "./UserData/DataLogger";
 import { DataAnalyser } from "./UserData/DataAnalyser";
-import { MostClickedItemListPolicy } from "./Adaptations/Policies/MostClickedItemsPolicy";
+import { StaticAdaptationTechnique, AdaptationPolicy } from "./Adaptations/Adaptation";
+
 import { Highlight } from "./Adaptations/Techniques/Highlight";
 import { Reorder } from "./Adaptations/Techniques/Reorder";
+
+import { MostClickedItemListPolicy } from "./Adaptations/Policies/MostClickedItemsPolicy";
 import { MostVisitedPagesPolicy } from "./Adaptations/Policies/MostVisitedPagesPolicy";
 import { LongestVisitDurationPolicy } from "./Adaptations/Policies/LongestVisitDurationPolicy";
 import { MostRecentVisitsPolicy } from "./Adaptations/Policies/MostRecentVisitsPolicy";
 import { SerialPositionCurvePolicy } from "./Adaptations/Policies/SerialPositionCurvePolicy";
 
-// For debug purposes: reset the log database
-let db: Database = null;
-window["emptyDatabase"] = function emptyDatabase () {
-  db.empty();
+
+// Interface representing a complete adaptation technique,
+// Iwill all available policies + the current one
+interface Adaptation {
+  technique: StaticAdaptationTechnique;
+  policies: {[key: string]: AdaptationPolicy};
+  selectedPolicy: AdaptationPolicy;
 }
 
-$(document).ready(function () {
-  console.log("AWM library initialised");
 
-  // DEBUG: setup for example.html
-  //let menus = [];
-  //menus.push(Menu.fromSelectors("#awm-main-menu", ".menu-group", "li"));
-  //menus.push(Menu.fromSelectors("#awm-other-menu", "#awm-other-menu", "li"));
-  //console.log("MENUS", menus);
+export class AdaptiveWebMenus {
+  // List of adaptive menus
+  private readonly menus: Menu[];
 
-  // DEBUG: setup for page<1-6>.html
-  // TODO: make a simpler init for lists of links, e.g. automatically using :eq(pos)
-  let mainMenu = Menu.fromSelectors("#main-menu", {
-    ".menu-group": [0,1,2,3,4,5].map(i => { return `li:eq(${i})`})
-  });
+  // Databse, logger and analyser
+  private readonly database: Database;
+  private readonly dataLogger: DataLogger;
+  private readonly dataAnalyser: DataAnalyser;
 
-  let menus = [mainMenu];
-  console.log("Menu", menus);
+  // Describe and init all available adaptations
+  readonly adaptations: {[key: string]: Adaptation} = {
+    "Highlighting": {
+      technique: Highlight,
+      policies: {
+        "Most clicked items policy": new MostClickedItemListPolicy(),
+        "Most visited pages policy": new MostVisitedPagesPolicy(),
+        "Longest visit duration policy": new LongestVisitDurationPolicy(),
+        "Most recent visits policy": new MostRecentVisitsPolicy(),
+        "Serial-Position curve policy": new SerialPositionCurvePolicy()
+      },
+      selectedPolicy: null
+    },
 
-  db = new Database();
-  let logger = new DataLogger(db, menus);
-  let analyser = new DataAnalyser(db);
-
-  console.log("ITEM CLICK ANALYSIS", analyser.analyseItemClicks());
-  console.log("PAGE VISITS ANALYSIS", analyser.analysePageVisits());
-
-/*
-  // let policy = new MostClickedItemListPolicy();
-  let policy = new MostVisitedLinksPolicy();
-  let adaptation = Highlight;
-
-  adaptation.apply(menus, debug_policies[debug_policy_index], analyser);
-*/
-
-  ////////////////////////////////////////////////////////////
-  // For test purposes: switch between policies
-
-  let adaptation = Reorder;
-  let adaptationPolicies = {
-    "Most clicked items policy": new MostClickedItemListPolicy(),
-    "Most visited pages policy": new MostVisitedPagesPolicy(),
-    "Longest visit duration policy": new LongestVisitDurationPolicy(),
-    "Most recent visits policy": new MostRecentVisitsPolicy(),
-    "Serial-Position curve policy": new SerialPositionCurvePolicy()
+    "Reordering": {
+      technique: Reorder,
+      policies: {
+        "Most clicked items policy": new MostClickedItemListPolicy(),
+        "Most visited pages policy": new MostVisitedPagesPolicy(),
+        "Longest visit duration policy": new LongestVisitDurationPolicy(),
+        "Most recent visits policy": new MostRecentVisitsPolicy(),
+        "Serial-Position curve policy": new SerialPositionCurvePolicy()
+      },
+      selectedPolicy: null
+    }
   };
 
-  let policyKey = localStorage.getItem("awm-debug-cur-policy-key") || Object.keys(adaptationPolicies)[0];
+  private currentAdaptation: Adaptation;
 
-  function updatePolicy () {
-    let policyKey = <string> $("#debug-switch-policy-menu").val();
 
-    console.log("New policy: ", policyKey);
+  constructor (menus: Menu[] = []) {
+    this.menus = menus;
 
-    adaptation.reset();
-    adaptation.apply(menus, adaptationPolicies[policyKey], analyser);
+    this.database = new Database();
+    this.dataLogger = new DataLogger(this.database, menus);
+    this.dataAnalyser = new DataAnalyser(this.database);
 
-    localStorage.setItem("awm-debug-cur-policy-key", policyKey);
+    // DEBUG
+    console.log("ITEM CLICK ANALYSIS", this.dataAnalyser.analyseItemClicks());
+    console.log("PAGE VISITS ANALYSIS", this.dataAnalyser.analysePageVisits());
+
+    this.currentAdaptation = null;
+    this.setDefaultAdaptation();
   }
 
-  // Add control buttons to the page
-  let controlsContainer = $("<div>")
-    .attr("id", "debug-controls-container");
-  $("body").prepend(controlsContainer);
-
-  controlsContainer.append($("<select>")
-    .attr("id", "debug-switch-policy-menu")
-    .change(event => { updatePolicy(); }));
-
-  for (let key in adaptationPolicies) {
-    let option = $("<option>")
-      .attr("val", key)
-      .html(key);
-
-    if (key === policyKey) {
-      option.prop("selected", true);
+  private setAdaptation (techniqueName: string, policyName: string) {
+    if (! (techniqueName in this.adaptations)) {
+      console.error("setAdaptation failed: technique name not found");
+      return;
     }
 
-    $("#debug-switch-policy-menu").append(option);
+    if (! (policyName in this.adaptations[techniqueName].policies)) {
+      console.error("setAdaptation failed: policy name not found");
+      return;
+    }
+
+    this.currentAdaptation = this.adaptations[techniqueName];
+    this.currentAdaptation.selectedPolicy = this.currentAdaptation.policies[policyName];
   }
 
-  controlsContainer.append($("<button>")
-    .html("Reset history (require page reloading)")
-    .attr("id", "debug-reset-history-button")
-    .click(event => { window["emptyDatabase"](); }));
+  private setAdaptationPolicy (policyName: string) {
+    if (! this.currentAdaptation) {
+      return;
+    }
 
-    // Apply the selected adaptation on page load
-    updatePolicy();
-});
+    if (! (policyName in this.currentAdaptation.policies)) {
+      console.error("setAdaptation failed: policy name not found");
+      return;
+    }
+
+    this.currentAdaptation.selectedPolicy = this.currentAdaptation.policies[policyName];
+  }
+
+  private setDefaultAdaptation () {
+    this.setAdaptation("Highlighting", "Most clicked items policy");
+  }
+
+  private applyAdaptation () {
+    if (! this.currentAdaptation) {
+      return;
+    }
+
+    this.currentAdaptation.technique.apply(this.menus, this.currentAdaptation.selectedPolicy, this.dataAnalyser);
+  }
+
+  private resetAdaptation () {
+    if (! this.currentAdaptation) {
+      return;
+    }
+
+    this.currentAdaptation.technique.reset();
+  }
+
+  // Switch the adaptation technique, using the optionnally specified policy
+  // If no policy is specified, use the first one in the list of related policies
+  // If any given name is not found, nothing happens
+  switchAdaptationTechnique (techniqueName: string, policyName?: string) {
+    // In case no policy name is specified, fetch one
+    if (! policyName) {
+      let availablePolicies = this.adaptations[techniqueName].policies;
+      policyName = Object.keys(availablePolicies)[0];
+    }
+
+    // If an adaptation is currently applied, cancel its effects
+    this.resetAdaptation();
+
+    // Switch to the new technique and policy
+    this.setAdaptation(techniqueName, policyName);
+
+    // Finally apply the new adaptation
+    this.applyAdaptation();
+
+    console.log("Switched adaptation to", this.currentAdaptation);
+  }
+
+  // Switch the adaptation policy of the current adaptation technique
+  // If there is no adaptation, or if the given name is not found, nothing happens
+  switchAdaptationPolicy (policyName: string) {
+    if (! this.currentAdaptation) {
+      return;
+    }
+
+    // If an adaptation is currently applied, cancel its effects
+    this.resetAdaptation();
+
+    // Switch to the new technique and policy
+    this.setAdaptationPolicy(policyName);
+
+    // Finally apply the new adaptation
+    this.applyAdaptation();
+
+    console.log("Switched adaptation policy to", this.currentAdaptation);
+  }
+
+  // Cancel the current adaptation, if any, by resetting any changes it has made
+  cancelAdaptation () {
+    this.resetAdaptation();
+    this.currentAdaptation = null;
+
+    console.log("Canceled adaptation");
+  }
+
+  getAllAdaptationTechniqueNames (): string[] {
+    return [...Object.keys(this.adaptations)];
+  }
+
+  getAllAdaptationPoliciesNames (techniqueName: string): string[] {
+    return [...Object.keys(this.adaptations[techniqueName].policies)];
+  }
+
+  clearHistory () {
+    this.database.empty();
+
+    this.resetAdaptation();
+    this.applyAdaptation();
+  }
+}
