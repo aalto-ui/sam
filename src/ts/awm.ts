@@ -12,10 +12,9 @@ import { MostRecentVisitsPolicy } from "./Adaptations/Policies/MostRecentVisitsP
 import { SerialPositionCurvePolicy } from "./Adaptations/Policies/SerialPositionCurvePolicy";
 
 // For debug purposes: reset the log database
-let debug_db = null;
+let db: Database = null;
 window["emptyDatabase"] = function emptyDatabase () {
-  debug_db.data = new Map();
-  localStorage.clear();
+  db.empty();
 }
 
 $(document).ready(function () {
@@ -36,8 +35,7 @@ $(document).ready(function () {
   let menus = [mainMenu];
   console.log("Menu", menus);
 
-  let db = new Database();
-  debug_db = db; // debug
+  db = new Database();
   let logger = new DataLogger(db, menus);
   let analyser = new DataAnalyser(db);
 
