@@ -6,6 +6,8 @@ import { ItemGroup } from "./ItemGroup";
 export class Item extends AdaptiveElement {
   type: string = "item";
 
+  parent: ItemGroup;
+
   constructor (node: JQuery, selector: string, parent: ItemGroup) {
     super(node, selector, parent);
   }

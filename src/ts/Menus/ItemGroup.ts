@@ -7,6 +7,8 @@ import { Menu } from "./Menu";
 export class ItemGroup extends AdaptiveElement {
   type: string = "group";
 
+  parent: Menu;
+
   // Ordered list of menu items
   items: Item[];
 

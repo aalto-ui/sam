@@ -12,6 +12,8 @@ export type MenuID = number;
 export class Menu extends AdaptiveElement {
   type: string = "menu";
 
+  parent: null;
+
   // Ordered list of menu item groups
   groups: ItemGroup[];
 
