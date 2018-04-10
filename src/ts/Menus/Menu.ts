@@ -45,18 +45,19 @@ export class Menu extends AdaptiveElement {
     return allMenusItems;
   }
 
-  static fromSelectors (selector: string, descendantSelectors: string[] | object) {
+  static fromSelectors (selector: string,
+                        descendantSelectors: string | string[] | {[key: string]: string | string[]}) {
     let node = $(selector);
     let menu = new Menu(node, selector);
 
-    // Case 1: if descendantSelectors is an array, it must contains the item selectors
-    // In such a case, the menu has only one item group, formed by its own node
-    if (Array.isArray(descendantSelectors)) {
+    // Case 1: if descendantSelectors is a string/an array, it must be/contain the item selector(s)Ò
+    // In such case, the menu has only one item group, formed by its own node
+    if (typeof descendantSelectors === "string" || Array.isArray(descendantSelectors)) {
       menu.groups.push(ItemGroup.fromSelectors(null, descendantSelectors, menu));
     }
 
     // Case 2: otherwise, it must be an object whose keys are group selectors,
-    // and whose values are arrays of related item selectors
+    // and whose values are either strings (generic item selector) or arrays of strings (specific item selectors)
     else {
       for (let groupSelector in descendantSelectors) {
         let itemSelectors = descendantSelectors[groupSelector];
@@ -66,4 +67,6 @@ export class Menu extends AdaptiveElement {
 
     return menu;
   }
+
+  static from
 }
