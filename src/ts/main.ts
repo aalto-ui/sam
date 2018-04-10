@@ -61,9 +61,6 @@ $(document).ready(function () {
         .attr("val", name)
         .html(name);
 
-      console.log("name", name);
-      console.log("policyName", policyName);
-
       if (name === policyName) {
         option.prop("selected", true);
       }
