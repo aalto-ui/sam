@@ -20,6 +20,7 @@
   padding: 10px;
   background: rgba(0, 0, 0, 0.5);
   font-size: 80%;
+  z-index: 10000;
 }
 
 #awm-debug-controls-container > * {
