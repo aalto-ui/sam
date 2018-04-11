@@ -5,6 +5,7 @@ import { Database } from "./UserData/Database";
 import { DataLogger } from "./UserData/DataLogger";
 import { DataAnalyser } from "./UserData/DataAnalyser";
 import { StaticAdaptationTechnique, AdaptationPolicy } from "./Adaptations/Adaptation";
+import { DebugDisplay } from "./DebugDisplay";
 
 import { Highlight } from "./Adaptations/Techniques/Highlight";
 import { Reorder } from "./Adaptations/Techniques/Reorder";
@@ -33,6 +34,9 @@ export class AdaptiveWebMenus {
   private readonly database: Database;
   private readonly dataLogger: DataLogger;
   private readonly dataAnalyser: DataAnalyser;
+
+  // Debug display
+  private readonly debugDisplay: DebugDisplay;
 
   // Describe and init all available adaptations
   readonly adaptations: {[key: string]: Adaptation} = {
@@ -73,6 +77,8 @@ export class AdaptiveWebMenus {
     this.database = new Database();
     this.dataLogger = new DataLogger(this.database, menus);
     this.dataAnalyser = new DataAnalyser(this.database);
+
+    this.debugDisplay = new DebugDisplay(this);
 
     // DEBUG
     console.log("ITEM CLICK ANALYSIS", this.dataAnalyser.analyseItemClicks());
