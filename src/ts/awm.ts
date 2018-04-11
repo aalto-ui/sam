@@ -196,4 +196,16 @@ export class AdaptiveWebMenus {
     this.resetAdaptation();
     this.applyAdaptation();
   }
+
+  // Create an AWM instance from menus built from the given selectors (using the fromSelectors method)
+  // It expects an object whose keys are menu selectors, and values are item and/or group selectors
+  // (see the related method in Menu class for further details on the expected syntax)
+  static fromMenuSelectors (selectors: {[key: string]: string | string[] | {[key: string]: string | string[]}}) {
+    let menus = [];
+    for (let menuSelector in selectors) {
+      menus.push(Menu.fromSelectors(menuSelector, selectors[menuSelector]));
+    }
+
+    return new AdaptiveWebMenus(menus);
+  }
 }
