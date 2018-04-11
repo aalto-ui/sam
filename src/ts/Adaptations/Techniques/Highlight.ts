@@ -6,8 +6,10 @@ import { ItemListPolicy } from "../Policies/ItemListPolicy";
 import { DataAnalyser } from "../../UserData/DataAnalyser";
 
 
-export class Highlight extends AdaptationTechnique {
+export class Highlight implements AdaptationTechnique {
   private static readonly HIGHLIGHTED_ELEMENT_CLASS: string = "awm-highlighted";
+
+  constructor () { }
 
 
   private static onNode (node: JQuery) {
@@ -38,8 +40,16 @@ export class Highlight extends AdaptationTechnique {
     $("." + Highlight.HIGHLIGHTED_ELEMENT_CLASS).removeClass(Highlight.HIGHLIGHTED_ELEMENT_CLASS);
   }
 
+  reset () {
+    Highlight.reset();
+  }
+
   static apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
     let itemsToHighlight = policy.getItemList(menus, analyser);
-    this.onAllElements(itemsToHighlight);
+    Highlight.onAllElements(itemsToHighlight);
+  }
+
+  apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
+    Highlight.apply(menus, policy, analyser);
   }
 }

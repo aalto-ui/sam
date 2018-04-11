@@ -6,13 +6,13 @@ import { DataAnalyser } from "../../UserData/DataAnalyser";
 
 // This technique is doing nothing (no change to the page)
 // Its only purpose is to be available (with the right type) as a baseline
-export class Identity extends AdaptationTechnique {
+export class Identity implements AdaptationTechnique {
 
-  static reset () {
-
+  reset () {
+    // Nothing to do
   }
 
-  static apply (menus: Menu[], policy?: AdaptationPolicy, analyser?: DataAnalyser) {
-
+  apply (menus: Menu[], policy?: AdaptationPolicy, analyser?: DataAnalyser) {
+    // Nothing to do
   }
 }

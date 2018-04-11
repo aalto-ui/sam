@@ -12,12 +12,16 @@ import { Item } from "../../Menus/Item";
 type Position = number;
 
 
-export class Reorder extends AdaptationTechnique {
+export class Reorder implements AdaptationTechnique {
   private static readonly REORDERED_ELEMENT_CLASS: string = "awm-reordered";
 
-  //
-  private static childrenInOriginalOrder: Map<HTMLElement, JQuery> = new Map();
+  // Map from HTML parent elements to JQuery children in their original order
+  // This is internally used to restore the reset the reordering
+  private childrenInOriginalOrder: Map<HTMLElement, JQuery>;
 
+  constructor () {
+    this.childrenInOriginalOrder = new Map();
+  }
 
   // For internal use only
   // Simply move a node among its siblings at a given index, with no side effect
@@ -38,40 +42,40 @@ export class Reorder extends AdaptationTechnique {
     }
   }
 
-  private static moveNode (node: JQuery, index: Position) {
+  private moveNode (node: JQuery, index: Position) {
     Reorder.reinsertNode(node, index);
     node.addClass(Reorder.REORDERED_ELEMENT_CLASS);
   }
 
-  static moveElement (element: AdaptiveElement, index: Position) {
+  private moveElement (element: AdaptiveElement, index: Position) {
     let parentNode = element.node.parent();
-    if (! Reorder.childrenInOriginalOrder.has(parentNode[0])) {
+    if (! this.childrenInOriginalOrder.has(parentNode[0])) {
       let orderedChildNodes = parentNode.children();
-      Reorder.childrenInOriginalOrder.set(parentNode[0], orderedChildNodes);
+      this.childrenInOriginalOrder.set(parentNode[0], orderedChildNodes);
     }
 
-    Reorder.moveNode(element.node, index);
+    this.moveNode(element.node, index);
   }
 
-  static moveAllElements (elements: AdaptiveElement[]) {
+  private moveAllElements (elements: AdaptiveElement[]) {
     // The index in the list of elements is passed as the index (2nd) parameter
-    elements.forEach(Reorder.moveElement);
+    elements.forEach((element, index) => { this.moveElement });
   }
 
-  static reset () {
-    for (let [parent, orderedChildNodes] of Reorder.childrenInOriginalOrder) {
+  reset () {
+    for (let [parent, orderedChildNodes] of this.childrenInOriginalOrder) {
       let parentNode = $(parent);
       orderedChildNodes.each((_, element) => {
         parentNode.append(element);
       });
     }
 
-    Reorder.childrenInOriginalOrder.clear();
+    this.childrenInOriginalOrder.clear();
     $("." + Reorder.REORDERED_ELEMENT_CLASS).removeClass(Reorder.REORDERED_ELEMENT_CLASS);
   }
 
-  static apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
+  apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
     let itemsToHighlight = policy.getItemList(menus, analyser);
-    Reorder.moveAllElements(itemsToHighlight);
+    this.moveAllElements(itemsToHighlight);
   }
 }

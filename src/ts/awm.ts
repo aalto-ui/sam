@@ -4,7 +4,7 @@ import { Menu } from "./Menus/Menu";
 import { Database } from "./UserData/Database";
 import { DataLogger } from "./UserData/DataLogger";
 import { DataAnalyser } from "./UserData/DataAnalyser";
-import { StaticAdaptationTechnique, AdaptationPolicy } from "./Adaptations/Adaptation";
+import { Adaptation } from "./Adaptations/Adaptation";
 import { DebugDisplay } from "./DebugDisplay";
 
 import { Identity } from "./Adaptations/Techniques/Identity";
@@ -17,15 +17,6 @@ import { MostVisitedPagesPolicy } from "./Adaptations/Policies/MostVisitedPagesP
 import { LongestVisitDurationPolicy } from "./Adaptations/Policies/LongestVisitDurationPolicy";
 import { MostRecentVisitsPolicy } from "./Adaptations/Policies/MostRecentVisitsPolicy";
 import { SerialPositionCurvePolicy } from "./Adaptations/Policies/SerialPositionCurvePolicy";
-
-
-// Interface representing a complete adaptation technique,
-// Iwill all available policies + the current one
-interface Adaptation {
-  technique: StaticAdaptationTechnique;
-  policies: {[key: string]: AdaptationPolicy};
-  selectedPolicy: AdaptationPolicy;
-}
 
 
 export class AdaptiveWebMenus {
@@ -43,13 +34,13 @@ export class AdaptiveWebMenus {
   // Describe and init all available adaptations
   readonly adaptations: {[key: string]: Adaptation} = {
     "None": {
-      technique: Identity,
+      technique: new Identity(),
       policies: {},
       selectedPolicy: null
     },
 
     "Highlighting": {
-      technique: Highlight,
+      technique: new Highlight(),
       policies: {
         "Most clicked items policy": new MostClickedItemListPolicy(),
         "Most visited pages policy": new MostVisitedPagesPolicy(),
@@ -61,7 +52,7 @@ export class AdaptiveWebMenus {
     },
 
     "Reordering": {
-      technique: Reorder,
+      technique: new Reorder(),
       policies: {
         "Most clicked items policy": new MostClickedItemListPolicy(),
         "Most visited pages policy": new MostVisitedPagesPolicy(),
@@ -73,7 +64,7 @@ export class AdaptiveWebMenus {
     },
 
     "Highlighting + reordering": {
-      technique: HighlightAndReorder,
+      technique: new HighlightAndReorder(),
       policies: {
         "Most clicked items policy": new MostClickedItemListPolicy(),
         "Most visited pages policy": new MostVisitedPagesPolicy(),
