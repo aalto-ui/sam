@@ -1,17 +1,6 @@
 (function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-;
-// Generic parent class for a menu adaptation
-// Any adaptation technique should implement this interface,
-// as well as static methods defined below!
-class AdaptationTechnique {
-}
-exports.AdaptationTechnique = AdaptationTechnique;
-
-},{}],2:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const Menu_1 = require("../../Menus/Menu");
 class LongestVisitDurationPolicy {
     constructor() {
@@ -82,7 +71,7 @@ class LongestVisitDurationPolicy {
 }
 exports.LongestVisitDurationPolicy = LongestVisitDurationPolicy;
 
-},{"../../Menus/Menu":13}],3:[function(require,module,exports){
+},{"../../Menus/Menu":14}],2:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Menu_1 = require("../../Menus/Menu");
@@ -174,7 +163,7 @@ class MostClickedItemListPolicy {
 }
 exports.MostClickedItemListPolicy = MostClickedItemListPolicy;
 
-},{"../../Menus/Menu":13}],4:[function(require,module,exports){
+},{"../../Menus/Menu":14}],3:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const $ = require("jquery");
@@ -190,7 +179,7 @@ class MostRecentVisitsPolicy {
         // if they have been clicked more than this number of times
         this.maxNbClicksThreshold = 200;
         // Minimum accepted timestamp to consider a visit (in ms)
-        this.minVisitTimestamp = Date.now() - 10000;
+        this.minVisitTimestamp = Date.now() - (10e3 * 3600); // last hour
         // Maximum accepted timestamp to consider a visit (in ms)
         this.maxVisitTimestamp = Date.now();
     }
@@ -260,7 +249,7 @@ class MostRecentVisitsPolicy {
 }
 exports.MostRecentVisitsPolicy = MostRecentVisitsPolicy;
 
-},{"../../Menus/Menu":13,"jquery":19}],5:[function(require,module,exports){
+},{"../../Menus/Menu":14,"jquery":20}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Menu_1 = require("../../Menus/Menu");
@@ -333,7 +322,7 @@ class MostVisitedPagesPolicy {
 }
 exports.MostVisitedPagesPolicy = MostVisitedPagesPolicy;
 
-},{"../../Menus/Menu":13}],6:[function(require,module,exports){
+},{"../../Menus/Menu":14}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Menu_1 = require("../../Menus/Menu");
@@ -410,12 +399,12 @@ class SerialPositionCurvePolicy {
 }
 exports.SerialPositionCurvePolicy = SerialPositionCurvePolicy;
 
-},{"../../Menus/Menu":13}],7:[function(require,module,exports){
+},{"../../Menus/Menu":14}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const $ = require("jquery");
-const Adaptation_1 = require("../Adaptation");
-class Highlight extends Adaptation_1.AdaptationTechnique {
+class Highlight {
+    constructor() { }
     static onNode(node) {
         node.addClass(this.HIGHLIGHTED_ELEMENT_CLASS);
     }
@@ -437,20 +426,63 @@ class Highlight extends Adaptation_1.AdaptationTechnique {
     static reset() {
         $("." + Highlight.HIGHLIGHTED_ELEMENT_CLASS).removeClass(Highlight.HIGHLIGHTED_ELEMENT_CLASS);
     }
+    reset() {
+        Highlight.reset();
+    }
     static apply(menus, policy, analyser) {
         let itemsToHighlight = policy.getItemList(menus, analyser);
-        this.onAllElements(itemsToHighlight);
+        Highlight.onAllElements(itemsToHighlight);
+    }
+    apply(menus, policy, analyser) {
+        Highlight.apply(menus, policy, analyser);
     }
 }
 Highlight.HIGHLIGHTED_ELEMENT_CLASS = "awm-highlighted";
 exports.Highlight = Highlight;
 
-},{"../Adaptation":1,"jquery":19}],8:[function(require,module,exports){
+},{"jquery":20}],7:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const Highlight_1 = require("./Highlight");
+const Reorder_1 = require("./Reorder");
+class HighlightAndReorder extends Reorder_1.Reorder {
+    constructor() {
+        super();
+    }
+    reset() {
+        super.reset();
+        Highlight_1.Highlight.reset();
+    }
+    apply(menus, policy, analyser) {
+        super.apply(menus, policy, analyser);
+        Highlight_1.Highlight.apply(menus, policy, analyser);
+    }
+}
+exports.HighlightAndReorder = HighlightAndReorder;
+
+},{"./Highlight":6,"./Reorder":9}],8:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+// This technique is doing nothing (no change to the page)
+// Its only purpose is to be available (with the right type) as a baseline
+class Identity {
+    reset() {
+        // Nothing to do
+    }
+    apply(menus, policy, analyser) {
+        // Nothing to do
+    }
+}
+exports.Identity = Identity;
+
+},{}],9:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const $ = require("jquery");
-const Adaptation_1 = require("../Adaptation");
-class Reorder extends Adaptation_1.AdaptationTechnique {
+class Reorder {
+    constructor() {
+        this.childrenInOriginalOrder = new Map();
+    }
     // For internal use only
     // Simply move a node among its siblings at a given index, with no side effect
     static reinsertNode(node, index) {
@@ -467,43 +499,42 @@ class Reorder extends Adaptation_1.AdaptationTechnique {
                 .after(node);
         }
     }
-    static moveNode(node, index) {
+    moveNode(node, index) {
         Reorder.reinsertNode(node, index);
         node.addClass(Reorder.REORDERED_ELEMENT_CLASS);
     }
-    static moveElement(element, index) {
+    moveElement(element, index) {
         let parentNode = element.node.parent();
-        if (!Reorder.childrenInOriginalOrder.has(parentNode[0])) {
+        if (!this.childrenInOriginalOrder.has(parentNode[0])) {
             let orderedChildNodes = parentNode.children();
-            Reorder.childrenInOriginalOrder.set(parentNode[0], orderedChildNodes);
+            this.childrenInOriginalOrder.set(parentNode[0], orderedChildNodes);
         }
-        Reorder.moveNode(element.node, index);
+        this.moveNode(element.node, index);
     }
-    static moveAllElements(elements) {
-        // The index in the list of elements is passed as the index (2nd) parameter
-        elements.forEach(Reorder.moveElement);
+    moveAllElements(elements) {
+        elements.forEach((element, index) => {
+            this.moveElement(element, index);
+        });
     }
-    static reset() {
-        for (let [parent, orderedChildNodes] of Reorder.childrenInOriginalOrder) {
+    reset() {
+        for (let [parent, orderedChildNodes] of this.childrenInOriginalOrder) {
             let parentNode = $(parent);
             orderedChildNodes.each((_, element) => {
                 parentNode.append(element);
             });
         }
-        Reorder.childrenInOriginalOrder.clear();
+        this.childrenInOriginalOrder.clear();
         $("." + Reorder.REORDERED_ELEMENT_CLASS).removeClass(Reorder.REORDERED_ELEMENT_CLASS);
     }
-    static apply(menus, policy, analyser) {
+    apply(menus, policy, analyser) {
         let itemsToHighlight = policy.getItemList(menus, analyser);
-        Reorder.moveAllElements(itemsToHighlight);
+        this.moveAllElements(itemsToHighlight);
     }
 }
 Reorder.REORDERED_ELEMENT_CLASS = "awm-reordered";
-//
-Reorder.childrenInOriginalOrder = new Map();
 exports.Reorder = Reorder;
 
-},{"../Adaptation":1,"jquery":19}],9:[function(require,module,exports){
+},{"jquery":20}],10:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const $ = require("jquery");
@@ -520,12 +551,23 @@ class DebugDisplay {
     initFromLocalStorage() {
         let techniqueName = localStorage.getItem("awm-debug-technique-name");
         let policyName = localStorage.getItem("awm-debug-policy-name");
+        // If none have been stored yet, there is nothing to do
+        if (techniqueName === undefined || policyName === undefined) {
+            return;
+        }
+        // Note: null policy names are read as empty strings,
+        // and must thus be converted back to null
+        if (policyName === "") {
+            policyName = null;
+        }
         this.awm.switchToTechnique(techniqueName, policyName);
     }
     updateTechnique() {
         let techniqueName = $("#awm-debug-switch-technique-menu").val();
-        let policyName = $("#awm-debug-switch-policy-menu").val();
-        this.awm.switchToTechnique(techniqueName, policyName);
+        this.awm.switchToTechnique(techniqueName);
+        // Note: null policy names are converted to empty strings
+        let policyName = this.awm.getCurrentPolicyName();
+        policyName = policyName ? policyName : "";
         localStorage.setItem("awm-debug-technique-name", techniqueName);
         localStorage.setItem("awm-debug-policy-name", policyName);
         this.updatePolicyListNode();
@@ -533,6 +575,8 @@ class DebugDisplay {
     updatePolicy() {
         let policyName = $("#awm-debug-switch-policy-menu").val();
         this.awm.switchToPolicy(policyName);
+        // Note: null policy names are converted to empty strings
+        policyName = policyName ? policyName : "";
         localStorage.setItem("awm-debug-policy-name", policyName);
     }
     updatePolicyListNode() {
@@ -594,7 +638,7 @@ class DebugDisplay {
 }
 exports.DebugDisplay = DebugDisplay;
 
-},{"jquery":19}],10:[function(require,module,exports){
+},{"jquery":20}],11:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class AdaptiveElement {
@@ -628,7 +672,7 @@ class AdaptiveElement {
 }
 exports.AdaptiveElement = AdaptiveElement;
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const $ = require("jquery");
@@ -664,7 +708,7 @@ class Item extends AdaptiveElement_1.AdaptiveElement {
 }
 exports.Item = Item;
 
-},{"./AdaptiveElement":10,"jquery":19}],12:[function(require,module,exports){
+},{"./AdaptiveElement":11,"jquery":20}],13:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const AdaptiveElement_1 = require("./AdaptiveElement");
@@ -705,7 +749,7 @@ class ItemGroup extends AdaptiveElement_1.AdaptiveElement {
 }
 exports.ItemGroup = ItemGroup;
 
-},{"./AdaptiveElement":10,"./Item":11}],13:[function(require,module,exports){
+},{"./AdaptiveElement":11,"./Item":12}],14:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const $ = require("jquery");
@@ -755,7 +799,7 @@ class Menu extends AdaptiveElement_1.AdaptiveElement {
 }
 exports.Menu = Menu;
 
-},{"./AdaptiveElement":10,"./ItemGroup":12,"jquery":19}],14:[function(require,module,exports){
+},{"./AdaptiveElement":11,"./ItemGroup":13,"jquery":20}],15:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class DataAnalyser {
@@ -889,7 +933,7 @@ class DataAnalyser {
 }
 exports.DataAnalyser = DataAnalyser;
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const $ = require("jquery");
@@ -986,7 +1030,7 @@ class DataLogger {
 }
 exports.DataLogger = DataLogger;
 
-},{"../Menus/Menu":13,"jquery":19}],16:[function(require,module,exports){
+},{"../Menus/Menu":14,"jquery":20}],17:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const $ = require("jquery");
@@ -1225,19 +1269,11 @@ Database.DEFAULT_TABLES = [
             pathname: "",
             duration: 0
         }
-    },
-    // Table for information about the current internal state of the library
-    {
-        name: "awm-lib-current-state",
-        template: {
-            adaptationTechniqueName: "",
-            adaptationPolicyName: ""
-        }
     }
 ];
 exports.Database = Database;
 
-},{"jquery":19}],17:[function(require,module,exports){
+},{"jquery":20}],18:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Menu_1 = require("./Menus/Menu");
@@ -1245,8 +1281,10 @@ const Database_1 = require("./UserData/Database");
 const DataLogger_1 = require("./UserData/DataLogger");
 const DataAnalyser_1 = require("./UserData/DataAnalyser");
 const DebugDisplay_1 = require("./DebugDisplay");
+const Identity_1 = require("./Adaptations/Techniques/Identity");
 const Highlight_1 = require("./Adaptations/Techniques/Highlight");
 const Reorder_1 = require("./Adaptations/Techniques/Reorder");
+const HighlightAndReorder_1 = require("./Adaptations/Techniques/HighlightAndReorder");
 const MostClickedItemsPolicy_1 = require("./Adaptations/Policies/MostClickedItemsPolicy");
 const MostVisitedPagesPolicy_1 = require("./Adaptations/Policies/MostVisitedPagesPolicy");
 const LongestVisitDurationPolicy_1 = require("./Adaptations/Policies/LongestVisitDurationPolicy");
@@ -1256,8 +1294,13 @@ class AdaptiveWebMenus {
     constructor(menus = [], debug = true) {
         // Describe and init all available adaptations
         this.adaptations = {
+            "None": {
+                technique: new Identity_1.Identity(),
+                policies: {},
+                selectedPolicy: null
+            },
             "Highlighting": {
-                technique: Highlight_1.Highlight,
+                technique: new Highlight_1.Highlight(),
                 policies: {
                     "Most clicked items policy": new MostClickedItemsPolicy_1.MostClickedItemListPolicy(),
                     "Most visited pages policy": new MostVisitedPagesPolicy_1.MostVisitedPagesPolicy(),
@@ -1268,7 +1311,18 @@ class AdaptiveWebMenus {
                 selectedPolicy: null
             },
             "Reordering": {
-                technique: Reorder_1.Reorder,
+                technique: new Reorder_1.Reorder(),
+                policies: {
+                    "Most clicked items policy": new MostClickedItemsPolicy_1.MostClickedItemListPolicy(),
+                    "Most visited pages policy": new MostVisitedPagesPolicy_1.MostVisitedPagesPolicy(),
+                    "Longest visit duration policy": new LongestVisitDurationPolicy_1.LongestVisitDurationPolicy(),
+                    "Most recent visits policy": new MostRecentVisitsPolicy_1.MostRecentVisitsPolicy(),
+                    "Serial-Position curve policy": new SerialPositionCurvePolicy_1.SerialPositionCurvePolicy()
+                },
+                selectedPolicy: null
+            },
+            "Highlighting + reordering": {
+                technique: new HighlightAndReorder_1.HighlightAndReorder(),
                 policies: {
                     "Most clicked items policy": new MostClickedItemsPolicy_1.MostClickedItemListPolicy(),
                     "Most visited pages policy": new MostVisitedPagesPolicy_1.MostVisitedPagesPolicy(),
@@ -1283,24 +1337,29 @@ class AdaptiveWebMenus {
         this.database = new Database_1.Database();
         this.dataLogger = new DataLogger_1.DataLogger(this.database, menus);
         this.dataAnalyser = new DataAnalyser_1.DataAnalyser(this.database);
-        this.debugDisplay = new DebugDisplay_1.DebugDisplay(this, debug);
         // DEBUG
         console.log("ITEM CLICK ANALYSIS", this.dataAnalyser.analyseItemClicks());
         console.log("PAGE VISITS ANALYSIS", this.dataAnalyser.analysePageVisits());
         this.currentAdaptation = null;
         this.setDefaultAdaptation();
+        this.debugDisplay = new DebugDisplay_1.DebugDisplay(this, debug);
     }
     setAdaptationTechnique(techniqueName) {
         if (!(techniqueName in this.adaptations)) {
-            console.error("setAdaptation failed: technique name not found");
+            console.error("setAdaptationTechnique failed: technique name not found");
             return;
         }
         this.currentAdaptation = this.adaptations[techniqueName];
         this.currentAdaptationTechniqueName = techniqueName;
     }
     setAdaptationPolicy(policyName) {
+        if (policyName === null) {
+            this.currentAdaptation.selectedPolicy = null;
+            this.currentAdaptationPolicyName = null;
+            return;
+        }
         if (!(policyName in this.currentAdaptation.policies)) {
-            console.error("setAdaptation failed: policy name not found");
+            console.error("setAdaptationPolicy failed: policy name not found");
             return;
         }
         this.currentAdaptation.selectedPolicy = this.currentAdaptation.policies[policyName];
@@ -1329,10 +1388,15 @@ class AdaptiveWebMenus {
     // If no policy is specified, use the first one in the list of related policies
     // If any given name is not found, nothing happens
     switchToTechnique(techniqueName, policyName) {
-        // In case no policy name was specified, fetch one
-        if (!policyName) {
-            let availablePolicies = this.adaptations[techniqueName].policies;
-            policyName = Object.keys(availablePolicies)[0];
+        // In case no policy name was specified, fetch one (if none, set it to null)
+        if (policyName === undefined) {
+            let availablePolicyNames = Object.keys(this.adaptations[techniqueName].policies);
+            if (availablePolicyNames.length > 0) {
+                policyName = availablePolicyNames[0];
+            }
+            else {
+                policyName = null;
+            }
         }
         this.resetAdaptation();
         this.setAdaptation(techniqueName, policyName);
@@ -1388,20 +1452,18 @@ class AdaptiveWebMenus {
 }
 exports.AdaptiveWebMenus = AdaptiveWebMenus;
 
-},{"./Adaptations/Policies/LongestVisitDurationPolicy":2,"./Adaptations/Policies/MostClickedItemsPolicy":3,"./Adaptations/Policies/MostRecentVisitsPolicy":4,"./Adaptations/Policies/MostVisitedPagesPolicy":5,"./Adaptations/Policies/SerialPositionCurvePolicy":6,"./Adaptations/Techniques/Highlight":7,"./Adaptations/Techniques/Reorder":8,"./DebugDisplay":9,"./Menus/Menu":13,"./UserData/DataAnalyser":14,"./UserData/DataLogger":15,"./UserData/Database":16}],18:[function(require,module,exports){
+},{"./Adaptations/Policies/LongestVisitDurationPolicy":1,"./Adaptations/Policies/MostClickedItemsPolicy":2,"./Adaptations/Policies/MostRecentVisitsPolicy":3,"./Adaptations/Policies/MostVisitedPagesPolicy":4,"./Adaptations/Policies/SerialPositionCurvePolicy":5,"./Adaptations/Techniques/Highlight":6,"./Adaptations/Techniques/HighlightAndReorder":7,"./Adaptations/Techniques/Identity":8,"./Adaptations/Techniques/Reorder":9,"./DebugDisplay":10,"./Menus/Menu":14,"./UserData/DataAnalyser":15,"./UserData/DataLogger":16,"./UserData/Database":17}],19:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const $ = require("jquery");
 const awm_1 = require("./awm");
 $(document).ready(function () {
     // DEBUG: setup for page<1-6>.html
-    /*
-    let menuSelectors = {
-      "#main-menu": {
-        ".menu-group": "li"
-      }
-    };
-    */
+    // let menuSelectors = {
+    //   "#main-menu": {
+    //     ".menu-group": "li"
+    //   }
+    // };
     // DEBUG: setup for en.wikipedia.org
     let menuSelectors = {
         "#mw-panel": {
@@ -1419,7 +1481,7 @@ $(document).ready(function () {
     window["awm"] = awm;
 });
 
-},{"./awm":17,"jquery":19}],19:[function(require,module,exports){
+},{"./awm":18,"jquery":20}],20:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v3.3.1
  * https://jquery.com/
@@ -11785,4 +11847,4 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
-},{}]},{},[18]);
+},{}]},{},[19]);
