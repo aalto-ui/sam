@@ -18,7 +18,7 @@ export class MostRecentVisitsPolicy implements ItemListPolicy {
   maxNbClicksThreshold: number = 200;
 
   // Minimum accepted timestamp to consider a visit (in ms)
-  minVisitTimestamp: number = Date.now() - 10000;
+  minVisitTimestamp: number = Date.now() - (10e3 * 3600); // last hour
 
   // Maximum accepted timestamp to consider a visit (in ms)
   maxVisitTimestamp: number = Date.now();
