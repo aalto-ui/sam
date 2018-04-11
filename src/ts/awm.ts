@@ -71,14 +71,14 @@ export class AdaptiveWebMenus {
   private currentAdaptation: Adaptation;
 
 
-  constructor (menus: Menu[] = []) {
+  constructor (menus: Menu[] = [], debug: boolean = true) {
     this.menus = menus;
 
     this.database = new Database();
     this.dataLogger = new DataLogger(this.database, menus);
     this.dataAnalyser = new DataAnalyser(this.database);
 
-    this.debugDisplay = new DebugDisplay(this);
+    this.debugDisplay = new DebugDisplay(this, debug);
 
     // DEBUG
     console.log("ITEM CLICK ANALYSIS", this.dataAnalyser.analyseItemClicks());
