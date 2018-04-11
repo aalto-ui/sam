@@ -82,29 +82,17 @@ export class AdaptiveWebMenus {
     this.setDefaultAdaptation();
   }
 
-  private setAdaptation (techniqueName: string, policyName: string) {
+  private setAdaptationTechnique (techniqueName: string) {
     if (! (techniqueName in this.adaptations)) {
       console.error("setAdaptation failed: technique name not found");
       return;
     }
 
-    if (! (policyName in this.adaptations[techniqueName].policies)) {
-      console.error("setAdaptation failed: policy name not found");
-      return;
-    }
-
     this.currentAdaptation = this.adaptations[techniqueName];
     this.currentAdaptationTechniqueName = techniqueName;
-
-    this.currentAdaptationPolicyName = policyName;
-    this.currentAdaptation.selectedPolicy = this.currentAdaptation.policies[policyName];
   }
 
   private setAdaptationPolicy (policyName: string) {
-    if (! this.currentAdaptation) {
-      return;
-    }
-
     if (! (policyName in this.currentAdaptation.policies)) {
       console.error("setAdaptation failed: policy name not found");
       return;
@@ -112,6 +100,11 @@ export class AdaptiveWebMenus {
 
     this.currentAdaptation.selectedPolicy = this.currentAdaptation.policies[policyName];
     this.currentAdaptationPolicyName = policyName;
+  }
+
+  private setAdaptation (techniqueName: string, policyName: string) {
+    this.setAdaptationTechnique(techniqueName);
+    this.setAdaptationPolicy(policyName);
   }
 
   private setDefaultAdaptation () {
@@ -137,42 +130,30 @@ export class AdaptiveWebMenus {
   // Switch the adaptation technique, using the optionnally specified policy
   // If no policy is specified, use the first one in the list of related policies
   // If any given name is not found, nothing happens
-  switchAdaptationTechnique (techniqueName: string, policyName?: string) {
-    // In case no policy name is specified, fetch one
+  switchToTechnique (techniqueName: string, policyName?: string) {
+    // In case no policy name was specified, fetch one
     if (! policyName) {
       let availablePolicies = this.adaptations[techniqueName].policies;
       policyName = Object.keys(availablePolicies)[0];
     }
 
-    // If an adaptation is currently applied, cancel its effects
     this.resetAdaptation();
-
-    // Switch to the new technique and policy
     this.setAdaptation(techniqueName, policyName);
-
-    // Finally apply the new adaptation
     this.applyAdaptation();
 
-    console.log("Switched adaptation to", this.currentAdaptation);
+    console.log("New technique:", this.currentAdaptationTechniqueName);
+    console.log("New policy:", this.currentAdaptationPolicyName);
   }
 
   // Switch the adaptation policy of the current adaptation technique
   // If there is no adaptation, or if the given name is not found, nothing happens
-  switchAdaptationPolicy (policyName: string) {
-    if (! this.currentAdaptation) {
-      return;
-    }
-
-    // If an adaptation is currently applied, cancel its effects
+  switchToPolicy (policyName: string) {
     this.resetAdaptation();
-
-    // Switch to the new technique and policy
     this.setAdaptationPolicy(policyName);
-
-    // Finally apply the new adaptation
     this.applyAdaptation();
 
-    console.log("Switched adaptation policy to", this.currentAdaptation);
+    console.log("New technique:", this.currentAdaptationTechniqueName);
+    console.log("New policy:", this.currentAdaptationPolicyName);
   }
 
   // Cancel the current adaptation, if any, by resetting any changes it has made
@@ -183,12 +164,24 @@ export class AdaptiveWebMenus {
     console.log("Canceled adaptation");
   }
 
+  getCurrentTechniqueName () {
+    return this.currentAdaptationTechniqueName
+  }
+
+  getCurrentPolicyName () {
+    return this.currentAdaptationPolicyName
+  }
+
   getAllAdaptationTechniqueNames (): string[] {
     return [...Object.keys(this.adaptations)];
   }
 
   getAllAdaptationPoliciesNames (techniqueName: string): string[] {
     return [...Object.keys(this.adaptations[techniqueName].policies)];
+  }
+
+  getAllCurrentTechniquePolicyNames () {
+    return this.getAllAdaptationPoliciesNames(this.currentAdaptationTechniqueName);
   }
 
   clearHistory () {
