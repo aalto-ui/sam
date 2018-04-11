@@ -10,6 +10,7 @@ import { DebugDisplay } from "./DebugDisplay";
 import { Identity } from "./Adaptations/Techniques/Identity";
 import { Highlight } from "./Adaptations/Techniques/Highlight";
 import { Reorder } from "./Adaptations/Techniques/Reorder";
+import { HighlightAndReorder } from "./Adaptations/Techniques/HighlightAndReorder";
 
 import { MostClickedItemListPolicy } from "./Adaptations/Policies/MostClickedItemsPolicy";
 import { MostVisitedPagesPolicy } from "./Adaptations/Policies/MostVisitedPagesPolicy";
@@ -61,6 +62,18 @@ export class AdaptiveWebMenus {
 
     "Reordering": {
       technique: Reorder,
+      policies: {
+        "Most clicked items policy": new MostClickedItemListPolicy(),
+        "Most visited pages policy": new MostVisitedPagesPolicy(),
+        "Longest visit duration policy": new LongestVisitDurationPolicy(),
+        "Most recent visits policy": new MostRecentVisitsPolicy(),
+        "Serial-Position curve policy": new SerialPositionCurvePolicy()
+      },
+      selectedPolicy: null
+    },
+
+    "Highlighting + reordering": {
+      technique: HighlightAndReorder,
       policies: {
         "Most clicked items policy": new MostClickedItemListPolicy(),
         "Most visited pages policy": new MostVisitedPagesPolicy(),
