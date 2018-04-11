@@ -7,6 +7,7 @@ import { DataAnalyser } from "./UserData/DataAnalyser";
 import { StaticAdaptationTechnique, AdaptationPolicy } from "./Adaptations/Adaptation";
 import { DebugDisplay } from "./DebugDisplay";
 
+import { Identity } from "./Adaptations/Techniques/Identity";
 import { Highlight } from "./Adaptations/Techniques/Highlight";
 import { Reorder } from "./Adaptations/Techniques/Reorder";
 
@@ -40,6 +41,12 @@ export class AdaptiveWebMenus {
 
   // Describe and init all available adaptations
   readonly adaptations: {[key: string]: Adaptation} = {
+    "None": {
+      technique: Identity,
+      policies: {},
+      selectedPolicy: null
+    },
+
     "Highlighting": {
       technique: Highlight,
       policies: {
