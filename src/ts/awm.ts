@@ -86,7 +86,7 @@ export class AdaptiveWebMenus {
   };
 
   private currentAdaptationTechniqueName: string;
-  private currentAdaptationPolicyName: string;
+  private currentAdaptationPolicyName: string | null;
 
   private currentAdaptation: Adaptation;
 
@@ -98,19 +98,19 @@ export class AdaptiveWebMenus {
     this.dataLogger = new DataLogger(this.database, menus);
     this.dataAnalyser = new DataAnalyser(this.database);
 
-    this.debugDisplay = new DebugDisplay(this, debug);
-
     // DEBUG
     console.log("ITEM CLICK ANALYSIS", this.dataAnalyser.analyseItemClicks());
     console.log("PAGE VISITS ANALYSIS", this.dataAnalyser.analysePageVisits());
 
     this.currentAdaptation = null;
     this.setDefaultAdaptation();
+
+    this.debugDisplay = new DebugDisplay(this, debug);
   }
 
   private setAdaptationTechnique (techniqueName: string) {
     if (! (techniqueName in this.adaptations)) {
-      console.error("setAdaptation failed: technique name not found");
+      console.error("setAdaptationTechnique failed: technique name not found");
       return;
     }
 
@@ -118,9 +118,16 @@ export class AdaptiveWebMenus {
     this.currentAdaptationTechniqueName = techniqueName;
   }
 
-  private setAdaptationPolicy (policyName: string) {
+  private setAdaptationPolicy (policyName: string | null) {
+    if (policyName === null) {
+      this.currentAdaptation.selectedPolicy = null;
+      this.currentAdaptationPolicyName = null;
+
+      return;
+    }
+
     if (! (policyName in this.currentAdaptation.policies)) {
-      console.error("setAdaptation failed: policy name not found");
+      console.error("setAdaptationPolicy failed: policy name not found");
       return;
     }
 
@@ -128,7 +135,7 @@ export class AdaptiveWebMenus {
     this.currentAdaptationPolicyName = policyName;
   }
 
-  private setAdaptation (techniqueName: string, policyName: string) {
+  private setAdaptation (techniqueName: string, policyName: string | null) {
     this.setAdaptationTechnique(techniqueName);
     this.setAdaptationPolicy(policyName);
   }
@@ -156,11 +163,16 @@ export class AdaptiveWebMenus {
   // Switch the adaptation technique, using the optionnally specified policy
   // If no policy is specified, use the first one in the list of related policies
   // If any given name is not found, nothing happens
-  switchToTechnique (techniqueName: string, policyName?: string) {
-    // In case no policy name was specified, fetch one
-    if (! policyName) {
-      let availablePolicies = this.adaptations[techniqueName].policies;
-      policyName = Object.keys(availablePolicies)[0];
+  switchToTechnique (techniqueName: string, policyName?: string | null) {
+    // In case no policy name was specified, fetch one (if none, set it to null)
+    if (policyName === undefined) {
+      let availablePolicyNames = Object.keys(this.adaptations[techniqueName].policies);
+      if (availablePolicyNames.length > 0) {
+        policyName = availablePolicyNames[0];
+      }
+      else {
+        policyName = null;
+      }
     }
 
     this.resetAdaptation();
@@ -173,7 +185,7 @@ export class AdaptiveWebMenus {
 
   // Switch the adaptation policy of the current adaptation technique
   // If there is no adaptation, or if the given name is not found, nothing happens
-  switchToPolicy (policyName: string) {
+  switchToPolicy (policyName: string | null) {
     this.resetAdaptation();
     this.setAdaptationPolicy(policyName);
     this.applyAdaptation();

@@ -22,5 +22,5 @@ export interface StaticAdaptationTechnique {
 
   // Adapt the page menus, using the given data analyser if required
   // This method must be implemented appropriately by any concrete child class!
-  apply (menus: Menu[], policy: AdaptationPolicy, analyser?: DataAnalyser): void;
+  apply (menus: Menu[], policy?: AdaptationPolicy, analyser?: DataAnalyser): void;
 }
