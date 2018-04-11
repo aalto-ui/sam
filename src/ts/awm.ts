@@ -61,6 +61,9 @@ export class AdaptiveWebMenus {
     }
   };
 
+  private currentAdaptationTechniqueName: string;
+  private currentAdaptationPolicyName: string;
+
   private currentAdaptation: Adaptation;
 
 
@@ -91,6 +94,9 @@ export class AdaptiveWebMenus {
     }
 
     this.currentAdaptation = this.adaptations[techniqueName];
+    this.currentAdaptationTechniqueName = techniqueName;
+
+    this.currentAdaptationPolicyName = policyName;
     this.currentAdaptation.selectedPolicy = this.currentAdaptation.policies[policyName];
   }
 
@@ -105,6 +111,7 @@ export class AdaptiveWebMenus {
     }
 
     this.currentAdaptation.selectedPolicy = this.currentAdaptation.policies[policyName];
+    this.currentAdaptationPolicyName = policyName;
   }
 
   private setDefaultAdaptation () {
