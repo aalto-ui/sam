@@ -58,8 +58,9 @@ export class Reorder implements AdaptationTechnique {
   }
 
   private moveAllElements (elements: AdaptiveElement[]) {
-    // The index in the list of elements is passed as the index (2nd) parameter
-    elements.forEach((element, index) => { this.moveElement });
+    elements.forEach((element, index) => {
+      this.moveElement(element, index);
+    });
   }
 
   reset () {
