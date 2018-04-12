@@ -29,7 +29,8 @@ export class DebugDisplay {
     let policyName = localStorage.getItem("awm-debug-policy-name");
 
     // If none have been stored yet, there is nothing to do
-    if (techniqueName === undefined || policyName === undefined) {
+    if ((! techniqueName) || (! policyName)) {
+      console.log("No init done from local storage:", techniqueName, policyName);
       return;
     }
 
