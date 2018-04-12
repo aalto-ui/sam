@@ -1,0 +1,36 @@
+{
+	"name": "adaptive-web-menus",
+	"version": "1.0.0",
+	"description": "Adaptive web menus library (research project from Aalto UI group).",
+	"homepage": "https://github.com/Daru13/adaptive-web-menus#readme",
+	"private": true,
+	"bugs": {
+		"url": "https://github.com/Daru13/adaptive-web-menus/issues"
+	},
+	"author": "Daru13",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Daru13/adaptive-web-menus.git"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"jquery": "^3.3.1"
+	},
+	"devDependencies": {
+		"@types/jquery": "^3.3.1",
+		"browserify": "^16.1.1",
+		"browserify-shim": "^3.8.14",
+		"typescript": "^2.7.2",
+		"uglify-es": "^3.3.9"
+	},
+	"browserify": {
+		"transform": [
+			"browserify-shim"
+		]
+	},
+	"browserify-shim": {
+		"jquery": "global:jQuery"
+	}
+}
