@@ -15,7 +15,7 @@ init:
 build:
 	@echo "Building..."
 	@mkdir -p build
-	@cp -R -f src/html src/css build
+	@cp -R -f src/html src/css src/js build
 	@node_modules/typescript/bin/tsc
 
 # Resolve all imports (located in build folder) to make a single script
@@ -27,8 +27,7 @@ browserify: build
 package_test: build browserify
 	@echo "Packaging..."
 	@mkdir -p build/awm-test
-	@cp -R -f build/html build/css build/awm-test
-	@mkdir -p build/awm-test/js # Only one js file is required
+	@cp -R -f build/html build/css build/js build/awm-test
 	@cp -f build/js/mod.js build/awm-test/js
 
 # Cleaning rule
