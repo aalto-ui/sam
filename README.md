@@ -42,4 +42,4 @@ The Makefile exposes the following commands:
 
 The best option is to simply run `make` in the root directory, which will takes care of creating/populating the `build` directory!
 
-**Note:** this Makefile is written to target a [*fish* shell](https://fishshell.com/) on Mac OSX — make sure to adapt it to your sheel and OS if required!
+**Note:** this Makefile is written to target a [*fish* shell](https://fishshell.com/) on Mac OSX — make sure to adapt it to your shell and OS if required!
