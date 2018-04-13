@@ -52,7 +52,7 @@ export class Menu extends AdaptiveElement {
     let node = $(selector);
     let menu = new Menu(node, selector);
 
-    // Case 1: if descendantSelectors is a string/an array, it must be/contain the item selector(s)Ò
+    // Case 1: if descendantSelectors is a string/an array, it must be/contain the item selector(s)
     // In such case, the menu has only one item group, formed by its own node
     if (typeof descendantSelectors === "string" || Array.isArray(descendantSelectors)) {
       menu.groups.push(ItemGroup.fromSelectors(null, descendantSelectors, menu));

@@ -1,9 +1,9 @@
 import * as $ from "jquery";
 import { AdaptationTechnique } from "../Adaptation";
-import { AdaptiveElement } from "../../Menus/AdaptiveElement";
-import { Menu } from "../../Menus/Menu";
+import { AdaptiveElement } from "../../Elements/AdaptiveElement";
+import { Menu } from "../../Elements/Menu";
 import { ItemListPolicy } from "../Policies/ItemListPolicy";
-import { DataAnalyser } from "../../UserData/DataAnalyser";
+import { DataAnalyser } from "../../Data/DataAnalyser";
 
 
 export class Highlight implements AdaptationTechnique {

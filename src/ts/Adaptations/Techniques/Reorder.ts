@@ -1,11 +1,11 @@
 import * as $ from "jquery";
 import { AdaptationTechnique } from "../Adaptation";
-import { AdaptiveElement } from "../../Menus/AdaptiveElement";
-import { Menu } from "../../Menus/Menu";
+import { AdaptiveElement } from "../../Elements/AdaptiveElement";
+import { Menu } from "../../Elements/Menu";
 import { ItemListPolicy } from "../Policies/ItemListPolicy";
-import { DataAnalyser } from "../../UserData/DataAnalyser";
-import { ItemGroup } from "../../Menus/ItemGroup";
-import { Item } from "../../Menus/Item";
+import { DataAnalyser } from "../../Data/DataAnalyser";
+import { ItemGroup } from "../../Elements/ItemGroup";
+import { Item } from "../../Elements/Item";
 
 
 // Type alias for an element position

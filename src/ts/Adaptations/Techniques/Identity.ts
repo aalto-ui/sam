@@ -1,7 +1,7 @@
 import * as $ from "jquery";
 import { AdaptationTechnique, AdaptationPolicy } from "../Adaptation";
-import { Menu } from "../../Menus/Menu";
-import { DataAnalyser } from "../../UserData/DataAnalyser";
+import { Menu } from "../../Elements/Menu";
+import { DataAnalyser } from "../../Data/DataAnalyser";
 
 
 // This technique is doing nothing (no change to the page)

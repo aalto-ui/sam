@@ -1,8 +1,8 @@
 import * as $ from "jquery";
 import { ItemListPolicy } from "./ItemListPolicy";
-import { Menu } from "../../Menus/Menu";
-import { DataAnalyser } from "../../UserData/DataAnalyser";
-import { Item } from "../../Menus/Item";
+import { Menu } from "../../Elements/Menu";
+import { DataAnalyser } from "../../Data/DataAnalyser";
+import { Item } from "../../Elements/Item";
 
 
 export class SerialPositionCurvePolicy implements ItemListPolicy {

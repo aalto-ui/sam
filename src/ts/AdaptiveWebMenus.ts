@@ -1,9 +1,9 @@
 import * as $ from "jquery";
 
-import { Menu } from "./Menus/Menu";
-import { Database } from "./UserData/Database";
-import { DataLogger } from "./UserData/DataLogger";
-import { DataAnalyser } from "./UserData/DataAnalyser";
+import { Menu } from "./Elements/Menu";
+import { Database } from "./Data/Database";
+import { DataLogger } from "./Data/DataLogger";
+import { DataAnalyser } from "./Data/DataAnalyser";
 import { Adaptation } from "./Adaptations/Adaptation";
 import { DebugDisplay } from "./DebugDisplay";
 

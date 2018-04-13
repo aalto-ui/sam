@@ -1,7 +1,7 @@
 import { AdaptationPolicy } from "../Adaptation";
-import { DataAnalyser } from "../../UserData/DataAnalyser";
-import { Menu } from "../../Menus/Menu";
-import { Item } from "../../Menus/Item";
+import { DataAnalyser } from "../../Data/DataAnalyser";
+import { Menu } from "../../Elements/Menu";
+import { Item } from "../../Elements/Item";
 
 
 export interface ItemListPolicy extends AdaptationPolicy {

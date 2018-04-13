@@ -1,7 +1,7 @@
 import * as $ from "jquery";
-import { Menu } from "../../Menus/Menu";
+import { Menu } from "../../Elements/Menu";
 import { ItemListPolicy } from "../Policies/ItemListPolicy";
-import { DataAnalyser } from "../../UserData/DataAnalyser";
+import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Highlight } from "./Highlight";
 import { Reorder } from "./Reorder";
 

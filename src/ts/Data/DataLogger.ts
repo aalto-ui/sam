@@ -1,7 +1,7 @@
 import * as $ from "jquery";
 import { Database } from "./Database";
-import { Menu } from "../Menus/Menu";
-import { Item } from "../Menus/Item";
+import { Menu } from "../Elements/Menu";
+import { Item } from "../Elements/Item";
 
 export class DataLogger {
   // The database to use for logging

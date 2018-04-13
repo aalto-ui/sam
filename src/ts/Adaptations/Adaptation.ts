@@ -1,5 +1,5 @@
-import { Menu } from "../Menus/Menu";
-import { DataAnalyser } from "../UserData/DataAnalyser";
+import { Menu } from "../Elements/Menu";
+import { DataAnalyser } from "../Data/DataAnalyser";
 
 
 // Interface of an adaptation policy
