@@ -24,10 +24,21 @@ export class Item extends AdaptiveElement {
     // if a pathname filter is specified, only keep links whose href attribute
     // match the end of the current page pathname
     if (pathnameFilter) {
+      // Remove any final slash
+      pathnameFilter = pathnameFilter.replace(/\/$/, "");
+
       linkNodes = linkNodes.filter((_, element) => {
         let href = $(element).attr("href");
+
+        // Trim the href attribute, remove potential quotes
+        href = href.trim();
+        href = href.replace(/"|'/g, "");
+
+        // Remove any final slash
+        href = href.replace(/\/$/, "");
+
         return href.length > 0
-            && pathnameFilter.endsWith(href);
+            && href.endsWith(pathnameFilter);
       });
     }
 
