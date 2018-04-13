@@ -5,7 +5,7 @@ This work is part of a research internship at Aalto University, UI group.
 
 ## How to use?
 Using the AWM library is pretty straightforward:
-* **Step 1:** Include (or inject) [jQuery](https://jquery.com/) and the `awm.js` library file in the webpage sources.
+* **Step 1:** Include (or inject) [jQuery](https://jquery.com/), the `awm.css` styling sheet, and the `awm.js` library file, in the webpage sources.
 * **Step 2:** Initialize an AWM instance using the exposed builder method(s), by passing it the right selectors. Make sure the selectors refer to *already existing DOM elements*, e.g. by waiting for the DOM tree to be loaded.
 * **Step 3:** That's all!
 
