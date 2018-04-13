@@ -3,9 +3,6 @@ import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Item } from "../../Elements/Item";
 
-////////////// DEBUG
-let debug_nb_clicks_already_added_flag = false;
-
 
 export class MostClickedItemListPolicy implements ItemListPolicy {
   // Maximum number of items to keep
@@ -57,24 +54,6 @@ export class MostClickedItemListPolicy implements ItemListPolicy {
       let nbClicks = this.getItemNbClicks(item, analysis);
       itemsMappedToNbClicks.set(item, nbClicks);
     }
-
-    ////////////////////////////////////////////////////////////////////////////
-    // DEBUG: add scores and IDs to items inner HTML
-
-    if (! debug_nb_clicks_already_added_flag) {
-      for (let item of allItems) {
-        let id = item.getID();
-        let nbClicks = itemsMappedToNbClicks.get(item);
-
-        //console.log("Append info to", node, id);
-        // item.node.html(item.node.html() + `<small>(id: ${id} /  nbClicks: ${nbClicks})</small>`);
-        item.node.html(item.node.html() + `<span id="debug-item-nb-clicks"> (${nbClicks})</small>`);
-      }
-
-      debug_nb_clicks_already_added_flag = true;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     return itemsMappedToNbClicks;
   }
