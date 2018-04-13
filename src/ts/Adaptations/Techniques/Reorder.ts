@@ -63,6 +63,29 @@ export class Reorder implements AdaptationTechnique {
     });
   }
 
+  // Split a list of items into an iterator of lists of items, once for each item group
+  // The order of the initial list is respected in the resulting split lists
+  private getGroupWiseItemIterator (items: Item[]): Iterable<Item[]> {
+    let itemsSplitByGroup = new Map();
+
+    for (let item of items) {
+      let group = item.parent;
+
+      // If a list already exist of this group, append the item at its end
+      if (itemsSplitByGroup.has(group)) {
+        itemsSplitByGroup.get(group)
+          .push(item);
+      }
+
+      // Otherwise, create a new list for this group
+      else {
+        itemsSplitByGroup.set(group, [item]);
+      }
+    }
+
+    return itemsSplitByGroup.values();
+  }
+
   reset () {
     for (let [parent, orderedChildNodes] of this.childrenInOriginalOrder) {
       let parentNode = $(parent);
@@ -76,7 +99,12 @@ export class Reorder implements AdaptationTechnique {
   }
 
   apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
-    let itemsToHighlight = policy.getItemList(menus, analyser);
-    this.moveAllElements(itemsToHighlight);
+    let itemsToReorder = policy.getItemList(menus, analyser);
+
+    // Reorder items independetly for each group of items
+    let groupWiseIterator = this.getGroupWiseItemIterator(itemsToReorder);
+    for (let groupOrderedItemList of groupWiseIterator) {
+      this.moveAllElements(groupOrderedItemList);
+    }
   }
 }
