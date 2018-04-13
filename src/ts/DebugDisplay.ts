@@ -1,5 +1,5 @@
 import * as $ from "jquery";
-import { AdaptiveWebMenus } from "./awm";
+import AdaptiveWebMenus from "./AdaptiveWebMenus";
 
 
 export class DebugDisplay {

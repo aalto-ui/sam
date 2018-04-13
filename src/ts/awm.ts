@@ -1,234 +1,148 @@
+import AdaptiveWebMenus from "./AdaptiveWebMenus";
+
+window["AdaptiveWebMenus"] = AdaptiveWebMenus;
+
+/*
 import * as $ from "jquery";
 
-import { Menu } from "./Menus/Menu";
-import { Database } from "./UserData/Database";
-import { DataLogger } from "./UserData/DataLogger";
-import { DataAnalyser } from "./UserData/DataAnalyser";
-import { Adaptation } from "./Adaptations/Adaptation";
-import { DebugDisplay } from "./DebugDisplay";
+$(document).ready(function () {
+  // DEBUG: setup for page<1-6>.html
 
-import { Identity } from "./Adaptations/Techniques/Identity";
-import { Highlight } from "./Adaptations/Techniques/Highlight";
-import { Reorder } from "./Adaptations/Techniques/Reorder";
-import { HighlightAndReorder } from "./Adaptations/Techniques/HighlightAndReorder";
-
-import { MostClickedItemListPolicy } from "./Adaptations/Policies/MostClickedItemsPolicy";
-import { MostVisitedPagesPolicy } from "./Adaptations/Policies/MostVisitedPagesPolicy";
-import { LongestVisitDurationPolicy } from "./Adaptations/Policies/LongestVisitDurationPolicy";
-import { MostRecentVisitsPolicy } from "./Adaptations/Policies/MostRecentVisitsPolicy";
-import { SerialPositionCurvePolicy } from "./Adaptations/Policies/SerialPositionCurvePolicy";
-
-
-export class AdaptiveWebMenus {
-  // List of adaptive menus
-  private readonly menus: Menu[];
-
-  // Databse, logger and analyser
-  private readonly database: Database;
-  private readonly dataLogger: DataLogger;
-  private readonly dataAnalyser: DataAnalyser;
-
-  // Debug display
-  private readonly debugDisplay: DebugDisplay;
-
-  // Describe and init all available adaptations
-  readonly adaptations: {[key: string]: Adaptation} = {
-    "None": {
-      technique: new Identity(),
-      policies: {},
-      selectedPolicy: null
-    },
-
-    "Highlighting": {
-      technique: new Highlight(),
-      policies: {
-        "Most clicked items policy": new MostClickedItemListPolicy(),
-        "Most visited pages policy": new MostVisitedPagesPolicy(),
-        "Longest visit duration policy": new LongestVisitDurationPolicy(),
-        "Most recent visits policy": new MostRecentVisitsPolicy(),
-        "Serial-Position curve policy": new SerialPositionCurvePolicy()
-      },
-      selectedPolicy: null
-    },
-
-    "Reordering": {
-      technique: new Reorder(),
-      policies: {
-        "Most clicked items policy": new MostClickedItemListPolicy(),
-        "Most visited pages policy": new MostVisitedPagesPolicy(),
-        "Longest visit duration policy": new LongestVisitDurationPolicy(),
-        "Most recent visits policy": new MostRecentVisitsPolicy(),
-        "Serial-Position curve policy": new SerialPositionCurvePolicy()
-      },
-      selectedPolicy: null
-    },
-
-    "Highlighting + reordering": {
-      technique: new HighlightAndReorder(),
-      policies: {
-        "Most clicked items policy": new MostClickedItemListPolicy(),
-        "Most visited pages policy": new MostVisitedPagesPolicy(),
-        "Longest visit duration policy": new LongestVisitDurationPolicy(),
-        "Most recent visits policy": new MostRecentVisitsPolicy(),
-        "Serial-Position curve policy": new SerialPositionCurvePolicy()
-      },
-      selectedPolicy: null
+  let menuSelectors = {
+    "#main-menu": {
+      ".menu-group": "li"
     }
   };
 
-  private currentAdaptationTechniqueName: string;
-  private currentAdaptationPolicyName: string | null;
+  window["awm"] = AdaptiveWebMenus.fromMenuSelectors(menuSelectors);
+  console.log("AWM library initialised");
+  console.log(window["awm"]);
 
-  private currentAdaptation: Adaptation;
 
-
-  constructor (menus: Menu[] = [], debug: boolean = true) {
-    this.menus = menus;
-
-    this.database = new Database();
-    this.dataLogger = new DataLogger(this.database, menus);
-    this.dataAnalyser = new DataAnalyser(this.database);
-
-    // DEBUG
-    console.log("ITEM CLICK ANALYSIS", this.dataAnalyser.analyseItemClicks());
-    console.log("PAGE VISITS ANALYSIS", this.dataAnalyser.analysePageVisits());
-
-    this.currentAdaptation = null;
-    this.setDefaultAdaptation();
-
-    this.debugDisplay = new DebugDisplay(this, debug);
-  }
-
-  private setAdaptationTechnique (techniqueName: string) {
-    if (! (techniqueName in this.adaptations)) {
-      console.error("setAdaptationTechnique failed: technique name not found");
-      return;
+  // DEBUG: setup for en.wikipedia.org
+/*
+  let menuSelectors = {
+    "#mw-panel": {
+      "#p-navigation": "li",
+      "#p-interaction": "li",
+      "#p-tb": "li",
+      "#p-coll-print_export": "li",
+      "#p-wikibase-otherprojects": "li",
+      "#p-lang": "li"
     }
+  };
 
-    this.currentAdaptation = this.adaptations[techniqueName];
-    this.currentAdaptationTechniqueName = techniqueName;
-  }
+  window["awm"] = AdaptiveWebMenus.fromMenuSelectors(menuSelectors);
+  console.log("AWM library initialised");
+  console.log(window["awm"]);
+*/
 
-  private setAdaptationPolicy (policyName: string | null) {
-    if (policyName === null) {
-      this.currentAdaptation.selectedPolicy = null;
-      this.currentAdaptationPolicyName = null;
-
-      return;
-    }
-
-    if (! (policyName in this.currentAdaptation.policies)) {
-      console.error("setAdaptationPolicy failed: policy name not found");
-      return;
-    }
-
-    this.currentAdaptation.selectedPolicy = this.currentAdaptation.policies[policyName];
-    this.currentAdaptationPolicyName = policyName;
-  }
-
-  private setAdaptation (techniqueName: string, policyName: string | null) {
-    this.setAdaptationTechnique(techniqueName);
-    this.setAdaptationPolicy(policyName);
-  }
-
-  private setDefaultAdaptation () {
-    this.setAdaptation("Highlighting", "Most clicked items policy");
-  }
-
-  private applyAdaptation () {
-    if (! this.currentAdaptation) {
-      return;
-    }
-
-    this.currentAdaptation.technique.apply(this.menus, this.currentAdaptation.selectedPolicy, this.dataAnalyser);
-  }
-
-  private resetAdaptation () {
-    if (! this.currentAdaptation) {
-      return;
-    }
-
-    this.currentAdaptation.technique.reset();
-  }
-
-  // Switch the adaptation technique, using the optionnally specified policy
-  // If no policy is specified, use the first one in the list of related policies
-  // If any given name is not found, nothing happens
-  switchToTechnique (techniqueName: string, policyName?: string | null) {
-    // In case no policy name was specified, fetch one (if none, set it to null)
-    if (policyName === undefined) {
-      let availablePolicyNames = Object.keys(this.adaptations[techniqueName].policies);
-      if (availablePolicyNames.length > 0) {
-        policyName = availablePolicyNames[0];
+  // DEBUG: setup for inside.aalto.fi
+/*
+  setTimeout(function () {
+    let menuSelectors = {
+      ".meganavi-content": {
+        "#Tools-Peopleandcontacts + ul": "li",
+        "#Tools-ITServices + ul": "li",
+        "#Tools-HRandfinance + ul": "li",
+        "[id^=Tools-Logos] + ul": "li",
+        "#Tools-Researchandeducation + ul": "li",
+        "#Tools-Facilities + ul": "li",
+        "#Tools-Collaborationandfilesharing + ul": "li",
+        "#Tools-Other + ul": "li"
       }
-      else {
-        policyName = null;
-      }
+    };
+
+    window["awm"] = AdaptiveWebMenus.fromMenuSelectors(menuSelectors);
+    console.log("AWM library initialised");
+    console.log(window["awm"]);
+  }, 2000);
+*/
+
+  // DEBUG: setup for google.com (search results)
+/*
+  let menuSelectors = {
+    "#hdtb-msb": ".hdtb-mitem"
+  };
+
+  window["awm"] = AdaptiveWebMenus.fromMenuSelectors(menuSelectors);
+  console.log("AWM library initialised");
+  console.log(window["awm"]);
+*/
+
+// DEBUG: setup for amazon.com (all categories)
+/*
+  let menuSelectors = {
+    ".fsdContainer": {
+      ".fsdDeptCol": "a"
     }
+  };
 
-    this.resetAdaptation();
-    this.setAdaptation(techniqueName, policyName);
-    this.applyAdaptation();
+  window["awm"] = AdaptiveWebMenus.fromMenuSelectors(menuSelectors);
+  console.log("AWM library initialised");
+  console.log(window["awm"]);
+*/
 
-    console.log("New technique:", this.currentAdaptationTechniqueName);
-    console.log("New policy:", this.currentAdaptationPolicyName);
-  }
-
-  // Switch the adaptation policy of the current adaptation technique
-  // If there is no adaptation, or if the given name is not found, nothing happens
-  switchToPolicy (policyName: string | null) {
-    this.resetAdaptation();
-    this.setAdaptationPolicy(policyName);
-    this.applyAdaptation();
-
-    console.log("New technique:", this.currentAdaptationTechniqueName);
-    console.log("New policy:", this.currentAdaptationPolicyName);
-  }
-
-  // Cancel the current adaptation, if any, by resetting any changes it has made
-  cancelAdaptation () {
-    this.resetAdaptation();
-    this.currentAdaptation = null;
-
-    console.log("Canceled adaptation");
-  }
-
-  getCurrentTechniqueName () {
-    return this.currentAdaptationTechniqueName
-  }
-
-  getCurrentPolicyName () {
-    return this.currentAdaptationPolicyName
-  }
-
-  getAllAdaptationTechniqueNames (): string[] {
-    return [...Object.keys(this.adaptations)];
-  }
-
-  getAllAdaptationPoliciesNames (techniqueName: string): string[] {
-    return [...Object.keys(this.adaptations[techniqueName].policies)];
-  }
-
-  getAllCurrentTechniquePolicyNames () {
-    return this.getAllAdaptationPoliciesNames(this.currentAdaptationTechniqueName);
-  }
-
-  clearHistory () {
-    this.database.empty();
-
-    this.resetAdaptation();
-    this.applyAdaptation();
-  }
-
-  // Create an AWM instance from menus built from the given selectors (using the fromSelectors method)
-  // It expects an object whose keys are menu selectors, and values are item and/or group selectors
-  // (see the related method in Menu class for further details on the expected syntax)
-  static fromMenuSelectors (selectors: {[key: string]: string | string[] | {[key: string]: string | string[]}}) {
-    let menus = [];
-    for (let menuSelector in selectors) {
-      menus.push(Menu.fromSelectors(menuSelector, selectors[menuSelector]));
+// DEBUG: setup for craiglist.com (main categories)
+/*
+  let menuSelectors = {
+    "#center": {
+      "#ccc": "li",
+      "#bbb": "li",
+      "#forums": "li",
+      "#hhh": "li",
+      "#sss": "li",
+      "#ppp": "li",
+      "#jjj": "li",
+      "#ggg": "li",
+      "#rrr": "li"
     }
+  };
 
-    return new AdaptiveWebMenus(menus);
-  }
-}
+  window["awm"] = AdaptiveWebMenus.fromMenuSelectors(menuSelectors);
+  console.log("AWM library initialised");
+  console.log(window["awm"]);
+*/
+
+// DEBUG: setup for nytimes.com
+/*
+setTimeout(function () {
+  let menuSelectors = {
+    "#mini-navigation": {
+      ".mini-navigation-menu": "li"
+    },
+
+    "#navigation": {
+      ".section:eq(0)": "li",
+      ".section:eq(1)": "li",
+      ".section:eq(2)": "li",
+      ".section:eq(3)": "li",
+      ".section:eq(4)": "li",
+      ".section:eq(5)": "li"
+    }
+  };
+
+  window["awm"] = AdaptiveWebMenus.fromMenuSelectors(menuSelectors);
+  console.log("AWM library initialised");
+  console.log(window["awm"]);
+
+  window["awm"].applyAdaptation();
+}, 500);
+*/
+
+// DEBUG: setup for theguardian.com
+
+/*
+  let menuSelectors = {
+    ".subnav": {
+      ".subnav__list": "li"
+    }
+  };
+
+  window["awm"] = AdaptiveWebMenus.fromMenuSelectors(menuSelectors);
+  console.log("AWM library initialised");
+  console.log(window["awm"]);
+*/
+/*
+});
+*/
