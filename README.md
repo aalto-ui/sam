@@ -5,8 +5,8 @@ This work is part of a research internship at Aalto University, UI group.
 
 ## How to use?
 Using the AWM library is pretty straightforward:
-* **Step 1:** Include (or inject) [jQuery](https://jquery.com/), the `awm.css` styling sheet, and the `awm.js` library file, in the webpage sources.
-* **Step 2:** Initialize an AWM instance using the exposed builder method(s), by passing it the right selectors. Make sure the selectors refer to *already existing DOM elements*, e.g. by waiting for the DOM tree to be loaded.
+* **Step 1:** Include (or inject) [jQuery](https://jquery.com/), the `awm.css` style sheet, and the `awm.js` library file, in the webpage sources.
+* **Step 2:** Initialize an AWM instance using the exposed builder method(s), by passing it the right selectors. Make sure the selectors refer to *already existing DOM elements*, *e.g.* by waiting for the DOM tree to be loaded.
 * **Step 3:** That's all!
 
 **Setup example:**
@@ -25,11 +25,12 @@ TODO: add more detailed info
 
 ## How to build?
 #### Dependencies
-This library requires the following packages:
+This library requires the following packages to be locally available:
 * `typescript`
 * `jquery` and `@types/jquery`
 * `browserify`
-* `ulify-es`
+* `browserify-shim`
+* `uglify-es`
 
 You can automatically install those dependencies by running `npm install` in the root directoy.
 
@@ -41,3 +42,5 @@ The Makefile exposes the following commands:
 * `make clean` removes any built file, by deleting the `build` directory.
 
 The best option is to simply run `make` in the root directory, which will takes care of creating/populating the `build` directory!
+
+**Note:** this Makefile is written to target a [*fish* shell](https://fishshell.com/) on Mac OSX --- make sure to adapt it to your sheel and OS if required!
