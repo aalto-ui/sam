@@ -28,15 +28,17 @@ export class DebugDisplay {
     let techniqueName = localStorage.getItem("awm-debug-technique-name");
     let policyName = localStorage.getItem("awm-debug-policy-name");
 
-    // If none have been stored yet, there is nothing to do
+    // If none have been stored yet, use the default AWM technique and policy
     if ((! techniqueName) || (! policyName)) {
       console.log("No init done from local storage:", techniqueName, policyName);
-      return;
+
+      techniqueName = this.awm.getCurrentTechniqueName();
+      policyName = this.awm.getCurrentPolicyName();
     }
 
     // Note: null policy names are read as empty strings,
     // and must thus be converted back to null
-    if (policyName === "") {
+    else if (policyName === "") {
       policyName = null;
     }
 
