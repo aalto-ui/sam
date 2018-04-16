@@ -6,7 +6,7 @@ import { ItemGroup } from "./ItemGroup";
 export class Item extends AdaptiveElement {
   parent: ItemGroup;
 
-  constructor (node: JQuery, selector: string, parent: ItemGroup) {
+  constructor (node: JQuery, selector: Selector, parent: ItemGroup) {
     super(node, selector, parent);
   }
 
@@ -48,7 +48,8 @@ export class Item extends AdaptiveElement {
     return linkNodes;
   }
 
-  static fromSelector (selector: string, parent: ItemGroup) {
+
+  static fromSelector (selector: Selector, parent: ItemGroup) {
     let node = parent.node.find(selector);
     return new Item(node, selector, parent);
   }

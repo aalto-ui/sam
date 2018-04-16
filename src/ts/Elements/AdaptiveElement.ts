@@ -3,7 +3,21 @@ import * as $ from "jquery";
 
 // Internally used type for and element selector
 // It should be compatible with expected types by jQuery selector tool
-export type Selector = JQuery | HTMLElement | string;
+export type Selector = JQuery | Element | string;
+
+export const NO_SELECTOR = Symbol("No selector");
+export type NoSelector = typeof NO_SELECTOR;
+
+export function isSelector (candidate: any): boolean {
+  let type = $.type(candidate);
+
+  if (type === "object") {
+    return candidate instanceof jQuery
+        || candidate instanceof Element;
+  }
+
+  return type === "string";
+}
 
 
 export abstract class AdaptiveElement {
@@ -14,16 +28,16 @@ export abstract class AdaptiveElement {
   readonly parent: AdaptiveElement | null;
 
   // Possibly relative selector used to identify and find the node
-  private readonly selector: string;
+  private readonly selector: Selector | NoSelector;
 
   // Unique element ID computed when its node is first fetched
   readonly id: string;
 
 
-  constructor (node: JQuery, selector: string = null, parent: AdaptiveElement = null) {
+  constructor (node: JQuery, selector: Selector | NoSelector = NO_SELECTOR, parent: AdaptiveElement = null) {
     this.node = node;
-    this.parent = parent;
     this.selector = selector;
+    this.parent = parent;
 
     this.id = this.toID();
   }
@@ -36,9 +50,14 @@ export abstract class AdaptiveElement {
   // Return a standalone jQuery selector,
   // based on the selectors of this element and all its (grand-)parents
   static nodeToSelector (node: JQuery): string {
-    // If <body> tag is reached, return the body tag selector (no need to go further)
-    if (node.is("body")) {
-      return "body";
+    // If the node is null or empty, return an empty selector
+    if ((! node) || node.length === 0) {
+      return "";
+    }
+
+    // If the node reaches the <body> or <html> tag, return the tag itself (as it is unique)
+    if (node.is("body") || node.is("html")) {
+      return node.prop("tagName");
     }
 
     // If the node has an id (supposed uniquely identifiable), return its id selector

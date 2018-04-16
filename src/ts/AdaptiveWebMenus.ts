@@ -6,6 +6,7 @@ import { DataLogger } from "./Data/DataLogger";
 import { DataAnalyser } from "./Data/DataAnalyser";
 import { Adaptation } from "./Adaptations/Adaptation";
 import { DebugDisplay } from "./DebugDisplay";
+import { Selector, isSelector } from "./Elements/AdaptiveElement";
 
 import { Identity } from "./Adaptations/Techniques/Identity";
 import { Highlight } from "./Adaptations/Techniques/Highlight";
@@ -17,6 +18,12 @@ import { MostVisitedPagesPolicy } from "./Adaptations/Policies/MostVisitedPagesP
 import { LongestVisitDurationPolicy } from "./Adaptations/Policies/LongestVisitDurationPolicy";
 import { MostRecentVisitsPolicy } from "./Adaptations/Policies/MostRecentVisitsPolicy";
 import { SerialPositionCurvePolicy } from "./Adaptations/Policies/SerialPositionCurvePolicy";
+
+
+// Internal type alias used for convenience
+// It represents an object who keys are menu selectors, and values are either
+// generic item selectors, or specific group-items selector objects
+type MenuSelectors = {[key: string]: Selector | {[key: string]: Selector}};
 
 
 export default class AdaptiveWebMenus {
@@ -220,15 +227,76 @@ export default class AdaptiveWebMenus {
     this.applyAdaptation();
   }
 
-  // Create an AWM instance from menus built from the given selectors (using the fromSelectors method)
-  // It expects an object whose keys are menu selectors, and values are item and/or group selectors
-  // (see the related method in Menu class for further details on the expected syntax)
-  static fromMenuSelectors (selectors: {[key: string]: string | string[] | {[key: string]: string | string[]}}) {
+  // Create an AWM instance from the given generic menu and item selectors
+  // This builder methods assumes each menu is its own single group (see Menu and ItemGroup for details)
+  private static fromGenericMenuAndItemSelectors (menuSelector: Selector, itemSelector: Selector) {
+    let menus = [];
+    $(menuSelector).each(function (_, element) {
+      menus.push(Menu.fromSelectors(element, itemSelector));
+    });
+
+    return new AdaptiveWebMenus(menus);
+  }
+
+  // Create an AWM instance from the given generic menu, group and item selectors
+  // This method must NOT be used for menus whose group node is the same as the menu node:
+  // in such a case, use fromGenericMenuAndItemSelectors instead!
+  private static fromGenericMenuGroupAndItemSelectors (menuSelector: Selector, groupSelector: Selector, itemSelector: Selector) {
+    let menus = [];
+    $(menuSelector).each(function (_, element) {
+      menus.push(Menu.fromSelectors(element, groupSelector, itemSelector));
+    });
+
+    return new AdaptiveWebMenus(menus);
+  }
+
+  // Create an AWM instance from the given specific menu selectors (as keys),
+  // and either specific or generic items/groups and items selectors (as values)
+  private static fromSpecificSelectors (selectors: MenuSelectors) {
     let menus = [];
     for (let menuSelector in selectors) {
-      menus.push(Menu.fromSelectors(menuSelector, selectors[menuSelector]));
+      let descendantSelector = selectors[menuSelector];
+
+      // Case 1: the descendant selector is a generic item selector
+      if (isSelector(descendantSelector)) {
+        descendantSelector = <Selector> descendantSelector;
+        menus.push(Menu.fromSelectors(menuSelector, descendantSelector));
+      }
+
+      // Case 2: the descendant selector is a specific group-item selector object
+      else {
+        descendantSelector = <{[key: string]: Selector}> descendantSelector;
+        menus.push(Menu.fromSelectors(menuSelector, descendantSelector));
+      }
     }
 
     return new AdaptiveWebMenus(menus);
+  }
+
+  // Create an AWM instance from the given selectors
+  // Refer to the specific methods for more details!
+  static fromSelectors (menuSelector: Selector, itemSelector: Selector);
+  static fromSelectors (menuSelector: Selector, groupSelector: Selector, itemSelector: Selector);
+  static fromSelectors (selectors: MenuSelectors);
+
+  static fromSelectors (selector1: Selector | MenuSelectors, selector2?: Selector, selector3?: Selector) {
+    // Case 1: called with one argument
+    // It must be an object of specific selectors
+    if (selector2 === undefined) {
+      // console.log("fromSpecificSelectors");
+      return AdaptiveWebMenus.fromSpecificSelectors(<MenuSelectors> selector1);
+    }
+
+    // Case 2: called with two arguments
+    // They must resp. be a generic menu selector and a generic item selector
+    if (selector3 === undefined) {
+      // console.log("fromGenericMenuAndItemSelectors");
+      return AdaptiveWebMenus.fromGenericMenuAndItemSelectors(<Selector> selector1, selector2);
+    }
+
+    // Case 3: called with three arguments
+    // They must resp. be a generic menu selector, a generic group selector, and a generic item selector
+    // console.log("fromGenericMenuGroupAndItemSelectors");
+    return AdaptiveWebMenus.fromGenericMenuGroupAndItemSelectors(<Selector> selector1, selector2, selector3);
   }
 }

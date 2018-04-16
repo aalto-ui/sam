@@ -1,5 +1,5 @@
 import * as $ from "jquery";
-import { AdaptiveElement, Selector } from "./AdaptiveElement";
+import { AdaptiveElement, Selector, isSelector, NO_SELECTOR } from "./AdaptiveElement";
 import { ItemGroup } from "./ItemGroup";
 import { Item } from "./Item";
 
@@ -15,7 +15,7 @@ export class Menu extends AdaptiveElement {
   // Ordered list of menu item groups
   groups: ItemGroup[];
 
-  constructor (node: JQuery, selector: string, groups: ItemGroup[] = []) {
+  constructor (node: JQuery, selector: Selector, groups: ItemGroup[] = []) {
     super(node, selector);
 
     this.groups = groups;
@@ -50,28 +50,65 @@ export class Menu extends AdaptiveElement {
     return allMenusItems;
   }
 
-  static fromSelectors (selector: string,
-                        descendantSelectors: string | string[] | {[key: string]: string | string[]}) {
-    let node = $(selector);
-    let menu = new Menu(node, selector);
+  // Fill a menu using the given generic item selector
+  // This method is meant to be used when there is no group selector
+  // (i.e. menus whose group node is the same as the menu node)
+  private fillUsingGenericItemSelector (itemSelector: Selector) {
+    this.groups.push(ItemGroup.fromSelectors(NO_SELECTOR, itemSelector, this));
+  }
 
-    // Case 1: if descendantSelectors is a string/an array, it must be/contain the item selector(s)
-    // In such case, the menu has only one item group, formed by its own node
-    if (typeof descendantSelectors === "string" || Array.isArray(descendantSelectors)) {
-      menu.groups.push(ItemGroup.fromSelectors(null, descendantSelectors, menu));
+  // Fill a menu using the given generic group and item selectors
+  // This method must NOT be used for menus whose group node is the same as the menu node:
+  // in such a case, use fromGenericItemSelectors instead!
+  private fillUsingGenericGroupAndItemSelectors (groupSelector: Selector, itemSelector: Selector) {
+    let self = this;
+
+    $(groupSelector).each(function (_, element) {
+      self.groups.push(ItemGroup.fromSelectors(element, itemSelector, self));
+    });
+  }
+
+  // Fill a menu using the given specific group selectors
+  // Each key must represent a specific group selector (i.e. one group only),
+  // and each value must be a selector for items in the group (necessarily deeper in the DOM)
+  private fillUsingSpecificGroupSelectors (descendantSelectors: {[key: string]: Selector}) {
+    for (let groupSelector in descendantSelectors) {
+      let itemSelectors = descendantSelectors[groupSelector];
+      this.groups.push(ItemGroup.fromSelectors(groupSelector, itemSelectors, this));
+    }
+  }
+
+  // Build a menu from selectors, with various combinations available depending on the arguments
+  // Refer to the specific methods for more details!
+  static fromSelectors (menuSelector: Selector, itemSelector: Selector);
+  static fromSelectors (menuSelector: Selector, groupSelector: Selector, itemSelector: Selector);
+  static fromSelectors (menuSelector: Selector, descendantSelectors: {[key: string]: Selector});
+
+  static fromSelectors (menuSelector: Selector, selector2: Selector | {[key: string]: Selector}, selector3?: Selector) {
+    let node = $(menuSelector);
+    let menu = new Menu(node, menuSelector);
+
+    // Case 1: called with two arguments
+    // selector2 must either be a generic item selector, or an objet of group-item selectors
+    if (selector3 === undefined) {
+      if (isSelector(selector2)) {
+        // console.log("fillUsingGenericItemSelector");
+        menu.fillUsingGenericItemSelector(<Selector> selector2);
+      }
+      else {
+        // console.log("fillUsingSpecificGroupSelectors");
+        menu.fillUsingSpecificGroupSelectors(<{[key: string]: Selector}> selector2);
+      }
     }
 
-    // Case 2: otherwise, it must be an object whose keys are group selectors,
-    // and whose values are either strings (generic item selector) or arrays of strings (specific item selectors)
+    // Case 2: called with three arguments
+    // selector2 and selector3 two arguments must resp. be generic group and item selectors
     else {
-      for (let groupSelector in descendantSelectors) {
-        let itemSelectors = descendantSelectors[groupSelector];
-        menu.groups.push(ItemGroup.fromSelectors(groupSelector, itemSelectors, menu));
-      }
+      // console.log("fillUsingGenericGroupAndItemSelectors");
+      menu.fillUsingGenericGroupAndItemSelectors(<Selector> selector2, selector3);
     }
 
     return menu;
   }
 
-  static from
 }
