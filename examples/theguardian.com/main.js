@@ -5,7 +5,7 @@ $(document).ready(function () {
     }
   };
 
-  let mainInstance = AdaptiveWebMenus.fromMenuSelectors(menuSelectors);
+  let mainInstance = AdaptiveWebMenus.fromSelectors(menuSelectors);
 
   console.log("AWM library initialised");
   console.log(mainInstance);

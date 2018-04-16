@@ -3,7 +3,7 @@ $(document).ready(function () {
     "#hdtb-msb": ".hdtb-mitem"
   };
 
-  let mainInstance = AdaptiveWebMenus.fromMenuSelectors(menuSelectors);
+  let mainInstance = AdaptiveWebMenus.fromSelectors(menuSelectors);
 
   console.log("AWM library initialised");
   console.log(mainInstance);
