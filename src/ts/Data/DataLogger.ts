@@ -54,9 +54,9 @@ export class DataLogger {
     let pathname = window.location.pathname;
 
     let IDs = {
-      item: item.getID(),
-      group: item.parent.getID(),
-      menu: item.parent.parent.getID()
+      item: item.id,
+      group: item.parent.id,
+      menu: item.parent.parent.id
     };
 
     // Log the item click
@@ -68,7 +68,7 @@ export class DataLogger {
 
     // Set or update the item click number
     function entrySelector (entry) {
-      return entry.IDs.item === item.getID();
+      return entry.IDs.item === item.id;
     }
 
     if (this.database.hasTableEntry("item-nb-clicks", entrySelector)) {

@@ -6,47 +6,70 @@ import * as $ from "jquery";
 export type Selector = JQuery | HTMLElement | string;
 
 
-export class AdaptiveElement {
-  // Descriptive type of the adaptive element
-  // This property should be set by any class extending this one
-  type: string = "generic";
-
+export abstract class AdaptiveElement {
   // Reference to the related jQuery node
-  node: JQuery;
+  readonly node: JQuery;
 
   // Reference to the parent element
-  parent: AdaptiveElement | null;
+  readonly parent: AdaptiveElement | null;
 
   // Possibly relative selector used to identify and find the node
-  selector: string;
+  private readonly selector: string;
+
+  // Unique element ID computed when its node is first fetched
+  readonly id: string;
 
 
   constructor (node: JQuery, selector: string = null, parent: AdaptiveElement = null) {
     this.node = node;
     this.parent = parent;
     this.selector = selector;
+
+    this.id = this.toID();
   }
 
+  // Abstract method which must be implemented by any adaptive element
+  // It must return a string describing the element type (e.g. "item"),
+  // and must be unique for each type of element!
+  abstract getType (): string;
+
+/*
   // Tag the related element
   // It takes the form of an attribute data-<attr> = <value>
   tag (name: string, value: string) {
     this.node.attr("data-awm-" + name, value);
   }
+*/
 
   // Return a standalone jQuery selector,
   // based on the selectors of this element and all its (grand-)parents
-  // This methods assumes an adaptive element can be uniquely identified by its selector!
-  toSelector (): string {
-    let parentSelector = "";
-    if (this.parent && this.parent.node !== this.node) {
-      parentSelector = this.parent.toSelector();
+  static nodeToSelector (node: JQuery): string {
+    // If <body> tag is reached, return the body tag selector (no need to go further)
+    if (node.is("body")) {
+      return "body";
     }
 
-    return parentSelector + " " + this.selector;
+    // If the node has an id (supposed uniquely identifiable), return its id selector
+    let id = node.attr("id");
+    if (id && id.length > 0) {
+      return `#${id}`;
+    }
+
+    // Otherwise, return the node's tag + index selector,
+    // and prepend it with its parent selector (using a recursive strategy)
+    let tag = node.prop("tagName");
+    let index = node.index();
+
+    return AdaptiveElement.nodeToSelector(node.parent()) + ` > ${tag}:eq(${index})`;
+  }
+
+  // Returns a standalone jQuery selector of this adaptive element, using nodeToSelector static method
+  private toSelector (): string {
+    return AdaptiveElement.nodeToSelector(this.node);
   }
 
   // Return an unique ID for the element, based on its selector
-  getID (): string {
-    return this.type + "/" + this.toSelector();
+  private toID (): string {
+    return this.getType() + "/" + this.toSelector();
   }
 }

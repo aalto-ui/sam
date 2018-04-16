@@ -5,8 +5,6 @@ import { Menu } from "./Menu";
 
 
 export class ItemGroup extends AdaptiveElement {
-  type: string = "group";
-
   parent: Menu;
 
   // Ordered list of menu items
@@ -16,6 +14,11 @@ export class ItemGroup extends AdaptiveElement {
     super(node, selector, parent);
 
     this.items = items;
+  }
+
+  // Implement required parent method which returns the element type
+  getType (): string {
+    return "group";
   }
 
   static fromSelectors (selector: string | null, itemSelectors: string | string[], parent: Menu) {

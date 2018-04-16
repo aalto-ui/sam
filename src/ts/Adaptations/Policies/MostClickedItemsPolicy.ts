@@ -21,9 +21,9 @@ export class MostClickedItemListPolicy implements ItemListPolicy {
   private getItemNbClicks (item: Item, analysis: {menus: object}) {
     let currentPagePathname = window.location.pathname;
 
-    let itemID = item.getID();
-    let groupID = item.parent.getID();
-    let menuID = item.parent.parent.getID();
+    let itemID = item.id;
+    let groupID = item.parent.id;
+    let menuID = item.parent.parent.id;
 
     // Attempt to find click data on current item in the logs
     try {

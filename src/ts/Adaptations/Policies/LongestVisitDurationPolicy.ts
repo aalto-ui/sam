@@ -55,7 +55,7 @@ export class LongestVisitDurationPolicy implements ItemListPolicy {
     // Note: this code assumes an item is always linked to at most one link, and if so, always the same
     let items = Menu.getAllMenusItems(menus);
     let filteredItems = items.filter(item => {
-      let itemID = item.getID();
+      let itemID = item.id;
 
       // Attempt to find click data on current item in the logs
       try {

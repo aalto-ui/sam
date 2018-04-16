@@ -10,8 +10,6 @@ export type MenuID = number;
 
 
 export class Menu extends AdaptiveElement {
-  type: string = "menu";
-
   parent: null;
 
   // Ordered list of menu item groups
@@ -21,6 +19,11 @@ export class Menu extends AdaptiveElement {
     super(node, selector);
 
     this.groups = groups;
+  }
+
+  // Implement required parent method which returns the element type
+  getType (): string {
+    return "menu";
   }
 
   getAllItems (): Item[] {

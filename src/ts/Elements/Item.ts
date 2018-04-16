@@ -4,12 +4,15 @@ import { ItemGroup } from "./ItemGroup";
 
 
 export class Item extends AdaptiveElement {
-  type: string = "item";
-
   parent: ItemGroup;
 
   constructor (node: JQuery, selector: string, parent: ItemGroup) {
     super(node, selector, parent);
+  }
+
+  // Implement required parent method which returns the element type
+  getType (): string {
+    return "item";
   }
 
   // Look for link (<a>) nodes among the link element itself and is children,
