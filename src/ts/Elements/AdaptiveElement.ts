@@ -33,14 +33,6 @@ export abstract class AdaptiveElement {
   // and must be unique for each type of element!
   abstract getType (): string;
 
-/*
-  // Tag the related element
-  // It takes the form of an attribute data-<attr> = <value>
-  tag (name: string, value: string) {
-    this.node.attr("data-awm-" + name, value);
-  }
-*/
-
   // Return a standalone jQuery selector,
   // based on the selectors of this element and all its (grand-)parents
   static nodeToSelector (node: JQuery): string {
