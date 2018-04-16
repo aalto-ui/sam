@@ -56,7 +56,7 @@ export abstract class AdaptiveElement {
   }
 
   // Returns a standalone jQuery selector of this adaptive element, using nodeToSelector static method
-  private toSelector (): string {
+  toSelector (): string {
     return AdaptiveElement.nodeToSelector(this.node);
   }
 
