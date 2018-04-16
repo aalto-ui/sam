@@ -8,15 +8,24 @@ Using the AWM library is pretty straightforward:
 * **Step 2:** Initialize an AWM instance using the exposed builder method(s), by passing it the right selectors. Make sure the selectors refer to *already existing DOM elements*, *e.g.* by waiting for the DOM tree to be loaded.
 * **Step 3:** That's all!
 
-**Setup example:**
+**Setup examples:**
 ```javascript
-  let menuSelectors = {
-    "#main-menu": {
-      ".item-group": ".item"
-    }
-  };
+  // Generic menu, group and item selectors
+  AdaptiveWebMenus.fromSelectors(".menu", ".group", ".item");
 
-  AdaptiveWebMenus.fromMenuSelectors(menuSelectors);
+  // Generic menu and item selectors
+  // The DOM node of the single "virtual" group of each menu is considered to be the menu node
+  AdaptiveWebMenus.fromSelectors(".menu", ".item");
+
+  // Specific/detailed menu, group and item selectors
+  AdaptiveWebMenus.fromSelectors({
+    "#main-menu": {
+      "#group-1": ".item",
+      "#group-2": "a"
+    },
+
+    "#side-menu": $("#item1, #item2, #item3")
+  });
 ```
 
 TODO: add more detailed info
