@@ -1,6 +1,8 @@
 import * as $ from "jquery";
 
 import { Menu } from "./Elements/Menu";
+import { ItemGroup } from "./Elements/ItemGroup";
+import { Item } from "./Elements/Item";
 import { Database } from "./Data/Database";
 import { DataLogger } from "./Data/DataLogger";
 import { DataAnalyser } from "./Data/DataAnalyser";
@@ -298,5 +300,15 @@ export default class AdaptiveWebMenus {
     // They must resp. be a generic menu selector, a generic group selector, and a generic item selector
     // console.log("fromGenericMenuGroupAndItemSelectors");
     return AdaptiveWebMenus.fromGenericMenuGroupAndItemSelectors(<Selector> selector1, selector2, selector3);
+  }
+
+  // Create an AWM instance from standard AWM classes selectors
+  // The related classes are defined as static properties of related AdaptiveElements
+  static fromAWMClasses (): AdaptiveWebMenus {
+    let menuSelector = "." + Menu.AWM_CLASS;
+    let groupSelector = "." + ItemGroup.AWM_CLASS;
+    let itemSelector = "." + Item.AWM_CLASS;
+
+    return AdaptiveWebMenus.fromGenericMenuGroupAndItemSelectors(menuSelector, groupSelector, itemSelector);
   }
 }

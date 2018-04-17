@@ -10,6 +10,9 @@ export type MenuID = number;
 
 
 export class Menu extends AdaptiveElement {
+  // Standard AWM class for menus
+  static readonly AWM_CLASS = "awm-menu";
+
   parent: null;
 
   // Ordered list of menu item groups
@@ -51,19 +54,24 @@ export class Menu extends AdaptiveElement {
   }
 
   // Fill a menu using the given generic item selector
-  // This method is meant to be used when there is no group selector
-  // (i.e. menus whose group node is the same as the menu node)
+  // This method should be used when there is no group selector (i.e. menus whose group node is the same as the menu node)
   private fillUsingGenericItemSelector (itemSelector: Selector) {
     this.groups.push(ItemGroup.fromSelectors(NO_SELECTOR, itemSelector, this));
   }
 
   // Fill a menu using the given generic group and item selectors
-  // This method must NOT be used for menus whose group node is the same as the menu node:
-  // in such a case, use fromGenericItemSelectors instead!
+  // If the groupSelector applies to this menu node, the fillUsingGenericItemSelector is used instead
+  // Note: if there is no distinct group, consider using the aforementioned method instead
   private fillUsingGenericGroupAndItemSelectors (groupSelector: Selector, itemSelector: Selector) {
     let self = this;
 
-    $(groupSelector).each(function (_, element) {
+    // Either the menu node is its own single group node,
+    // or group nodes are searched in the DOM subtree rooted in this menu node
+    let groupNodes = this.node.is(groupSelector)
+                   ? this.node
+                   : this.node.find(groupSelector);
+
+    groupNodes.each(function (_, element) {
       self.groups.push(ItemGroup.fromSelectors(element, itemSelector, self));
     });
   }

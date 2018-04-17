@@ -5,6 +5,9 @@ import { Menu } from "./Menu";
 
 
 export class ItemGroup extends AdaptiveElement {
+  // Standard AWM class for groups
+  static readonly AWM_CLASS = "awm-group";
+
   parent: Menu;
 
   // Ordered list of menu items

@@ -4,6 +4,9 @@ import { ItemGroup } from "./ItemGroup";
 
 
 export class Item extends AdaptiveElement {
+  // Standard AWM class for menus
+  static readonly AWM_CLASS = "awm-item";
+
   parent: ItemGroup;
 
   constructor (node: JQuery, selector: Selector, parent: ItemGroup) {
