@@ -26,6 +26,10 @@ Using the AWM library is pretty straightforward:
 
     "#side-menu": $("#item1, #item2, #item3")
   });
+
+  // Generic selectors looking for AWM standard classes:
+  // "awm-menu", "awm-group" and "awm-item"
+  AdaptiveWebMenus.fromAWMClasses();
 ```
 
 TODO: add more detailed info
