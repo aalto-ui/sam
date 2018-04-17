@@ -20,6 +20,7 @@ import { MostVisitedPagesPolicy } from "./Adaptations/Policies/MostVisitedPagesP
 import { LongestVisitDurationPolicy } from "./Adaptations/Policies/LongestVisitDurationPolicy";
 import { MostRecentVisitsPolicy } from "./Adaptations/Policies/MostRecentVisitsPolicy";
 import { SerialPositionCurvePolicy } from "./Adaptations/Policies/SerialPositionCurvePolicy";
+import { Fold } from "./Adaptations/Techniques/Fold";
 
 
 // Internal type alias used for convenience
@@ -74,6 +75,18 @@ export default class AdaptiveWebMenus {
 
     "Highlighting + reordering": {
       technique: new HighlightAndReorder(),
+      policies: {
+        "Most clicked items policy": new MostClickedItemListPolicy(),
+        "Most visited pages policy": new MostVisitedPagesPolicy(),
+        "Longest visit duration policy": new LongestVisitDurationPolicy(),
+        "Most recent visits policy": new MostRecentVisitsPolicy(),
+        "Serial-Position curve policy": new SerialPositionCurvePolicy()
+      },
+      selectedPolicy: null
+    },
+
+    "Folding": {
+      technique: new Fold(),
       policies: {
         "Most clicked items policy": new MostClickedItemListPolicy(),
         "Most visited pages policy": new MostVisitedPagesPolicy(),
