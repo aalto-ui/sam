@@ -1,4 +1,5 @@
 import { Database } from "./Database";
+import { Utilities } from "../Utilities";
 
 
 export class DataAnalyser {
@@ -15,9 +16,12 @@ export class DataAnalyser {
     let itemClickData = this.database.getTableEntries("item-clicks");
     let itemNbClicksData = this.database.getTableEntries("item-nb-clicks");
 
+    let currentPagePathname = window.location.pathname;
+
     // Initialize the analysis object
     let analysis = {
       totalNbClicks: itemClickData.length,
+      totalLocalNbClicks: 0,
       itemsNbClicks: {},
       itemsClickFrequencies: {}, // Among ALL logged clicks (in alla daptive menus)
       menus: []
@@ -39,7 +43,12 @@ export class DataAnalyser {
     function createAllFieldsIfRequired (IDs, pathname: string) {
       function createFieldIfRequired (object, key, newFieldKey?, newFieldValue = {}) {
         if (object[key] === undefined) {
-          object[key] = { nbClicks: 0, clickFrequency: 0 };
+          object[key] = {
+            nbClicks: 0,
+            nbLocalClicks: 0,
+            clickFrequency: 0,
+            localClickFrequency: 0
+          };
           if (newFieldKey) {
             object[key][newFieldKey] = newFieldValue;
           }
@@ -64,6 +73,13 @@ export class DataAnalyser {
       menu.groups[IDs.group].nbClicks += 1;
       menu.groups[IDs.group].items[IDs.item].nbClicks += 1;
 
+      if (Utilities.linkEndsWithPathname(pathname, currentPagePathname)) {
+        analysis.totalLocalNbClicks += 1;
+        menu.localNbClicks += 1;
+        menu.groups[IDs.group].localNbClicks += 1;
+        menu.groups[IDs.group].items[IDs.item].localNbClicks += 1;
+      }
+
       // Add the source pathname to the set
       let currentNbClicksFromPathname = menu.groups[IDs.group].items[IDs.item].nbClicksByPathname.get(pathname);
       menu.groups[IDs.group].items[IDs.item].nbClicksByPathname.set(pathname, currentNbClicksFromPathname + 1);
@@ -78,24 +94,51 @@ export class DataAnalyser {
     }
 
     // Iterate again to compute frequencies
-    function computeFrequencies (IDs) {
-      analysis.menus[IDs.menu].clickFrequency =
-          analysis.menus[IDs.menu].nbClicks
-        / analysis.totalNbClicks;
+    function computeGlobalFrequencies (IDs) {
+      if (analysis.totalNbClicks !== 0) {
+        analysis.menus[IDs.menu].clickFrequency =
+            analysis.menus[IDs.menu].nbClicks
+          / analysis.totalNbClicks;
+      }
 
-      analysis.menus[IDs.menu].groups[IDs.group].clickFrequency =
-          analysis.menus[IDs.menu].groups[IDs.group].nbClicks
-        / analysis.menus[IDs.menu].nbClicks;
+      if (analysis.menus[IDs.menu].nbClicks !== 0) {
+        analysis.menus[IDs.menu].groups[IDs.group].clickFrequency =
+            analysis.menus[IDs.menu].groups[IDs.group].nbClicks
+          / analysis.menus[IDs.menu].nbClicks;
+      }
 
-      analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].clickFrequency =
-          analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].nbClicks
-        / analysis.menus[IDs.menu].groups[IDs.group].nbClicks;
+      if (analysis.menus[IDs.menu].groups[IDs.group].nbClicks !== 0) {
+        analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].clickFrequency =
+            analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].nbClicks
+          / analysis.menus[IDs.menu].groups[IDs.group].nbClicks;
+      }
+    }
+
+    function computeLocalFrequencies (IDs) {
+      if (analysis.totalLocalNbClicks !== 0) {
+        analysis.menus[IDs.menu].localClickFrequency =
+            analysis.menus[IDs.menu].localNbClicks
+          / analysis.totalLocalNbClicks;
+      }
+
+      if (analysis.menus[IDs.menu].localNbClicks !== 0) {
+        analysis.menus[IDs.menu].groups[IDs.group].localClickFrequency =
+            analysis.menus[IDs.menu].groups[IDs.group].localNbClicks
+          / analysis.menus[IDs.menu].localNbClicks;
+      }
+
+      if (analysis.menus[IDs.menu].groups[IDs.group].localNbClicks !== 0) {
+        analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].localClickFrequency =
+            analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].localNbClicks
+          / analysis.menus[IDs.menu].groups[IDs.group].localNbClicks;
+      }
     }
 
     for (let itemClick of itemClickData) {
       let IDs = itemClick["IDs"];
 
-      computeFrequencies(IDs);
+      computeGlobalFrequencies(IDs);
+      computeLocalFrequencies(IDs);
     }
 
     return analysis;
@@ -107,6 +150,7 @@ export class DataAnalyser {
     // Get the data
     let pageVisitsData = this.database.getTableEntries("page-visits");
     let pageVisitDurationsData = this.database.getTableEntries("page-visit-durations");
+
 
     // Initialize the analysis object
     let analysis = {
