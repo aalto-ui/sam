@@ -49,7 +49,7 @@ export class Item extends AdaptiveElement {
   }
 
 
-  static fromSelector (selector: Selector, parent: ItemGroup) {
+  static fromSelector (selector: Selector, parent: ItemGroup): Item {
     let node = parent.node.find(selector);
     return new Item(node, selector, parent);
   }

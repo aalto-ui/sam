@@ -80,11 +80,11 @@ export class Menu extends AdaptiveElement {
 
   // Build a menu from selectors, with various combinations available depending on the arguments
   // Refer to the specific methods for more details!
-  static fromSelectors (menuSelector: Selector, itemSelector: Selector);
-  static fromSelectors (menuSelector: Selector, groupSelector: Selector, itemSelector: Selector);
-  static fromSelectors (menuSelector: Selector, descendantSelectors: {[key: string]: Selector});
+  static fromSelectors (menuSelector: Selector, itemSelector: Selector): Menu;
+  static fromSelectors (menuSelector: Selector, groupSelector: Selector, itemSelector: Selector): Menu;
+  static fromSelectors (menuSelector: Selector, descendantSelectors: {[key: string]: Selector}): Menu;
 
-  static fromSelectors (menuSelector: Selector, selector2: Selector | {[key: string]: Selector}, selector3?: Selector) {
+  static fromSelectors (menuSelector: Selector, selector2: Selector | {[key: string]: Selector}, selector3?: Selector): Menu {
     let node = $(menuSelector);
     let menu = new Menu(node, menuSelector);
 
