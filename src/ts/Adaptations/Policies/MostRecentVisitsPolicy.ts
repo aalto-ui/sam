@@ -72,19 +72,6 @@ export class MostRecentVisitsPolicy implements ItemListPolicy {
     // Find the first (at most) maxNbItems associations between an item and a page
     let selectedItems = [];
 
-    // Helper function to find all elements from a root node
-    // which are links containing a given pathname
-    function findRelatedLinkNodes (node: JQuery, pathname: string) {
-      let linkNodes = node.add(node.find("a"));
-
-      // Only keep links whose href attribute match the end of the current page pathname
-      return linkNodes.filter((index, element) => {
-        let href = $(element).attr("href");
-        return href.length > 0
-            && pathname.endsWith(href);
-      });
-    }
-
     // Only keep and return the top maxNbItems items
     for (let page of pagesSortedByRecency) {
       for (let item of filteredItems) {

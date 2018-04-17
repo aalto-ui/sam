@@ -18,7 +18,7 @@ export class MostClickedItemListPolicy implements ItemListPolicy {
 
   constructor () { }
 
-  private getItemNbClicks (item: Item, analysis: {menus: object}) {
+  private getItemNbClicks (item: Item, analysis: any) {
     let currentPagePathname = window.location.pathname;
 
     let itemID = item.id;
@@ -31,12 +31,7 @@ export class MostClickedItemListPolicy implements ItemListPolicy {
 
       // If required, only consider the number of clicks from current page pathname
       if (this.onlyLocalClicks) {
-        if (analysedItem.nbClicksByPathname.has(currentPagePathname)) {
-          return analysedItem.nbClicksByPathname.get(currentPagePathname);
-        }
-        else {
-          return 0;
-        }
+        return analysis.nbLocalClicks;
       }
 
       return analysedItem.nbClicks;
