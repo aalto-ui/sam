@@ -14,13 +14,15 @@ import { Identity } from "./Adaptations/Techniques/Identity";
 import { Highlight } from "./Adaptations/Techniques/Highlight";
 import { Reorder } from "./Adaptations/Techniques/Reorder";
 import { HighlightAndReorder } from "./Adaptations/Techniques/HighlightAndReorder";
+import { Fold } from "./Adaptations/Techniques/Fold";
+import { ReorderAndFold } from "./Adaptations/Techniques/ReorderAndFold";
+import { HighlightReorderAndFold } from "./Adaptations/Techniques/HighlightReorderAndFold";
 
 import { MostClickedItemListPolicy } from "./Adaptations/Policies/MostClickedItemsPolicy";
 import { MostVisitedPagesPolicy } from "./Adaptations/Policies/MostVisitedPagesPolicy";
 import { LongestVisitDurationPolicy } from "./Adaptations/Policies/LongestVisitDurationPolicy";
 import { MostRecentVisitsPolicy } from "./Adaptations/Policies/MostRecentVisitsPolicy";
 import { SerialPositionCurvePolicy } from "./Adaptations/Policies/SerialPositionCurvePolicy";
-import { Fold } from "./Adaptations/Techniques/Fold";
 
 
 // Internal type alias used for convenience
@@ -87,6 +89,30 @@ export default class AdaptiveWebMenus {
 
     "Folding": {
       technique: new Fold(),
+      policies: {
+        "Most clicked items policy": new MostClickedItemListPolicy(),
+        "Most visited pages policy": new MostVisitedPagesPolicy(),
+        "Longest visit duration policy": new LongestVisitDurationPolicy(),
+        "Most recent visits policy": new MostRecentVisitsPolicy(),
+        "Serial-Position curve policy": new SerialPositionCurvePolicy()
+      },
+      selectedPolicy: null
+    },
+
+    "Reordering + folding": {
+      technique: new ReorderAndFold(),
+      policies: {
+        "Most clicked items policy": new MostClickedItemListPolicy(),
+        "Most visited pages policy": new MostVisitedPagesPolicy(),
+        "Longest visit duration policy": new LongestVisitDurationPolicy(),
+        "Most recent visits policy": new MostRecentVisitsPolicy(),
+        "Serial-Position curve policy": new SerialPositionCurvePolicy()
+      },
+      selectedPolicy: null
+    },
+
+    "Highlighting + reordering + folding": {
+      technique: new HighlightReorderAndFold(),
       policies: {
         "Most clicked items policy": new MostClickedItemListPolicy(),
         "Most visited pages policy": new MostVisitedPagesPolicy(),
