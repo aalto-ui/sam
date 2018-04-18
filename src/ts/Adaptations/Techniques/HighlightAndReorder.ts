@@ -6,19 +6,25 @@ import { Highlight } from "./Highlight";
 import { Reorder } from "./Reorder";
 
 
-export class HighlightAndReorder extends Reorder {
+export class HighlightAndReorder {
+
+  // Instances of other techniques used by this mixed one
+  readonly highlight: Highlight;
+  readonly reorder: Reorder;
+
 
   constructor () {
-    super();
+    this.highlight = new Highlight();
+    this.reorder = new Reorder();
   }
 
   reset () {
-    super.reset();
-    Highlight.reset();
+    this.reorder.reset();
+    this.highlight.reset();
   }
 
   apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
-    super.apply(menus, policy, analyser);
-    Highlight.apply(menus, policy, analyser);
+    this.highlight.apply(menus, policy, analyser);
+    this.reorder.apply(menus, policy, analyser);
   }
 }

@@ -9,6 +9,10 @@ import { DataAnalyser } from "../../Data/DataAnalyser";
 export class Highlight implements AdaptationTechnique {
   private static readonly HIGHLIGHTED_ELEMENT_CLASS: string = "awm-highlighted";
 
+  // Maximum number of items to highlight
+  maxNbItems: number = 3;
+
+
   constructor () { }
 
 
@@ -36,20 +40,14 @@ export class Highlight implements AdaptationTechnique {
     elements.forEach(this.offElement);
   }
 
-  static reset () {
+  reset () {
     $("." + Highlight.HIGHLIGHTED_ELEMENT_CLASS).removeClass(Highlight.HIGHLIGHTED_ELEMENT_CLASS);
   }
 
-  reset () {
-    Highlight.reset();
-  }
-
-  static apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
-    let itemsToHighlight = policy.getItemList(menus, analyser);
-    Highlight.onAllElements(itemsToHighlight);
-  }
-
   apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
-    Highlight.apply(menus, policy, analyser);
+    let items = policy.getItemList(menus, analyser)
+      .slice(0, this.maxNbItems);
+
+    Highlight.onAllElements(items);
   }
 }

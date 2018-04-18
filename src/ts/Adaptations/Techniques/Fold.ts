@@ -14,6 +14,9 @@ export class Fold implements AdaptationTechnique {
   private static readonly FOLD_BUTTON_CLASS: string = "awm-fold-button";
   private static readonly FOLDABLE_ELEMENT_CLASS: string = "awm-foldable";
 
+  // Maximum number of items to always display, for each group
+  maxNbDisplayedItemsPerGroup: number = 3;
+
   private foldableItemParents: Set<HTMLElement>;
 
 
@@ -62,7 +65,6 @@ export class Fold implements AdaptationTechnique {
     this.foldableItemParents.add(item.node.parent()[0]);
   }
 
-  // Only make items
   private makeAllItemsFoldable (items: Item[]) {
     for (let item of items) {
       this.makeItemFoldable(item);
@@ -71,27 +73,29 @@ export class Fold implements AdaptationTechnique {
 
   reset () {
     this.foldableItemParents.forEach((element) => {
-      let children = $(element).children();
+      let parent = $(element);
+      let children = parent.children();
 
       children.removeClass(Fold.FOLDABLE_ELEMENT_CLASS);
-      children.find("." + Fold.FOLD_BUTTON_CLASS).remove();
+      parent.removeClass(Fold.FOLDED_CLASS);
+      parent.find("." + Fold.FOLD_BUTTON_CLASS).remove();
     });
 
     this.foldableItemParents.clear();
   }
 
   apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
-    // TODO: REFACTOR
-    // Find items to make foldable
-    let allItems = Menu.getAllMenusItems(menus);
-    let alwaysDisplayedItems = policy.getItemList(menus, analyser);
+    let items = policy.getItemList(menus, analyser);
 
-    let foldableItems = allItems.filter((item) => {
-      return alwaysDisplayedItems.indexOf(item) < 0;
-    });
+    // Move items into folded menus independently for each group
+    let itemsSplitByGroup = Item.splitAllByGroup(items);
+    for (let sameGroupItems of itemsSplitByGroup) {
+      // Only keep items which must be moved into the folded menu
+      sameGroupItems.splice(0, this.maxNbDisplayedItemsPerGroup);
 
-    // Make them foldable and append fold buttons to their parents
-    this.makeAllItemsFoldable(foldableItems);
+      this.makeAllItemsFoldable(sameGroupItems);
+    }
+
     this.appendFoldButtonsToAllFoldableItemParents();
   }
 }

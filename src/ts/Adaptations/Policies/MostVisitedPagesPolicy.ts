@@ -12,14 +12,6 @@ export class MostVisitedPagesPolicy implements ItemListPolicy {
   // If true, ignore the number of visits of the current page
   ignoreCurrentPage: boolean = false;
 
-  // Maximum number of clicks on an item allowed to keep it
-  // In other words, ignore links to most visited pages
-  // if they have been clicked more than this number of times
-  maxNbClicksThreshold: number = 10000;
-
-  // Minimum number of visits of a page required to consider it
-  minPageNbVisits: number = 1;
-
 
   constructor () { }
 
@@ -42,52 +34,29 @@ export class MostVisitedPagesPolicy implements ItemListPolicy {
       .map(tuple => {
         return { pathname: tuple[0], nbVisits: tuple[1] };
       })
-      .filter(e => {
-        return e.nbVisits >= this.minPageNbVisits;
-      })
       .sort((e1, e2) => {
         return e2.nbVisits - e1.nbVisits;
       });
 
-    // console.log("Sorted pages:", pagesSortedByNbVisits);
-
-    // Filter items: only keep those with at most maxNbClicksThreshold clicks
-    // Note: this code assumes an item is always linked to at most one link, and if so, always the same
+    // Sort items according to the position of the pages pointed by their links
+    // among previously ordered pages
     let items = Menu.getAllMenusItems(menus);
-    let filteredItems = items.filter(item => {
-      let itemID = item.id;
 
-      // Attempt to find click data on current item in the logs
-      try {
-        let itemNbClick = itemClickAnalysis.itemsNbClicks[itemID];
-        return itemNbClick <= this.maxNbClicksThreshold;
-      }
-      catch {
-        return true;
-      }
-    });
-
-    // console.log("Filtered items:", filteredItems);
-
-    // Find the first (at most) maxNbItems associations between an item and a page
-    let selectedItems = [];
-
+    let sortedItems = [];
     for (let page of pagesSortedByNbVisits) {
-      for (let item of filteredItems) {
+      for (let i = 0; i < items.length; i++) {
+        let item = items[i];
         let matchingLinkNodes = item.findLinkNodes(page.pathname);
 
         if (matchingLinkNodes.length > 0) {
-          selectedItems.push(item);
+          items.splice(i, 1);
+          sortedItems.push(item);
           break;
         }
       }
-
-      if (selectedItems.length === this.maxNbItems) {
-        break;
-      }
     }
 
-    // Only keep and return the top maxNbItems items
-    return selectedItems;
+    // Finally return the sorted items, followed by the remaining unsorted items
+    return sortedItems.concat(items);
   }
 }

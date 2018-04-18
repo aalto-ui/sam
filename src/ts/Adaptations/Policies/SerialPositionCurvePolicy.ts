@@ -9,7 +9,7 @@ export class SerialPositionCurvePolicy implements ItemListPolicy {
   // Maximum number of items to keep
   maxNbItems: number = 2;
 
-  // If true, ignore the current page
+  // If true, ignore the stats of the current page
   ignoreCurrentPage: boolean = false;
 
 
@@ -74,26 +74,25 @@ export class SerialPositionCurvePolicy implements ItemListPolicy {
         return e2.familiarity - e1.familiarity;
       });
 
-    // Find the first (at most) maxNbItems associations between an item and a page
-    let selectedItems = [];
-
+    // Sort items according to the position of the pages pointed by their links
+    // among previously ordered pages
     let items = Menu.getAllMenusItems(menus);
+
+    let sortedItems = [];
     for (let page of pagesSortedByFamiliarity) {
-      for (let item of items) {
+      for (let i = 0; i < items.length; i++) {
+        let item = items[i];
         let matchingLinkNodes = item.findLinkNodes(page.pathname);
 
         if (matchingLinkNodes.length > 0) {
-          selectedItems.push(item);
+          items.splice(i, 1);
+          sortedItems.push(item);
           break;
         }
       }
-
-      if (selectedItems.length === this.maxNbItems) {
-        break;
-      }
     }
 
-    // Only keep and return the top maxNbItems items
-    return selectedItems;
+    // Finally return the sorted items, followed by the remaining unsorted items
+    return sortedItems.concat(items);
   }
 }

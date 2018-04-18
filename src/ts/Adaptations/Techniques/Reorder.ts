@@ -15,6 +15,9 @@ type Position = number;
 export class Reorder implements AdaptationTechnique {
   private static readonly REORDERED_ELEMENT_CLASS: string = "awm-reordered";
 
+  // Maximum number of items to reorder
+  maxNbItems: number = 3;
+
   // Map from HTML parent elements to JQuery children in their original order
   // This is internally used to restore the reset the reordering
   private childrenInOriginalOrder: Map<HTMLElement, JQuery>;
@@ -76,12 +79,13 @@ export class Reorder implements AdaptationTechnique {
   }
 
   apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
-    let itemsToReorder = policy.getItemList(menus, analyser);
+    let items = policy.getItemList(menus, analyser)
+      .slice(0, this.maxNbItems);
 
-    // Reorder items independetly for each group of items
-    let groupWiseIterator = this.getGroupWiseItemIterator(itemsToReorder);
-    for (let groupOrderedItemList of groupWiseIterator) {
-      this.moveAllElements(groupOrderedItemList);
+    // Reorder items independently for each group
+    let itemsSplitByGroup = Item.splitAllByGroup(items);
+    for (let sameGroupItems of itemsSplitByGroup) {
+      this.moveAllElements(sameGroupItems);
     }
   }
 }

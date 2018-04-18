@@ -5,11 +5,8 @@ import { Item } from "../../Elements/Item";
 
 
 export class MostClickedItemListPolicy implements ItemListPolicy {
-  // Maximum number of items to keep
-  maxNbItems: number = 2;
-
   // If true, only keep items which have already been clicked at least once
-  onlyClickedItems: boolean = true;
+  onlyClickedItems: boolean = false;
 
   // If true, only compute stats concerning the local clicks
   // In other words, only consider pathnames equal to the one of the current page
@@ -68,11 +65,6 @@ export class MostClickedItemListPolicy implements ItemListPolicy {
       sortedItemsAndNbClicks = sortedItemsAndNbClicks.filter(e => {
         return e.nbClicks > 0;
       });
-    }
-
-    // Keep and return at most the maxNbItems first items
-    if (sortedItemsAndNbClicks.length > this.maxNbItems) {
-      sortedItemsAndNbClicks = sortedItemsAndNbClicks.slice(0, this.maxNbItems);
     }
 
     return sortedItemsAndNbClicks.map(e => {
