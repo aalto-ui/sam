@@ -40,6 +40,28 @@ export class Item extends AdaptiveElement {
     return linkNodes;
   }
 
+  // Split a list of items into a list of lists of items belonging to the same group
+  // The order of the initial list is respected in the returned sub-lists
+  static splitAllByGroup (items: Item[]): Item[][] {
+    let itemsSplitByGroup = new Map<ItemGroup, Item[]>();
+
+    for (let item of items) {
+      let group = item.parent;
+
+      // If a list already exist of this group, append the item at its end
+      if (itemsSplitByGroup.has(group)) {
+        itemsSplitByGroup.get(group)
+          .push(item);
+      }
+
+      // Otherwise, create a new list for this group
+      else {
+        itemsSplitByGroup.set(group, [item]);
+      }
+    }
+
+    return [...itemsSplitByGroup.values()];
+  }
 
   static fromSelector (selector: Selector, parent: ItemGroup): Item {
     let node = parent.node.find(selector);
