@@ -29,7 +29,7 @@ export class DebugDisplay {
     let policyName = localStorage.getItem("awm-debug-policy-name");
 
     // If none have been stored yet, use the default AWM technique and policy
-    if ((! techniqueName) || (! policyName)) {
+    if ((! techniqueName)) {
       console.log("No init done from local storage:", techniqueName, policyName);
 
       techniqueName = this.awm.getCurrentTechniqueName();
