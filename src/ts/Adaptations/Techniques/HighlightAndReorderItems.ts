@@ -4,19 +4,19 @@ import { Menu } from "../../Elements/Menu";
 import { ItemListPolicy } from "../Policies/ItemListPolicy";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Highlight } from "./Highlight";
-import { Reorder } from "./Reorder";
+import { ReorderItems } from "./ReorderItems";
 
 
-export class HighlightAndReorder implements AdaptationTechnique {
+export class HighlightAndReorderItems implements AdaptationTechnique {
 
   // Instances of other techniques used by this mixed one
   readonly highlight: Highlight;
-  readonly reorder: Reorder;
+  readonly reorder: ReorderItems;
 
 
   constructor () {
     this.highlight = new Highlight();
-    this.reorder = new Reorder();
+    this.reorder = new ReorderItems();
   }
 
   reset () {

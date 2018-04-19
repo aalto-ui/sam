@@ -1,8 +1,7 @@
 import * as $ from "jquery";
-import { AdaptationTechnique } from "../Adaptation";
+import { AdaptationTechnique, AdaptationPolicy } from "../Adaptation";
 import { AdaptiveElement } from "../../Elements/AdaptiveElement";
 import { Menu } from "../../Elements/Menu";
-import { ItemListPolicy } from "../Policies/ItemListPolicy";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { ItemGroup } from "../../Elements/ItemGroup";
 import { Item } from "../../Elements/Item";
@@ -12,8 +11,8 @@ import { Item } from "../../Elements/Item";
 type Position = number;
 
 
-export class Reorder implements AdaptationTechnique {
-  private static readonly REORDERED_ELEMENT_CLASS: string = "awm-reordered";
+export abstract class Reorder implements AdaptationTechnique {
+  protected static readonly REORDERED_ELEMENT_CLASS: string = "awm-reordered";
 
   // Maximum number of items to reorder
   maxNbItems: number = 3;
@@ -60,7 +59,7 @@ export class Reorder implements AdaptationTechnique {
     this.moveNode(element.node, index);
   }
 
-  private moveAllElements (elements: AdaptiveElement[]) {
+  protected moveAllElements (elements: AdaptiveElement[]) {
     elements.forEach((element, index) => {
       this.moveElement(element, index);
     });
@@ -78,14 +77,5 @@ export class Reorder implements AdaptationTechnique {
     $("." + Reorder.REORDERED_ELEMENT_CLASS).removeClass(Reorder.REORDERED_ELEMENT_CLASS);
   }
 
-  apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
-    let items = policy.getItemList(menus, analyser)
-      .slice(0, this.maxNbItems);
-
-    // Reorder items independently for each group
-    let itemsSplitByGroup = Item.splitAllByGroup(items);
-    for (let sameGroupItems of itemsSplitByGroup) {
-      this.moveAllElements(sameGroupItems);
-    }
-  }
+  abstract apply (menus: Menu[], policy: AdaptationPolicy, analyser?: DataAnalyser);
 }

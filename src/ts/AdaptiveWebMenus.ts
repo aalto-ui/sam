@@ -12,17 +12,18 @@ import { Selector, isSelector } from "./Elements/AdaptiveElement";
 
 import { Identity } from "./Adaptations/Techniques/Identity";
 import { Highlight } from "./Adaptations/Techniques/Highlight";
-import { Reorder } from "./Adaptations/Techniques/Reorder";
-import { HighlightAndReorder } from "./Adaptations/Techniques/HighlightAndReorder";
+import { ReorderItems } from "./Adaptations/Techniques/ReorderItems";
+import { HighlightAndReorderItems } from "./Adaptations/Techniques/HighlightAndReorderItems";
 import { Fold } from "./Adaptations/Techniques/Fold";
-import { ReorderAndFold } from "./Adaptations/Techniques/ReorderAndFold";
-import { HighlightReorderAndFold } from "./Adaptations/Techniques/HighlightReorderAndFold";
+import { ReorderItemsAndFold } from "./Adaptations/Techniques/ReorderItemsAndFold";
+import { HighlightReorderItemsAndFold } from "./Adaptations/Techniques/HighlightReorderItemsAndFold";
 
 import { MostClickedItemListPolicy } from "./Adaptations/Policies/MostClickedItemsPolicy";
 import { MostVisitedPagesPolicy } from "./Adaptations/Policies/MostVisitedPagesPolicy";
 import { LongestVisitDurationPolicy } from "./Adaptations/Policies/LongestVisitDurationPolicy";
 import { MostRecentVisitsPolicy } from "./Adaptations/Policies/MostRecentVisitsPolicy";
 import { SerialPositionCurvePolicy } from "./Adaptations/Policies/SerialPositionCurvePolicy";
+
 
 
 // Internal type alias used for convenience
@@ -64,7 +65,7 @@ export default class AdaptiveWebMenus {
     },
 
     "Reordering": {
-      technique: new Reorder(),
+      technique: new ReorderItems(),
       policies: {
         "Most clicked items policy": new MostClickedItemListPolicy(),
         "Most visited pages policy": new MostVisitedPagesPolicy(),
@@ -76,7 +77,7 @@ export default class AdaptiveWebMenus {
     },
 
     "Highlighting + reordering": {
-      technique: new HighlightAndReorder(),
+      technique: new HighlightAndReorderItems(),
       policies: {
         "Most clicked items policy": new MostClickedItemListPolicy(),
         "Most visited pages policy": new MostVisitedPagesPolicy(),
@@ -100,7 +101,7 @@ export default class AdaptiveWebMenus {
     },
 
     "Reordering + folding": {
-      technique: new ReorderAndFold(),
+      technique: new ReorderItemsAndFold(),
       policies: {
         "Most clicked items policy": new MostClickedItemListPolicy(),
         "Most visited pages policy": new MostVisitedPagesPolicy(),
@@ -112,7 +113,7 @@ export default class AdaptiveWebMenus {
     },
 
     "Highlighting + reordering + folding": {
-      technique: new HighlightReorderAndFold(),
+      technique: new HighlightReorderItemsAndFold(),
       policies: {
         "Most clicked items policy": new MostClickedItemListPolicy(),
         "Most visited pages policy": new MostVisitedPagesPolicy(),
