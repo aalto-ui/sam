@@ -53,6 +53,15 @@ export class Menu extends AdaptiveElement {
     return allMenusItems;
   }
 
+  static getAllMenusGroups (menus: Menu[]): ItemGroup[] {
+    let allMenusGroups = [];
+    for (let menu of menus) {
+      allMenusGroups = allMenusGroups.concat(menu.groups);
+    }
+
+    return allMenusGroups;
+  }
+
   // Fill a menu using the given generic item selector
   // This method should be used when there is no group selector (i.e. menus whose group node is the same as the menu node)
   private fillUsingGenericItemSelector (itemSelector: Selector) {
