@@ -18,12 +18,14 @@ import { Fold } from "./Adaptations/Techniques/Fold";
 import { ReorderItemsAndFold } from "./Adaptations/Techniques/ReorderItemsAndFold";
 import { HighlightReorderItemsAndFold } from "./Adaptations/Techniques/HighlightReorderItemsAndFold";
 import { ReorderGroups } from "./Adaptations/Techniques/ReorderGroups";
+import { HighlightAndReorderAll } from "./Adaptations/Techniques/HighlightAndReorderAll";
 
 import { MostClickedItemListPolicy } from "./Adaptations/Policies/MostClickedItemsPolicy";
 import { MostVisitedPagesPolicy } from "./Adaptations/Policies/MostVisitedPagesPolicy";
 import { LongestVisitDurationPolicy } from "./Adaptations/Policies/LongestVisitDurationPolicy";
 import { MostRecentVisitsPolicy } from "./Adaptations/Policies/MostRecentVisitsPolicy";
 import { SerialPositionCurvePolicy } from "./Adaptations/Policies/SerialPositionCurvePolicy";
+
 
 
 
@@ -127,6 +129,14 @@ export default class AdaptiveWebMenus {
 
     "Group reordering": {
       technique: new ReorderGroups(),
+      policies: {
+        "Most clicked items policy": new MostClickedItemListPolicy()
+      },
+      selectedPolicy: null
+    },
+
+    "Highlighting + group & item reordering": {
+      technique: new HighlightAndReorderAll(),
       policies: {
         "Most clicked items policy": new MostClickedItemListPolicy()
       },
