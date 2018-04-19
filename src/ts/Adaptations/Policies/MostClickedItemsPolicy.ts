@@ -31,7 +31,7 @@ export class MostClickedItemListPolicy implements ItemListPolicy, ItemGroupListP
 
       // If required, only consider the number of clicks from current page pathname
       if (this.onlyLocalClicks) {
-        return analysis.nbLocalClicks;
+        return analysedItem.nbLocalClicks;
       }
 
       return analysedItem.nbClicks;
@@ -42,13 +42,25 @@ export class MostClickedItemListPolicy implements ItemListPolicy, ItemGroupListP
   }
 
   private getGroupNbClicks (group: ItemGroup, analysis: any) {
-    let nbClicks = 0;
+    let currentPagePathname = window.location.pathname;
 
-    for (let item of group.items) {
-      nbClicks += this.getItemNbClicks(item, analysis);
+    let groupID = group.id;
+    let menuID = group.parent.id;
+
+    // Attempt to find click data on current item in the logs
+    try {
+      let analysedGroup = analysis.menus[menuID].groups[groupID];
+
+      // If required, only consider the number of clicks from current page pathname
+      if (this.onlyLocalClicks) {
+        return analysedGroup.nbLocalClicks;
+      }
+
+      return analysedGroup.nbClicks;
     }
-
-    return nbClicks;
+    catch {
+      return 0;
+    }
   }
 
   private mapItemsToNbClicks (items: Item[], analysis: any): Map<Item, number> {
