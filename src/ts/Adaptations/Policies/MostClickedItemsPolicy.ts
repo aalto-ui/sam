@@ -1,10 +1,13 @@
 import { ItemListPolicy } from "./ItemListPolicy";
+import { ItemGroupListPolicy } from "./ItemGroupListPolicy";
 import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Item } from "../../Elements/Item";
+import { ItemGroup } from "../../Elements/ItemGroup";
+import { AdaptiveElement } from "../../Elements/AdaptiveElement";
 
 
-export class MostClickedItemListPolicy implements ItemListPolicy {
+export class MostClickedItemListPolicy implements ItemListPolicy, ItemGroupListPolicy {
   // If true, only keep items which have already been clicked at least once
   onlyClickedItems: boolean = false;
 
@@ -38,11 +41,20 @@ export class MostClickedItemListPolicy implements ItemListPolicy {
     }
   }
 
-  private mapItemsToNbClicks (menus: Menu[], analysis: {menus: object}): Map<Item, number> {
-    let itemsMappedToNbClicks = new Map();
-    let allItems = Menu.getAllMenusItems(menus);
+  private getGroupNbClicks (group: ItemGroup, analysis: any) {
+    let nbClicks = 0;
 
-    for (let item of allItems) {
+    for (let item of group.items) {
+      nbClicks += this.getItemNbClicks(item, analysis);
+    }
+
+    return nbClicks;
+  }
+
+  private mapItemsToNbClicks (items: Item[], analysis: any): Map<Item, number> {
+    let itemsMappedToNbClicks = new Map();
+
+    for (let item of items) {
       let nbClicks = this.getItemNbClicks(item, analysis);
       itemsMappedToNbClicks.set(item, nbClicks);
     }
@@ -50,32 +62,53 @@ export class MostClickedItemListPolicy implements ItemListPolicy {
     return itemsMappedToNbClicks;
   }
 
-  private sortAnFilterMappedItems (itemsMappedToNbClicks: Map<Item, number>) {
+  private mapGroupsToNbClicks (groups: ItemGroup[], analysis: any): Map<ItemGroup, number> {
+    let groupsMappedToNbClicks = new Map();
+
+    for (let group of groups) {
+      let nbClicks = this.getGroupNbClicks(group, analysis);
+      groupsMappedToNbClicks.set(group, nbClicks);
+    }
+
+    return groupsMappedToNbClicks;
+  }
+
+  private sortAnFilterMappedClickedElements<E extends AdaptiveElement> (elementsMappedToNbClicks: Map<E, number>) {
     // Turn the map into a list sorted by the nb of clicks
-    let sortedItemsAndNbClicks = [...itemsMappedToNbClicks.entries()]
+    let sortedItemsAndNbClicks = [...elementsMappedToNbClicks.entries()]
       .map(tuple => {
-        return { item: tuple[0], nbClicks: tuple[1] };
+        return { element: tuple[0], nbClicks: tuple[1] };
       })
       .sort((e1, e2) => {
         return e2.nbClicks - e1.nbClicks;
       });
 
-    // If required, filter that list to only keep already clicked items
+    // If required, filter that list to only keep already clicked elements
     if (this.onlyClickedItems) {
       sortedItemsAndNbClicks = sortedItemsAndNbClicks.filter(e => {
         return e.nbClicks > 0;
       });
     }
 
+    // Only return a list of elements
     return sortedItemsAndNbClicks.map(e => {
-      return e.item;
+      return e.element;
     });
   }
 
   getItemList (menus: Menu[], analyser: DataAnalyser): Item[] {
     let itemClickAnalysis = analyser.analyseItemClicks();
+    let allItems = Menu.getAllMenusItems(menus);
 
-    let itemsMappedToNbClicks = this.mapItemsToNbClicks(menus, itemClickAnalysis);
-    return this.sortAnFilterMappedItems(itemsMappedToNbClicks);
+    let itemsMappedToNbClicks = this.mapItemsToNbClicks(allItems, itemClickAnalysis);
+    return this.sortAnFilterMappedClickedElements(itemsMappedToNbClicks);
+  }
+
+  getItemGroupList (menus: Menu[], analyser: DataAnalyser): ItemGroup[] {
+    let itemClickAnalysis = analyser.analyseItemClicks();
+    let allGroups = Menu.getAllMenusGroups(menus);
+
+    let groupsMappedToNbClicks = this.mapGroupsToNbClicks(allGroups, itemClickAnalysis);
+    return this.sortAnFilterMappedClickedElements(groupsMappedToNbClicks);
   }
 }
