@@ -1,4 +1,5 @@
 import * as $ from "jquery";
+import { AdaptationTechnique } from "../Adaptation";
 import { Menu } from "../../Elements/Menu";
 import { ItemListPolicy } from "../Policies/ItemListPolicy";
 import { DataAnalyser } from "../../Data/DataAnalyser";
@@ -6,7 +7,7 @@ import { Highlight } from "./Highlight";
 import { Reorder } from "./Reorder";
 
 
-export class HighlightAndReorder {
+export class HighlightAndReorder implements AdaptationTechnique {
 
   // Instances of other techniques used by this mixed one
   readonly highlight: Highlight;
