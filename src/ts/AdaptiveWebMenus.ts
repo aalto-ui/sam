@@ -17,6 +17,7 @@ import { HighlightAndReorderItems } from "./Adaptations/Techniques/HighlightAndR
 import { Fold } from "./Adaptations/Techniques/Fold";
 import { ReorderItemsAndFold } from "./Adaptations/Techniques/ReorderItemsAndFold";
 import { HighlightReorderItemsAndFold } from "./Adaptations/Techniques/HighlightReorderItemsAndFold";
+import { ReorderGroups } from "./Adaptations/Techniques/ReorderGroups";
 
 import { MostClickedItemListPolicy } from "./Adaptations/Policies/MostClickedItemsPolicy";
 import { MostVisitedPagesPolicy } from "./Adaptations/Policies/MostVisitedPagesPolicy";
@@ -122,7 +123,15 @@ export default class AdaptiveWebMenus {
         "Serial-Position curve policy": new SerialPositionCurvePolicy()
       },
       selectedPolicy: null
-    }
+    },
+
+    "Group reordering": {
+      technique: new ReorderGroups(),
+      policies: {
+        "Most clicked items policy": new MostClickedItemListPolicy()
+      },
+      selectedPolicy: null
+    },
   };
 
   private currentAdaptationTechniqueName: string;
