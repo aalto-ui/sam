@@ -12,8 +12,6 @@ type Position = number;
 
 
 export abstract class Reorder implements AdaptationTechnique {
-  protected static readonly REORDERED_ELEMENT_CLASS: string = "awm-reordered";
-
   // Maximum number of items to reorder
   maxNbItems: number = 3;
 
@@ -23,6 +21,13 @@ export abstract class Reorder implements AdaptationTechnique {
 
   constructor () {
     this.childrenInOriginalOrder = new Map();
+  }
+
+  // This method should be overriden by child classes which
+  // wish to distinguish their reordering from other types of reordering!
+  // It must return a string representing the class to be added to reordered elements
+  protected getReorderedElementClass (): string {
+    return "awm-reordered";
   }
 
   // For internal use only
@@ -46,7 +51,7 @@ export abstract class Reorder implements AdaptationTechnique {
 
   private moveNode (node: JQuery, index: Position) {
     Reorder.reinsertNode(node, index);
-    node.addClass(Reorder.REORDERED_ELEMENT_CLASS);
+    node.addClass(this.getReorderedElementClass());
   }
 
   private moveElement (element: AdaptiveElement, index: Position) {
@@ -86,7 +91,9 @@ export abstract class Reorder implements AdaptationTechnique {
     }
 
     this.childrenInOriginalOrder.clear();
-    $("." + Reorder.REORDERED_ELEMENT_CLASS).removeClass(Reorder.REORDERED_ELEMENT_CLASS);
+
+    let reorderedElementClass = this.getReorderedElementClass();
+    $("." + reorderedElementClass).removeClass(reorderedElementClass);
   }
 
   abstract apply (menus: Menu[], policy: AdaptationPolicy, analyser?: DataAnalyser);

@@ -14,6 +14,10 @@ export class ReorderItems extends Reorder {
     super();
   }
 
+  protected getReorderedElementClass (): string {
+    return "awm-reordered-item";
+  }
+
   apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
     let items = policy.getItemList(menus, analyser)
       .slice(0, this.maxNbItems);

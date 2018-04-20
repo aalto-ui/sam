@@ -14,6 +14,10 @@ export class ReorderGroups extends Reorder {
     super();
   }
 
+  protected getReorderedElementClass (): string {
+    return "awm-reordered-group";
+  }
+
   apply (menus: Menu[], policy: ItemGroupListPolicy, analyser?: DataAnalyser) {
     let groups = policy.getItemGroupList(menus, analyser)
       .slice(0, this.maxNbItems);
