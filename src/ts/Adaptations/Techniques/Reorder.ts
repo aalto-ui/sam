@@ -50,13 +50,25 @@ export abstract class Reorder implements AdaptationTechnique {
   }
 
   private moveElement (element: AdaptiveElement, index: Position) {
+    // Save the parent HTML element, it it has never been seen yet
     let parentNode = element.node.parent();
     if (! this.childrenInOriginalOrder.has(parentNode[0])) {
       let orderedChildNodes = parentNode.children();
       this.childrenInOriginalOrder.set(parentNode[0], orderedChildNodes);
     }
 
-    this.moveNode(element.node, index);
+    // Shift the index according to the actual indices of adaptive elements
+    // sibling nodes of the same type; it can prevent breaking some designs,
+    // where there are non-menu nodes among the siblings of reordered element nodes
+    let type = element.getType();
+    let sortedShiftedIndices = parentNode.children(`[${AdaptiveElement.TAG_PREFIX}type=${type}]`)
+      .get()
+      .map((element) => {
+        return $(element).index();
+      })
+      .sort();
+
+    this.moveNode(element.node, sortedShiftedIndices[index]);
   }
 
   protected moveAllElements (elements: AdaptiveElement[]) {
