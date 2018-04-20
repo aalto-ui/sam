@@ -21,6 +21,9 @@ export function isSelector (candidate: any): boolean {
 
 
 export abstract class AdaptiveElement {
+  // Prefix of any element tag (see tag-related methods for details)
+  static readonly TAG_PREFIX = "data-awm-";
+
   // Reference to the related jQuery node
   readonly node: JQuery;
 
@@ -40,12 +43,36 @@ export abstract class AdaptiveElement {
     this.parent = parent;
 
     this.id = this.toID();
+
+    // Automatically tag the element with its type
+    this.tagWithType();
   }
 
   // Abstract method which must be implemented by any adaptive element
   // It must return a string describing the element type (e.g. "item"),
   // and must be unique for each type of element!
   abstract getType (): string;
+
+  // Add a data-awm-<tag> attribute to the element node
+  tag (name: string, value: string) {
+    this.node.attr(AdaptiveElement.TAG_PREFIX + name, value);
+  }
+
+  // Return the value associated to the tag with the given name
+  // If the tag is not found, return undefined
+  static getNodeTag (node: JQuery, name: string): string | undefined {
+    return node.attr(AdaptiveElement.TAG_PREFIX + name);
+  }
+
+  // Call getNodeTag on the element node, using the given tag name
+  getTag (name: string): string | undefined {
+    return AdaptiveElement.getNodeTag(this.node, name);
+  }
+
+  // Tag the element node with its element type
+  private tagWithType () {
+    this.tag("type", this.getType());
+  }
 
   // Return a standalone jQuery selector,
   // based on the selectors of this element and all its (grand-)parents
