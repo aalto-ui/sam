@@ -13,20 +13,20 @@ export class LongestVisitDurationPolicy implements ItemListPolicy {
   constructor () { }
 
   getItemList (menus: Menu[], analyser: DataAnalyser): Item[] {
-    let itemClickAnalysis = analyser.analyseItemClicks();
-    let pageVisitsAnalysis = analyser.analysePageVisits();
+    let itemClickAnalysis = analyser.getItemClickAnalysis();
+    let pageVisitsAnalysis = analyser.getPageVisitsAnalysis();
 
     let currentPagePathname = window.location.pathname;
 
     // First filter out the current page pathname if required
     if (this.ignoreCurrentPage) {
-      pageVisitsAnalysis.visitDurations.delete(currentPagePathname);
+      delete pageVisitsAnalysis.visitDurations[currentPagePathname];
     }
 
 
-    let pagesSortedByDuration = [...pageVisitsAnalysis.visitDurations.entries()]
-      .map(tuple => {
-        return { pathname: tuple[0], duration: tuple[1] };
+    let pagesSortedByDuration = Object.keys(pageVisitsAnalysis.visitDurations)
+      .map(pathname => {
+        return { pathname: pathname, duration: pageVisitsAnalysis.visitDurations[pathname] };
       })
       .sort((e1, e2) => {
         return e2.duration - e1.duration;

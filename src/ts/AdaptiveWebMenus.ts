@@ -158,8 +158,8 @@ export default class AdaptiveWebMenus {
     this.dataAnalyser = new DataAnalyser(this.database);
 
     // DEBUG
-    console.log("ITEM CLICK ANALYSIS", this.dataAnalyser.analyseItemClicks());
-    console.log("PAGE VISITS ANALYSIS", this.dataAnalyser.analysePageVisits());
+    console.log("ITEM CLICK ANALYSIS", this.dataAnalyser.getItemClickAnalysis());
+    console.log("PAGE VISITS ANALYSIS", this.dataAnalyser.getPageVisitsAnalysis());
 
     this.currentAdaptation = null;
     this.setDefaultAdaptation();

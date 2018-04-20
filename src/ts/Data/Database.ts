@@ -79,6 +79,11 @@ export class Database {
   // Keys are table names, values are list of entries to add to the related table
   private delayedEntryAdditions: Map<string, Entry[]>;
 
+  // Data update counter, used for caching purposes
+  // (i.e. no need to fetch and process data again if there has been no change)
+  // It must be incremented every time the database content is updated in any way
+  private contentRevision: number;
+
   // The callback method on page unload
   private pageUnloadCallback = (event) => {
     this.addAllDelayedTableEntries();
@@ -88,11 +93,21 @@ export class Database {
 
   constructor () {
     this.delayedEntryAdditions = new Map();
+    this.contentRevision = 0;
 
     this.loadFromLocalStorageOrInit();
     this.startWatchingForPageUnload();
 
     console.log("Database loaded:", this.data);
+  }
+
+  // Return the current revision of the database data
+  getCurrentRevision () {
+    return this.contentRevision;
+  }
+
+  isRevisionUpToDate (revision: number) {
+    return this.contentRevision === revision;
   }
 
   // Set up the default tables, only if they do not exist yet
@@ -121,6 +136,8 @@ export class Database {
       entries: []
     });
 
+    this.contentRevision += 1;
+
     return true;
   }
 
@@ -134,6 +151,8 @@ export class Database {
     let table = this.data.get(name);
     this.data.delete(name);
 
+    this.contentRevision += 1;
+
     return table;
   }
 
@@ -142,6 +161,7 @@ export class Database {
   // If defaultInit is set to true, re-init the database using initWithDefaultTables
   empty (clearLocalStorage: boolean = true, defaultInit: boolean = true) {
     this.data.clear();
+    this.contentRevision += 1;
 
     if (defaultInit) {
       this.initWithDefaultTables();
@@ -206,6 +226,8 @@ export class Database {
     }
 
     table.entries.push(entry);
+    this.contentRevision += 1;
+
     return true;
   }
 
@@ -241,6 +263,8 @@ export class Database {
   editTableEntries (name: string, edit: (Entry) => void, test?: (Entry) => boolean) {
     this.getTableEntries(name, test)
       .forEach(edit);
+
+    this.contentRevision += 1;
   }
 
   // If the local storage is available, returns true;
@@ -291,6 +315,8 @@ export class Database {
     let rawLoadedData = window.localStorage.getItem(Database.LOCAL_STORAGE_KEY);
     if (rawLoadedData !== null) {
       this.data = Database.fromJSON(rawLoadedData);
+
+      this.contentRevision += 1;
     }
   }
 

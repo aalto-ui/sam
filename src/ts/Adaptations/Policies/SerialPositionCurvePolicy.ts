@@ -17,7 +17,7 @@ export class SerialPositionCurvePolicy implements ItemListPolicy {
 
 
   getItemList (menus: Menu[], analyser: DataAnalyser): Item[] {
-    let analysis = analyser.analysePageVisits();
+    let analysis = analyser.getPageVisitsAnalysis();
 
     let currentPagePathname = window.location.pathname;
 
@@ -27,29 +27,29 @@ export class SerialPositionCurvePolicy implements ItemListPolicy {
 
     // First filter out the current page pathname if required
     if (this.ignoreCurrentPage) {
-      analysis.visitDurations.delete(currentPagePathname);
+      delete analysis.visitDurations[currentPagePathname];
     }
 
-    for (let pathname of analysis.firstVisitTimestamps.keys()) {
+    for (let pathname in analysis.firstVisitTimestamps) {
       // Recency and primacy (note: lower values lead to higher score below!)
       let recency = 0;
       let primacy = 0;
 
-      let lastVisitTimestamp = analysis.lastVisitTimestamps.get(pathname);
-      let firstVisitTimestamp = analysis.firstVisitTimestamps.get(pathname);
+      let lastVisitTimestamp = analysis.lastVisitTimestamps[pathname];
+      let firstVisitTimestamp = analysis.firstVisitTimestamps[pathname];
 
-      for (let p of analysis.lastVisitTimestamps.keys()) {
-        if (analysis.lastVisitTimestamps.get(p) > lastVisitTimestamp) {
+      for (let p in analysis.lastVisitTimestamps) {
+        if (analysis.lastVisitTimestamps[p] > lastVisitTimestamp) {
           recency++;
         }
 
-        if (analysis.firstVisitTimestamps.get(p) < firstVisitTimestamp) {
+        if (analysis.firstVisitTimestamps[p] < firstVisitTimestamp) {
           primacy++;
         }
       }
 
       // Intermediate scores used to compute the familiarity score
-      let frequencyScore = analysis.visitFrequencies.get(pathname);
+      let frequencyScore = analysis.visitFrequencies[pathname];
       let recencyScore = (analysis.nbUniquePathnames - recency) / analysis.nbUniquePathnames;
       let primacyScore = (analysis.nbUniquePathnames - primacy) / analysis.nbUniquePathnames;
 

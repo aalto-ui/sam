@@ -13,8 +13,8 @@ export class MostRecentVisitsPolicy implements ItemListPolicy {
   constructor () { }
 
   getItemList (menus: Menu[], analyser: DataAnalyser): Item[] {
-    let itemClickAnalysis = analyser.analyseItemClicks();
-    let pageVisitsAnalysis = analyser.analysePageVisits();
+    let itemClickAnalysis = analyser.getItemClickAnalysis();
+    let pageVisitsAnalysis = analyser.getPageVisitsAnalysis();
 
     let currentPagePathname = window.location.pathname;
 
@@ -23,10 +23,13 @@ export class MostRecentVisitsPolicy implements ItemListPolicy {
 
     // First filter out the current page pathname if required
     if (this.ignoreCurrentPage) {
-      pageVisitsAnalysis.lastVisitTimestamps.delete(currentPagePathname);
+      delete pageVisitsAnalysis.lastVisitTimestamps[currentPagePathname];
     }
 
-    let pagesSortedByRecency = [...pageVisitsAnalysis.lastVisitTimestamps.entries()]
+    let pagesSortedByRecency = Object.keys(pageVisitsAnalysis.lastVisitTimestamps)
+      .map(pathname => {
+        return { pathname: pathname, timestamp: pageVisitsAnalysis.lastVisitTimestamps[pathname] };
+      })
       .map(tuple => {
         return { pathname: tuple[0], timestamp: tuple[1] };
       })

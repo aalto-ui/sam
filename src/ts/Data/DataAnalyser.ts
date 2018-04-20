@@ -1,212 +1,33 @@
 import { Database } from "./Database";
 import { Utilities } from "../Utilities";
+import { ItemClicksAnalyser, ItemClicksAnalysis } from "./ItemClicksAnalyser";
+import { PageVisitsAnalyser, PageVisitsAnalysis } from "./PageVisitsAnalyser";
+
+
+// Generic type of an analysis, returned by an anlyser module
+export interface Analysis { };
 
 
 export class DataAnalyser {
   // The database to analyse
   private database: Database;
 
+  // Analyser modules
+  private itemClicksAnalyser: ItemClicksAnalyser;
+  private pageVisitsAnalyser: PageVisitsAnalyser;
+
   constructor (database: Database) {
     this.database = database;
+
+    this.itemClicksAnalyser = new ItemClicksAnalyser(database);
+    this.pageVisitsAnalyser = new PageVisitsAnalyser(database);
   }
 
-  // Compute and return an analysis of item clicks
-  analyseItemClicks () {
-    // Get the data
-    let itemClickData = this.database.getTableEntries("item-clicks");
-    let itemNbClicksData = this.database.getTableEntries("item-nb-clicks");
-
-    let currentPagePathname = window.location.pathname;
-
-    // Initialize the analysis object
-    let analysis = {
-      totalNbClicks: itemClickData.length,
-      totalLocalNbClicks: 0,
-      itemsNbClicks: {},
-      itemsClickFrequencies: {}, // Among ALL logged clicks (in alla daptive menus)
-      menus: []
-    };
-
-    // Set up the items nb clicks and frequency
-    for (let itemData of itemNbClicksData) {
-      let itemID = itemData["IDs"]["item"];
-      let itemNbClicks = itemData["nbClicks"];
-
-      analysis.itemsNbClicks[itemID] = itemNbClicks;
-      analysis.itemsClickFrequencies[itemID] = itemNbClicks / analysis.totalNbClicks;
-    }
-
-    // Create required fields and count clicks with different granularities
-
-    // Helper function checking if all fields related ton an item ID are available or not
-    // If some are missing, they are added and initialized
-    function createAllFieldsIfRequired (IDs, pathname: string) {
-      function createFieldIfRequired (object, key, newFieldKey?, newFieldValue = {}) {
-        if (object[key] === undefined) {
-          object[key] = {
-            nbClicks: 0,
-            nbLocalClicks: 0,
-            clickFrequency: 0,
-            localClickFrequency: 0
-          };
-          if (newFieldKey) {
-            object[key][newFieldKey] = newFieldValue;
-          }
-        }
-      }
-
-      createFieldIfRequired(analysis.menus, IDs.menu, "groups");
-      createFieldIfRequired(analysis.menus[IDs.menu].groups, IDs.group, "items");
-      createFieldIfRequired(analysis.menus[IDs.menu].groups[IDs.group].items, IDs.item, "nbClicksByPathname", new Map());
-
-      if (! analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].nbClicksByPathname.has(pathname)) {
-        analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].nbClicksByPathname.set(pathname, 0);
-      }
-    }
-
-    // Iterate over all item clicks and update the analysis
-    function processClick (IDs, pathname: string) {
-      let menu = analysis.menus[IDs.menu];
-
-      // Count a click
-      menu.nbClicks += 1;
-      menu.groups[IDs.group].nbClicks += 1;
-      menu.groups[IDs.group].items[IDs.item].nbClicks += 1;
-
-      if (Utilities.linkEndsWithPathname(pathname, currentPagePathname)) {
-        analysis.totalLocalNbClicks += 1;
-        menu.localNbClicks += 1;
-        menu.groups[IDs.group].localNbClicks += 1;
-        menu.groups[IDs.group].items[IDs.item].localNbClicks += 1;
-      }
-
-      // Add the source pathname to the set
-      let currentNbClicksFromPathname = menu.groups[IDs.group].items[IDs.item].nbClicksByPathname.get(pathname);
-      menu.groups[IDs.group].items[IDs.item].nbClicksByPathname.set(pathname, currentNbClicksFromPathname + 1);
-    }
-
-    for (let itemClick of itemClickData) {
-      let IDs = itemClick["IDs"];
-      let pathname: string = itemClick["pathname"];
-
-      createAllFieldsIfRequired(IDs, pathname);
-      processClick(IDs, pathname);
-    }
-
-    // Iterate again to compute frequencies
-    function computeGlobalFrequencies (IDs) {
-      if (analysis.totalNbClicks !== 0) {
-        analysis.menus[IDs.menu].clickFrequency =
-            analysis.menus[IDs.menu].nbClicks
-          / analysis.totalNbClicks;
-      }
-
-      if (analysis.menus[IDs.menu].nbClicks !== 0) {
-        analysis.menus[IDs.menu].groups[IDs.group].clickFrequency =
-            analysis.menus[IDs.menu].groups[IDs.group].nbClicks
-          / analysis.menus[IDs.menu].nbClicks;
-      }
-
-      if (analysis.menus[IDs.menu].groups[IDs.group].nbClicks !== 0) {
-        analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].clickFrequency =
-            analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].nbClicks
-          / analysis.menus[IDs.menu].groups[IDs.group].nbClicks;
-      }
-    }
-
-    function computeLocalFrequencies (IDs) {
-      if (analysis.totalLocalNbClicks !== 0) {
-        analysis.menus[IDs.menu].localClickFrequency =
-            analysis.menus[IDs.menu].localNbClicks
-          / analysis.totalLocalNbClicks;
-      }
-
-      if (analysis.menus[IDs.menu].localNbClicks !== 0) {
-        analysis.menus[IDs.menu].groups[IDs.group].localClickFrequency =
-            analysis.menus[IDs.menu].groups[IDs.group].localNbClicks
-          / analysis.menus[IDs.menu].localNbClicks;
-      }
-
-      if (analysis.menus[IDs.menu].groups[IDs.group].localNbClicks !== 0) {
-        analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].localClickFrequency =
-            analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].localNbClicks
-          / analysis.menus[IDs.menu].groups[IDs.group].localNbClicks;
-      }
-    }
-
-    for (let itemClick of itemClickData) {
-      let IDs = itemClick["IDs"];
-
-      computeGlobalFrequencies(IDs);
-      computeLocalFrequencies(IDs);
-    }
-
-    return analysis;
+  getItemClickAnalysis (): ItemClicksAnalysis {
+    return this.itemClicksAnalyser.getAnalysis();
   }
 
-
-  // Compute and return an analysis of the page visits
-  analysePageVisits () {
-    // Get the data
-    let pageVisitsData = this.database.getTableEntries("page-visits");
-    let pageVisitDurationsData = this.database.getTableEntries("page-visit-durations");
-
-
-    // Initialize the analysis object
-    let analysis = {
-      totalNbVisits: pageVisitsData.length,
-      nbUniquePathnames: 0,
-      nbVisits: new Map(),
-      visitFrequencies: new Map(),
-      visitDurations: new Map(),
-      firstVisitTimestamps: new Map(),
-      lastVisitTimestamps: new Map()
-    };
-
-    // Compute/update the number, frequency, primacy and recency
-    // (resp. first and last visit timestamps) of visits for each page
-    function processPageVisit (visit: object) {
-      let pathname = visit["pathname"];
-
-      let nbVisits = 0;
-      if (analysis.nbVisits.has(pathname)) {
-        nbVisits = analysis.nbVisits.get(pathname);
-      }
-      else {
-        // If the pathname has never been seen before, increase the nb of unique pathnames visited so far
-        analysis.nbUniquePathnames += 1;
-      }
-
-      analysis.nbVisits.set(pathname, nbVisits + 1);
-
-      // Map each visited pathname to the first and last visit timestamps
-      let firstTimestamp = visit["timestamp"];
-      let lastTimestamp = visit["timestamp"];
-
-      // Note: if one map has an entry for the pathname, the other must have it as well
-      if (analysis.firstVisitTimestamps.has(pathname)) {
-        firstTimestamp = Math.min(firstTimestamp, analysis.firstVisitTimestamps.get(pathname));
-        lastTimestamp = Math.max(lastTimestamp, analysis.lastVisitTimestamps.get(pathname));
-      }
-
-      analysis.firstVisitTimestamps.set(pathname, firstTimestamp);
-      analysis.lastVisitTimestamps.set(pathname, lastTimestamp);
-
-    }
-
-    function computeFrequency (nbVisits: number, pathname: string) {
-      let frequency = nbVisits / analysis.totalNbVisits;
-      analysis.visitFrequencies.set(pathname, frequency);
-    }
-
-    pageVisitsData.forEach(processPageVisit);
-    analysis.nbVisits.forEach(computeFrequency);
-
-    // Turn visit durations data into a map
-    for (let visitedPage of pageVisitDurationsData) {
-      analysis.visitDurations.set(visitedPage["pathname"], visitedPage["duration"]);
-    }
-
-    return analysis;
+  getPageVisitsAnalysis (): PageVisitsAnalysis {
+    return this.pageVisitsAnalyser.getAnalysis();
   }
 }

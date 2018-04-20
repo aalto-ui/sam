@@ -109,7 +109,7 @@ export class MostClickedItemListPolicy implements ItemListPolicy, ItemGroupListP
   }
 
   getItemList (menus: Menu[], analyser: DataAnalyser): Item[] {
-    let itemClickAnalysis = analyser.analyseItemClicks();
+    let itemClickAnalysis = analyser.getItemClickAnalysis();
     let allItems = Menu.getAllMenusItems(menus);
 
     let itemsMappedToNbClicks = this.mapItemsToNbClicks(allItems, itemClickAnalysis);
@@ -117,7 +117,7 @@ export class MostClickedItemListPolicy implements ItemListPolicy, ItemGroupListP
   }
 
   getItemGroupList (menus: Menu[], analyser: DataAnalyser): ItemGroup[] {
-    let itemClickAnalysis = analyser.analyseItemClicks();
+    let itemClickAnalysis = analyser.getItemClickAnalysis();
     let allGroups = Menu.getAllMenusGroups(menus);
 
     let groupsMappedToNbClicks = this.mapGroupsToNbClicks(allGroups, itemClickAnalysis);

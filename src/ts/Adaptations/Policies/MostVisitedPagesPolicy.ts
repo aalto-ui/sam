@@ -17,8 +17,8 @@ export class MostVisitedPagesPolicy implements ItemListPolicy {
 
 
   getItemList (menus: Menu[], analyser: DataAnalyser): Item[] {
-    let itemClickAnalysis = analyser.analyseItemClicks();
-    let pageVisitsAnalysis = analyser.analysePageVisits();
+    let itemClickAnalysis = analyser.getItemClickAnalysis();
+    let pageVisitsAnalysis = analyser.getPageVisitsAnalysis();
 
     let currentPagePathname = window.location.pathname;
 
@@ -27,12 +27,12 @@ export class MostVisitedPagesPolicy implements ItemListPolicy {
 
     // First filter out the current page pathname if required
     if (this.ignoreCurrentPage) {
-      pageVisitsAnalysis.nbVisits.delete(currentPagePathname);
+      delete pageVisitsAnalysis.nbVisits[currentPagePathname];
     }
 
-    let pagesSortedByNbVisits = [...pageVisitsAnalysis.nbVisits.entries()]
-      .map(tuple => {
-        return { pathname: tuple[0], nbVisits: tuple[1] };
+    let pagesSortedByNbVisits = Object.keys(pageVisitsAnalysis.nbVisits)
+      .map(pathname => {
+        return { pathname: pathname, nbVisits: pageVisitsAnalysis.nbVisits[pathname] };
       })
       .sort((e1, e2) => {
         return e2.nbVisits - e1.nbVisits;
