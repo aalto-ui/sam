@@ -25,6 +25,7 @@ import { MostVisitedPagesPolicy } from "./Adaptations/Policies/MostVisitedPagesP
 import { LongestVisitDurationPolicy } from "./Adaptations/Policies/LongestVisitDurationPolicy";
 import { MostRecentVisitsPolicy } from "./Adaptations/Policies/MostRecentVisitsPolicy";
 import { SerialPositionCurvePolicy } from "./Adaptations/Policies/SerialPositionCurvePolicy";
+import { AccessRankPolicy } from "./Adaptations/Policies/AccessRankPolicy";
 
 
 
@@ -62,7 +63,8 @@ export default class AdaptiveWebMenus {
         "Most visited pages policy": new MostVisitedPagesPolicy(),
         "Longest visit duration policy": new LongestVisitDurationPolicy(),
         "Most recent visits policy": new MostRecentVisitsPolicy(),
-        "Serial-Position curve policy": new SerialPositionCurvePolicy()
+        "Serial-Position curve policy": new SerialPositionCurvePolicy(),
+        "AccessRank policy": new AccessRankPolicy()
       },
       selectedPolicy: null
     },
@@ -74,7 +76,8 @@ export default class AdaptiveWebMenus {
         "Most visited pages policy": new MostVisitedPagesPolicy(),
         "Longest visit duration policy": new LongestVisitDurationPolicy(),
         "Most recent visits policy": new MostRecentVisitsPolicy(),
-        "Serial-Position curve policy": new SerialPositionCurvePolicy()
+        "Serial-Position curve policy": new SerialPositionCurvePolicy(),
+        "AccessRank policy": new AccessRankPolicy()
       },
       selectedPolicy: null
     },
@@ -86,7 +89,8 @@ export default class AdaptiveWebMenus {
         "Most visited pages policy": new MostVisitedPagesPolicy(),
         "Longest visit duration policy": new LongestVisitDurationPolicy(),
         "Most recent visits policy": new MostRecentVisitsPolicy(),
-        "Serial-Position curve policy": new SerialPositionCurvePolicy()
+        "Serial-Position curve policy": new SerialPositionCurvePolicy(),
+        "AccessRank policy": new AccessRankPolicy()
       },
       selectedPolicy: null
     },
@@ -98,7 +102,8 @@ export default class AdaptiveWebMenus {
         "Most visited pages policy": new MostVisitedPagesPolicy(),
         "Longest visit duration policy": new LongestVisitDurationPolicy(),
         "Most recent visits policy": new MostRecentVisitsPolicy(),
-        "Serial-Position curve policy": new SerialPositionCurvePolicy()
+        "Serial-Position curve policy": new SerialPositionCurvePolicy(),
+        "AccessRank policy": new AccessRankPolicy()
       },
       selectedPolicy: null
     },
@@ -110,7 +115,8 @@ export default class AdaptiveWebMenus {
         "Most visited pages policy": new MostVisitedPagesPolicy(),
         "Longest visit duration policy": new LongestVisitDurationPolicy(),
         "Most recent visits policy": new MostRecentVisitsPolicy(),
-        "Serial-Position curve policy": new SerialPositionCurvePolicy()
+        "Serial-Position curve policy": new SerialPositionCurvePolicy(),
+        "AccessRank policy": new AccessRankPolicy()
       },
       selectedPolicy: null
     },
@@ -122,7 +128,8 @@ export default class AdaptiveWebMenus {
         "Most visited pages policy": new MostVisitedPagesPolicy(),
         "Longest visit duration policy": new LongestVisitDurationPolicy(),
         "Most recent visits policy": new MostRecentVisitsPolicy(),
-        "Serial-Position curve policy": new SerialPositionCurvePolicy()
+        "Serial-Position curve policy": new SerialPositionCurvePolicy(),
+        "AccessRank policy": new AccessRankPolicy()
       },
       selectedPolicy: null
     },
