@@ -2,6 +2,13 @@ import * as $ from "jquery";
 import { AdaptiveElement, Selector, NO_SELECTOR, NoSelector } from "./AdaptiveElement";
 import { Item } from "./Item";
 import { Menu } from "./Menu";
+import { ItemClicksAnalysis } from "../Data/ItemClicksAnalyser";
+
+
+interface ItemGroupsSplitByStatsAvailability {
+  withStats: ItemGroup[];
+  withoutStats: ItemGroup[];
+}
 
 
 export class ItemGroup extends AdaptiveElement {
@@ -31,6 +38,30 @@ export class ItemGroup extends AdaptiveElement {
     this.node.find(itemSelector).each(function (index, element) {
       self.items.push(Item.fromSelector(element, self));
     });
+  }
+
+  // Split a list of groups into two lists of groups:
+  // the ones with stats about them in the given click analysis, and the ones without
+  // The order of the initial list is respected in the returned sub-lists
+  static splitAllByStatsAvailability (groups: ItemGroup[], itemClicksAnalysis: ItemClicksAnalysis): ItemGroupsSplitByStatsAvailability {
+    let groupsWithStats = [];
+    let groupsWithoutStats = [];
+
+    for (let group of groups) {
+      let groupID = group.id;
+
+      if (groupID in itemClicksAnalysis.groupStats) {
+        groupsWithStats.push(group);
+      }
+      else {
+        groupsWithoutStats.push(group);
+      }
+    }
+
+    return {
+      withStats: groupsWithStats,
+      withoutStats: groupsWithoutStats
+    };
   }
 
   // Build a menu from selectors

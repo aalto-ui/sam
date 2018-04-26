@@ -2,6 +2,13 @@ import * as $ from "jquery";
 import { AdaptiveElement, Selector } from "./AdaptiveElement";
 import { ItemGroup } from "./ItemGroup";
 import { Utilities } from "../Utilities";
+import { ItemClicksAnalysis } from "../Data/ItemClicksAnalyser";
+
+
+interface ItemsSplitByStatsAvailability {
+  withStats: Item[];
+  withoutStats: Item[];
+}
 
 
 export class Item extends AdaptiveElement {
@@ -33,7 +40,7 @@ export class Item extends AdaptiveElement {
     if (pathnameFilter) {
       linkNodes = linkNodes.filter((_, element) => {
         let href = $(element).attr("href");
-        return Utilities.linkEndsWithPathname(href, pathnameFilter);
+        return Utilities.linkHasPathname(href, pathnameFilter);
       });
     }
 
@@ -61,6 +68,30 @@ export class Item extends AdaptiveElement {
     }
 
     return [...itemsSplitByGroup.values()];
+  }
+
+  // Split a list of items into two lists of items:
+  // the ones with stats about them in the given click analysis, and the ones without
+  // The order of the initial list is respected in the returned sub-lists
+  static splitAllByStatsAvailability (items: Item[], itemClicksAnalysis: ItemClicksAnalysis): ItemsSplitByStatsAvailability {
+    let itemsWithStats = [];
+    let itemsWithoutStats = [];
+
+    for (let item of items) {
+      let itemID = item.id;
+
+      if (itemID in itemClicksAnalysis.itemStats) {
+        itemsWithStats.push(item);
+      }
+      else {
+        itemsWithoutStats.push(item);
+      }
+    }
+
+    return {
+      withStats: itemsWithStats,
+      withoutStats: itemsWithoutStats
+    };
   }
 
   static fromSelector (selector: Selector, parent: ItemGroup): Item {

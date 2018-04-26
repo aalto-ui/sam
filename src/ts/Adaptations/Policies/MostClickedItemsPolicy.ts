@@ -5,12 +5,10 @@ import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Item } from "../../Elements/Item";
 import { ItemGroup } from "../../Elements/ItemGroup";
 import { AdaptiveElement } from "../../Elements/AdaptiveElement";
+import { ItemClicksAnalysis } from "../../Data/ItemClicksAnalyser";
 
 
 export class MostClickedItemListPolicy implements ItemListPolicy, ItemGroupListPolicy {
-  // If true, only keep items which have already been clicked at least once
-  onlyClickedItems: boolean = false;
-
   // If true, only compute stats concerning the local clicks
   // In other words, only consider pathnames equal to the one of the current page
   onlyLocalClicks: boolean = false;
@@ -18,52 +16,29 @@ export class MostClickedItemListPolicy implements ItemListPolicy, ItemGroupListP
 
   constructor () { }
 
-  private getItemNbClicks (item: Item, analysis: any) {
-    let currentPagePathname = window.location.pathname;
-
+  private getItemNbClicks (item: Item, analysis: ItemClicksAnalysis): number {
     let itemID = item.id;
-    let groupID = item.parent.id;
-    let menuID = item.parent.parent.id;
+    let itemStats = analysis.itemStats[itemID];
 
-    // Attempt to find click data on current item in the logs
-    try {
-      let analysedItem = analysis.menus[menuID].groups[groupID].items[itemID];
-
-      // If required, only consider the number of clicks from current page pathname
-      if (this.onlyLocalClicks) {
-        return analysedItem.nbLocalClicks;
-      }
-
-      return analysedItem.nbClicks;
+    if (this.onlyLocalClicks) {
+      return itemStats.localNbClicks;
     }
-    catch {
-      return 0;
-    }
+
+    return itemStats.nbClicks;
   }
 
-  private getGroupNbClicks (group: ItemGroup, analysis: any) {
-    let currentPagePathname = window.location.pathname;
-
+  private getGroupNbClicks (group: ItemGroup, analysis: ItemClicksAnalysis) {
     let groupID = group.id;
-    let menuID = group.parent.id;
+    let groupStats = analysis.groupStats[groupID];
 
-    // Attempt to find click data on current item in the logs
-    try {
-      let analysedGroup = analysis.menus[menuID].groups[groupID];
-
-      // If required, only consider the number of clicks from current page pathname
-      if (this.onlyLocalClicks) {
-        return analysedGroup.nbLocalClicks;
-      }
-
-      return analysedGroup.nbClicks;
+    if (this.onlyLocalClicks) {
+      return groupStats.localNbClicks;
     }
-    catch {
-      return 0;
-    }
+
+    return groupStats.nbClicks;
   }
 
-  private mapItemsToNbClicks (items: Item[], analysis: any): Map<Item, number> {
+  private mapItemsToNbClicks (items: Item[], analysis: ItemClicksAnalysis): Map<Item, number> {
     let itemsMappedToNbClicks = new Map();
 
     for (let item of items) {
@@ -74,7 +49,7 @@ export class MostClickedItemListPolicy implements ItemListPolicy, ItemGroupListP
     return itemsMappedToNbClicks;
   }
 
-  private mapGroupsToNbClicks (groups: ItemGroup[], analysis: any): Map<ItemGroup, number> {
+  private mapGroupsToNbClicks (groups: ItemGroup[], analysis: ItemClicksAnalysis): Map<ItemGroup, number> {
     let groupsMappedToNbClicks = new Map();
 
     for (let group of groups) {
@@ -85,7 +60,7 @@ export class MostClickedItemListPolicy implements ItemListPolicy, ItemGroupListP
     return groupsMappedToNbClicks;
   }
 
-  private sortAnFilterMappedClickedElements<E extends AdaptiveElement> (elementsMappedToNbClicks: Map<E, number>) {
+  private sortMappedClickedElements<E extends AdaptiveElement> (elementsMappedToNbClicks: Map<E, number>) {
     // Turn the map into a list sorted by the nb of clicks
     let sortedItemsAndNbClicks = [...elementsMappedToNbClicks.entries()]
       .map(tuple => {
@@ -95,13 +70,6 @@ export class MostClickedItemListPolicy implements ItemListPolicy, ItemGroupListP
         return e2.nbClicks - e1.nbClicks;
       });
 
-    // If required, filter that list to only keep already clicked elements
-    if (this.onlyClickedItems) {
-      sortedItemsAndNbClicks = sortedItemsAndNbClicks.filter(e => {
-        return e.nbClicks > 0;
-      });
-    }
-
     // Only return a list of elements
     return sortedItemsAndNbClicks.map(e => {
       return e.element;
@@ -109,18 +77,31 @@ export class MostClickedItemListPolicy implements ItemListPolicy, ItemGroupListP
   }
 
   getItemList (menus: Menu[], analyser: DataAnalyser): Item[] {
-    let itemClickAnalysis = analyser.getItemClickAnalysis();
-    let allItems = Menu.getAllMenusItems(menus);
+    let itemClicksAnalysis = analyser.getItemClickAnalysis();
 
-    let itemsMappedToNbClicks = this.mapItemsToNbClicks(allItems, itemClickAnalysis);
-    return this.sortAnFilterMappedClickedElements(itemsMappedToNbClicks);
+    // Get all items, and split them in two arrays,
+    // according to whether there are stats (= recorded clicks) on them or not
+    let items = Menu.getAllMenusItems(menus);
+    let splitItems = Item.splitAllByStatsAvailability(items, itemClicksAnalysis);
+
+    let itemsMappedToNbClicks = this.mapItemsToNbClicks(splitItems.withStats, itemClicksAnalysis);
+    let sortedItems = this.sortMappedClickedElements(itemsMappedToNbClicks);
+
+    return sortedItems.concat(splitItems.withoutStats);
   }
 
   getItemGroupList (menus: Menu[], analyser: DataAnalyser): ItemGroup[] {
-    let itemClickAnalysis = analyser.getItemClickAnalysis();
+    let itemClicksAnalysis = analyser.getItemClickAnalysis();
     let allGroups = Menu.getAllMenusGroups(menus);
 
-    let groupsMappedToNbClicks = this.mapGroupsToNbClicks(allGroups, itemClickAnalysis);
-    return this.sortAnFilterMappedClickedElements(groupsMappedToNbClicks);
+    // Get all item groups, and split them in two arrays,
+    // according to whether there are stats (= recorded clicks) on them or not
+    let groups = Menu.getAllMenusGroups(menus);
+    let splitGroups = ItemGroup.splitAllByStatsAvailability(groups, itemClicksAnalysis);
+
+    let groupsMappedToNbClicks = this.mapGroupsToNbClicks(splitGroups.withStats, itemClicksAnalysis);
+    let sortedGroups = this.sortMappedClickedElements(groupsMappedToNbClicks);
+
+    return sortedGroups.concat(splitGroups.withoutStats);
   }
 }
