@@ -9,8 +9,14 @@ export class Utilities {
     return linkElement.pathname === pathname;
   }
 
+  // If the local storage is available, return true
+  // Otherwise, print an error message in the console, and return false
+  static isLocalStorageAvailable (): boolean {
+    if (! window.localStorage) {
+      console.error("Error: local storage is not available!");
+      return false;
+    }
 
-    return link.length > 0
-        && link.endsWith(pathname);
+    return true;
   }
 }

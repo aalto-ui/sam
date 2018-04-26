@@ -1,38 +1,33 @@
-import { Database } from "./Database";
+import { Database, TableEntryIndex, TableEntry } from "./Database";
 import { Utilities } from "../Utilities";
 import { DataAnalyserModule } from "./DataAnalyserModule";
 import { Analysis } from "./DataAnalyser";
+import { ItemClickLog } from "./DataLogger";
 
-
-// Internal interfaces implemented by different level of the 'hierarchical stats' object,
-// provoding multi-granularities stats (menus, groups and items)
+// Generic interface for element stats, and specific ones for actual elements
 interface AdaptiveElementStats {
   nbClicks: number,
-  nbLocalClicks: number,
+  localNbClicks: number,
   clickFrequency: number,
-  localClickFrequency: number
+  localClickFrequency: number,
+
+  sourcePathnames: string[],
+  timestamps: number[],
+
+  eventIndices: TableEntryIndex[]
 }
 
-interface ItemStats extends AdaptiveElementStats {
-  nbClicksByPathname: {[key: string]: number}
-}
-
-interface ItemGroupStats extends AdaptiveElementStats {
-  items: {[key: string]: ItemStats}
-}
-
-interface MenuStats extends AdaptiveElementStats {
-  groups: {[key: string]: ItemGroupStats}
-}
+export interface ItemStats extends AdaptiveElementStats { }
+export interface ItemGroupStats extends AdaptiveElementStats { }
 
 
 // Interface implemented by the item clicks analysis returned by this module
 export interface ItemClicksAnalysis extends Analysis {
   totalNbClicks: number,
   totalLocalNbClicks: number,
-  itemsNbClicks: {[key: string]: number},
-  itemsClickFrequencies: {[key: string]: number},
-  menus: {[key: string]: MenuStats}
+  itemStats: {[key: string]: ItemStats},
+  groupStats: {[key: string]: ItemGroupStats},
+  currentEventIndex: TableEntryIndex
 }
 
 
@@ -41,137 +36,126 @@ export class ItemClicksAnalyser extends DataAnalyserModule {
     super(database);
   }
 
-  protected computeAnalysis (): ItemClicksAnalysis {
-    // Get the data
-    let itemClickData = this.database.getTableEntries("item-clicks");
-    let itemNbClicksData = this.database.getTableEntries("item-nb-clicks");
-
-    let currentPagePathname = window.location.pathname;
-
-    // Initialize the analysis object
-    let analysis = {
-      totalNbClicks: itemClickData.length,
+  private createItemClickAnalysis (): ItemClicksAnalysis {
+    return {
+      totalNbClicks: 0,
       totalLocalNbClicks: 0,
-      itemsNbClicks: {},
-      itemsClickFrequencies: {},
-      menus: {}
+      itemStats: {},
+      groupStats: {},
+      currentEventIndex: this.database.getItemClickLogsCurrentIndex()
     };
-
-    // Set up the items nb clicks and frequency
-    for (let itemData of itemNbClicksData) {
-      let itemID = itemData["IDs"]["item"];
-      let itemNbClicks = itemData["nbClicks"];
-
-      analysis.itemsNbClicks[itemID] = itemNbClicks;
-      analysis.itemsClickFrequencies[itemID] = itemNbClicks / analysis.totalNbClicks;
-    }
-
-    // Create required fields and count clicks with different granularities
-
-    // Helper function checking if all fields related ton an item ID are available or not
-    // If some are missing, they are added and initialized
-    function createAllFieldsIfRequired (IDs, pathname: string) {
-      function createFieldIfRequired (object, key, newFieldKey?, newFieldValue = {}) {
-        if (object[key] === undefined) {
-          object[key] = {
-            nbClicks: 0,
-            nbLocalClicks: 0,
-            clickFrequency: 0,
-            localClickFrequency: 0
-          };
-          if (newFieldKey) {
-            object[key][newFieldKey] = newFieldValue;
-          }
-        }
-      }
-
-      createFieldIfRequired(analysis.menus, IDs.menu, "groups");
-      createFieldIfRequired(analysis.menus[IDs.menu].groups, IDs.group, "items");
-      createFieldIfRequired(analysis.menus[IDs.menu].groups[IDs.group].items, IDs.item, "nbClicksByPathname", new Map());
-
-      if (! analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].nbClicksByPathname.has(pathname)) {
-        analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].nbClicksByPathname.set(pathname, 0);
-      }
-    }
-
-    // Iterate over all item clicks and update the analysis
-    function processClick (IDs, pathname: string) {
-      let menu = analysis.menus[IDs.menu];
-
-      // Count a click
-      menu.nbClicks += 1;
-      menu.groups[IDs.group].nbClicks += 1;
-      menu.groups[IDs.group].items[IDs.item].nbClicks += 1;
-
-      if (Utilities.linkEndsWithPathname(pathname, currentPagePathname)) {
-        analysis.totalLocalNbClicks += 1;
-        menu.localNbClicks += 1;
-        menu.groups[IDs.group].localNbClicks += 1;
-        menu.groups[IDs.group].items[IDs.item].localNbClicks += 1;
-      }
-
-      // Add the source pathname to the set
-      let currentNbClicksFromPathname = menu.groups[IDs.group].items[IDs.item].nbClicksByPathname.get(pathname);
-      menu.groups[IDs.group].items[IDs.item].nbClicksByPathname.set(pathname, currentNbClicksFromPathname + 1);
-    }
-
-    for (let itemClick of itemClickData) {
-      let IDs = itemClick["IDs"];
-      let pathname: string = itemClick["pathname"];
-
-      createAllFieldsIfRequired(IDs, pathname);
-      processClick(IDs, pathname);
-    }
-
-    // Iterate again to compute frequencies
-    function computeGlobalFrequencies (IDs) {
-      if (analysis.totalNbClicks !== 0) {
-        analysis.menus[IDs.menu].clickFrequency =
-            analysis.menus[IDs.menu].nbClicks
-          / analysis.totalNbClicks;
-      }
-
-      if (analysis.menus[IDs.menu].nbClicks !== 0) {
-        analysis.menus[IDs.menu].groups[IDs.group].clickFrequency =
-            analysis.menus[IDs.menu].groups[IDs.group].nbClicks
-          / analysis.menus[IDs.menu].nbClicks;
-      }
-
-      if (analysis.menus[IDs.menu].groups[IDs.group].nbClicks !== 0) {
-        analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].clickFrequency =
-            analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].nbClicks
-          / analysis.menus[IDs.menu].groups[IDs.group].nbClicks;
-      }
-    }
-
-    function computeLocalFrequencies (IDs) {
-      if (analysis.totalLocalNbClicks !== 0) {
-        analysis.menus[IDs.menu].localClickFrequency =
-            analysis.menus[IDs.menu].localNbClicks
-          / analysis.totalLocalNbClicks;
-      }
-
-      if (analysis.menus[IDs.menu].localNbClicks !== 0) {
-        analysis.menus[IDs.menu].groups[IDs.group].localClickFrequency =
-            analysis.menus[IDs.menu].groups[IDs.group].localNbClicks
-          / analysis.menus[IDs.menu].localNbClicks;
-      }
-
-      if (analysis.menus[IDs.menu].groups[IDs.group].localNbClicks !== 0) {
-        analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].localClickFrequency =
-            analysis.menus[IDs.menu].groups[IDs.group].items[IDs.item].localNbClicks
-          / analysis.menus[IDs.menu].groups[IDs.group].localNbClicks;
-      }
-    }
-
-    for (let itemClick of itemClickData) {
-      let IDs = itemClick["IDs"];
-
-      computeGlobalFrequencies(IDs);
-      computeLocalFrequencies(IDs);
-    }
-
-    return <any> analysis;
   }
 
+  private createItemStats (): ItemStats {
+    return {
+      nbClicks: 0,
+      localNbClicks: 0,
+      clickFrequency: 0,
+      localClickFrequency: 0,
+
+      eventIndices: [],
+      sourcePathnames: [],
+      timestamps: []
+    };
+  }
+
+  private createItemGroupStats (): ItemGroupStats {
+    return {
+      nbClicks: 0,
+      localNbClicks: 0,
+      clickFrequency: 0,
+      localClickFrequency: 0,
+
+      eventIndices: [],
+      sourcePathnames: [],
+      timestamps: []
+    };
+  }
+
+  private updateItemStats (log: TableEntry<ItemClickLog>, analysis: ItemClicksAnalysis,
+                           clickHappenedOnThisPage: boolean) {
+    let itemID = log.itemID;
+
+    // Create an item stats object if required
+    if (! (itemID in analysis.itemStats)) {
+      analysis.itemStats[itemID] = this.createItemStats();
+    }
+
+    // Update the item stats
+    let itemStats = analysis.itemStats[itemID];
+
+    itemStats.nbClicks += 1;
+    if (clickHappenedOnThisPage) {
+      itemStats.localNbClicks += 1;
+    }
+
+    itemStats.sourcePathnames.push(log.pathname);
+    itemStats.timestamps.push(log.timestamp);
+
+    itemStats.eventIndices.push(log.index);
+  }
+
+  private updateItemGroupStats (log: TableEntry<ItemClickLog>, analysis: ItemClicksAnalysis,
+                            clickHappenedOnThisPage: boolean) {
+    let groupID = log.groupID;
+
+    // Create an item group stats object if required
+    if (! (groupID in analysis.groupStats)) {
+      analysis.groupStats[groupID] = this.createItemGroupStats();
+    }
+
+    // Update the item group stats
+    let groupStats = analysis.groupStats[groupID];
+
+    groupStats.nbClicks += 1;
+    if (clickHappenedOnThisPage) {
+      groupStats.localNbClicks += 1;
+    }
+
+    groupStats.sourcePathnames.push(log.pathname);
+    groupStats.timestamps.push(log.timestamp);
+
+    groupStats.eventIndices.push(log.index);
+  }
+
+  private processItemClickLog (log: TableEntry<ItemClickLog>, analysis: ItemClicksAnalysis) {
+    let currentPagePathname = window.location.pathname;
+    let clickHappenedOnThisPage = Utilities.linkHasPathname(log.pathname, currentPagePathname);
+
+    // Update global click counters
+    analysis.totalNbClicks += 1;
+    if (clickHappenedOnThisPage) {
+      analysis.totalLocalNbClicks += 1;
+    }
+
+    // Update related item and group stats
+    this.updateItemStats(log, analysis, clickHappenedOnThisPage);
+    this.updateItemGroupStats(log, analysis, clickHappenedOnThisPage);
+  }
+
+  private computeFrequencies (analysis: ItemClicksAnalysis) {
+    for (let itemID in analysis.itemStats) {
+      let itemStats = analysis.itemStats[itemID];
+
+      itemStats.clickFrequency = itemStats.nbClicks / analysis.totalNbClicks;
+      itemStats.localClickFrequency = itemStats.localNbClicks / analysis.totalLocalNbClicks;
+    }
+  }
+
+  protected computeAnalysis (): ItemClicksAnalysis {
+    // Get the required data
+    let itemClickLogs = this.database.getItemClickLogs();
+
+    // Inititalize the analysis
+    let analysis = this.createItemClickAnalysis();
+
+    // Fill the analysis
+    for (let itemClickLog of itemClickLogs) {
+      this.processItemClickLog(itemClickLog, analysis);
+    }
+
+    this.computeFrequencies(analysis);
+
+    return analysis;
+  }
 }

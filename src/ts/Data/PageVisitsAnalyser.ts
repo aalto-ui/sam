@@ -1,17 +1,29 @@
-import { Database } from "./Database";
+import { Database, TableEntry, TableEntryIndex } from "./Database";
 import { DataAnalyserModule } from "./DataAnalyserModule";
 import { Analysis } from "./DataAnalyser";
+import { PageVisitLog } from "./DataLogger";
 
+
+export interface PageStats {
+  nbVisits: number,
+  visitFrequency: number,
+
+  timestamps: number[],
+  firstVisitTimestamp: number,
+  lastVisitTimestamp: number,
+
+  visitDurations: number[],
+  totalVisitDuration: number,
+
+  eventIndices: TableEntryIndex[]
+}
 
 // Interface implemented by the page visits analysis returned by this module
 export interface PageVisitsAnalysis extends Analysis {
   totalNbVisits: number,
   nbUniquePathnames: number,
-  nbVisits: {[key: string]: number},
-  visitFrequencies: {[key: string]: number},
-  visitDurations: {[key: string]: number},
-  firstVisitTimestamps: {[key: string]: number},
-  lastVisitTimestamps: {[key: string]: number}
+  pageStats: {[key: string]: PageStats},
+  currentEventIndex: TableEntryIndex
 }
 
 
@@ -20,69 +32,87 @@ export class PageVisitsAnalyser extends DataAnalyserModule {
     super(database);
   }
 
-  protected computeAnalysis (): PageVisitsAnalysis {
-  // Get the data
-  let pageVisitsData = this.database.getTableEntries("page-visits");
-  let pageVisitDurationsData = this.database.getTableEntries("page-visit-durations");
+  private createPageVisitsAnalysis (): PageVisitsAnalysis {
+    return {
+      totalNbVisits: 0,
+      nbUniquePathnames: 0,
+      pageStats: {},
+      currentEventIndex: this.database.getItemClickLogsCurrentIndex()
+    };
+  }
 
-  // Initialize the analysis object
-  let analysis = {
-    totalNbVisits: pageVisitsData.length,
-    nbUniquePathnames: 0,
-    nbVisits: {},
-    visitFrequencies: {},
-    visitDurations: {},
-    firstVisitTimestamps: {},
-    lastVisitTimestamps: {}
-  };
+  private createPageStats (): PageStats {
+    return {
+      nbVisits: 0,
+      visitFrequency: 0,
 
-  // Compute/update the number, frequency, primacy and recency
-  // (resp. first and last visit timestamps) of visits for each page
-  function processPageVisit (visit: object) {
-    let pathname = visit["pathname"];
+      timestamps: [],
+      firstVisitTimestamp: Number.MAX_SAFE_INTEGER,
+      lastVisitTimestamp: 0,
 
-    let nbVisits = 0;
-    if (analysis.nbVisits[pathname] !== undefined) {
-      nbVisits = analysis.nbVisits[pathname];
-    }
-    else {
-      // If the pathname has never been seen before, increase the nb of unique pathnames visited so far
+      visitDurations: [],
+      totalVisitDuration: 0,
+
+      eventIndices: []
+    };
+  }
+
+  private processPageVisitLog (log: TableEntry<PageVisitLog>, analysis: PageVisitsAnalysis) {
+    let currentPagePathname = window.location.pathname;
+
+    let pathname = log.pathname;
+    let pahtnameHasAlreadyBeenSeen = pathname in analysis.pageStats;
+
+    // Update global visit counters
+    analysis.totalNbVisits += 1;
+    if (! pahtnameHasAlreadyBeenSeen) {
       analysis.nbUniquePathnames += 1;
     }
 
-    analysis.nbVisits[pathname] = nbVisits + 1;
-
-    // Map each visited pathname to the first and last visit timestamps
-    let firstTimestamp = visit["timestamp"];
-    let lastTimestamp = visit["timestamp"];
-
-    // Note: if one map has an entry for the pathname, the other must have it as well
-    if (analysis.firstVisitTimestamps[pathname] !== undefined) {
-      firstTimestamp = Math.min(firstTimestamp, analysis.firstVisitTimestamps[pathname]);
-      lastTimestamp = Math.max(lastTimestamp, analysis.lastVisitTimestamps[pathname]);
+    // Create a page stats object if required
+    if (! pahtnameHasAlreadyBeenSeen) {
+      analysis.pageStats[pathname] = this.createPageStats();
     }
 
-    analysis.firstVisitTimestamps[pathname] = firstTimestamp;
-    analysis.lastVisitTimestamps[pathname] = lastTimestamp;
+    // Update the page stats
+    let pageStats = analysis.pageStats[pathname];
 
+    pageStats.nbVisits += 1;
+
+    let timestamp = log.timestamp;
+    pageStats.timestamps.push(timestamp);
+    pageStats.firstVisitTimestamp = Math.min(timestamp, pageStats.firstVisitTimestamp);
+    pageStats.lastVisitTimestamp = Math.max(timestamp, pageStats.lastVisitTimestamp);
+
+    let duration = log.duration;
+    pageStats.visitDurations.push(duration);
+    pageStats.totalVisitDuration += duration;
+
+    pageStats.eventIndices.push(log.index);
   }
 
-  function computeFrequency (pathname: string, nbVisits: number) {
-    let frequency = nbVisits / analysis.totalNbVisits;
-    analysis.visitFrequencies[pathname] = frequency;
+  private computeFrequencies (analysis: PageVisitsAnalysis) {
+    for (let pathname in analysis.pageStats) {
+      let pageStats = analysis.pageStats[pathname];
+
+      pageStats.visitFrequency = pageStats.nbVisits / analysis.totalNbVisits;
+    }
   }
 
-  pageVisitsData.forEach(processPageVisit);
+  protected computeAnalysis (): PageVisitsAnalysis {
+    // Get the required data
+    let pageVisitLogs = this.database.getPageVisitLogs();
 
-  for (let pathname in analysis.nbVisits) {
-    computeFrequency(pathname, analysis.nbVisits[pathname]);
-  }
+    // Inititalize the analysis
+    let analysis = this.createPageVisitsAnalysis();
 
-  // Turn visit durations data into a map
-  for (let visitedPage of pageVisitDurationsData) {
-    analysis.visitDurations[visitedPage["pathname"]] = visitedPage["duration"];
-  }
+    // Fill the analysis
+    for (let pageVisitLog of pageVisitLogs) {
+      this.processPageVisitLog(pageVisitLog, analysis);
+    }
 
-  return analysis;
+    this.computeFrequencies(analysis);
+
+    return analysis;
   }
 }
