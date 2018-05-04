@@ -16,33 +16,9 @@ export class DebugDisplay {
     this.awm = awm;
     this.activated = activate;
 
-    // Initialize technique and policy from names stored in the local storage
-    this.initFromLocalStorage();
-
     // Add the UI controls to the pages
     this.controlsContainerNode = null;
     this.addAllControls();
-  }
-
-  private initFromLocalStorage () {
-    let techniqueName = localStorage.getItem("awm-debug-technique-name");
-    let policyName = localStorage.getItem("awm-debug-policy-name");
-
-    // If none have been stored yet, use the default AWM technique and policy
-    if ((! techniqueName)) {
-      console.log("No init done from local storage:", techniqueName, policyName);
-
-      techniqueName = this.awm.getCurrentTechniqueName();
-      policyName = this.awm.getCurrentPolicyName();
-    }
-
-    // Note: null policy names are read as empty strings,
-    // and must thus be converted back to null
-    else if (policyName === "") {
-      policyName = null;
-    }
-
-    this.awm.switchToTechnique(techniqueName, policyName);
   }
 
   private updateTechnique () {

@@ -168,8 +168,9 @@ export default class AdaptiveWebMenus {
     console.log("ITEM CLICK ANALYSIS", this.dataAnalyser.getItemClickAnalysis());
     console.log("PAGE VISITS ANALYSIS", this.dataAnalyser.getPageVisitsAnalysis());
 
-    this.currentAdaptation = null;
-    this.setDefaultAdaptation();
+    // Set up the adaptation (previously saved or default), and apply it
+    this.loadAdaptationFromDatabase();
+    this.applyAdaptation();
 
     this.debugDisplay = new DebugDisplay(this, debug);
   }
@@ -180,8 +181,12 @@ export default class AdaptiveWebMenus {
       return;
     }
 
+    // Internal technique update
     this.currentAdaptation = this.adaptations[techniqueName];
     this.currentAdaptationTechniqueName = techniqueName;
+
+    // Database persistent state update
+    this.database.persistentLibraryState.techniqueName = techniqueName;
   }
 
   private setAdaptationPolicy (policyName: string | null) {
@@ -197,8 +202,12 @@ export default class AdaptiveWebMenus {
       return;
     }
 
+    // Internal policy update
     this.currentAdaptation.selectedPolicy = this.currentAdaptation.policies[policyName];
     this.currentAdaptationPolicyName = policyName;
+
+    // Database persistent state update
+    this.database.persistentLibraryState.policyName = policyName;
   }
 
   private setAdaptation (techniqueName: string, policyName: string | null) {
@@ -208,6 +217,20 @@ export default class AdaptiveWebMenus {
 
   private setDefaultAdaptation () {
     this.setAdaptation("Highlighting", "Most clicked items policy");
+  }
+
+  // Load the adaptation state from the database
+  // If any piece of data is missing, fall back to the default values (see setDefaultAdaptation)
+  private loadAdaptationFromDatabase () {
+    let techniqueName = this.database.persistentLibraryState.techniqueName;
+    let policyName = this.database.persistentLibraryState.policyName;
+
+    if (techniqueName === undefined || policyName === undefined) {
+      this.setDefaultAdaptation();
+      return;
+    }
+
+    this.setAdaptation(techniqueName, policyName);
   }
 
   private applyAdaptation () {

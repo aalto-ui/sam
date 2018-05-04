@@ -33,7 +33,8 @@ interface DatabaseTable<T extends {}> {
 // Interface of the internal AWM state object
 // It should be used to store and load persistent properties (accross pages and sessions)
 export interface PersistentLibraryState {
-
+  techniqueName?: string;
+  policyName?: string;
 }
 
 
@@ -90,10 +91,7 @@ export class Database {
       }
     };
 
-    this.persistentLibraryState = {
-      techniqueName: "",
-      policyName: ""
-    };
+    this.persistentLibraryState = {};
 
     // Database internal properties
     this.currentRevision = 0;
