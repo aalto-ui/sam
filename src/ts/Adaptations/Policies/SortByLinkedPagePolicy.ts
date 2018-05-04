@@ -4,6 +4,8 @@ import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Item } from "../../Elements/Item";
 import { PageStats, PageVisitsAnalysis } from "../../Data/PageVisitsAnalyser";
+import { ItemGroupListPolicy } from "./ItemGroupListPolicy";
+import { ItemGroup } from "../../Elements/ItemGroup";
 
 
 // Generic page payload used for sorting/scoring
@@ -14,7 +16,7 @@ export interface GenericPagePayload {
 }
 
 
-export abstract class SortByLinkedPagePolicy<P extends GenericPagePayload> implements ItemListPolicy {
+export abstract class SortByLinkedPagePolicy<P extends GenericPagePayload> implements ItemListPolicy, ItemGroupListPolicy {
 
   // Internal list of sorted page payloads
   // This property can be used by any policy method, and is refreshed every time a new sorting occurs
@@ -74,6 +76,35 @@ export abstract class SortByLinkedPagePolicy<P extends GenericPagePayload> imple
     return sortedItems.concat(items);
   }
 
+  // Return item groups which have been sorted by the sum of the indices of
+  // the items in the given sorted list, in decreasing order
+  getItemGroupsSortedByPointedPages (sortedItems: Item[]): ItemGroup[] {
+    let indexSumPerGroup = new Map<ItemGroup, number>();
+
+    // Sum the indices for each group
+    for (let i = 0; i < sortedItems.length; i++) {
+      let item = sortedItems[i];
+      let group = item.parent;
+
+      if (! indexSumPerGroup.has(group)) {
+        indexSumPerGroup.set(group, i);
+        continue;
+      }
+
+      let currentSum = indexSumPerGroup.get(group);
+      indexSumPerGroup.set(group, currentSum + i);
+    }
+
+    // Sort in decreasing sum order
+    return [...indexSumPerGroup.entries()]
+      .sort((indexAndSum1, indxAndSum2) => {
+        return indexAndSum1[1] - indxAndSum2[1];
+      })
+      .map((indexAndSum) => {
+        return indexAndSum[0];
+      });
+  }
+
   getItemList (menus: Menu[], analyser: DataAnalyser): Item[] {
     // First, update the related page visits analysis
     this.pageVisitsAnalysis = analyser.getPageVisitsAnalysis();
@@ -84,5 +115,13 @@ export abstract class SortByLinkedPagePolicy<P extends GenericPagePayload> imple
     // Finally, sort all items according to the sorted payloads, and return them
     let allItems = Menu.getAllMenusItems(menus);
     return this.getItemsSortedByPointedPages(allItems);;
+  }
+
+  getItemGroupList (menus: Menu[], analyser?: DataAnalyser): ItemGroup[] {
+    // Get the sorted item list
+    let sortedItems = this.getItemList(menus, analyser);
+
+    // Sort all groups according to the sorted item indices, and return them
+    return this.getItemGroupsSortedByPointedPages(sortedItems);
   }
 }

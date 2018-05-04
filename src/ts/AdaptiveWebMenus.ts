@@ -137,7 +137,11 @@ export default class AdaptiveWebMenus {
     "Group reordering": {
       technique: new ReorderGroups(),
       policies: {
-        "Most clicked items policy": new MostClickedItemListPolicy()
+        "Most clicked items policy": new MostClickedItemListPolicy(),
+        "Most visited pages policy": new MostVisitedPagesPolicy(),
+        "Longest visit duration policy": new LongestVisitDurationPolicy(),
+        "Most recent visits policy": new MostRecentVisitsPolicy(),
+        "Serial-Position curve policy": new SerialPositionCurvePolicy(),
       },
       selectedPolicy: null
     },
@@ -145,7 +149,11 @@ export default class AdaptiveWebMenus {
     "Highlighting + group & item reordering": {
       technique: new HighlightAndReorderAll(),
       policies: {
-        "Most clicked items policy": new MostClickedItemListPolicy()
+        "Most clicked items policy": new MostClickedItemListPolicy(),
+        "Most visited pages policy": new MostVisitedPagesPolicy(),
+        "Longest visit duration policy": new LongestVisitDurationPolicy(),
+        "Most recent visits policy": new MostRecentVisitsPolicy(),
+        "Serial-Position curve policy": new SerialPositionCurvePolicy(),
       },
       selectedPolicy: null
     },
