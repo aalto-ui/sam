@@ -25,14 +25,6 @@ export class DebugDisplay {
     let techniqueName = <string> $("#awm-debug-switch-technique-menu").val();
 
     this.awm.switchToTechnique(techniqueName);
-
-    // Note: null policy names are converted to empty strings
-    let policyName = this.awm.getCurrentPolicyName();
-    policyName = policyName ? policyName : "";
-
-    localStorage.setItem("awm-debug-technique-name", techniqueName);
-    localStorage.setItem("awm-debug-policy-name", policyName);
-
     this.updatePolicyListNode();
   }
 
@@ -40,10 +32,6 @@ export class DebugDisplay {
     let policyName = <string> $("#awm-debug-switch-policy-menu").val();
 
     this.awm.switchToPolicy(policyName);
-
-    // Note: null policy names are converted to empty strings
-    policyName = policyName ? policyName : "";
-    localStorage.setItem("awm-debug-policy-name", policyName);
   }
 
   private updatePolicyListNode () {
