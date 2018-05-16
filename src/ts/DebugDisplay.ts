@@ -14,11 +14,11 @@ export class DebugDisplay {
 
   constructor (awm: AdaptiveWebMenus, activate: boolean = true) {
     this.awm = awm;
-    this.activated = activate;
-
-    // Add the UI controls to the pages
     this.controlsContainerNode = null;
-    this.addAllControls();
+
+    if (activate) {
+      this.activate();
+    }
   }
 
   private updateTechnique () {
@@ -104,5 +104,20 @@ export class DebugDisplay {
     this.addTechniqueListNode();
     this.addPolicyListNode();
     this.addClearHistoryButtonNode();
+  }
+
+  private removeAllControls () {
+    this.controlsContainerNode.remove();
+    this.controlsContainerNode = null;
+  }
+
+  activate () {
+    this.activated = true;
+    this.addAllControls();
+  }
+
+  desactivate () {
+    this.activated = false;
+    this.removeAllControls();
   }
 }
