@@ -332,16 +332,24 @@ export default class AdaptiveWebMenus {
   }
 
   // Add a menu to the list of menus to adapt
+  // The adaptation is automatically updated to take the addition into account
   addMenu (menu: Menu) {
+    this.cancelAdaptation();
+
     this.menus.push(menu);
 
     // Update the data logger to consider the new menu
     this.dataLogger.startListeningForMenuItemClicks(menu);
+
+    this.applyAdaptation();
   }
 
   // Remove the menu with the given menu ID from the list of menus to adapt
+  // The adaptation is automatically updated to take the removal into account
   // If no menu is found with the given ID, nothing happens
   removeMenu (menuID: string) {
+    this.cancelAdaptation();
+
     let removalIndex = this.menus.findIndex((menu) => {
       return menu.id === menuID;
     });
@@ -349,11 +357,13 @@ export default class AdaptiveWebMenus {
     if (removalIndex === -1) {
       return;
     }
-    
+
     let removedMenu = this.menus.splice(removalIndex, 1);
 
     // Update the data logger to ignore the removed menu
     this.dataLogger.stopListeningForMenuItemClicks(removedMenu[0]);
+
+    this.applyAdaptation();
   }
 
   // Create an AWM instance from the given generic menu and item selectors
