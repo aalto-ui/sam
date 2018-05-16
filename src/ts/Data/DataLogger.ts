@@ -24,35 +24,56 @@ export class DataLogger {
   // The database to use for logging
   private database: Database;
 
-  // List of the current page adaptive menus
-  private menus: Menu[];
-
   // Timestamp on page load
   private pageLoadTimestamp: number;
 
 
   constructor (database: Database, menus: Menu[]) {
     this.database = database;
-    this.menus = menus;
     this.pageLoadTimestamp = Date.now();
 
-    this.start();
+    this.init(menus);
   }
 
-  start () {
-    this.startListeningForItemClicks();
+  init (menus: Menu[]) {
+    this.startListeningForAllMenusItemClicks(menus);
     this.startListeningForPageBeforeUnload();
   }
 
-  startListeningForItemClicks () {
+  startListeningForItemClicks (items: Item[]) {
     let self = this;
-    let allItems = Menu.getAllMenusItems(this.menus);
 
-    for (let item of allItems) {
-      item.node.on("click", function (event) {
+    for (let item of items) {
+      item.node.on("click", item.id, function (event) {
         self.onMenuItemClick(event, item);
       });
     }
+  }
+
+  stopListeningForItemClicks (items: Item[]) {
+    for (let item of items) {
+      item.node.off("click", item.id);
+    }
+  }
+
+  startListeningForMenuItemClicks (menu: Menu) {
+    let items = menu.getAllItems();
+    this.startListeningForItemClicks(items);
+  }
+
+  stopListeningForMenuItemClicks (menu: Menu) {
+    let items = menu.getAllItems();
+    this.stopListeningForItemClicks(items);
+  }
+
+  startListeningForAllMenusItemClicks (menus: Menu[]) {
+    let items = Menu.getAllMenusItems(menus);
+    this.startListeningForItemClicks(items);
+  }
+
+  stopListeningForAllMenusItemClicks (menus: Menu[]) {
+    let items = Menu.getAllMenusItems(menus);
+    this.stopListeningForItemClicks(items);
   }
 
   onMenuItemClick (event: JQuery.Event, item: Item) {
