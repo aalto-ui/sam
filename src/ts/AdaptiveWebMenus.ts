@@ -238,6 +238,11 @@ export default class AdaptiveWebMenus {
       return;
     }
 
+    // `null` is encoded as an empty string in the local storage
+    // If any name is one, it must be set back to null instead
+    techniqueName = techniqueName === "" ? null : techniqueName;
+    policyName = policyName === "" ? null : policyName;
+
     this.setAdaptation(techniqueName, policyName);
   }
 
