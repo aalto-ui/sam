@@ -3,8 +3,8 @@
 	"version": "1.0.0",
 	"description": "Adaptive web menus library (research project from Aalto UI group).",
 	"homepage": "https://github.com/Daru13/adaptive-web-menus#readme",
-	"main": "build/js/index.js",
-	"types": "build/js/index.d.ts",
+	"main": "build/lib/index.js",
+	"types": "build/lib/index.d.ts",
 	"private": true,
 	"bugs": {
 		"url": "https://github.com/Daru13/adaptive-web-menus/issues"
