@@ -336,7 +336,7 @@ export class AdaptiveWebMenus {
   // Add a menu to the list of menus to adapt
   // The adaptation is automatically updated to take the addition into account
   addMenu (menu: Menu) {
-    this.cancelAdaptation();
+    this.resetAdaptation();
 
     this.menus.push(menu);
 
@@ -350,7 +350,7 @@ export class AdaptiveWebMenus {
   // The adaptation is automatically updated to take the removal into account
   // If no menu is found with the given ID, nothing happens
   removeMenu (menuID: string) {
-    this.cancelAdaptation();
+    this.resetAdaptation();
 
     let removalIndex = this.menus.findIndex((menu) => {
       return menu.id === menuID;
