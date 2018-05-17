@@ -27,10 +27,15 @@ export class DataLogger {
   // Timestamp on page load
   private pageLoadTimestamp: number;
 
+  // Map from item IDs to (on)click callbacks
+  // (references to callbacks are required to detach an event handler)
+  private itemClickCallbacks: Map<string, (event) => void>;
+
 
   constructor (database: Database, menus: Menu[]) {
     this.database = database;
     this.pageLoadTimestamp = Date.now();
+    this.itemClickCallbacks = new Map();
 
     this.init(menus);
   }
@@ -44,15 +49,21 @@ export class DataLogger {
     let self = this;
 
     for (let item of items) {
-      item.node.on("click", item.id, function (event) {
+      let callback = function (event) {
         self.onMenuItemClick(event, item);
-      });
+      };
+
+      this.itemClickCallbacks.set(item.id, callback);
+      item.node.on("click", callback);
     }
   }
 
   stopListeningForItemClicks (items: Item[]) {
     for (let item of items) {
-      item.node.off("click", item.id);
+      let callback = this.itemClickCallbacks.get(item.id);
+      this.itemClickCallbacks.delete(item.id);
+
+      item.node.off("click", callback);
     }
   }
 
