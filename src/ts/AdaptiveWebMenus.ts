@@ -38,7 +38,7 @@ export type MenuSelectors = {
 };
 
 
-export default class AdaptiveWebMenus {
+export class AdaptiveWebMenus {
   // List of adaptive menus
   private readonly menus: Menu[];
 

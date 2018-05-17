@@ -1,3 +1,3 @@
-import AdaptiveWebMenus from "./AdaptiveWebMenus";
+import { AdaptiveWebMenus } from "./AdaptiveWebMenus";
 
 window["AdaptiveWebMenus"] = AdaptiveWebMenus;
