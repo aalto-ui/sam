@@ -1,30 +1,38 @@
+# Aliases to the main commands used thereafter
+TSC = node_modules/typescript/bin/tsc
+BROWSERIFY = node_modules/browserify/bin/cmd.js
+UGLIFY = node_modules/uglify-es/bin/uglifyjs
+
+
 .PHONY: init build browserify uglify clean
 
 # Main rule
 all: uglify
+
 
 # Setup rule (install dependencies)
 init:
 	@echo "Initializing..."
 	@npm install
 
-# Transpile Typescript sources to Javascript
-build:
-	@echo "Building..."
-	@mkdir -p build
-	@cp -R -f src/html src/css src/js build
-	@node_modules/typescript/bin/tsc
 
-# Resolve all imports (located in the build folder) to make a single script
+# Compile Typescript sources to Javascript + type declarations
+build:
+	@echo "Compiling..."
+	@mkdir -p build build/lib
+	@cp -R -f src/css/* build
+	@$(TSC)
+
+# Resolve all imports to make a single browser-ready script
 browserify: build
 	@echo "Browserifying..."
-	@node_modules/browserify/bin/cmd.js build/js/awm.js --standalone awm -t [ browserify-shim ] -o build/js/awm.js
+	@$(BROWSERIFY) build/lib/awm.js --standalone awm -t [ browserify-shim ] -o build/awm.js
 
-# Uglify the output for shorter code/better performances
+# Uglify the browser-ready script (shorter code/better perfs)
 uglify: browserify
 	@echo "Uglifying..."
-	@node_modules/uglify-es/bin/uglifyjs build/js/awm.js --compress -o build/js/awm.min.js
+	@$(UGLIFY) build/awm.js --compress -o build/awm.min.js
 
-# Cleaning rule
+
 clean:
 	rm -rf build
