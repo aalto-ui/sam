@@ -6,7 +6,7 @@ import { Item } from "../../Elements/Item";
 import { SortByLinkedPagePolicy, GenericPagePayload } from "./SortByLinkedPagePolicy";
 
 
-interface PagePayload extends GenericPagePayload {
+export interface PagePayload extends GenericPagePayload {
   lastVisitTimestamp: number;
 }
 

@@ -5,7 +5,8 @@
     "outDir": "./build/js",
     "pretty": true,
     "alwaysStrict": true,
-    "strictPropertyInitialization": true
+    "strictPropertyInitialization": true,
+    "declaration": true
   },
 
   "compileOnSave": false,

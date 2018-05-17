@@ -7,7 +7,7 @@ import { SortByLinkedPagePolicy, GenericPagePayload } from "./SortByLinkedPagePo
 import { PageStats } from "../../Data/PageVisitsAnalyser";
 
 
-interface PagePayload extends GenericPagePayload {
+export interface PagePayload extends GenericPagePayload {
   familiarity: number;
 }
 

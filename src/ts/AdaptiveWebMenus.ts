@@ -30,10 +30,12 @@ import { AccessRankPolicy } from "./Adaptations/Policies/AccessRankPolicy";
 
 
 
-// Internal type alias used for convenience
+// Type alias used for convenience
 // It represents an object who keys are menu selectors, and values are either
 // generic item selectors, or specific group-items selector objects
-type MenuSelectors = {[key: string]: Selector | {[key: string]: Selector}};
+export type MenuSelectors = {
+  [key: string]: Selector | {[key: string]: Selector}
+};
 
 
 export default class AdaptiveWebMenus {

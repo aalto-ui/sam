@@ -5,7 +5,7 @@ import { Analysis } from "./DataAnalyser";
 import { ItemClickLog } from "./DataLogger";
 
 // Generic interface for element stats, and specific ones for actual elements
-interface AdaptiveElementStats {
+export interface AdaptiveElementStats {
   nbClicks: number,
   localNbClicks: number,
   clickFrequency: number,

@@ -5,7 +5,7 @@ import { Menu } from "./Menu";
 import { ItemClicksAnalysis } from "../Data/ItemClicksAnalyser";
 
 
-interface ItemGroupsSplitByStatsAvailability {
+export interface ItemGroupsSplitByStatsAvailability {
   withStats: ItemGroup[];
   withoutStats: ItemGroup[];
 }

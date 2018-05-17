@@ -5,7 +5,7 @@ import { Utilities } from "../Utilities";
 import { ItemClicksAnalysis } from "../Data/ItemClicksAnalyser";
 
 
-interface ItemsSplitByStatsAvailability {
+export interface ItemsSplitByStatsAvailability {
   withStats: Item[];
   withoutStats: Item[];
 }
