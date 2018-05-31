@@ -10,11 +10,6 @@ import { Item } from "../../Elements/Item";
 export class Highlight implements AdaptationTechnique {
   private static readonly HIGHLIGHTED_ELEMENT_CLASS: string = "awm-highlighted";
 
-  // Global maximum number of items to highlight
-  maxNbHighlightedItems: number = 3;
-
-  // Maximum number of items to highlight per group
-  maxNbHighlightedItemsPerGroup: number = 2;
 
   constructor () { }
 
@@ -47,16 +42,30 @@ export class Highlight implements AdaptationTechnique {
     $("." + Highlight.HIGHLIGHTED_ELEMENT_CLASS).removeClass(Highlight.HIGHLIGHTED_ELEMENT_CLASS);
   }
 
+  private getMaxNbItemsToHighlight (nbItems: number): number {
+    return Math.round(Math.sqrt(nbItems));
+  }
+
+  private getMaxNbItemsToHighlightInGroup (nbItemsInGroup: number): number {
+    return Math.round(Math.sqrt(nbItemsInGroup));
+  }
+
   apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
     let items = policy.getItemList(menus, analyser)
-      .slice(0, this.maxNbHighlightedItems);
+      .filter((item) => {
+        let itemStats = analyser.getItemClickAnalysis().itemStats[item.id];
+        return itemStats !== undefined && itemStats.nbClicks > 0;
+      });
 
-    let itemsSplitByGroup = Item.splitAllByGroup(items);
-    for (let sameGroupItems of itemsSplitByGroup) {
-      // Only keep at most maxNbDisplayedItemsPerGroup items
-      let remainingItems = sameGroupItems.splice(0, this.maxNbHighlightedItemsPerGroup);
+    let nbTopItemsToKeep = this.getMaxNbItemsToHighlight(items.length);
+    let topItems = items.slice(0, nbTopItemsToKeep);
 
-      Highlight.onAllElements(remainingItems);
+    let topItemsSplitByGroup = Item.splitAllByGroup(items);
+    for (let sameGroupItems of topItemsSplitByGroup) {
+      let nbTopSameGroupItemsToKeep = this.getMaxNbItemsToHighlightInGroup(sameGroupItems.length);
+      let topSameGroupItems = sameGroupItems.splice(0, nbTopSameGroupItemsToKeep);
+
+      Highlight.onAllElements(topSameGroupItems);
     }
   }
 }

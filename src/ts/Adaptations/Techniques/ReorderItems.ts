@@ -18,14 +18,30 @@ export class ReorderItems extends Reorder {
     return "awm-reordered-item";
   }
 
+  private getMaxNbItemsToReorder (nbItems: number): number {
+    return Math.round(Math.sqrt(nbItems));
+  }
+
+  private getMaxNbItemsToReorderInGroup (nbItemsInGroup: number): number {
+    return Math.round(Math.sqrt(nbItemsInGroup));
+  }
+
   apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
     let items = policy.getItemList(menus, analyser)
-      .slice(0, this.maxNbItems);
+      .filter((item) => {
+        let groupStats = analyser.getItemClickAnalysis().groupStats[item.id];
+        return groupStats !== undefined && groupStats.nbClicks > 0;
+      });
 
-    // Reorder items independently for each group
-    let itemsSplitByGroup = Item.splitAllByGroup(items);
-    for (let sameGroupItems of itemsSplitByGroup) {
-      this.moveAllElements(sameGroupItems);
+    let nbTopItemsToKeep = this.getMaxNbItemsToReorder(items.length);
+    let topItems = items.slice(0, nbTopItemsToKeep);
+
+    let topItemsSplitByGroup = Item.splitAllByGroup(items);
+    for (let sameGroupItems of topItemsSplitByGroup) {
+      let nbTopSameGroupItemsToKeep = this.getMaxNbItemsToReorderInGroup(sameGroupItems.length);
+      let topSameGroupItems = sameGroupItems.splice(0, nbTopSameGroupItemsToKeep);
+
+      this.moveAllElements(topSameGroupItems);
     }
   }
 }
