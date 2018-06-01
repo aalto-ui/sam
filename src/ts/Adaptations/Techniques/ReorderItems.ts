@@ -29,8 +29,8 @@ export class ReorderItems extends Reorder {
   apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
     let items = policy.getItemList(menus, analyser)
       .filter((item) => {
-        let groupStats = analyser.getItemClickAnalysis().groupStats[item.parent.id];
-        return groupStats !== undefined && groupStats.nbClicks > 0;
+        let itemStats = analyser.getItemClickAnalysis().itemStats[item.id];
+        return itemStats !== undefined && itemStats.nbClicks > 0;
       });
 
     let nbTopItemsToKeep = this.getMaxNbItemsToReorder(items.length);
