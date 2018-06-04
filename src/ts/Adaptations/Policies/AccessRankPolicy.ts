@@ -41,7 +41,7 @@ export class AccessRankPolicy implements ItemListPolicy {
         score += Math.pow(1 / p, lambda * (currentIndex - eventIndex));
       }
 
-      CRFScores.set(item, 1);
+      CRFScores.set(item, score);
     }
 
     console.log("CRF scores: ", CRFScores);
@@ -60,7 +60,7 @@ export class AccessRankPolicy implements ItemListPolicy {
       let timestamps = itemClicksAnalysis.itemStats[itemID].timestamps;
 
       // Otherwise, approximate/count how many have occurend during
-      // (1) three consecutive hours intervals and (2) the same day
+      // (1) the same hour and (2) the same day
       let nbHourlyClicks = new Array(24).fill(0);
       let nbDailyClicks = new Array(7).fill(0);
 
@@ -87,7 +87,7 @@ export class AccessRankPolicy implements ItemListPolicy {
       let d = 1;
 
       // Otherwise, compute hour- and day- regularity ratios (compared to current time)
-      if (itemClicksAnalysis.itemStats[itemID].nbClicks < 10) {
+      if (itemClicksAnalysis.itemStats[itemID].nbClicks > 10) {
         // Hour-related score part
         let currentHour = new Date().getHours();
         let previousHour = currentHour === 0 ? 23 : currentHour - 1;
@@ -108,7 +108,6 @@ export class AccessRankPolicy implements ItemListPolicy {
 
         // Day-related score part
         let currentDay = new Date().getDay();
-
         let nbDailyClicks = nbDailyClicksPerItem.get(item);
         let sameDayNbClicks = nbDailyClicks[currentDay - 1];
 
