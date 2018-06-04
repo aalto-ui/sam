@@ -50,7 +50,16 @@ export abstract class Reorder implements AdaptationTechnique {
   }
 
   private moveNode (node: JQuery, index: Position) {
-    Reorder.reinsertNode(node, index);
+    // Correct the insertion index according to already reordered siblings
+    // TODO: make this fix cleaner/more generic
+    let lastReorderedSiblingIndex = node.parent()
+      .children("." + this.getReorderedElementClass())
+      .last()
+      .index();
+
+    let correctedIndex = Math.min(index, Math.max(lastReorderedSiblingIndex, 0));
+
+    Reorder.reinsertNode(node, correctedIndex);
     node.addClass(this.getReorderedElementClass());
   }
 
