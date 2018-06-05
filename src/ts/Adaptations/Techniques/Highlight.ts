@@ -43,11 +43,11 @@ export class Highlight implements AdaptationTechnique {
   }
 
   private getMaxNbItemsToHighlight (nbItems: number): number {
-    return Math.round(Math.sqrt(nbItems));
+    return Math.floor(Math.sqrt(nbItems));
   }
 
   private getMaxNbItemsToHighlightInGroup (nbItemsInGroup: number): number {
-    return Math.round(Math.sqrt(nbItemsInGroup));
+    return Math.floor(Math.sqrt(nbItemsInGroup));
   }
 
   apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
