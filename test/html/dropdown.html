@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"></meta>
+		<link rel="stylesheet" href="../../build/awm.css"></link>
+		<link rel="stylesheet" href="../css/test-style.css"></link>
+
+		<title>Dropdown menu - AWM test page</title>
+	</head>
+
+	<body>
+		<h1>Dropdown menu</h1>
+
+    <select id="dropdown-menu">
+      <option>Option 1</option>
+      <option>Option 2</option>
+      <option>Option 3</option>
+      <option>Option 4</option>
+      <option>Option 5</option>
+      <option>Option 6</option>
+      <option>Option 7</option>
+      <option>Option 8</option>
+    </select>
+  </body>
+
+	<script type="text/javascript" src="../js/jquery-3.3.1.slim.min.js"></script>
+	<script type="text/javascript" src="../../build/awm.min.js"></script>
+
+	<script type="text/javascript">
+    $(document).ready(function () {
+      let awm = AdaptiveWebMenus.fromSelectors("#dropdown-menu", "option");
+      window["awm"] = awm;
+
+      console.log(awm);
+    });
+  </script>
+</html>

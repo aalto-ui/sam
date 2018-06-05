@@ -58,3 +58,8 @@ h1 {
   line-height: 150%;
   list-style: none;
 }
+
+#dropdown-menu {
+  margin: auto auto;
+  font-size: 20px;
+}
