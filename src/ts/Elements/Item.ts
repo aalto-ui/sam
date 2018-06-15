@@ -17,8 +17,17 @@ export class Item extends AdaptiveElement {
 
   parent: ItemGroup;
 
+  // Flag indicating whether the item can be reordered or not
+  canBeReordered: boolean;
+  
+
   constructor (node: JQuery, selector: Selector, parent: ItemGroup) {
     super(node, selector, parent);
+
+    this.canBeReordered = true;
+    if (node.hasClass("awm-no-reordering")) {
+      this.canBeReordered = false;
+    }
   }
 
   // Implement required parent method which returns the element type

@@ -20,10 +20,19 @@ export class ItemGroup extends AdaptiveElement {
   // Ordered list of menu items
   items: Item[];
 
+  // Flag indicating whether the group can be reordered or not
+  canBeReordered: boolean;
+
+
   constructor (node: JQuery, selector: Selector | NoSelector, parent: Menu, items: Item[] = []) {
     super(node, selector, parent);
 
     this.items = items;
+
+    this.canBeReordered = true;
+    if (node.hasClass("awm-no-reordering")) {
+      this.canBeReordered = false;
+    }
   }
 
   // Implement required parent method which returns the element type
