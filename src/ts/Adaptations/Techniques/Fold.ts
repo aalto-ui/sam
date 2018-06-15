@@ -14,9 +14,6 @@ export class Fold implements AdaptationTechnique {
   private static readonly FOLD_BUTTON_CLASS: string = "awm-fold-button";
   private static readonly FOLDABLE_ELEMENT_CLASS: string = "awm-foldable";
 
-  // Maximum number of items to always display, for each group
-  maxNbDisplayedItemsPerGroup: number = 3;
-
   private foldableItemParents: Set<HTMLElement>;
 
 
@@ -84,14 +81,21 @@ export class Fold implements AdaptationTechnique {
     this.foldableItemParents.clear();
   }
 
+  private getMaxNbItemsToDisplayInGroup (nbItemsInGroup: number): number {
+    return Math.ceil(Math.sqrt(nbItemsInGroup));
+  }
+
   apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
     let items = policy.getItemList(menus, analyser);
 
     // Move items into folded menus independently for each group
     let itemsSplitByGroup = Item.splitAllByGroup(items);
     for (let sameGroupItems of itemsSplitByGroup) {
-      // Only keep items which must be moved into the folded menu
-      sameGroupItems.splice(0, this.maxNbDisplayedItemsPerGroup);
+
+
+      // Only keep items which must be moved into the folded menu (i.e. remove the top ones from the array)
+      let nbItemToKeep = this.getMaxNbItemsToDisplayInGroup(sameGroupItems.length);
+      sameGroupItems.splice(0, nbItemToKeep);
 
       this.makeAllItemsFoldable(sameGroupItems);
     }
