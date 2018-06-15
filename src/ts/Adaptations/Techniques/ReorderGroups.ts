@@ -25,9 +25,9 @@ export class ReorderGroups extends Reorder {
           return false;
         }
 
-        return true;
-      })
-      .slice(0, this.maxNbItems);
+        let groupStats = analyser.getItemClickAnalysis().groupStats[group.id];
+        return groupStats !== undefined && groupStats.nbClicks > 0;
+      });
 
     this.moveAllElements(groups);
   }

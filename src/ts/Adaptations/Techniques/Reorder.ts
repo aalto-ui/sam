@@ -12,9 +12,6 @@ type Position = number;
 
 
 export abstract class Reorder implements AdaptationTechnique {
-  // Maximum number of items to reorder
-  maxNbItems: number = 3;
-
   // Map from HTML parent elements to JQuery children in their original order
   // This is internally used to restore the reset the reordering
   private childrenInOriginalOrder: Map<HTMLElement, JQuery>;
