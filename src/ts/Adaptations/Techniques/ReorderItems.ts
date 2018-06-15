@@ -29,6 +29,10 @@ export class ReorderItems extends Reorder {
   apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
     let items = policy.getItemList(menus, analyser)
       .filter((item) => {
+        if (! item.canBeReordered) {
+          return false;
+        }
+
         let itemStats = analyser.getItemClickAnalysis().itemStats[item.id];
         return itemStats !== undefined && itemStats.nbClicks > 0;
       });

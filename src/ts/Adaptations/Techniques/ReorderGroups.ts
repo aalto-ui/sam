@@ -20,6 +20,13 @@ export class ReorderGroups extends Reorder {
 
   apply (menus: Menu[], policy: ItemGroupListPolicy, analyser?: DataAnalyser) {
     let groups = policy.getItemGroupList(menus, analyser)
+      .filter((group) => {
+        if (! group.canBeReordered) {
+          return false;
+        }
+
+        return true;
+      })
       .slice(0, this.maxNbItems);
 
     this.moveAllElements(groups);
