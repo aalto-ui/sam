@@ -51,18 +51,21 @@ export class Highlight implements AdaptationTechnique {
   }
 
   apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
+    let totalNbItems = Menu.getAllMenusItems(menus).length;
+
     let items = policy.getItemList(menus, analyser)
       .filter((item) => {
         let itemStats = analyser.getItemClickAnalysis().itemStats[item.id];
         return itemStats !== undefined && itemStats.nbClicks > 0;
       });
 
-    let nbTopItemsToKeep = this.getMaxNbItemsToHighlight(items.length);
+    let nbTopItemsToKeep = this.getMaxNbItemsToHighlight(totalNbItems);
     let topItems = items.slice(0, nbTopItemsToKeep);
 
-    let topItemsSplitByGroup = Item.splitAllByGroup(items);
+    let topItemsSplitByGroup = Item.splitAllByGroup(topItems);
     for (let sameGroupItems of topItemsSplitByGroup) {
-      let nbTopSameGroupItemsToKeep = this.getMaxNbItemsToHighlightInGroup(sameGroupItems.length);
+      let totalNbGroupItems = sameGroupItems[0].parent.items.length;
+      let nbTopSameGroupItemsToKeep = this.getMaxNbItemsToHighlightInGroup(totalNbGroupItems);
       let topSameGroupItems = sameGroupItems.splice(0, nbTopSameGroupItemsToKeep);
 
       Highlight.onAllElements(topSameGroupItems);

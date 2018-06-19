@@ -27,6 +27,8 @@ export class ReorderItems extends Reorder {
   }
 
   apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
+    let totalNbItems = Menu.getAllMenusItems(menus).length;
+
     let items = policy.getItemList(menus, analyser)
       .filter((item) => {
         if (! item.canBeReordered) {
@@ -37,12 +39,13 @@ export class ReorderItems extends Reorder {
         return itemStats !== undefined && itemStats.nbClicks > 0;
       });
 
-    let nbTopItemsToKeep = this.getMaxNbItemsToReorder(items.length);
+    let nbTopItemsToKeep = this.getMaxNbItemsToReorder(totalNbItems);
     let topItems = items.slice(0, nbTopItemsToKeep);
 
-    let topItemsSplitByGroup = Item.splitAllByGroup(items);
+    let topItemsSplitByGroup = Item.splitAllByGroup(topItems);
     for (let sameGroupItems of topItemsSplitByGroup) {
-      let nbTopSameGroupItemsToKeep = this.getMaxNbItemsToReorderInGroup(sameGroupItems.length);
+      let totalNbGroupItems = sameGroupItems[0].parent.items.length;
+      let nbTopSameGroupItemsToKeep = this.getMaxNbItemsToReorderInGroup(totalNbGroupItems);
       let topSameGroupItems = sameGroupItems.splice(0, nbTopSameGroupItemsToKeep);
 
       this.moveAllElements(topSameGroupItems);

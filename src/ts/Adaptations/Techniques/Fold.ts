@@ -91,10 +91,9 @@ export class Fold implements AdaptationTechnique {
     // Move items into folded menus independently for each group
     let itemsSplitByGroup = Item.splitAllByGroup(items);
     for (let sameGroupItems of itemsSplitByGroup) {
-
-
       // Only keep items which must be moved into the folded menu (i.e. remove the top ones from the array)
-      let nbItemToKeep = this.getMaxNbItemsToDisplayInGroup(sameGroupItems.length);
+      let totalNbGroupItems = sameGroupItems[0].parent.items.length;
+      let nbItemToKeep = this.getMaxNbItemsToDisplayInGroup(totalNbGroupItems);
       sameGroupItems.splice(0, nbItemToKeep);
 
       this.makeAllItemsFoldable(sameGroupItems);
