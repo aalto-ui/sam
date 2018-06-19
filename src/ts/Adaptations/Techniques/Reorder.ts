@@ -12,8 +12,14 @@ export abstract class Reorder implements AdaptationTechnique {
   // This is internally used to reset the reordering
   private childrenInOriginalOrder: Map<HTMLElement, JQuery>;
 
+  // Map from HTML elements which should not be reordered to their original indices
+  // This is internally used to always reinsert them at their original position
+  private nonReorderedElementsOriginalIndices: Map<HTMLElement, number>;
+
+
   constructor () {
     this.childrenInOriginalOrder = new Map();
+    this.nonReorderedElementsOriginalIndices = new Map();
   }
 
   // This method should be overriden by child classes which
@@ -28,7 +34,7 @@ export abstract class Reorder implements AdaptationTechnique {
   protected abstract getReorderedElementType (): string;
 
   // Insert a node at a given index, with no side effect
-  private static insertNode (node: JQuery, index: number) {
+  private insertNode (node: JQuery, index: number) {
     if (index === node.index()) {
       return;
     }
@@ -46,12 +52,21 @@ export abstract class Reorder implements AdaptationTechnique {
   }
 
   private moveNode (node: JQuery, index: number) {
-    Reorder.insertNode(node, index);
+    this.insertNode(node, index);
     node.addClass(this.getReorderedElementClass());
+  }
+
+  private reinsertNonReorderedElements () {
+    for (let element of this.nonReorderedElementsOriginalIndices.keys()) {
+      let originalIndex = this.nonReorderedElementsOriginalIndices.get(element);
+      this.insertNode($(element), originalIndex);
+      console.log("reinsert", element, "at", originalIndex)
+    }
   }
 
   private getSortedChildrenIndices (parent: JQuery): number[] {
     let type = this.getReorderedElementType();
+
     return parent.children(`[${AdaptiveElement.TAG_PREFIX}type=${type}]`)
       .get()
       .map((element) => {
@@ -80,6 +95,13 @@ export abstract class Reorder implements AdaptationTechnique {
     return parentsToChildren;
   }
 
+  private saveNonReorderedElementsOriginalIndices (parent: JQuery) {
+    let nonReorderedChildren = parent.children(".awm-no-reordering")
+      .each((_, element) => {
+        this.nonReorderedElementsOriginalIndices.set(element, $(element).index());
+      });
+  }
+
   protected reorderAllElements (elements: AdaptiveElement[]) {
     let nodes = elements.map((element) => {
       return element.node;
@@ -88,13 +110,19 @@ export abstract class Reorder implements AdaptationTechnique {
     let nodesSplitByParents = this.splitNodesByParents(nodes);
 
     for (let parent of nodesSplitByParents.keys()) {
+      let parentNode = $(parent);
+
+      this.saveNonReorderedElementsOriginalIndices(parentNode);
+
       let nodesWithSameParent = nodesSplitByParents.get(parent);
-      let insertionIndices = this.getSortedChildrenIndices($(parent));
+      let insertionIndices = this.getSortedChildrenIndices(parentNode);
 
       nodesWithSameParent.forEach((node, index) => {
         this.moveNode(node, insertionIndices[index]);
       });
     }
+
+    this.reinsertNonReorderedElements();
   }
 
   reset () {
@@ -109,6 +137,8 @@ export abstract class Reorder implements AdaptationTechnique {
 
     let reorderedElementClass = this.getReorderedElementClass();
     $("." + reorderedElementClass).removeClass(reorderedElementClass);
+
+    this.nonReorderedElementsOriginalIndices.clear();
   }
 
   abstract apply (menus: Menu[], policy: AdaptationPolicy, analyser?: DataAnalyser);
