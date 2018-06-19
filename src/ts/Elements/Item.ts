@@ -15,11 +15,14 @@ export class Item extends AdaptiveElement {
   // Standard AWM class for menus
   static readonly AWM_CLASS = "awm-item";
 
+  // Type of the element
+  static readonly ELEMENT_TYPE = "item";
+
   parent: ItemGroup;
 
   // Flag indicating whether the item can be reordered or not
   canBeReordered: boolean;
-  
+
 
   constructor (node: JQuery, selector: Selector, parent: ItemGroup) {
     super(node, selector, parent);
@@ -30,9 +33,8 @@ export class Item extends AdaptiveElement {
     }
   }
 
-  // Implement required parent method which returns the element type
   getType (): string {
-    return "item";
+    return Item.ELEMENT_TYPE;
   }
 
   // Look for link (<a>) nodes among the link element itself and is children,

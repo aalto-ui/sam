@@ -15,6 +15,9 @@ export class ItemGroup extends AdaptiveElement {
   // Standard AWM class for groups
   static readonly AWM_CLASS = "awm-group";
 
+  // Type of the element
+  static readonly ELEMENT_TYPE = "group";
+
   parent: Menu;
 
   // Ordered list of menu items
@@ -35,9 +38,8 @@ export class ItemGroup extends AdaptiveElement {
     }
   }
 
-  // Implement required parent method which returns the element type
   getType (): string {
-    return "group";
+    return ItemGroup.ELEMENT_TYPE;
   }
 
   // Fill a menu using the given item selector
