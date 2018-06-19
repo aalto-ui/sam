@@ -18,6 +18,10 @@ export class ReorderGroups extends Reorder {
     return "awm-reordered-group";
   }
 
+  protected getReorderedElementType (): string {
+    return ItemGroup.ELEMENT_TYPE;
+  }
+
   apply (menus: Menu[], policy: ItemGroupListPolicy, analyser?: DataAnalyser) {
     let groups = policy.getItemGroupList(menus, analyser)
       .filter((group) => {
@@ -29,6 +33,6 @@ export class ReorderGroups extends Reorder {
         return groupStats !== undefined && groupStats.nbClicks > 0;
       });
 
-    this.moveAllElements(groups);
+    this.reorderAllElements(groups);
   }
 }

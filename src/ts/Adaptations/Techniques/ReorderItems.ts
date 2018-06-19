@@ -18,6 +18,10 @@ export class ReorderItems extends Reorder {
     return "awm-reordered-item";
   }
 
+  protected getReorderedElementType (): string {
+    return Item.ELEMENT_TYPE;
+  }
+
   private getMaxNbItemsToReorder (nbItems: number): number {
     return Math.floor(Math.sqrt(nbItems));
   }
@@ -48,7 +52,7 @@ export class ReorderItems extends Reorder {
       let nbTopSameGroupItemsToKeep = this.getMaxNbItemsToReorderInGroup(totalNbGroupItems);
       let topSameGroupItems = sameGroupItems.splice(0, nbTopSameGroupItemsToKeep);
 
-      this.moveAllElements(topSameGroupItems);
+      this.reorderAllElements(topSameGroupItems);
     }
   }
 }

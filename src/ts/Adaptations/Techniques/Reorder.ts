@@ -7,13 +7,9 @@ import { ItemGroup } from "../../Elements/ItemGroup";
 import { Item } from "../../Elements/Item";
 
 
-// Type alias for an element position
-type Position = number;
-
-
 export abstract class Reorder implements AdaptationTechnique {
   // Map from HTML parent elements to JQuery children in their original order
-  // This is internally used to restore the reset the reordering
+  // This is internally used to reset the reordering
   private childrenInOriginalOrder: Map<HTMLElement, JQuery>;
 
   constructor () {
@@ -27,9 +23,12 @@ export abstract class Reorder implements AdaptationTechnique {
     return "awm-reordered";
   }
 
-  // For internal use only
-  // Simply move a node among its siblings at a given index, with no side effect
-  private static reinsertNode (node: JQuery, index: Position) {
+  // This method must be overriden by any concrete child class
+  // It must return a string representing the type of adaptive elements being reordered
+  protected abstract getReorderedElementType (): string;
+
+  // Insert a node at a given index, with no side effect
+  private static insertNode (node: JQuery, index: number) {
     if (index === node.index()) {
       return;
     }
@@ -46,46 +45,56 @@ export abstract class Reorder implements AdaptationTechnique {
     }
   }
 
-  private moveNode (node: JQuery, index: Position) {
-    // Correct the insertion index according to already reordered siblings
-    // TODO: make this fix cleaner/more generic
-    let lastReorderedSiblingIndex = node.parent()
-      .children("." + this.getReorderedElementClass())
-      .last()
-      .index();
-
-    let correctedIndex = Math.min(index, Math.max(lastReorderedSiblingIndex, 0));
-
-    Reorder.reinsertNode(node, correctedIndex);
+  private moveNode (node: JQuery, index: number) {
+    Reorder.insertNode(node, index);
     node.addClass(this.getReorderedElementClass());
   }
 
-  private moveElement (element: AdaptiveElement, index: Position) {
-    // Save the parent HTML element, it it has never been seen yet
-    let parentNode = element.node.parent();
-    if (! this.childrenInOriginalOrder.has(parentNode[0])) {
-      let orderedChildNodes = parentNode.children();
-      this.childrenInOriginalOrder.set(parentNode[0], orderedChildNodes);
-    }
-
-    // Shift the index according to the actual indices of adaptive elements
-    // sibling nodes of the same type; it can prevent breaking some designs,
-    // where there are non-menu nodes among the siblings of reordered element nodes
-    let type = element.getType();
-    let sortedShiftedIndices = parentNode.children(`[${AdaptiveElement.TAG_PREFIX}type=${type}]`)
+  private getSortedChildrenIndices (parent: JQuery): number[] {
+    let type = this.getReorderedElementType();
+    return parent.children(`[${AdaptiveElement.TAG_PREFIX}type=${type}]`)
       .get()
       .map((element) => {
         return $(element).index();
       })
       .sort();
-
-    this.moveNode(element.node, sortedShiftedIndices[index]);
   }
 
-  protected moveAllElements (elements: AdaptiveElement[]) {
-    elements.forEach((element, index) => {
-      this.moveElement(element, index);
+  // Return a map from each unique parent element to its children nodes
+  // The order of the children respects the order of the nodes in the given array
+  private splitNodesByParents (nodes: JQuery[]): Map<HTMLElement, JQuery[]> {
+    let parentsToChildren = new Map<HTMLElement, JQuery[]>();
+
+    for (let node of nodes) {
+      let parentElement = node.parent().get(0);
+
+      if (parentsToChildren.has(parentElement)) {
+        let siblings = parentsToChildren.get(parentElement);
+        siblings.push(node);
+      }
+      else {
+        parentsToChildren.set(parentElement, [node]);
+      }
+    }
+
+    return parentsToChildren;
+  }
+
+  protected reorderAllElements (elements: AdaptiveElement[]) {
+    let nodes = elements.map((element) => {
+      return element.node;
     });
+
+    let nodesSplitByParents = this.splitNodesByParents(nodes);
+
+    for (let parent of nodesSplitByParents.keys()) {
+      let nodesWithSameParent = nodesSplitByParents.get(parent);
+      let insertionIndices = this.getSortedChildrenIndices($(parent));
+
+      nodesWithSameParent.forEach((node, index) => {
+        this.moveNode(node, insertionIndices[index]);
+      });
+    }
   }
 
   reset () {
