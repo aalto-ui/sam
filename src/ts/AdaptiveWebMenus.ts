@@ -144,6 +144,7 @@ export class AdaptiveWebMenus {
         "Longest visit duration policy": new LongestVisitDurationPolicy(),
         "Most recent visits policy": new MostRecentVisitsPolicy(),
         "Serial-Position curve policy": new SerialPositionCurvePolicy(),
+        "AccessRank policy": new AccessRankPolicy()
       },
       selectedPolicy: null
     },
@@ -156,6 +157,7 @@ export class AdaptiveWebMenus {
         "Longest visit duration policy": new LongestVisitDurationPolicy(),
         "Most recent visits policy": new MostRecentVisitsPolicy(),
         "Serial-Position curve policy": new SerialPositionCurvePolicy(),
+        "AccessRank policy": new AccessRankPolicy()
       },
       selectedPolicy: null
     },

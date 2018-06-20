@@ -4,9 +4,11 @@ import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Item } from "../../Elements/Item";
 import { ItemClicksAnalysis } from "../../Data/ItemClicksAnalyser";
+import { ItemGroup } from "../../Elements/ItemGroup";
+import { ItemGroupListPolicy, ItemGroupWithScore } from "./ItemGroupListPolicy";
 
 
-export class AccessRankPolicy implements ItemListPolicy {
+export class AccessRankPolicy implements ItemListPolicy, ItemGroupListPolicy {
 
   constructor () { }
 
@@ -200,5 +202,48 @@ export class AccessRankPolicy implements ItemListPolicy {
 
     // Return sorted item (with stats) with scores, followed by those without stats
     return sortedItemsWithScores.concat(itemsWithoutStatsWithScores);
+  }
+
+  // Return item groups which have been sorted by the sum of the scores
+  // of the items they contain, in decreasing order
+  getItemGroupsWithScoresSortedByItemScores (sortedItemsWithScores: ItemWithScore[]): ItemGroupWithScore[] {
+    let scorePerGroup = new Map<ItemGroup, number>();
+    let sumOfScores = 0;
+
+    // Sum the indices for each group
+    for (let itemWithScore of sortedItemsWithScores) {
+      let score = itemWithScore.score;
+      let group = itemWithScore.item.parent;
+
+      if (! scorePerGroup.has(group)) {
+        scorePerGroup.set(group, score);
+        continue;
+      }
+
+      let currentGroupScore = scorePerGroup.get(group);
+      scorePerGroup.set(group, currentGroupScore + score);
+
+      sumOfScores += score;
+    }
+
+    // Sort in decreasing sum order
+    return [...scorePerGroup.entries()]
+      .sort((tuple1, tuple2) => {
+        return tuple1[1] - tuple2[1];
+      })
+      .map((tuple) => {
+        return {
+          group: tuple[0],
+          score: tuple[1] / sumOfScores
+        };
+      });
+    }
+
+  getSortedItemGroupsWithScores (menus: Menu[], analyser?: DataAnalyser): ItemGroupWithScore[] {
+    // Get the sorted items with scores list
+    let sortedItemsWithScores = this.getSortedItemsWithScores(menus, analyser);
+
+    // Sort all item groups according to the sorted item scores
+    return this.getItemGroupsWithScoresSortedByItemScores(sortedItemsWithScores);
   }
 }
