@@ -95,8 +95,8 @@ export abstract class SortByLinkedPagePolicy<P extends GenericPagePayload> imple
 
     // Sum the indices for each group
     for (let i = 0; i < sortedItemsWithScores.length; i++) {
-      let itemScore = sortedItemsWithScores[i];
-      let group = itemScore.item.parent;
+      let itemWithScore = sortedItemsWithScores[i];
+      let group = itemWithScore.item.parent;
 
       if (! indexSumPerGroup.has(group)) {
         indexSumPerGroup.set(group, i);
@@ -110,7 +110,6 @@ export abstract class SortByLinkedPagePolicy<P extends GenericPagePayload> imple
     }
 
     // TODO: allow child classes to define their own score?
-    // NOTE: it should sum to one, hence the following
 
     // Sort in decreasing sum order
     return [...indexSumPerGroup.entries()]
