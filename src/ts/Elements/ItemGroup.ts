@@ -38,6 +38,47 @@ export class ItemGroup extends AdaptiveElement {
     }
   }
 
+  // Return true if all the group items are alphabetically sorted, false otherwise
+  isAlphabeticallySorted () {
+    let itemLabels = this.items.map((item) => {
+      return item.node.text();
+    });
+
+    // Compare the current label with the next one, using flexible options for localCompare
+    // This allows to accept more diverse variants of (somehow) ordered menus,
+    // e.g. including character case and using a natural order for numbers
+    let nbLabels = itemLabels.length;
+
+    const localeCompareOptions: any = {
+      usage: "sort",
+      sensitivity: "base",
+      ignorePunctuation: true,
+      numeric: true
+    };
+
+    return itemLabels.every((label, index) => {
+      if (index === nbLabels - 1) {
+        return true;
+      }
+
+      return label.localeCompare(itemLabels[index + 1], localeCompareOptions) < 0;
+    });
+  }
+
+  // Update the reordering constraints (canBeReordered) of all the group items, such that:
+  // - Any individual item with the awm-no-reordering class will not be reorderable
+  // - All other item will be reorderable, EXCEPT if all items are alphabetically ordered
+  updateItemsReorderingConstraints () {
+    let notAlphabeticallySorted = ! this.isAlphabeticallySorted();
+
+    for (let item of this.items) {
+      item.canBeReordered = item.node.hasClass("awm-no-reordering")
+                          ? false
+                          : notAlphabeticallySorted;
+    }
+  }
+
+
   getType (): string {
     return ItemGroup.ELEMENT_TYPE;
   }
@@ -49,6 +90,9 @@ export class ItemGroup extends AdaptiveElement {
     this.node.find(itemSelector).each(function (index, element) {
       self.items.push(Item.fromSelector(element, self));
     });
+
+    // The reordering constraint of all (new) items must then be updated
+    this.updateItemsReorderingConstraints();
   }
 
   // Split a list of groups into two lists of groups:
