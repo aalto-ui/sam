@@ -23,14 +23,19 @@ export class ReorderGroups extends Reorder {
   }
 
   apply (menus: Menu[], policy: ItemGroupListPolicy, analyser?: DataAnalyser) {
-    let groups = policy.getItemGroupList(menus, analyser)
-      .filter((group) => {
+    let groups = policy.getSortedItemGroupsWithScores(menus, analyser)
+      .filter((groupScore) => {
+        let group = groupScore.group;
+
         if (! group.canBeReordered) {
           return false;
         }
 
         let groupStats = analyser.getItemClickAnalysis().groupStats[group.id];
         return groupStats !== undefined && groupStats.nbClicks > 0;
+      })
+      .map((groupScore) => {
+        return groupScore.group;
       });
 
     this.reorderAllElements(groups);

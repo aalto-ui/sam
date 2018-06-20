@@ -4,10 +4,15 @@ import { Menu } from "../../Elements/Menu";
 import { ItemGroup } from "../../Elements/ItemGroup";
 
 
+export interface ItemGroupWithScore {
+  group: ItemGroup;
+  score: number;
+}
+
+
 export interface ItemGroupListPolicy extends AdaptationPolicy {
 
   // Any class implementing this interface must implement this function
-  // It should return a list of item groups (from the given menus),
-  // possibly sorted or filtered according to a particular policy
-  getItemGroupList (menus: Menu[], analyser?: DataAnalyser): ItemGroup[];
+  // It should return a sorted array of item groups with their scores (from the given menus)
+  getSortedItemGroupsWithScores (menus: Menu[], analyser?: DataAnalyser): ItemGroupWithScore[];
 }

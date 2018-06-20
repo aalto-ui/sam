@@ -2,7 +2,6 @@ import * as $ from "jquery";
 import { ItemListPolicy } from "./ItemListPolicy";
 import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
-import { Item } from "../../Elements/Item";
 import { SortByLinkedPagePolicy, GenericPagePayload } from "./SortByLinkedPagePolicy";
 import { PageStats } from "../../Data/PageVisitsAnalyser";
 

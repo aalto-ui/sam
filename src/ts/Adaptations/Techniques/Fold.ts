@@ -86,7 +86,10 @@ export class Fold implements AdaptationTechnique {
   }
 
   apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
-    let items = policy.getItemList(menus, analyser);
+    let items = policy.getSortedItemsWithScores(menus, analyser)
+      .map((itemWithScore) => {
+        return itemWithScore.item;
+      });
 
     // Move items into folded menus independently for each group
     let itemsSplitByGroup = Item.splitAllByGroup(items);

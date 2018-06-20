@@ -1,5 +1,5 @@
 import * as $ from "jquery";
-import { ItemListPolicy } from "./ItemListPolicy";
+import { ItemListPolicy, ItemWithScore } from "./ItemListPolicy";
 import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Item } from "../../Elements/Item";
@@ -7,7 +7,9 @@ import { ItemClicksAnalysis } from "../../Data/ItemClicksAnalyser";
 
 
 export class AccessRankPolicy implements ItemListPolicy {
+
   constructor () { }
+
 
   private computeMarkovScores (items: Item[], itemClicksAnalysis: ItemClicksAnalysis): Map<Item, number> {
     let markovScores = new Map();
@@ -133,7 +135,7 @@ export class AccessRankPolicy implements ItemListPolicy {
     return regularityScores;
   }
 
-  getItemList (menus: Menu[], analyser: DataAnalyser): Item[] {
+  getSortedItemsWithScores (menus: Menu[], analyser: DataAnalyser): ItemWithScore[] {
     let itemClicksAnalysis = analyser.getItemClickAnalysis();
     let currentPagePathname = window.location.pathname;
 
@@ -176,17 +178,27 @@ export class AccessRankPolicy implements ItemListPolicy {
       accessRankScores.set(item, score);
     }
 
-    // Sort items with stats by their AccessRank scores
-    let sortedItems = [...accessRankScores.entries()]
+    // Sort items (with stats) with scores by their AccessRank scores
+    let sortedItemsWithScores = [...accessRankScores.entries()]
       .sort((tuple1, tuple2) => {
         return tuple2[1] - tuple1[1];
       })
       .map(tuple => {
-        return tuple[0];
+        return {
+          item: tuple[0],
+          score: tuple[1]
+        };
       });
 
-    // Return sorted items with stats, followed by items without stats
-    console.log("sorted items accrank", sortedItems)
-    return sortedItems.concat(itemsWithoutStats);
+    // Give a score of zero to items without stats
+    let itemsWithoutStatsWithScores = itemsWithoutStats.map(item => {
+      return {
+        item: item,
+        score: 0
+      }
+    });
+
+    // Return sorted item (with stats) with scores, followed by those without stats
+    return sortedItemsWithScores.concat(itemsWithoutStatsWithScores);
   }
 }

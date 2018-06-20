@@ -33,14 +33,19 @@ export class ReorderItems extends Reorder {
   apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
     let totalNbItems = Menu.getAllMenusItems(menus).length;
 
-    let items = policy.getItemList(menus, analyser)
-      .filter((item) => {
+    let items = policy.getSortedItemsWithScores(menus, analyser)
+      .filter((itemScore) => {
+        let item = itemScore.item;
+
         if (! item.canBeReordered) {
           return false;
         }
 
         let itemStats = analyser.getItemClickAnalysis().itemStats[item.id];
         return itemStats !== undefined && itemStats.nbClicks > 0;
+      })
+      .map((itemScore) => {
+        return itemScore.item;
       });
 
     let nbTopItemsToKeep = this.getMaxNbItemsToReorder(totalNbItems);

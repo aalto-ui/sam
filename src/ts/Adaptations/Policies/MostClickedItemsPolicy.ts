@@ -1,5 +1,5 @@
-import { ItemListPolicy } from "./ItemListPolicy";
-import { ItemGroupListPolicy } from "./ItemGroupListPolicy";
+import { ItemListPolicy, ItemWithScore } from "./ItemListPolicy";
+import { ItemGroupListPolicy, ItemGroupWithScore } from "./ItemGroupListPolicy";
 import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Item } from "../../Elements/Item";
@@ -60,23 +60,18 @@ export class MostClickedItemListPolicy implements ItemListPolicy, ItemGroupListP
     return groupsMappedToNbClicks;
   }
 
-  private sortMappedClickedElements<E extends AdaptiveElement> (elementsMappedToNbClicks: Map<E, number>) {
+  private sortMappedClickedElements<E extends AdaptiveElement> (elementsMappedToNbClicks: Map<E, number>): { element: E, nbClicks: number }[] {
     // Turn the map into a list sorted by the nb of clicks
-    let sortedItemsAndNbClicks = [...elementsMappedToNbClicks.entries()]
+    return [...elementsMappedToNbClicks.entries()]
       .map(tuple => {
         return { element: tuple[0], nbClicks: tuple[1] };
       })
       .sort((e1, e2) => {
         return e2.nbClicks - e1.nbClicks;
       });
-
-    // Only return a list of elements
-    return sortedItemsAndNbClicks.map(e => {
-      return e.element;
-    });
   }
 
-  getItemList (menus: Menu[], analyser: DataAnalyser): Item[] {
+  getSortedItemsWithScores (menus: Menu[], analyser: DataAnalyser): ItemWithScore[] {
     let itemClicksAnalysis = analyser.getItemClickAnalysis();
 
     // Get all items, and split them in two arrays,
@@ -87,10 +82,29 @@ export class MostClickedItemListPolicy implements ItemListPolicy, ItemGroupListP
     let itemsMappedToNbClicks = this.mapItemsToNbClicks(splitItems.withStats, itemClicksAnalysis);
     let sortedItems = this.sortMappedClickedElements(itemsMappedToNbClicks);
 
-    return sortedItems.concat(splitItems.withoutStats);
+    // Make items with scores out of the ordered items and their nb of clicks
+    let totalNbConsideredClicks = this.onlyLocalClicks
+                                ? itemClicksAnalysis.totalLocalNbClicks
+                                : itemClicksAnalysis.totalNbClicks;
+
+    let sortedItemsWithScores = sortedItems.map((e) => {
+      return {
+        item: e.element,
+        score: e.nbClicks / totalNbConsideredClicks
+      };
+    })
+
+    let remainingItemsWithScores = splitItems.withoutStats.map((item) => {
+      return {
+        item: item,
+        score: 0
+      };
+    })
+
+    return sortedItemsWithScores.concat(remainingItemsWithScores);
   }
 
-  getItemGroupList (menus: Menu[], analyser: DataAnalyser): ItemGroup[] {
+  getSortedItemGroupsWithScores (menus: Menu[], analyser: DataAnalyser): ItemGroupWithScore[] {
     let itemClicksAnalysis = analyser.getItemClickAnalysis();
     let allGroups = Menu.getAllMenusGroups(menus);
 
@@ -102,6 +116,25 @@ export class MostClickedItemListPolicy implements ItemListPolicy, ItemGroupListP
     let groupsMappedToNbClicks = this.mapGroupsToNbClicks(splitGroups.withStats, itemClicksAnalysis);
     let sortedGroups = this.sortMappedClickedElements(groupsMappedToNbClicks);
 
-    return sortedGroups.concat(splitGroups.withoutStats);
+    // Make item groups with scores out of the ordered item groups and their nb of clicks
+    let totalNbConsideredClicks = this.onlyLocalClicks
+                                ? itemClicksAnalysis.totalLocalNbClicks
+                                : itemClicksAnalysis.totalNbClicks;
+
+    let sortedGroupsWithScores = sortedGroups.map((e) => {
+      return {
+        group: e.element,
+        score: e.nbClicks / totalNbConsideredClicks
+      };
+    })
+
+    let remainingGroupsWithScores = splitGroups.withoutStats.map((group) => {
+      return {
+        group: group,
+        score: 0
+      };
+    })
+
+    return sortedGroupsWithScores.concat(remainingGroupsWithScores);
   }
 }
