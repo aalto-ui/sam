@@ -8,7 +8,7 @@ import { Policy } from "../Policies/Policy";
 import { Technique } from "./Technique";
 
 
-export class ReorderItemsAndFold implements Technique {
+export class ReorderItemsAndFold implements Technique<Policy> {
 
   // Instances of other techniques used by this mixed one
   readonly reorder: ReorderItems;

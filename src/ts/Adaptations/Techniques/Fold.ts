@@ -8,7 +8,7 @@ import { Policy } from "../Policies/Policy";
 import { Technique } from "./Technique";
 
 
-export class Fold implements Technique {
+export class Fold implements Technique<Policy> {
   private static readonly FOLDED_CLASS: string = "awm-folded";
   private static readonly FOLD_BUTTON_CLASS: string = "awm-fold-button";
   private static readonly FOLDABLE_ELEMENT_CLASS: string = "awm-foldable";

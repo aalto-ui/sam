@@ -9,7 +9,7 @@ import { Policy } from "../Policies/Policy";
 import { Technique } from "./Technique";
 
 
-export class HighlightReorderItemsAndFold implements Technique {
+export class HighlightReorderItemsAndFold implements Technique<Policy> {
 
   // Instances of other techniques used by this mixed one
   readonly highlight: Highlight;
