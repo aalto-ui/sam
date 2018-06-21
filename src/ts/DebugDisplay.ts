@@ -1,5 +1,6 @@
 import * as $ from "jquery";
 import { AdaptiveWebMenus } from "./AdaptiveWebMenus";
+import { AVAILABLE_TECHNIQUE_NAMES, AVAILABLE_POLICY_NAMES } from "./Adaptations/AvailableAdaptations";
 
 
 export class DebugDisplay {
@@ -24,30 +25,13 @@ export class DebugDisplay {
   private updateTechnique () {
     let techniqueName = <string> $("#awm-debug-switch-technique-menu").val();
 
-    this.awm.switchToTechnique(techniqueName);
-    this.updatePolicyListNode();
+    this.awm.adaptationManager.switchToTechnique(techniqueName);
   }
 
   private updatePolicy () {
     let policyName = <string> $("#awm-debug-switch-policy-menu").val();
 
-    this.awm.switchToPolicy(policyName);
-  }
-
-  private updatePolicyListNode () {
-    $("#awm-debug-switch-policy-menu").empty();
-
-    for (let name of this.awm.getAllCurrentTechniquePolicyNames()) {
-      let option = $("<option>")
-        .attr("val", name)
-        .html(name);
-
-      if (name === this.awm.getCurrentPolicyName()) {
-        option.prop("selected", true);
-      }
-
-      $("#awm-debug-switch-policy-menu").append(option);
-    }
+    this.awm.adaptationManager.switchToPolicy(policyName);
   }
 
   private addControlContainerNode () {
@@ -67,12 +51,12 @@ export class DebugDisplay {
       .attr("id", "awm-debug-switch-technique-menu")
       .change(event => { this.updateTechnique(); }));
 
-    for (let name of this.awm.getAllAdaptationTechniqueNames()) {
+    for (let name of AVAILABLE_TECHNIQUE_NAMES) {
       let option = $("<option>")
         .attr("val", name)
         .html(name);
 
-      if (name === this.awm.getCurrentTechniqueName()) {
+      if (name === this.awm.adaptationManager.getCurrentTechniqueName()) {
         option.prop("selected", true);
       }
 
@@ -89,7 +73,17 @@ export class DebugDisplay {
       .attr("id", "awm-debug-switch-policy-menu")
       .change(event => { this.updatePolicy(); }));
 
-    this.updatePolicyListNode();
+    for (let name of AVAILABLE_POLICY_NAMES) {
+      let option = $("<option>")
+        .attr("val", name)
+        .html(name);
+
+      if (name === this.awm.adaptationManager.getCurrentPolicyName()) {
+        option.prop("selected", true);
+      }
+
+      $("#awm-debug-switch-policy-menu").append(option);
+    }
   }
 
   private addClearHistoryButtonNode () {
