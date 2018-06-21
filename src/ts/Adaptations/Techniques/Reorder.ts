@@ -9,6 +9,9 @@ import { Technique } from "./Technique";
 
 
 export abstract class Reorder implements Technique<Policy> {
+
+  abstract readonly name: string;
+
   // Map from HTML parent elements to JQuery children in their original order
   // This is internally used to reset the reordering
   private childrenInOriginalOrder: Map<HTMLElement, JQuery>;

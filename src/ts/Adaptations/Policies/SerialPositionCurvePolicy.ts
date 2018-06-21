@@ -12,6 +12,8 @@ export interface PagePayload extends GenericPagePayload {
 
 export class SerialPositionCurvePolicy extends SortByLinkedPagePolicy<PagePayload> {
 
+  readonly name: string = "Serial-Position curve";
+
   constructor () {
     super();
   }

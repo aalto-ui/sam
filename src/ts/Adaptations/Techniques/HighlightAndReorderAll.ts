@@ -11,6 +11,9 @@ import { Technique } from "./Technique";
 
 export class HighlightAndReorderAll implements Technique<Policy> {
 
+  readonly name: string = "Highlight + reorder items & groups";
+
+
   // Instances of other techniques used by this mixed one
   readonly highlight: Highlight;
   readonly reorderItems: ReorderItems;

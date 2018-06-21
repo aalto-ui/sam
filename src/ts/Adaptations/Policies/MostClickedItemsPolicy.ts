@@ -8,6 +8,9 @@ import { Policy, ItemWithScore, ItemGroupWithScore } from "./Policy";
 
 
 export class MostClickedItemListPolicy extends Policy {
+
+  readonly name: string = "Most clicked items";
+
   // If true, only compute stats concerning the local clicks
   // In other words, only consider pathnames equal to the one of the current page
   onlyLocalClicks: boolean = false;

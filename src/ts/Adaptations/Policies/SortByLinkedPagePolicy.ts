@@ -17,6 +17,8 @@ export interface GenericPagePayload {
 
 export abstract class SortByLinkedPagePolicy<P extends GenericPagePayload> extends Policy {
 
+  abstract readonly name: string;
+
   // Internal list of sorted page payloads
   // This property can be used by any policy method, and is refreshed every time a new sorting occurs
   protected sortedPagePayloads: P[];

@@ -10,6 +10,8 @@ import { Technique } from "./Technique";
 
 export class ReorderItemsAndFold implements Technique<Policy> {
 
+  readonly name: string = "Reorder items + fold";
+
   // Instances of other techniques used by this mixed one
   readonly reorder: ReorderItems;
   readonly fold: Fold;

@@ -5,6 +5,8 @@ import { Policy, ItemWithScore, ItemGroupWithScore } from "./Policy";
 
 export class NodeIndexOrderPolicy extends Policy {
 
+  readonly name: string = "Node index order";
+
   constructor () {
     super();
   }

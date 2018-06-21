@@ -11,6 +11,8 @@ export interface PagePayload extends GenericPagePayload {
 
 export class MostRecentVisitsPolicy extends SortByLinkedPagePolicy<PagePayload> {
 
+  readonly name: string = "Most recently visited";
+
   constructor () {
     super();
   }

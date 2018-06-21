@@ -11,6 +11,8 @@ export interface PagePayload extends GenericPagePayload {
 
 export class LongestVisitDurationPolicy extends SortByLinkedPagePolicy<PagePayload> {
 
+  readonly name: string = "Longest visit duration";
+
   constructor () {
     super();
   }

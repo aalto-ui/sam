@@ -7,7 +7,10 @@ import { Policy } from "../Policies/Policy";
 
 
 export class ReorderGroups extends Reorder {
+
   protected static readonly REORDERED_ELEMENT_CLASS: string = "awm-reordered-group";
+
+  readonly name: string = "Reorder groups";
 
 
   constructor () {

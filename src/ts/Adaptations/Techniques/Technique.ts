@@ -7,6 +7,9 @@ import { DataAnalyser } from "../../Data/DataAnalyser";
 // Any adaptation technique must implement this interface
 // It has a type parameter P, which represent the type of policies it can accept
 export interface Technique<P extends Policy> {
+  // Represents the technique name, and must be unique among all techniques
+  readonly name: string;
+
   // Reset the page menus, by removing any changes made by this adaptation
   reset (): void;
 

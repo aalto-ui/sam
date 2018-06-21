@@ -8,6 +8,8 @@ import { Policy, ItemWithScore } from "./Policy";
 
 
 export class AccessRankPolicy extends Policy {
+  
+  readonly name: string = "AccessRank";
 
   constructor () {
     super();

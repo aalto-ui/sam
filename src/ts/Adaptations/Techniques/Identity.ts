@@ -9,6 +9,8 @@ import { Technique } from "./Technique";
 // Its only purpose is to be available (with the right type) as a baseline
 export class Identity implements Technique<Policy> {
 
+  readonly name: string = "Identity";
+
   reset () {
     // Nothing to do
   }
