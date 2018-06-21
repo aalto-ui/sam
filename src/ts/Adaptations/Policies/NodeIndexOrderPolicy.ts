@@ -1,12 +1,13 @@
-import { ItemListPolicy, ItemWithScore } from "./ItemListPolicy";
-import { ItemGroupListPolicy, ItemGroupWithScore } from "./ItemGroupListPolicy";
 import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
+import { Policy, ItemWithScore, ItemGroupWithScore } from "./Policy";
 
 
-export class NodeIndexOrderPolicy implements ItemListPolicy, ItemGroupListPolicy {
+export class NodeIndexOrderPolicy extends Policy {
 
-  constructor () { }
+  constructor () {
+    super();
+  }
 
 
   getSortedItemsWithScores (menus: Menu[], analyser?: DataAnalyser): ItemWithScore[] {

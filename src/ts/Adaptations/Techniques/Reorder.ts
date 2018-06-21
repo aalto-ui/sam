@@ -1,13 +1,14 @@
 import * as $ from "jquery";
-import { AdaptationTechnique, AdaptationPolicy } from "../Adaptation";
 import { AdaptiveElement } from "../../Elements/AdaptiveElement";
 import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { ItemGroup } from "../../Elements/ItemGroup";
 import { Item } from "../../Elements/Item";
+import { Policy } from "../Policies/Policy";
+import { Technique } from "./Technique";
 
 
-export abstract class Reorder implements AdaptationTechnique {
+export abstract class Reorder implements Technique {
   // Map from HTML parent elements to JQuery children in their original order
   // This is internally used to reset the reordering
   private childrenInOriginalOrder: Map<HTMLElement, JQuery>;
@@ -141,5 +142,5 @@ export abstract class Reorder implements AdaptationTechnique {
     this.nonReorderedElementsOriginalIndices.clear();
   }
 
-  abstract apply (menus: Menu[], policy: AdaptationPolicy, analyser?: DataAnalyser);
+  abstract apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser);
 }

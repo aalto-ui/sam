@@ -1,15 +1,14 @@
 import * as $ from "jquery";
-import { AdaptationTechnique } from "../Adaptation";
 import { AdaptiveElement } from "../../Elements/AdaptiveElement";
 import { Menu } from "../../Elements/Menu";
-import { ItemListPolicy } from "../Policies/ItemListPolicy";
 import { DataAnalyser } from "../../Data/DataAnalyser";
-
 import { ItemGroup } from "../../Elements/ItemGroup";
 import { Item } from "../../Elements/Item";
+import { Policy } from "../Policies/Policy";
+import { Technique } from "./Technique";
 
 
-export class Fold implements AdaptationTechnique {
+export class Fold implements Technique {
   private static readonly FOLDED_CLASS: string = "awm-folded";
   private static readonly FOLD_BUTTON_CLASS: string = "awm-fold-button";
   private static readonly FOLDABLE_ELEMENT_CLASS: string = "awm-foldable";
@@ -85,11 +84,8 @@ export class Fold implements AdaptationTechnique {
     return Math.ceil(Math.sqrt(nbItemsInGroup));
   }
 
-  apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
-    let items = policy.getSortedItemsWithScores(menus, analyser)
-      .map((itemWithScore) => {
-        return itemWithScore.item;
-      });
+  apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser) {
+    let items = policy.getSortedItems(menus, analyser);
 
     // Move items into folded menus independently for each group
     let itemsSplitByGroup = Item.splitAllByGroup(items);

@@ -1,14 +1,14 @@
 import * as $ from "jquery";
-import { AdaptationTechnique } from "../Adaptation";
 import { Menu } from "../../Elements/Menu";
-import { ItemListPolicy } from "../Policies/ItemListPolicy";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { ReorderItems } from "./ReorderItems";
 import { Fold } from "./Fold";
 import { NodeIndexOrderPolicy } from "../Policies/NodeIndexOrderPolicy";
+import { Policy } from "../Policies/Policy";
+import { Technique } from "./Technique";
 
 
-export class ReorderItemsAndFold implements AdaptationTechnique {
+export class ReorderItemsAndFold implements Technique {
 
   // Instances of other techniques used by this mixed one
   readonly reorder: ReorderItems;
@@ -29,7 +29,7 @@ export class ReorderItemsAndFold implements AdaptationTechnique {
     this.reorder.reset();
   }
 
-  apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
+  apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser) {
     this.reorder.apply(menus, policy, analyser);
     this.fold.apply(menus, this.naturalOrderPolicy);
   }

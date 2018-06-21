@@ -1,16 +1,15 @@
 import * as $ from "jquery";
-import { AdaptationTechnique } from "../Adaptation";
 import { ReorderItems } from "./ReorderItems";
 import { ReorderGroups } from "./ReorderGroups";
 import { Menu } from "../../Elements/Menu";
-import { ItemListPolicy } from "../Policies/ItemListPolicy";
-import { ItemGroupListPolicy } from "../Policies/ItemGroupListPolicy";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Highlight } from "./Highlight";
+import { Policy } from "../Policies/Policy";
+import { Technique } from "./Technique";
 
 
 
-export class HighlightAndReorderAll implements AdaptationTechnique {
+export class HighlightAndReorderAll implements Technique {
 
   // Instances of other techniques used by this mixed one
   readonly highlight: Highlight;
@@ -30,7 +29,7 @@ export class HighlightAndReorderAll implements AdaptationTechnique {
     this.highlight.reset();
   }
 
-  apply (menus: Menu[], policy: ItemListPolicy & ItemGroupListPolicy, analyser?: DataAnalyser) {
+  apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser) {
     this.highlight.apply(menus, policy, analyser);
     this.reorderItems.apply(menus, policy, analyser);
     this.reorderGroups.apply(menus, policy, analyser);

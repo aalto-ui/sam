@@ -1,9 +1,9 @@
 import * as $ from "jquery";
 import { Reorder } from "./Reorder";
 import { Menu } from "../../Elements/Menu";
-import { ItemListPolicy } from "../Policies/ItemListPolicy";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Item } from "../../Elements/Item";
+import { Policy } from "../Policies/Policy";
 
 
 export class ReorderItems extends Reorder {
@@ -30,22 +30,17 @@ export class ReorderItems extends Reorder {
     return Math.floor(Math.sqrt(nbItemsInGroup));
   }
 
-  apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
+  apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser) {
     let totalNbItems = Menu.getAllMenusItems(menus).length;
 
-    let items = policy.getSortedItemsWithScores(menus, analyser)
-      .filter((itemScore) => {
-        let item = itemScore.item;
-
+    let items = policy.getSortedItems(menus, analyser)
+      .filter(item => {
         if (! item.canBeReordered) {
           return false;
         }
 
         let itemStats = analyser.getItemClickAnalysis().itemStats[item.id];
         return itemStats !== undefined && itemStats.nbClicks > 0;
-      })
-      .map((itemScore) => {
-        return itemScore.item;
       });
 
     let nbTopItemsToKeep = this.getMaxNbItemsToReorder(totalNbItems);

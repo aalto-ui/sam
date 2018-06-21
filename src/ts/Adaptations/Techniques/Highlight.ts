@@ -1,10 +1,10 @@
 import * as $ from "jquery";
-import { AdaptationTechnique } from "../Adaptation";
 import { AdaptiveElement } from "../../Elements/AdaptiveElement";
 import { Menu } from "../../Elements/Menu";
-import { ItemListPolicy, ItemWithScore } from "../Policies/ItemListPolicy";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Item } from "../../Elements/Item";
+import { ItemWithScore, Policy } from "../Policies/Policy";
+import { Technique } from "./Technique";
 
 
 // Discrete strength levels of the highlighting effect
@@ -21,7 +21,7 @@ const HIGHLIGHTING_LEVELS_CLASSES: string[] = Object.keys(HighlightingLevel)
   });
 
 
-export class Highlight implements AdaptationTechnique {
+export class Highlight implements Technique {
   private static readonly HIGHLIGHTED_ELEMENT_CLASS: string = "awm-highlighted";
 
 
@@ -71,7 +71,7 @@ export class Highlight implements AdaptationTechnique {
     return itemsToHighlightAtHighLevel;
   }
 
-  apply (menus: Menu[], policy: ItemListPolicy, analyser?: DataAnalyser) {
+  apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser) {
     let totalNbItems = Menu.getAllMenusItems(menus).length;
 
     let itemScores = policy.getSortedItemsWithScores(menus, analyser)

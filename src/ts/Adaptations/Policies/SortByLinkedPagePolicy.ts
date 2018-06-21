@@ -1,11 +1,10 @@
 import * as $ from "jquery";
-import { ItemListPolicy, ItemWithScore } from "./ItemListPolicy";
 import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Item } from "../../Elements/Item";
 import { PageStats, PageVisitsAnalysis } from "../../Data/PageVisitsAnalyser";
-import { ItemGroupListPolicy, ItemGroupWithScore } from "./ItemGroupListPolicy";
 import { ItemGroup } from "../../Elements/ItemGroup";
+import { Policy, ItemWithScore } from "./Policy";
 
 
 // Generic page payload used for sorting/scoring
@@ -16,7 +15,7 @@ export interface GenericPagePayload {
 }
 
 
-export abstract class SortByLinkedPagePolicy<P extends GenericPagePayload> implements ItemListPolicy, ItemGroupListPolicy {
+export abstract class SortByLinkedPagePolicy<P extends GenericPagePayload> extends Policy {
 
   // Internal list of sorted page payloads
   // This property can be used by any policy method, and is refreshed every time a new sorting occurs
@@ -27,7 +26,9 @@ export abstract class SortByLinkedPagePolicy<P extends GenericPagePayload> imple
   protected pageVisitsAnalysis: PageVisitsAnalysis;
 
 
-  constructor () { }
+  constructor () {
+    super();
+  }
 
   // Abstract method which must be implemented by any concrete child class,
   // and should return a page payload object given a pathname
@@ -87,43 +88,6 @@ export abstract class SortByLinkedPagePolicy<P extends GenericPagePayload> imple
       });
   }
 
-  // Return item groups which have been sorted by the sum of the indices of
-  // the items in the given sorted list, in decreasing order
-  getItemGroupsWithScoresSortedByPointedPages (sortedItemsWithScores: ItemWithScore[]): ItemGroupWithScore[] {
-    let indexSumPerGroup = new Map<ItemGroup, number>();
-    let sumOfAllIndices = 0;
-
-    // Sum the indices for each group
-    for (let i = 0; i < sortedItemsWithScores.length; i++) {
-      let itemWithScore = sortedItemsWithScores[i];
-      let group = itemWithScore.item.parent;
-
-      if (! indexSumPerGroup.has(group)) {
-        indexSumPerGroup.set(group, i);
-        continue;
-      }
-
-      let currentSum = indexSumPerGroup.get(group);
-      indexSumPerGroup.set(group, currentSum + i);
-
-      sumOfAllIndices += i;
-    }
-
-    // TODO: allow child classes to define their own score?
-
-    // Sort in decreasing sum order
-    return [...indexSumPerGroup.entries()]
-      .sort((tuple1, tuple2) => {
-        return tuple1[1] - tuple2[1];
-      })
-      .map((tuple) => {
-        return {
-          group: tuple[0],
-          score: tuple[1] / sumOfAllIndices
-        };
-      });
-  }
-
   getSortedItemsWithScores (menus: Menu[], analyser: DataAnalyser): ItemWithScore[] {
     // First, update the related page visits analysis
     this.pageVisitsAnalysis = analyser.getPageVisitsAnalysis();
@@ -134,13 +98,5 @@ export abstract class SortByLinkedPagePolicy<P extends GenericPagePayload> imple
     // Finally, sort all items according to the sorted payloads, and return them
     let allItems = Menu.getAllMenusItems(menus);
     return this.getItemsWithScoresSortedByPointedPages(allItems);
-  }
-
-  getSortedItemGroupsWithScores (menus: Menu[], analyser?: DataAnalyser): ItemGroupWithScore[] {
-    // Get the sorted items with scores list
-    let sortedItemsWithScores = this.getSortedItemsWithScores(menus, analyser);
-
-    // Sort all item groups according to the sorted item indices, give them scores, and return them
-    return this.getItemGroupsWithScoresSortedByPointedPages(sortedItemsWithScores);
   }
 }

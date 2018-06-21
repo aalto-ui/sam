@@ -1,20 +1,22 @@
-import { ItemListPolicy, ItemWithScore } from "./ItemListPolicy";
-import { ItemGroupListPolicy, ItemGroupWithScore } from "./ItemGroupListPolicy";
 import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Item } from "../../Elements/Item";
 import { ItemGroup } from "../../Elements/ItemGroup";
 import { AdaptiveElement } from "../../Elements/AdaptiveElement";
 import { ItemClicksAnalysis } from "../../Data/ItemClicksAnalyser";
+import { Policy, ItemWithScore, ItemGroupWithScore } from "./Policy";
 
 
-export class MostClickedItemListPolicy implements ItemListPolicy, ItemGroupListPolicy {
+export class MostClickedItemListPolicy extends Policy {
   // If true, only compute stats concerning the local clicks
   // In other words, only consider pathnames equal to the one of the current page
   onlyLocalClicks: boolean = false;
 
 
-  constructor () { }
+  constructor () {
+    super();
+  }
+
 
   private getItemNbClicks (item: Item, analysis: ItemClicksAnalysis): number {
     let itemID = item.id;
