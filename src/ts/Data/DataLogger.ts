@@ -6,17 +6,18 @@ import { Item } from "../Elements/Item";
 
 // Interfaces of available logs, stored in the database
 export interface ItemClickLog {
-  readonly itemID: string,
-  readonly groupID: string,
-  readonly menuID: string,
-  readonly timestamp: number,
-  readonly pathname: string
+  readonly itemID: string;
+  readonly groupID: string;
+  readonly menuID: string;
+  readonly timestamp: number;
+  readonly pathname: string;
 }
 
 export interface PageVisitLog {
-  readonly timestamp: number,
-  readonly pathname: string,
-  readonly duration: number
+  readonly timestamp: number;
+  readonly pathname: string;
+  readonly duration: number;
+}
 }
 
 
