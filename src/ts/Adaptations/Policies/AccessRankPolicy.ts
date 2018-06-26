@@ -8,7 +8,7 @@ import { Policy, ItemWithScore } from "./Policy";
 
 
 export class AccessRankPolicy extends Policy {
-  
+
   readonly name: string = "AccessRank";
 
   constructor () {
@@ -161,6 +161,8 @@ export class AccessRankPolicy extends Policy {
     const alpha = 1;
 
     let accessRankScores = new Map();
+    let scoreSum = 0;
+
     for (let item of itemsWithStats) {
       let markovScore = markovScores.get(item);
       let CRFScore = CRFScores.get(item);
@@ -171,6 +173,7 @@ export class AccessRankPolicy extends Policy {
                 * regularityScore;
 
       accessRankScores.set(item, score);
+      scoreSum += score;
     }
 
     // Sort items (with stats) with scores by their AccessRank scores
@@ -181,9 +184,11 @@ export class AccessRankPolicy extends Policy {
       .map(tuple => {
         return {
           item: tuple[0],
-          score: tuple[1]
+          score: tuple[1] / scoreSum
         };
       });
+
+    console.log("FINAL: sortedItemsWithScores", sortedItemsWithScores)
 
     // Give a score of zero to items without stats
     let itemsWithoutStatsWithScores = itemsWithoutStats.map(item => {
