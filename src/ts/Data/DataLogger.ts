@@ -18,7 +18,6 @@ export interface PageVisitLog {
   readonly pathname: string;
   readonly duration: number;
 }
-}
 
 
 export class DataLogger {
