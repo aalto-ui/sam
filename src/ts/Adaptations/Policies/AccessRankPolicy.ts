@@ -22,8 +22,8 @@ export class AccessRankPolicy extends Policy {
     for (let item of items) {
       let itemID = item.id;
 
-      let score = itemClicksAnalysis.itemStats[itemID].localNbClicks + 1
-                / itemClicksAnalysis.totalLocalNbClicks + 1;
+      let score = (itemClicksAnalysis.itemStats[itemID].localNbClicks + 1)
+                / (itemClicksAnalysis.totalLocalNbClicks + 1);
       markovScores.set(item, score);
     }
 
