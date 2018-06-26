@@ -9,6 +9,7 @@ import { ReorderItemsAndFold } from "./Techniques/ReorderItemsAndFold";
 import { HighlightReorderItemsAndFold } from "./Techniques/HighlightReorderItemsAndFold";
 import { ReorderGroups } from "./Techniques/ReorderGroups";
 import { HighlightAndReorderAll } from "./Techniques/HighlightAndReorderAll";
+import { ProgressiveHighlightAndReorderItems } from "./Techniques/ProgressiveHighlightAndReorderItems";
 
 import { Policy } from "./Policies/Policy";
 
@@ -29,7 +30,8 @@ export const AVAILABLE_TECHNIQUES = [
   new ReorderItemsAndFold(),
   new HighlightReorderItemsAndFold(),
   new ReorderGroups(),
-  new HighlightAndReorderAll()
+  new HighlightAndReorderAll(),
+  new ProgressiveHighlightAndReorderItems()
 ];
 
 export const AVAILABLE_TECHNIQUE_NAMES = AVAILABLE_TECHNIQUES.map(technique => {

@@ -118,7 +118,7 @@ export class AdaptationManager {
 
 
   applyCurrentAdaptation () {
-    this.currentTechnique.apply(this.menus, this.currentPolicy, this.analyser);
+    this.currentTechnique.apply(this.menus, this.currentPolicy, this.analyser, this.database);
     console.log(`Applying technique ${this.currentTechnique.name} with policy ${this.currentPolicy.name}.`);
   }
 

@@ -1,6 +1,7 @@
 import { Menu } from "../../Elements/Menu";
 import { Policy } from "../Policies/Policy";
 import { DataAnalyser } from "../../Data/DataAnalyser";
+import { Database } from "../../Data/Database";
 
 
 // Interface of a menu adaptation
@@ -13,6 +14,6 @@ export interface Technique<P extends Policy> {
   // Reset the page menus, by removing any changes made by this adaptation
   reset (): void;
 
-  // Adapt the page menus, using the given data analyser if required
-  apply (menus: Menu[], policy?: P, analyser?: DataAnalyser): void;
+  // Adapt the page menus, using the given data analyser and database if required
+  apply (menus: Menu[], policy?: P, analyser?: DataAnalyser, database?: Database): void;
 }

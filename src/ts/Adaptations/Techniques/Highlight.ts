@@ -35,7 +35,7 @@ export class Highlight implements Technique<Policy> {
     node.addClass([Highlight.HIGHLIGHTED_ELEMENT_CLASS, level]);
   }
 
-  private onAllItems (items: Item[], itemsToHighlightAtHighLevel: Set<Item>) {
+  protected onAllItems (items: Item[], itemsToHighlightAtHighLevel: Set<Item>) {
     for (let item of items) {
       let highlightingLevel = itemsToHighlightAtHighLevel.has(item)
                             ? HighlightingLevel.High
@@ -61,7 +61,7 @@ export class Highlight implements Technique<Policy> {
     return Math.floor(Math.sqrt(nbItemsInGroup));
   }
 
-  private getItemsToHighlightAtHighLevel (itemsWithScores: ItemWithScore[]): Set<Item> {
+  protected getItemsToHighlightAtHighLevel (itemsWithScores: ItemWithScore[]): Set<Item> {
     // TODO: really implement something here
     // DEBUG: right now, the top (at most) 2 items are highlighted at high level
 

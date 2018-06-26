@@ -1,6 +1,7 @@
 import * as $ from "jquery";
 import { Utilities } from "../Utilities";
 import { ItemClickLog, PageVisitLog } from "./DataLogger";
+import { ItemCharacteristics } from "../Adaptations/Techniques/ProgressiveHighlightAndReorderItems";
 
 
 // Type of a database revision
@@ -35,6 +36,7 @@ interface DatabaseTable<T extends {}> {
 export interface PersistentLibraryState {
   techniqueName?: string;
   policyName?: string;
+  previousItemCharacteristics?: {[itemID: string]: ItemCharacteristics};
 }
 
 
