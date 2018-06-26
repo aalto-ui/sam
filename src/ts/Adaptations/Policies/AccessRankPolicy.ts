@@ -2,7 +2,7 @@ import * as $ from "jquery";
 import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Item } from "../../Elements/Item";
-import { ItemClicksAnalysis } from "../../Data/ItemClicksAnalyser";
+import { ItemClicksAnalysis, ItemClicksAnalyser } from "../../Data/ItemClicksAnalyser";
 import { ItemGroup } from "../../Elements/ItemGroup";
 import { Policy, ItemWithScore } from "./Policy";
 
@@ -148,19 +148,9 @@ export class AccessRankPolicy extends Policy {
     // according to whether there are stats (= recorded clicks) on them or not
     let items = Menu.getAllMenusItems(menus);
 
-    let itemsWithStats = [];
-    let itemsWithoutStats = [];
-
-    for (let item of items) {
-      let itemID = item.id;
-
-      if (itemID in itemClicksAnalysis.itemStats) {
-        itemsWithStats.push(item);
-      }
-      else {
-        itemsWithoutStats.push(item);
-      }
-    }
+    let splitItems = ItemClicksAnalyser.splitItemsByStatsAvailability(items, itemClicksAnalysis);
+    let itemsWithStats = splitItems.withStats;
+    let itemsWithoutStats = splitItems.withoutStats;
 
     // Compute intermediate scores for items with stats
     let markovScores = this.computeMarkovScores(itemsWithStats, itemClicksAnalysis);

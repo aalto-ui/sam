@@ -3,6 +3,7 @@ import { Utilities } from "../Utilities";
 import { DataAnalyserModule } from "./DataAnalyserModule";
 import { Analysis } from "./DataAnalyser";
 import { ItemClickLog } from "./DataLogger";
+import { Item } from "../Elements/Item";
 
 // Generic interface for element stats, and specific ones for actual elements
 export interface AdaptiveElementStats {
@@ -28,6 +29,12 @@ export interface ItemClicksAnalysis extends Analysis {
   itemStats: {[key: string]: ItemStats},
   groupStats: {[key: string]: ItemGroupStats},
   currentEventIndex: TableEntryIndex
+}
+
+
+export interface ItemsSplitByStatsAvailability {
+  withStats: Item[];
+  withoutStats: Item[];
 }
 
 
@@ -157,5 +164,30 @@ export class ItemClicksAnalyser extends DataAnalyserModule {
     this.computeFrequencies(analysis);
 
     return analysis;
+  }
+
+  // Split a list of items into two lists of items:
+  // - one list with items whose stats are available in the given click analysis
+  // - one list with the other items (no stats available)
+  // The order of the initial list is respected in each of the sub-lists
+  static splitItemsByStatsAvailability (items: Item[], itemClicksAnalysis: ItemClicksAnalysis): ItemsSplitByStatsAvailability {
+    let itemsWithStats = [];
+    let itemsWithoutStats = [];
+
+    for (let item of items) {
+      let itemID = item.id;
+
+      if (itemID in itemClicksAnalysis.itemStats) {
+        itemsWithStats.push(item);
+      }
+      else {
+        itemsWithoutStats.push(item);
+      }
+    }
+
+    return {
+      withStats: itemsWithStats,
+      withoutStats: itemsWithoutStats
+    };
   }
 }

@@ -3,7 +3,7 @@ import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Item } from "../../Elements/Item";
 import { ItemGroup } from "../../Elements/ItemGroup";
 import { AdaptiveElement } from "../../Elements/AdaptiveElement";
-import { ItemClicksAnalysis } from "../../Data/ItemClicksAnalyser";
+import { ItemClicksAnalysis, ItemClicksAnalyser } from "../../Data/ItemClicksAnalyser";
 import { Policy, ItemWithScore, ItemGroupWithScore } from "./Policy";
 
 
@@ -82,7 +82,7 @@ export class MostClickedItemListPolicy extends Policy {
     // Get all items, and split them in two arrays,
     // according to whether there are stats (= recorded clicks) on them or not
     let items = Menu.getAllMenusItems(menus);
-    let splitItems = Item.splitAllByStatsAvailability(items, itemClicksAnalysis);
+    let splitItems = ItemClicksAnalyser.splitItemsByStatsAvailability(items, itemClicksAnalysis);
 
     let itemsMappedToNbClicks = this.mapItemsToNbClicks(splitItems.withStats, itemClicksAnalysis);
     let sortedItems = this.sortMappedClickedElements(itemsMappedToNbClicks);
