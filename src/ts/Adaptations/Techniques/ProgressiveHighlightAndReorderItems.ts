@@ -108,7 +108,7 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
   // and then checks whether all given items have previous characterstics or not
   // In case they do not have any, they are assigned initial characterstics (no adaptation, score of 0)
   private loadOrInitPreviousItemCharactertics (items: Item[], database: Database) {
-    this.previousItemCharacteristics = database.persistentLibraryState.previousItemCharacteristics;
+    this.previousItemCharacteristics = database.persistentStorage.previousItemCharacteristics;
     if (this.previousItemCharacteristics === undefined) {
       this.previousItemCharacteristics = {};
     }
@@ -126,7 +126,7 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
 
   // Save current item characterstics in the database persistent storage as the new "previous" ones
   private saveCurrentItemCharacteristics (database: Database) {
-    database.persistentLibraryState.previousItemCharacteristics = JSON.parse(JSON.stringify(this.currentItemCharacteristics));
+    database.persistentStorage.previousItemCharacteristics = JSON.parse(JSON.stringify(this.currentItemCharacteristics));
   }
 
   private computeItemAdaptationState (previousState: AdaptationState, previousScore: number, currentScore: number): AdaptationState {

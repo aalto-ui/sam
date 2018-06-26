@@ -31,9 +31,9 @@ interface DatabaseTable<T extends {}> {
 }
 
 
-// Interface of the internal AWM state object
-// It should be used to store and load persistent properties (accross pages and sessions)
-export interface PersistentLibraryState {
+// Interface of a persistent storage object
+// It should be used to store and load persistent data accross pages and sessions
+export interface PersistentStorage {
   techniqueName?: string;
   policyName?: string;
   previousItemCharacteristics?: {[itemID: string]: ItemCharacteristics};
@@ -50,10 +50,10 @@ export class Database {
     pageVisits: DatabaseTable<PageVisitLog>
   };
 
-  // Internal AWM state object
-  // In contrary to database tables, this state can be freely read or modified,
-  // and will simply be automatically saved on page leave and loaded on page load
-  persistentLibraryState: PersistentLibraryState;
+  // Persistent sotrage object
+  // It is automatically saved on page leave and loaded on page load,
+  // but provide no special feature (e.g. no revision system) and is public
+  persistentStorage: PersistentStorage;
 
   // Current revision of the database
   private currentRevision : DatabaseRevision;
@@ -67,19 +67,19 @@ export class Database {
   }
 
   // Initialize the database contentrom
-  // It loads it from local storage if available, or set default content otherwise
+  // It first init the content with default values,
+  // and then replace it with anything that can be loaded from loca storage
   private init () {
+    this.setContentToDefault();
+
     if (this.isLocalStorageDataAvailable()) {
       this.loadFromLocalStorage();
-    }
-    else {
-      this.resetContentToDefault();
     }
   }
 
   // Reset the current database content to default values (or set it, if there is none)
   // Note: this does not affect any data stored in the local storage
-  private resetContentToDefault () {
+  private setContentToDefault () {
     // Database content
     this.tables = {
       itemClicks: {
@@ -93,7 +93,7 @@ export class Database {
       }
     };
 
-    this.persistentLibraryState = {};
+    this.persistentStorage = {};
 
     // Database internal properties
     this.currentRevision = 0;
@@ -102,7 +102,7 @@ export class Database {
   // Clear the current database and the local storage from any data,
   // and reset it to default
   empty () {
-    this.resetContentToDefault();
+    this.setContentToDefault();
     this.clearLocalStorageData();
   }
 
@@ -160,7 +160,7 @@ export class Database {
   private packDataToJSON (): string {
     let packedData = {
       tables: this.tables,
-      persistentLibraryState: this.persistentLibraryState,
+      persistentStorage: this.persistentStorage,
       currentRevision: this.currentRevision
     };
 
@@ -171,9 +171,13 @@ export class Database {
   private unpackDataFromJSON (json: string) {
     let unpackedData = JSON.parse(json);
 
-    this.tables = unpackedData.tables;
-    this.persistentLibraryState = unpackedData.persistentLibraryState;
-    this.currentRevision = unpackedData.currentRevision;
+    function getFirstValueIfDefined (value1, value2) {
+      return value1 !== undefined ? value1 : value2;
+    }
+
+    this.tables = getFirstValueIfDefined(unpackedData.tables ,this.tables);
+    this.persistentStorage = getFirstValueIfDefined(unpackedData.persistentStorage ,this.persistentStorage);
+    this.currentRevision = getFirstValueIfDefined(unpackedData.currentRevision ,this.currentRevision);
   }
 
   // Return true if database data si available in the local storage
