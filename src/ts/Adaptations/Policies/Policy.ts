@@ -67,7 +67,7 @@ export abstract class Policy {
     // Sort the groups by the sum of their items' scores, in decreasing order
     return [...scorePerGroup.entries()]
       .sort((tuple1, tuple2) => {
-        return tuple1[1] - tuple2[1];
+        return tuple2[1] - tuple1[1];
       })
       .map((tuple) => {
         return {
