@@ -27,7 +27,7 @@ export class AccessRankPolicy extends Policy {
       markovScores.set(item, score);
     }
 
-    console.log("Markov scores: ", markovScores);
+    // console.log("Markov scores: ", markovScores);
 
     return markovScores;
   }
@@ -51,7 +51,7 @@ export class AccessRankPolicy extends Policy {
       CRFScores.set(item, score);
     }
 
-    console.log("CRF scores: ", CRFScores);
+    // console.log("CRF scores: ", CRFScores);
 
     return CRFScores;
   }
@@ -132,7 +132,7 @@ export class AccessRankPolicy extends Policy {
       // Final item score
       let score = Math.pow(Math.max(0.8, Math.min(1.25, h * d)), 0.25);
 
-      console.log("Regularity score: ", score, "h = ", h, "d = ", d);
+      // console.log("Regularity score: ", score, "h = ", h, "d = ", d);
 
       regularityScores.set(item, score);
     }
@@ -188,7 +188,13 @@ export class AccessRankPolicy extends Policy {
         };
       });
 
-    console.log("FINAL: sortedItemsWithScores", sortedItemsWithScores)
+    console.log("AccessRank scores:")
+    console.table(sortedItemsWithScores.map((o) => {
+      let obj = {};
+      obj["Item label"] = o.item.node.text();
+      obj["AccessRank score"] = Number(o.score.toPrecision(3));
+      return obj;
+    }));
 
     // Give a score of zero to items without stats
     let itemsWithoutStatsWithScores = itemsWithoutStats.map(item => {

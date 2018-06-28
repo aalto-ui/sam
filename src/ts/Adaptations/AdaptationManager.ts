@@ -97,7 +97,6 @@ export class AdaptationManager {
 
   private restorePolicyFromDatabaseOrSetDefault () {
     let policyName = this.database.persistentStorage.policyName;
-    console.log("in db", policyName);
     if (policyName === undefined) {
       this.setDefaultPolicy();
       return;

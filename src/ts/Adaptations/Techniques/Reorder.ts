@@ -64,7 +64,6 @@ export abstract class Reorder implements Technique<Policy> {
     for (let element of this.nonReorderedElementsOriginalIndices.keys()) {
       let originalIndex = this.nonReorderedElementsOriginalIndices.get(element);
       this.insertNode($(element), originalIndex);
-      console.log("reinsert", element, "at", originalIndex)
     }
   }
 

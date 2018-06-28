@@ -76,7 +76,6 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
         let itemsToHighlight = itemsToHighlightAtHighLevel
           .concat(self.getItemsWithCurrentState(AdaptationState.LowHighlighting));
 
-        console.log("Hlt items", itemsToHighlight);
         this.onAllItems(itemsToHighlight, new Set(itemsToHighlightAtHighLevel));
       }
     };
@@ -97,7 +96,6 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
                  - self.currentItemCharacteristics[item1.id].score;
           });
 
-        console.log("Reorder elts", sortedItemsToReorder);
         this.reorderAllElements(sortedItemsToReorder);
       }
     };
@@ -161,6 +159,9 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
 
       let previousScore = this.previousItemCharacteristics[itemID].score;
       let currentScore = itemWithScore.score;
+
+      //if (previousScore !== lastStateChangeScore)
+      //  console.log(previousScore, "==>", currentScore, itemWithScore.item);
 
       let previousState = this.previousItemCharacteristics[itemID].state;
       let currentState = this.computeItemAdaptationState(previousState, previousScore, currentScore);
