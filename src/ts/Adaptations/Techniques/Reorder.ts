@@ -14,7 +14,7 @@ export abstract class Reorder implements Technique<Policy> {
 
   // Map from HTML parent elements to JQuery children in their original order
   // This is internally used to reset the reordering
-  private childrenInOriginalOrder: Map<HTMLElement, JQuery>;
+  protected childrenInOriginalOrder: Map<HTMLElement, JQuery>;
 
   // Map from HTML elements which should not be reordered to their original indices
   // This is internally used to always reinsert them at their original position
@@ -129,7 +129,7 @@ export abstract class Reorder implements Technique<Policy> {
   }
 
   reset () {
-    for (let [parent, orderedChildNodes] of this.childrenInOriginalOrder) {
+    for (let [parent, orderedChildNodes] of this.childrenInOriginalOrder.entries()) {
       let parentNode = $(parent);
       orderedChildNodes.each((_, element) => {
         parentNode.append(element);

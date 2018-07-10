@@ -25,7 +25,22 @@ export class ReorderGroups extends Reorder {
     return ItemGroup.ELEMENT_TYPE;
   }
 
+  // TODO: move this to Reorder parent class? make it more abstract/generic?
+  private saveGroupsInOriginalOrder (menus: Menu[]) {
+    let groups = Menu.getAllMenusGroups(menus);
+
+    for (let group of groups) {
+      let parentElement = group.node.parent()[0];
+
+      if (! this.childrenInOriginalOrder.has(parentElement)) {
+        this.childrenInOriginalOrder.set(parentElement, $(parentElement).children());
+      }
+    }
+  }
+
   apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser) {
+    this.saveGroupsInOriginalOrder(menus);
+
     let groups = policy.getSortedItemGroups(menus, analyser)
       .filter(group => {
         if (! group.canBeReordered) {

@@ -33,8 +33,23 @@ export class ReorderItems extends Reorder {
     return Math.floor(Math.sqrt(nbItemsInGroup));
   }
 
+  // TODO: move this to Reorder parent class? make it more abstract/generic?
+  private saveItemsInOriginalOrder (menus: Menu[]) {
+    let items = Menu.getAllMenusItems(menus);
+
+    for (let item of items) {
+      let parentElement = item.node.parent()[0];
+
+      if (! this.childrenInOriginalOrder.has(parentElement)) {
+        this.childrenInOriginalOrder.set(parentElement, $(parentElement).children());
+      }
+    }
+  }
+
   apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser) {
     let totalNbItems = Menu.getAllMenusItems(menus).length;
+
+    this.saveItemsInOriginalOrder(menus);
 
     let items = policy.getSortedItems(menus, analyser)
       .filter(item => {
