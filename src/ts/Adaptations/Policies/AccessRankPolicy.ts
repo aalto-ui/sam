@@ -161,7 +161,7 @@ export class AccessRankPolicy extends Policy {
     const alpha = 1;
 
     let accessRankScores = new Map();
-    let scoreSum = 0;
+    // let scoreSum = 0;
 
     for (let item of itemsWithStats) {
       let markovScore = markovScores.get(item);
@@ -173,7 +173,7 @@ export class AccessRankPolicy extends Policy {
                 * regularityScore;
 
       accessRankScores.set(item, score);
-      scoreSum += score;
+      // scoreSum += score;
     }
 
     // Sort items (with stats) with scores by their AccessRank scores
@@ -184,10 +184,11 @@ export class AccessRankPolicy extends Policy {
       .map(tuple => {
         return {
           item: tuple[0],
-          score: tuple[1] / scoreSum
+          score: tuple[1] // / scoreSum
         };
       });
 
+    /*
     console.log("AccessRank scores:")
     console.table(sortedItemsWithScores.map((o) => {
       let obj = {};
@@ -195,6 +196,7 @@ export class AccessRankPolicy extends Policy {
       obj["AccessRank score"] = Number(o.score.toPrecision(3));
       return obj;
     }));
+    */
 
     // Give a score of zero to items without stats
     let itemsWithoutStatsWithScores = itemsWithoutStats.map(item => {
