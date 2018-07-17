@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="../../build/awm.css"></link>
+
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #FFF;
+        font-family: "Helvetica", sans-serif;
+      }
+
+      .awm-menu {
+        position: absolute;
+        top: 100px;
+        left: 100px;
+      }
+
+      .awm-group {
+        width: 120px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        background-color: #CCC;
+        border: 1px solid #999;
+        border-radius: 5px;
+        color: #333;
+        font-size: 16px;
+        text-align: center;
+      }
+
+      .awm-item {
+        display: block;
+        height: 35px;
+        line-height: 35px;
+        vertical-align: middle;
+        background-color: #CCC;
+        border-bottom: 1px solid #999;
+      }
+
+      .awm-item:first-child {
+        border-radius: 5px 5px 0 0;
+      }
+
+      .awm-item:last-child {
+        border-bottom: none;
+        border-radius: 0 0 5px 5px;
+      }
+
+      .awm-item:hover {
+        background-color: #BBB;
+      }
+
+      a, a:hover, a:visited, a:active {
+        color: #333;
+        text-decoration: none;
+      }
+    </style>
+
+		<title>Demo menu(s) for papers</title>
+	</head>
+
+	<body>
+		<h1>Demo menu(s) for papers</h1>
+
+		<div class="awm-menu">
+			<ul class="awm-group">
+        <li class="awm-item"><a href="">Home</a></li>
+        <li class="awm-item"><a href="">About</a></li>
+        <li class="awm-item"><a href="">Features</a></li>
+        <li class="awm-item"><a href="">Documentation</a></li>
+        <li class="awm-item"><a href="">Download</a></li>
+      </ul>
+		</div>
+  </body>
+
+	<script type="text/javascript" src="../js/jquery-3.3.1.slim.min.js"></script>
+	<script type="text/javascript" src="../../build/awm.min.js"></script>
+	<script type="text/javascript" src="../js/test-setup.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      window["awm"] = AdaptiveWebMenus.fromAWMClasses();
+    });
+  </script>
+</html>
