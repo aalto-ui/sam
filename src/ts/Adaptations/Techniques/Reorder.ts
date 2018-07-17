@@ -75,7 +75,9 @@ export abstract class Reorder implements Technique<Policy> {
       .map((element) => {
         return $(element).index();
       })
-      .sort();
+      .sort((index1, index2) => {
+        return index1 - index2;
+      });
   }
 
   // Return a map from each unique parent element to its children nodes
