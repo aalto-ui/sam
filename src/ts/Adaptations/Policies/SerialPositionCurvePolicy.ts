@@ -1,13 +1,7 @@
-import { SortByLinkedPagePolicy, GenericPagePayload } from "./SortByLinkedPagePolicy";
-import { PageStats } from "../../Data/PageVisitsAnalyser";
+import { LinkedPageScorePolicy } from "./LinkedPageScorePolicy";
 
 
-export interface PagePayload extends GenericPagePayload {
-  familiarity: number;
-}
-
-
-export class SerialPositionCurvePolicy extends SortByLinkedPagePolicy<PagePayload> {
+export class SerialPositionCurvePolicy extends LinkedPageScorePolicy {
 
   readonly name: string = "Serial-Position curve";
 
@@ -15,7 +9,9 @@ export class SerialPositionCurvePolicy extends SortByLinkedPagePolicy<PagePayloa
     super();
   }
 
-  private computeFamiliarityScore (pageStats: PageStats): number {
+  private computeFamiliarityScore (pageID: string): number {
+    let pageStats = this.pageVisitsAnalysis[pageID];
+
     // Recency and primacy (note: lower values lead to higher score below!)
     let recency = 0;
     let primacy = 0;
@@ -25,8 +21,8 @@ export class SerialPositionCurvePolicy extends SortByLinkedPagePolicy<PagePayloa
 
     // In order to compute recency and primacy, count how many visits occured
     // (1) later for the last time and (2) earlier for the first time (than in the given page stats)
-    for (let pathname in this.pageVisitsAnalysis.pageStats) {
-      let currentPageStats = this.pageVisitsAnalysis.pageStats[pathname];
+    for (let pageID in this.pageVisitsAnalysis.pageStats) {
+      let currentPageStats = this.pageVisitsAnalysis.pageStats[pageID];
 
       if (currentPageStats.lastVisitTimestamp > lastVisitTimestamp) {
         recency++;
@@ -39,8 +35,8 @@ export class SerialPositionCurvePolicy extends SortByLinkedPagePolicy<PagePayloa
 
     // Intermediate scores used to compute the familiarity score
     let frequencyScore = pageStats.visitFrequency;
-    let recencyScore = (this.pageVisitsAnalysis.nbUniquePathnames - recency) / this.pageVisitsAnalysis.nbUniquePathnames;
-    let primacyScore = (this.pageVisitsAnalysis.nbUniquePathnames - primacy) / this.pageVisitsAnalysis.nbUniquePathnames;
+    let recencyScore = (this.pageVisitsAnalysis.nbUniquePages - recency) / this.pageVisitsAnalysis.nbUniquePages;
+    let primacyScore = (this.pageVisitsAnalysis.nbUniquePages - primacy) / this.pageVisitsAnalysis.nbUniquePages;
 
     // console.log("Frequency score:", frequencyScore);
     // console.log("Recency score:", recencyScore);
@@ -54,16 +50,7 @@ export class SerialPositionCurvePolicy extends SortByLinkedPagePolicy<PagePayloa
     return familiarity;
   }
 
-  protected createPagePayload (pathname: string): PagePayload {
-    let familiarity = this.computeFamiliarityScore(this.pageVisitsAnalysis.pageStats[pathname]);
-
-    return {
-      pathname: pathname,
-      familiarity: familiarity
-    };
-  }
-
-  protected comparePagePayloads(payload1: PagePayload, payload2: PagePayload): number {
-    return payload2.familiarity - payload1.familiarity;
+  protected computePageScore (pageID: string): number {
+    return this.computeFamiliarityScore(pageID);
   }
 }

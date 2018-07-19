@@ -11,8 +11,7 @@ export class MostClickedItemListPolicy extends Policy {
 
   readonly name: string = "Most clicked items";
 
-  // If true, only compute stats concerning the local clicks
-  // In other words, only consider pathnames equal to the one of the current page
+  // If true, only compute stats from click events recorded on the current page
   onlyLocalClicks: boolean = false;
 
 

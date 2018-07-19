@@ -1,12 +1,7 @@
-import { SortByLinkedPagePolicy, GenericPagePayload } from "./SortByLinkedPagePolicy";
+import { LinkedPageScorePolicy } from "./LinkedPageScorePolicy";
 
 
-export interface PagePayload extends GenericPagePayload {
-  duration: number;
-}
-
-
-export class LongestVisitDurationPolicy extends SortByLinkedPagePolicy<PagePayload> {
+export class LongestVisitDurationPolicy extends LinkedPageScorePolicy {
 
   readonly name: string = "Longest visit duration";
 
@@ -14,14 +9,7 @@ export class LongestVisitDurationPolicy extends SortByLinkedPagePolicy<PagePaylo
     super();
   }
 
-  protected createPagePayload (pathname: string): PagePayload {
-    return {
-      pathname: pathname,
-      duration: this.pageVisitsAnalysis.pageStats[pathname].totalVisitDuration
-    };
-  }
-
-  protected comparePagePayloads (payload1: PagePayload, payload2: PagePayload): number {
-    return payload2.duration - payload1.duration;
+  protected computePageScore (pageID: string): number {
+    return this.pageVisitsAnalysis.pageStats[pageID].totalVisitDuration;
   }
 }

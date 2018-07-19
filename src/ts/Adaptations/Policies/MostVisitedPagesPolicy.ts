@@ -1,12 +1,7 @@
-import { SortByLinkedPagePolicy, GenericPagePayload } from "./SortByLinkedPagePolicy";
+import { LinkedPageScorePolicy } from "./LinkedPageScorePolicy";
 
 
-export interface PagePayload extends GenericPagePayload {
-  nbVisits: number;
-}
-
-
-export class MostVisitedPagesPolicy extends SortByLinkedPagePolicy<PagePayload> {
+export class MostVisitedPagesPolicy extends LinkedPageScorePolicy {
 
   readonly name: string = "Most visited pages";
 
@@ -14,14 +9,7 @@ export class MostVisitedPagesPolicy extends SortByLinkedPagePolicy<PagePayload> 
     super();
   }
 
-  protected createPagePayload (pathname: string): PagePayload {
-    return {
-      pathname: pathname,
-      nbVisits: this.pageVisitsAnalysis.pageStats[pathname].nbVisits
-    };
-  }
-
-  protected comparePagePayloads(payload1: PagePayload, payload2: PagePayload): number {
-    return payload2.nbVisits - payload1.nbVisits;
+  protected computePageScore (pageID: string): number {
+    return this.pageVisitsAnalysis.pageStats[pageID].nbVisits;
   }
 }
