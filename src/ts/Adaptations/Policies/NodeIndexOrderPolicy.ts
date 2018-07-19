@@ -1,5 +1,4 @@
 import { Menu } from "../../Elements/Menu";
-import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Policy, ItemWithScore, ItemGroupWithScore } from "./Policy";
 
 
@@ -12,7 +11,7 @@ export class NodeIndexOrderPolicy extends Policy {
   }
 
 
-  getSortedItemsWithScores (menus: Menu[], analyser?: DataAnalyser): ItemWithScore[] {
+  getSortedItemsWithScores (menus: Menu[]): ItemWithScore[] {
     let items = Menu.getAllMenusItems(menus)
     let uniformScore = 1 / items.length;
 
@@ -28,7 +27,7 @@ export class NodeIndexOrderPolicy extends Policy {
       });
   }
 
-  getSortedItemGroupsWithScores (menus: Menu[], analyser?: DataAnalyser): ItemGroupWithScore[] {
+  getSortedItemGroupsWithScores (menus: Menu[]): ItemGroupWithScore[] {
     let groups = Menu.getAllMenusGroups(menus);
     let uniformScore = 1 / groups.length;
 

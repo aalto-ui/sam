@@ -1,9 +1,7 @@
-import * as $ from "jquery";
 import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Item } from "../../Elements/Item";
 import { ItemClicksAnalysis, ItemClicksAnalyser } from "../../Data/ItemClicksAnalyser";
-import { ItemGroup } from "../../Elements/ItemGroup";
 import { Policy, ItemWithScore } from "./Policy";
 
 
@@ -142,7 +140,6 @@ export class AccessRankPolicy extends Policy {
 
   getSortedItemsWithScores (menus: Menu[], analyser: DataAnalyser): ItemWithScore[] {
     let itemClicksAnalysis = analyser.getItemClickAnalysis();
-    let currentPagePathname = window.location.pathname;
 
     // Get all items, and split them in two lists,
     // according to whether there are stats (= recorded clicks) on them or not

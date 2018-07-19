@@ -1,6 +1,3 @@
-import * as $ from "jquery";
-import { Menu } from "../../Elements/Menu";
-import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Policy } from "../Policies/Policy";
 import { Technique } from "./Technique";
 
@@ -15,7 +12,7 @@ export class Identity implements Technique<Policy> {
     // Nothing to do
   }
 
-  apply (menus: Menu[]) {
+  apply () {
     // Nothing to do
   }
 }

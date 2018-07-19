@@ -1,5 +1,4 @@
 import { Database } from "./Database";
-import { Utilities } from "../Utilities";
 import { ItemClicksAnalyser, ItemClicksAnalysis } from "./ItemClicksAnalyser";
 import { PageVisitsAnalyser, PageVisitsAnalysis } from "./PageVisitsAnalyser";
 

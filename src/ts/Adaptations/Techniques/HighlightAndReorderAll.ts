@@ -1,4 +1,3 @@
-import * as $ from "jquery";
 import { ReorderItems } from "./ReorderItems";
 import { ReorderGroups } from "./ReorderGroups";
 import { Menu } from "../../Elements/Menu";

@@ -1,6 +1,3 @@
-import * as $ from "jquery";
-import { Menu } from "../../Elements/Menu";
-import { DataAnalyser } from "../../Data/DataAnalyser";
 import { SortByLinkedPagePolicy, GenericPagePayload } from "./SortByLinkedPagePolicy";
 
 
@@ -24,7 +21,7 @@ export class LongestVisitDurationPolicy extends SortByLinkedPagePolicy<PagePaylo
     };
   }
 
-  protected comparePagePayloads(payload1: PagePayload, payload2: PagePayload): number {
+  protected comparePagePayloads (payload1: PagePayload, payload2: PagePayload): number {
     return payload2.duration - payload1.duration;
   }
 }

@@ -111,7 +111,6 @@ export class MostClickedItemListPolicy extends Policy {
 
   getSortedItemGroupsWithScores (menus: Menu[], analyser: DataAnalyser): ItemGroupWithScore[] {
     let itemClicksAnalysis = analyser.getItemClickAnalysis();
-    let allGroups = Menu.getAllMenusGroups(menus);
 
     // Get all item groups, and split them in two arrays,
     // according to whether there are stats (= recorded clicks) on them or not

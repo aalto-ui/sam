@@ -1,9 +1,7 @@
-import * as $ from "jquery";
 import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Item } from "../../Elements/Item";
-import { PageStats, PageVisitsAnalysis } from "../../Data/PageVisitsAnalyser";
-import { ItemGroup } from "../../Elements/ItemGroup";
+import { PageVisitsAnalysis } from "../../Data/PageVisitsAnalyser";
 import { Policy, ItemWithScore } from "./Policy";
 
 

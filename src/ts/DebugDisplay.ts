@@ -49,7 +49,9 @@ export class DebugDisplay {
 
     this.controlsContainerNode.append($("<select>")
       .attr("id", "awm-debug-switch-technique-menu")
-      .change(event => { this.updateTechnique(); }));
+      .on("change", (_) => {
+        this.updateTechnique();
+      }));
 
     for (let name of AVAILABLE_TECHNIQUE_NAMES) {
       let option = $("<option>")
@@ -71,7 +73,9 @@ export class DebugDisplay {
 
     this.controlsContainerNode.append($("<select>")
       .attr("id", "awm-debug-switch-policy-menu")
-      .change(event => { this.updatePolicy(); }));
+      .on("change", (_) => {
+        this.updatePolicy();
+      }));
 
     for (let name of AVAILABLE_POLICY_NAMES) {
       let option = $("<option>")
@@ -90,7 +94,9 @@ export class DebugDisplay {
     this.controlsContainerNode.append($("<button>")
       .html("Clear history (require page reloading)")
       .attr("id", "awm-debug-clear-history-button")
-      .click(event => { this.awm.clearHistory(); }));
+      .on("click", () => {
+        this.awm.clearHistory();
+      }));
   }
 
   private addAllControls () {

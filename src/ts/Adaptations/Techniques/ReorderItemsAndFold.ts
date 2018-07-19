@@ -1,4 +1,3 @@
-import * as $ from "jquery";
 import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { ReorderItems } from "./ReorderItems";

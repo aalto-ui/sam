@@ -58,8 +58,6 @@ export class PageVisitsAnalyser extends DataAnalyserModule {
   }
 
   private processPageVisitLog (log: TableEntry<PageVisitLog>, analysis: PageVisitsAnalysis) {
-    let currentPagePathname = window.location.pathname;
-
     let pathname = log.pathname;
     let pahtnameHasAlreadyBeenSeen = pathname in analysis.pageStats;
 

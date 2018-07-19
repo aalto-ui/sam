@@ -1,5 +1,3 @@
-import { Technique } from "./Techniques/Technique";
-
 import { Highlight } from "./Techniques/Highlight";
 import { Identity } from "./Techniques/Identity";
 import { ReorderItems } from "./Techniques/ReorderItems";
@@ -10,8 +8,6 @@ import { HighlightReorderItemsAndFold } from "./Techniques/HighlightReorderItems
 import { ReorderGroups } from "./Techniques/ReorderGroups";
 import { HighlightAndReorderAll } from "./Techniques/HighlightAndReorderAll";
 import { ProgressiveHighlightAndReorderItems } from "./Techniques/ProgressiveHighlightAndReorderItems";
-
-import { Policy } from "./Policies/Policy";
 
 import { AccessRankPolicy } from "./Policies/AccessRankPolicy";
 import { LongestVisitDurationPolicy } from "./Policies/LongestVisitDurationPolicy";
@@ -44,6 +40,7 @@ export type AvailableTechnique = typeof AVAILABLE_TECHNIQUES[0];
 export const AVAILABLE_POLICIES = [
   new MostClickedItemListPolicy(),
   new MostVisitedPagesPolicy(),
+  new MostRecentVisitsPolicy(),
   new LongestVisitDurationPolicy(),
   new SerialPositionCurvePolicy(),
   new AccessRankPolicy()

@@ -2,8 +2,6 @@ import * as $ from "jquery";
 import { AdaptiveElement } from "../../Elements/AdaptiveElement";
 import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
-import { ItemGroup } from "../../Elements/ItemGroup";
-import { Item } from "../../Elements/Item";
 import { Policy } from "../Policies/Policy";
 import { Technique } from "./Technique";
 
@@ -101,7 +99,7 @@ export abstract class Reorder implements Technique<Policy> {
   }
 
   private saveNonReorderedElementsOriginalIndices (parent: JQuery) {
-    let nonReorderedChildren = parent.children(".awm-no-reordering")
+    parent.children(".awm-no-reordering")
       .each((_, element) => {
         this.nonReorderedElementsOriginalIndices.set(element, $(element).index());
       });

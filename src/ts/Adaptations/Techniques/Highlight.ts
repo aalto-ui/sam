@@ -1,5 +1,4 @@
 import * as $ from "jquery";
-import { AdaptiveElement } from "../../Elements/AdaptiveElement";
 import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Item } from "../../Elements/Item";

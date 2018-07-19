@@ -1,4 +1,3 @@
-import * as $ from "jquery";
 import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
 import { Highlight } from "./Highlight";
@@ -70,7 +69,7 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
         super();
       }
 
-      apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser) {
+      apply () {
         let itemsToHighlightAtHighLevel = self.getItemsWithCurrentState(AdaptationState.HighHighlighting)
           .concat(self.getItemsWithCurrentState(AdaptationState.HighHighlightingAndReordering));
 
@@ -90,7 +89,7 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
         super();
       }
 
-      apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser) {
+      apply () {
         let sortedItemsToReorder = self.getItemsWithCurrentState(AdaptationState.HighHighlightingAndReordering)
           .sort((item1, item2) => {
             return self.currentItemCharacteristics[item2.id].score
@@ -205,7 +204,7 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
     this.currentItemCharacteristics = null;
   }
 
-  apply (menus: Menu[], policy: AccessRankPolicy, analyser: DataAnalyser, database: Database) {
+  apply (menus: Menu[], _, analyser: DataAnalyser, database: Database) {
     let allItems = Menu.getAllMenusItems(menus);
     let sortedItemsWithScores = this.policy.getSortedItemsWithScores(menus, analyser);
 

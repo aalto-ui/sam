@@ -31,7 +31,7 @@ export abstract class AdaptiveElement {
   readonly parent: AdaptiveElement | null;
 
   // Possibly relative selector used to identify and find the node
-  private readonly selector: Selector | NoSelector;
+  readonly selector: Selector | NoSelector;
 
   // Unique element ID computed when its node is first fetched
   readonly id: string;

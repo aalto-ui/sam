@@ -1,4 +1,3 @@
-import * as $ from "jquery";
 import { AdaptiveElement, Selector, NO_SELECTOR, NoSelector } from "./AdaptiveElement";
 import { Item } from "./Item";
 import { Menu } from "./Menu";
@@ -87,7 +86,7 @@ export class ItemGroup extends AdaptiveElement {
   private fillUsingItemSelector (itemSelector: Selector) {
     let self = this;
 
-    this.node.find(itemSelector).each(function (index, element) {
+    this.node.find(itemSelector).each(function (_, element) {
       self.items.push(Item.fromSelector(element, self));
     });
 
