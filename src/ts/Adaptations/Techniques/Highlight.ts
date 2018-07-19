@@ -77,11 +77,8 @@ export class Highlight implements Technique<Policy> {
     let totalNbItems = Menu.getAllMenusItems(menus).length;
 
     let itemScores = policy.getSortedItemsWithScores(menus, analyser)
-      .filter((itemScore) => {
-        let item = itemScore.item;
-
-        let itemStats = analyser.getItemClickAnalysis().itemStats[item.id];
-        return itemStats !== undefined && itemStats.nbClicks > 0;
+      .filter((itemWithScore) => {
+        return itemWithScore.score > 0;
       });
 
     let nbTopItemsToKeep = this.getMaxNbItemsToHighlight(totalNbItems);

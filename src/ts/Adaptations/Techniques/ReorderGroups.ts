@@ -41,14 +41,16 @@ export class ReorderGroups extends Reorder {
   apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser) {
     this.saveGroupsInOriginalOrder(menus);
 
-    let groups = policy.getSortedItemGroups(menus, analyser)
-      .filter(group => {
-        if (! group.canBeReordered) {
+    let groups = policy.getSortedItemGroupsWithScores(menus, analyser)
+      .filter((groupWithScore) => {
+        if (! groupWithScore.group.canBeReordered) {
           return false;
         }
 
-        let groupStats = analyser.getItemClickAnalysis().groupStats[group.id];
-        return groupStats !== undefined && groupStats.nbClicks > 0;
+        return groupWithScore.score > 0;
+      })
+      .map((groupWithScore) => {
+        return groupWithScore.group;
       });
 
     this.reorderAllElements(groups);
