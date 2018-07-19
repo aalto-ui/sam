@@ -12,7 +12,7 @@ export interface AdaptiveElementStats {
   clickFrequency: number,
   localClickFrequency: number,
 
-  sourcePathnames: string[],
+  sourcePageIDs: string[],
   timestamps: number[],
 
   eventIndices: TableEntryIndex[]
@@ -61,7 +61,7 @@ export class ItemClicksAnalyser extends DataAnalyserModule {
       localClickFrequency: 0,
 
       eventIndices: [],
-      sourcePathnames: [],
+      sourcePageIDs: [],
       timestamps: []
     };
   }
@@ -74,7 +74,7 @@ export class ItemClicksAnalyser extends DataAnalyserModule {
       localClickFrequency: 0,
 
       eventIndices: [],
-      sourcePathnames: [],
+      sourcePageIDs: [],
       timestamps: []
     };
   }
@@ -96,7 +96,7 @@ export class ItemClicksAnalyser extends DataAnalyserModule {
       itemStats.localNbClicks += 1;
     }
 
-    itemStats.sourcePathnames.push(log.pathname);
+    itemStats.sourcePageIDs.push(log.pageID);
     itemStats.timestamps.push(log.timestamp);
 
     itemStats.eventIndices.push(log.index);
@@ -119,15 +119,15 @@ export class ItemClicksAnalyser extends DataAnalyserModule {
       groupStats.localNbClicks += 1;
     }
 
-    groupStats.sourcePathnames.push(log.pathname);
+    groupStats.sourcePageIDs.push(log.pageID);
     groupStats.timestamps.push(log.timestamp);
 
     groupStats.eventIndices.push(log.index);
   }
 
   private processItemClickLog (log: TableEntry<ItemClickLog>, analysis: ItemClicksAnalysis) {
-    let currentPagePathname = window.location.pathname;
-    let clickHappenedOnThisPage = Utilities.linkHasPathname(log.pathname, currentPagePathname);
+    let currentPageID = Utilities.getCurrentPageID();
+    let clickHappenedOnThisPage = log.pageID === currentPageID;
 
     // Update global click counters
     analysis.totalNbClicks += 1;

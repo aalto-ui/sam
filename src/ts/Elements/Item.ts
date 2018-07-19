@@ -31,20 +31,18 @@ export class Item extends AdaptiveElement {
   }
 
   // Look for link (<a>) nodes among the link element itself and is children,
-  // possibly fileterd by the given pathname
-  // (which must then match with the end of the href attribute of the link)
-  findLinkNodes (pathnameFilter?: string): JQuery {
+  // possibly filtered by a given pageID
+  findLinkNodes (pageID?: string): JQuery {
     let linkNodes = this.node.find("a");
     if (this.node.is("a")) {
       linkNodes = linkNodes.add(this.node);
     }
 
-    // if a pathname filter is specified, only keep links whose href attribute
-    // match the end of the current page pathname
-    if (pathnameFilter) {
+    // If a page ID is given, only keep those whose href values match the latter
+    if (pageID !== undefined) {
       linkNodes = linkNodes.filter((_, element) => {
         let href = $(element).attr("href");
-        return Utilities.linkHasPathname(href, pathnameFilter);
+        return Utilities.isLinkMatchingPageID(href, pageID);
       });
     }
 

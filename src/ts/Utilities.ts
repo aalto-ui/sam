@@ -1,12 +1,23 @@
 
 export class Utilities {
 
-  // Return true if the given pathname match the pathname of the given link, false otherwise
-  static linkHasPathname (link: string, pathname: string) {
+  static getCurrentPageID (): string {
+    return window.location.hostname
+      .concat(window.location.pathname);
+  }
+
+  private static getLinkedPageID (link: string): string {
     let linkElement = document.createElement("a");
     linkElement.href = link;
 
-    return linkElement.pathname === pathname;
+    return linkElement.hostname
+      .concat(linkElement.pathname);
+  }
+
+
+
+  static isLinkMatchingPageID (link: string, pageID: string) {
+    return Utilities.getLinkedPageID(link) === pageID;
   }
 
   // If the local storage is available, return true

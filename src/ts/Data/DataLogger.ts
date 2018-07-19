@@ -2,6 +2,7 @@ import * as $ from "jquery";
 import { Database } from "./Database";
 import { Menu } from "../Elements/Menu";
 import { Item } from "../Elements/Item";
+import { Utilities } from "../Utilities";
 
 
 // Interfaces of available logs, stored in the database
@@ -10,12 +11,12 @@ export interface ItemClickLog {
   readonly groupID: string;
   readonly menuID: string;
   readonly timestamp: number;
-  readonly pathname: string;
+  readonly pageID: string;
 }
 
 export interface PageVisitLog {
   readonly timestamp: number;
-  readonly pathname: string;
+  readonly pageID: string;
   readonly duration: number;
 }
 
@@ -93,7 +94,7 @@ export class DataLogger {
       groupID: item.parent.id,
       menuID: item.parent.parent.id,
       timestamp: event.timeStamp,
-      pathname: window.location.pathname
+      pageID: Utilities.getCurrentPageID()
     });
   }
 
@@ -108,8 +109,8 @@ export class DataLogger {
   onPageBeforeUnload (event: JQuery.Event) {
     this.database.logPageVisit({
       timestamp: this.pageLoadTimestamp,
-      pathname: window.location.pathname,
-      duration: event.timeStamp - this.pageLoadTimestamp
+      pageID: Utilities.getCurrentPageID(),
+      duration: event.timeStamp
     });
   }
 }

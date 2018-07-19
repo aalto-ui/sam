@@ -21,7 +21,7 @@ export interface PageStats {
 // Interface implemented by the page visits analysis returned by this module
 export interface PageVisitsAnalysis extends Analysis {
   totalNbVisits: number,
-  nbUniquePathnames: number,
+  nbUniquePages: number,
   pageStats: {[key: string]: PageStats},
   currentEventIndex: TableEntryIndex
 }
@@ -35,7 +35,7 @@ export class PageVisitsAnalyser extends DataAnalyserModule {
   private createPageVisitsAnalysis (): PageVisitsAnalysis {
     return {
       totalNbVisits: 0,
-      nbUniquePathnames: 0,
+      nbUniquePages: 0,
       pageStats: {},
       currentEventIndex: this.database.getItemClickLogsCurrentIndex()
     };
@@ -58,22 +58,22 @@ export class PageVisitsAnalyser extends DataAnalyserModule {
   }
 
   private processPageVisitLog (log: TableEntry<PageVisitLog>, analysis: PageVisitsAnalysis) {
-    let pathname = log.pathname;
-    let pahtnameHasAlreadyBeenSeen = pathname in analysis.pageStats;
+    let pageID = log.pageID;
+    let pageHasAlreadyBeenSeen = pageID in analysis.pageStats;
 
     // Update global visit counters
     analysis.totalNbVisits += 1;
-    if (! pahtnameHasAlreadyBeenSeen) {
-      analysis.nbUniquePathnames += 1;
+    if (! pageHasAlreadyBeenSeen) {
+      analysis.nbUniquePages += 1;
     }
 
     // Create a page stats object if required
-    if (! pahtnameHasAlreadyBeenSeen) {
-      analysis.pageStats[pathname] = this.createPageStats();
+    if (! pageHasAlreadyBeenSeen) {
+      analysis.pageStats[pageID] = this.createPageStats();
     }
 
     // Update the page stats
-    let pageStats = analysis.pageStats[pathname];
+    let pageStats = analysis.pageStats[pageID];
 
     pageStats.nbVisits += 1;
 
@@ -90,8 +90,8 @@ export class PageVisitsAnalyser extends DataAnalyserModule {
   }
 
   private computeFrequencies (analysis: PageVisitsAnalysis) {
-    for (let pathname in analysis.pageStats) {
-      let pageStats = analysis.pageStats[pathname];
+    for (let pageID in analysis.pageStats) {
+      let pageStats = analysis.pageStats[pageID];
 
       pageStats.visitFrequency = pageStats.nbVisits / analysis.totalNbVisits;
     }
