@@ -19,7 +19,8 @@ export const enum AdaptationState {
 
 export interface ItemCharacteristics {
   state: AdaptationState,
-  score: number
+  score: number,
+  lastStateChangeScore: number
 }
 
 
@@ -116,7 +117,8 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
       if (! (itemID in this.previousItemCharacteristics)) {
         this.previousItemCharacteristics[itemID] = {
           state: AdaptationState.NoAdaptation,
-          score: 0
+          score: 0,
+          lastStateChangeScore: 0
         };
       }
     }
@@ -127,27 +129,42 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
     database.persistentStorage.previousItemCharacteristics = JSON.parse(JSON.stringify(this.currentItemCharacteristics));
   }
 
-  private computeItemAdaptationState (previousState: AdaptationState, previousScore: number, currentScore: number): AdaptationState {
+  private computeItemAdaptationState (previousState: AdaptationState, previousScore: number, currentScore: number,
+                                      lastStateChangeScore: number): AdaptationState {
+    let scoreDifference = currentScore - lastStateChangeScore;
+    if (Math.abs(scoreDifference) < 0.1) {
+      return previousState;
+    }
+
     switch (previousState) {
       case AdaptationState.NoAdaptation:
-        return previousScore < currentScore
-             ? AdaptationState.LowHighlighting
-             : AdaptationState.NoAdaptation;
+        if (currentScore > 0.1)
+          return AdaptationState.LowHighlighting;
+        else
+          return AdaptationState.NoAdaptation;
+
 
        case AdaptationState.LowHighlighting:
-         return previousScore < currentScore
-              ? AdaptationState.HighHighlighting
-              : AdaptationState.LowHighlighting;
+         if (scoreDifference > 0.3)
+           return AdaptationState.HighHighlighting;
+         else if (scoreDifference < -0.2)
+           return AdaptationState.NoAdaptation;
+         else
+           return AdaptationState.LowHighlighting;
 
         case AdaptationState.HighHighlighting:
-          return previousScore < currentScore
-               ? AdaptationState.HighHighlightingAndReordering
-               : AdaptationState.LowHighlighting;
+          if (scoreDifference > 0.3)
+            return AdaptationState.HighHighlightingAndReordering;
+          else if (scoreDifference < -0.2)
+            return AdaptationState.LowHighlighting;
+          else
+            return AdaptationState.HighHighlighting;
 
        case AdaptationState.HighHighlightingAndReordering:
-         return previousScore <= currentScore
-              ? AdaptationState.HighHighlightingAndReordering
-              : AdaptationState.HighHighlighting;
+         if (scoreDifference < -0.4)
+           return AdaptationState.HighHighlighting;
+         else
+          return AdaptationState.HighHighlightingAndReordering;
     }
   }
 
@@ -158,17 +175,21 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
       let itemID = itemWithScore.item.id;
 
       let previousScore = this.previousItemCharacteristics[itemID].score;
+      let lastStateChangeScore = this.previousItemCharacteristics[itemID].lastStateChangeScore;
       let currentScore = itemWithScore.score;
 
       //if (previousScore !== lastStateChangeScore)
       //  console.log(previousScore, "==>", currentScore, itemWithScore.item);
 
       let previousState = this.previousItemCharacteristics[itemID].state;
-      let currentState = this.computeItemAdaptationState(previousState, previousScore, currentScore);
+      let currentState = this.computeItemAdaptationState(previousState, previousScore, currentScore, lastStateChangeScore);
 
       currentItemCharacteristics[itemID] = {
+        state: currentState,
         score: currentScore,
-        state: currentState
+        lastStateChangeScore: previousState === currentState
+                            ? this.previousItemCharacteristics[itemID].lastStateChangeScore
+                            : currentScore
       };
     }
 
