@@ -5,7 +5,6 @@
     "outDir": "./build/lib",
     "pretty": true,
     "alwaysStrict": true,
-    "strictPropertyInitialization": true,
     "declaration": true
   },
 
