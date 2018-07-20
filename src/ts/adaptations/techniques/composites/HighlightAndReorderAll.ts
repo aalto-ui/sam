@@ -1,10 +1,10 @@
-import { ReorderItems } from "./ReorderItems";
-import { ReorderGroups } from "./ReorderGroups";
-import { Menu } from "../../elements/Menu";
-import { DataAnalyser } from "../../data/DataAnalyser";
-import { Highlight } from "./Highlight";
-import { Policy } from "../policies/Policy";
-import { Technique } from "./Technique";
+import { ReorderItems } from "../ReorderItems";
+import { ReorderGroups } from "./../ReorderGroups";
+import { Menu } from "../../../elements/Menu";
+import { DataAnalyser } from "../../../data/DataAnalyser";
+import { Highlight } from "../Highlight";
+import { Policy } from "../../policies/Policy";
+import { Technique } from "../Technique";
 
 
 

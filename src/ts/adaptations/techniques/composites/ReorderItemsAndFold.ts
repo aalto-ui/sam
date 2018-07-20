@@ -1,10 +1,10 @@
-import { Menu } from "../../elements/Menu";
-import { DataAnalyser } from "../../data/DataAnalyser";
-import { ReorderItems } from "./ReorderItems";
-import { Fold } from "./Fold";
-import { NodeIndexOrderPolicy } from "../policies/NodeIndexOrderPolicy";
-import { Policy } from "../policies/Policy";
-import { Technique } from "./Technique";
+import { Menu } from "../../../elements/Menu";
+import { DataAnalyser } from "../../../data/DataAnalyser";
+import { ReorderItems } from "../ReorderItems";
+import { Fold } from "../Fold";
+import { NodeIndexOrderPolicy } from "../../policies/NodeIndexOrderPolicy";
+import { Policy } from "../../policies/Policy";
+import { Technique } from "../Technique";
 
 
 export class ReorderItemsAndFold implements Technique<Policy> {

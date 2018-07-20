@@ -1,9 +1,9 @@
-import { Menu } from "../../elements/Menu";
-import { DataAnalyser } from "../../data/DataAnalyser";
-import { Highlight } from "./Highlight";
-import { ReorderItems } from "./ReorderItems";
-import { Policy } from "../policies/Policy";
-import { Technique } from "./Technique";
+import { Menu } from "../../../elements/Menu";
+import { DataAnalyser } from "../../../data/DataAnalyser";
+import { Highlight } from "../Highlight";
+import { ReorderItems } from "../ReorderItems";
+import { Policy } from "../../policies/Policy";
+import { Technique } from "../Technique";
 
 
 export class HighlightAndReorderItems implements Technique<Policy> {

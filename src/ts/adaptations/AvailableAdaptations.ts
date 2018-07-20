@@ -1,13 +1,13 @@
 import { Highlight } from "./techniques/Highlight";
 import { Identity } from "./techniques/Identity";
 import { ReorderItems } from "./techniques/ReorderItems";
-import { HighlightAndReorderItems } from "./techniques/HighlightAndReorderItems";
+import { HighlightAndReorderItems } from "./techniques/composites/HighlightAndReorderItems";
 import { Fold } from "./techniques/Fold";
-import { ReorderItemsAndFold } from "./techniques/ReorderItemsAndFold";
-import { HighlightReorderItemsAndFold } from "./techniques/HighlightReorderItemsAndFold";
+import { ReorderItemsAndFold } from "./techniques/composites/ReorderItemsAndFold";
+import { HighlightReorderItemsAndFold } from "./techniques/composites/HighlightReorderItemsAndFold";
 import { ReorderGroups } from "./techniques/ReorderGroups";
-import { HighlightAndReorderAll } from "./techniques/HighlightAndReorderAll";
-import { ProgressiveHighlightAndReorderItems } from "./techniques/ProgressiveHighlightAndReorderItems";
+import { HighlightAndReorderAll } from "./techniques/composites/HighlightAndReorderAll";
+import { ProgressiveHighlightAndReorderItems } from "./techniques/composites/ProgressiveHighlightAndReorderItems";
 
 import { AccessRankPolicy } from "./policies/AccessRankPolicy";
 import { LongestVisitDurationPolicy } from "./policies/LongestVisitDurationPolicy";
