@@ -1,5 +1,5 @@
-import { Menu } from "../../Elements/Menu";
-import { DataAnalyser } from "../../Data/DataAnalyser";
+import { Menu } from "../../elements/Menu";
+import { DataAnalyser } from "../../data/DataAnalyser";
 import { Highlight } from "./Highlight";
 import { ReorderItems } from "./ReorderItems";
 import { Fold } from "./Fold";

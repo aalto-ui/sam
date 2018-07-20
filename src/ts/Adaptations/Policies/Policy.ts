@@ -1,7 +1,7 @@
-import { DataAnalyser } from "../../Data/DataAnalyser";
-import { Menu } from "../../Elements/Menu";
-import { Item } from "../../Elements/Item";
-import { ItemGroup } from "../../Elements/ItemGroup";
+import { DataAnalyser } from "../../data/DataAnalyser";
+import { Menu } from "../../elements/Menu";
+import { Item } from "../../elements/Item";
+import { ItemGroup } from "../../elements/ItemGroup";
 
 
 export interface ItemWithScore {

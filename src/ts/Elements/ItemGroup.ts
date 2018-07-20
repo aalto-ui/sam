@@ -1,7 +1,7 @@
 import { AdaptiveElement, Selector, NO_SELECTOR, NoSelector } from "./AdaptiveElement";
 import { Item } from "./Item";
 import { Menu } from "./Menu";
-import { ItemClicksAnalysis } from "../Data/ItemClicksAnalyser";
+import { ItemClicksAnalysis } from "../data/ItemClicksAnalyser";
 
 
 export interface ItemGroupsSplitByStatsAvailability {

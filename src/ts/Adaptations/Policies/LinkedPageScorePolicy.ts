@@ -1,7 +1,7 @@
-import { Menu } from "../../Elements/Menu";
-import { DataAnalyser } from "../../Data/DataAnalyser";
-import { Item } from "../../Elements/Item";
-import { PageVisitsAnalysis } from "../../Data/PageVisitsAnalyser";
+import { Menu } from "../../elements/Menu";
+import { DataAnalyser } from "../../data/DataAnalyser";
+import { Item } from "../../elements/Item";
+import { PageVisitsAnalysis } from "../../data/PageVisitsAnalyser";
 import { Policy, ItemWithScore } from "./Policy";
 
 

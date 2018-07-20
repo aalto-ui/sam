@@ -1,7 +1,7 @@
 import { Reorder } from "./Reorder";
-import { Menu } from "../../Elements/Menu";
-import { DataAnalyser } from "../../Data/DataAnalyser";
-import { ItemGroup } from "../../Elements/ItemGroup";
+import { Menu } from "../../elements/Menu";
+import { DataAnalyser } from "../../data/DataAnalyser";
+import { ItemGroup } from "../../elements/ItemGroup";
 import { Policy } from "../Policies/Policy";
 
 

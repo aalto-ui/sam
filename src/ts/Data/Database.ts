@@ -1,7 +1,7 @@
 import * as $ from "jquery";
 import { Utilities } from "../Utilities";
 import { ItemClickLog, PageVisitLog } from "./DataLogger";
-import { ItemCharacteristics } from "../Adaptations/Techniques/ProgressiveHighlightAndReorderItems";
+import { ItemCharacteristics } from "../adaptations/techniques/ProgressiveHighlightAndReorderItems";
 
 
 // Type of a database revision

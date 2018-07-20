@@ -1,4 +1,4 @@
-import { Menu } from "../../Elements/Menu";
+import { Menu } from "../../elements/Menu";
 import { Policy, ItemWithScore, ItemGroupWithScore } from "./Policy";
 
 

@@ -3,7 +3,7 @@ import { Utilities } from "../Utilities";
 import { DataAnalyserModule } from "./DataAnalyserModule";
 import { Analysis } from "./DataAnalyser";
 import { ItemClickLog } from "./DataLogger";
-import { Item } from "../Elements/Item";
+import { Item } from "../elements/Item";
 
 // Generic interface for element stats, and specific ones for actual elements
 export interface AdaptiveElementStats {

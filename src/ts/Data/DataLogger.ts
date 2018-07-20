@@ -1,7 +1,7 @@
 import * as $ from "jquery";
 import { Database } from "./Database";
-import { Menu } from "../Elements/Menu";
-import { Item } from "../Elements/Item";
+import { Menu } from "../elements/Menu";
+import { Item } from "../elements/Item";
 import { Utilities } from "../Utilities";
 
 
