@@ -1,8 +1,8 @@
 import * as $ from "jquery";
-import { AdaptiveElement } from "../../Elements/AdaptiveElement";
-import { Menu } from "../../Elements/Menu";
-import { DataAnalyser } from "../../Data/DataAnalyser";
-import { Policy } from "../Policies/Policy";
+import { AdaptiveElement } from "../../elements/AdaptiveElement";
+import { Menu } from "../../elements/Menu";
+import { DataAnalyser } from "../../data/DataAnalyser";
+import { Policy } from "../policies/Policy";
 import { Technique } from "./Technique";
 
 

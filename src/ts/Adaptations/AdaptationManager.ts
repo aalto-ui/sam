@@ -1,8 +1,8 @@
-import { Menu } from "../Elements/Menu";
-import { Database } from "../Data/Database";
-import { DataAnalyser } from "../Data/DataAnalyser";
-import { Technique } from "./Techniques/Technique";
-import { Policy } from "./Policies/Policy";
+import { Menu } from "../elements/Menu";
+import { Database } from "../data/Database";
+import { DataAnalyser } from "../data/DataAnalyser";
+import { Technique } from "./techniques/Technique";
+import { Policy } from "./policies/Policy";
 import { AVAILABLE_TECHNIQUES, AVAILABLE_POLICIES } from "./AvailableAdaptations";
 
 

@@ -1,7 +1,7 @@
-import { Menu } from "../../Elements/Menu";
-import { Policy } from "../Policies/Policy";
-import { DataAnalyser } from "../../Data/DataAnalyser";
-import { Database } from "../../Data/Database";
+import { Menu } from "../../elements/Menu";
+import { Policy } from "../policies/Policy";
+import { DataAnalyser } from "../../data/DataAnalyser";
+import { Database } from "../../data/Database";
 
 
 // Interface of a menu adaptation

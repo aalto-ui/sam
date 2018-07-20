@@ -1,2 +1,2 @@
 export * from "./AdaptiveWebMenus";
-export * from "./Elements/Menu";
+export * from "./elements/Menu";

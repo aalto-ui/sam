@@ -1,12 +1,12 @@
-import { Menu } from "../../Elements/Menu";
-import { DataAnalyser } from "../../Data/DataAnalyser";
+import { Menu } from "../../elements/Menu";
+import { DataAnalyser } from "../../data/DataAnalyser";
 import { Highlight } from "./Highlight";
 import { ReorderItems } from "./ReorderItems";
-import { Policy, ItemWithScore } from "../Policies/Policy";
+import { Policy, ItemWithScore } from "../policies/Policy";
 import { Technique } from "./Technique";
-import { AccessRankPolicy } from "../Policies/AccessRankPolicy";
-import { Database } from "../../Data/Database";
-import { Item } from "../../Elements/Item";
+import { AccessRankPolicy } from "../policies/AccessRankPolicy";
+import { Database } from "../../data/Database";
+import { Item } from "../../elements/Item";
 
 
 export const enum AdaptationState {

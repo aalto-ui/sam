@@ -1,14 +1,14 @@
 import * as $ from "jquery";
 
-import { Menu } from "./Elements/Menu";
-import { ItemGroup } from "./Elements/ItemGroup";
-import { Item } from "./Elements/Item";
-import { Database } from "./Data/Database";
-import { DataLogger } from "./Data/DataLogger";
-import { DataAnalyser } from "./Data/DataAnalyser";
-import { AdaptationManager } from "./Adaptations/AdaptationManager";
+import { Menu } from "./elements/Menu";
+import { ItemGroup } from "./elements/ItemGroup";
+import { Item } from "./elements/Item";
+import { Database } from "./data/Database";
+import { DataLogger } from "./data/DataLogger";
+import { DataAnalyser } from "./data/DataAnalyser";
+import { AdaptationManager } from "./adaptations/AdaptationManager";
 import { DebugDisplay } from "./DebugDisplay";
-import { Selector, isSelector } from "./Elements/AdaptiveElement";
+import { Selector, isSelector } from "./elements/AdaptiveElement";
 
 
 // Type alias used for convenience

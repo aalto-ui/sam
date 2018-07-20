@@ -1,20 +1,20 @@
-import { Highlight } from "./Techniques/Highlight";
-import { Identity } from "./Techniques/Identity";
-import { ReorderItems } from "./Techniques/ReorderItems";
-import { HighlightAndReorderItems } from "./Techniques/HighlightAndReorderItems";
-import { Fold } from "./Techniques/Fold";
-import { ReorderItemsAndFold } from "./Techniques/ReorderItemsAndFold";
-import { HighlightReorderItemsAndFold } from "./Techniques/HighlightReorderItemsAndFold";
-import { ReorderGroups } from "./Techniques/ReorderGroups";
-import { HighlightAndReorderAll } from "./Techniques/HighlightAndReorderAll";
-import { ProgressiveHighlightAndReorderItems } from "./Techniques/ProgressiveHighlightAndReorderItems";
+import { Highlight } from "./techniques/Highlight";
+import { Identity } from "./techniques/Identity";
+import { ReorderItems } from "./techniques/ReorderItems";
+import { HighlightAndReorderItems } from "./techniques/HighlightAndReorderItems";
+import { Fold } from "./techniques/Fold";
+import { ReorderItemsAndFold } from "./techniques/ReorderItemsAndFold";
+import { HighlightReorderItemsAndFold } from "./techniques/HighlightReorderItemsAndFold";
+import { ReorderGroups } from "./techniques/ReorderGroups";
+import { HighlightAndReorderAll } from "./techniques/HighlightAndReorderAll";
+import { ProgressiveHighlightAndReorderItems } from "./techniques/ProgressiveHighlightAndReorderItems";
 
-import { AccessRankPolicy } from "./Policies/AccessRankPolicy";
-import { LongestVisitDurationPolicy } from "./Policies/LongestVisitDurationPolicy";
-import { MostClickedItemListPolicy } from "./Policies/MostClickedItemsPolicy";
-import { MostRecentVisitsPolicy } from "./Policies/MostRecentVisitsPolicy";
-import { MostVisitedPagesPolicy } from "./Policies/MostVisitedPagesPolicy";
-import { SerialPositionCurvePolicy } from "./Policies/SerialPositionCurvePolicy";
+import { AccessRankPolicy } from "./policies/AccessRankPolicy";
+import { LongestVisitDurationPolicy } from "./policies/LongestVisitDurationPolicy";
+import { MostClickedItemListPolicy } from "./policies/MostClickedItemsPolicy";
+import { MostRecentVisitsPolicy } from "./policies/MostRecentVisitsPolicy";
+import { MostVisitedPagesPolicy } from "./policies/MostVisitedPagesPolicy";
+import { SerialPositionCurvePolicy } from "./policies/SerialPositionCurvePolicy";
 
 
 export const AVAILABLE_TECHNIQUES = [

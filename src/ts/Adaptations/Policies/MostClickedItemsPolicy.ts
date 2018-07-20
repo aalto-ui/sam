@@ -1,9 +1,9 @@
-import { Menu } from "../../Elements/Menu";
-import { DataAnalyser } from "../../Data/DataAnalyser";
-import { Item } from "../../Elements/Item";
-import { ItemGroup } from "../../Elements/ItemGroup";
-import { AdaptiveElement } from "../../Elements/AdaptiveElement";
-import { ItemClicksAnalysis, ItemClicksAnalyser } from "../../Data/ItemClicksAnalyser";
+import { Menu } from "../../elements/Menu";
+import { DataAnalyser } from "../../data/DataAnalyser";
+import { Item } from "../../elements/Item";
+import { ItemGroup } from "../../elements/ItemGroup";
+import { AdaptiveElement } from "../../elements/AdaptiveElement";
+import { ItemClicksAnalysis, ItemClicksAnalyser } from "../../data/ItemClicksAnalyser";
 import { Policy, ItemWithScore, ItemGroupWithScore } from "./Policy";
 
 

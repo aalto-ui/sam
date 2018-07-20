@@ -1,8 +1,8 @@
 import { Reorder } from "./Reorder";
-import { Menu } from "../../Elements/Menu";
-import { DataAnalyser } from "../../Data/DataAnalyser";
-import { Item } from "../../Elements/Item";
-import { Policy } from "../Policies/Policy";
+import { Menu } from "../../elements/Menu";
+import { DataAnalyser } from "../../data/DataAnalyser";
+import { Item } from "../../elements/Item";
+import { Policy } from "../policies/Policy";
 
 
 export class ReorderItems extends Reorder {

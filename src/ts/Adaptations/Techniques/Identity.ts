@@ -1,4 +1,4 @@
-import { Policy } from "../Policies/Policy";
+import { Policy } from "../policies/Policy";
 import { Technique } from "./Technique";
 
 
