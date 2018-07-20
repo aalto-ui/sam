@@ -10,7 +10,12 @@ export class SerialPositionCurvePolicy extends LinkedPageScorePolicy {
   }
 
   private computeFamiliarityScore (pageID: string): number {
-    let pageStats = this.pageVisitsAnalysis[pageID];
+    // If there are no stats, immediately return a null score
+    if (! (pageID in this.pageVisitsAnalysis.pageStats)) {
+      return 0;
+    }
+
+    let pageStats = this.pageVisitsAnalysis.pageStats[pageID];
 
     // Recency and primacy (note: lower values lead to higher score below!)
     let recency = 0;
