@@ -1,4 +1,3 @@
-import * as $ from "jquery";
 import { Reorder } from "./Reorder";
 import { Menu } from "../../Elements/Menu";
 import { DataAnalyser } from "../../Data/DataAnalyser";
@@ -25,23 +24,8 @@ export class ReorderGroups extends Reorder {
     return ItemGroup.ELEMENT_TYPE;
   }
 
-  // TODO: move this to Reorder parent class? make it more abstract/generic?
-  private saveGroupsInOriginalOrder (menus: Menu[]) {
-    let groups = Menu.getAllMenusGroups(menus);
-
-    for (let group of groups) {
-      let parentElement = group.node.parent()[0];
-
-      if (! this.childrenInOriginalOrder.has(parentElement)) {
-        this.childrenInOriginalOrder.set(parentElement, $(parentElement).children());
-      }
-    }
-  }
-
-  apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser) {
-    this.saveGroupsInOriginalOrder(menus);
-
-    let groups = policy.getSortedItemGroupsWithScores(menus, analyser)
+  private getFilteredSortedGroups (menus: Menu[], policy: Policy, analyser: DataAnalyser): ItemGroup[] {
+    return policy.getSortedItemGroupsWithScores(menus, analyser)
       .filter((groupWithScore) => {
         if (! groupWithScore.group.canBeReordered) {
           return false;
@@ -52,6 +36,13 @@ export class ReorderGroups extends Reorder {
       .map((groupWithScore) => {
         return groupWithScore.group;
       });
+  }
+
+  apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser) {
+    let groups = this.getFilteredSortedGroups(menus, policy, analyser);
+
+    // Save some children in their original order to be able to reset the reordering
+    this.saveParentNodeChildrenInOriginalOrder(groups);
 
     this.reorderAllElements(groups);
   }

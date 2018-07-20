@@ -8,6 +8,8 @@ import { Technique } from "./Technique";
 
 export abstract class Reorder implements Technique<Policy> {
 
+  static readonly NON_REORDERABLE_ELEMENT_CLASS = ".awm-no-reordering";
+
   abstract readonly name: string;
 
   // Map from HTML parent elements to JQuery children in their original order
@@ -16,12 +18,12 @@ export abstract class Reorder implements Technique<Policy> {
 
   // Map from HTML elements which should not be reordered to their original indices
   // This is internally used to always reinsert them at their original position
-  private nonReorderedElementsOriginalIndices: Map<HTMLElement, number>;
+  private nonReorderableElementsInitialIndices: Map<HTMLElement, number>;
 
 
   constructor () {
     this.childrenInOriginalOrder = new Map();
-    this.nonReorderedElementsOriginalIndices = new Map();
+    this.nonReorderableElementsInitialIndices = new Map();
   }
 
   // This method should be overriden by child classes which
@@ -53,14 +55,14 @@ export abstract class Reorder implements Technique<Policy> {
     }
   }
 
-  private moveNode (node: JQuery, index: number) {
+  private moveReorderableNode (node: JQuery, index: number) {
     this.insertNode(node, index);
     node.addClass(this.getReorderedElementClass());
   }
 
-  private reinsertNonReorderedElements () {
-    for (let element of this.nonReorderedElementsOriginalIndices.keys()) {
-      let originalIndex = this.nonReorderedElementsOriginalIndices.get(element);
+  private reinsertNonReorderableElements () {
+    for (let element of this.nonReorderableElementsInitialIndices.keys()) {
+      let originalIndex = this.nonReorderableElementsInitialIndices.get(element);
       this.insertNode($(element), originalIndex);
     }
   }
@@ -98,37 +100,53 @@ export abstract class Reorder implements Technique<Policy> {
     return parentsToChildren;
   }
 
-  private saveNonReorderedElementsOriginalIndices (parent: JQuery) {
-    parent.children(".awm-no-reordering")
+  private saveNonReorderableElementsOriginalIndices (parent: JQuery) {
+    parent.children(Reorder.NON_REORDERABLE_ELEMENT_CLASS)
       .each((_, element) => {
-        this.nonReorderedElementsOriginalIndices.set(element, $(element).index());
+        let index = $(element).index();
+        this.nonReorderableElementsInitialIndices.set(element, index);
       });
   }
 
+  protected saveParentNodeChildrenInOriginalOrder (elements: AdaptiveElement[]) {
+    for (let element of elements) {
+      let parentElement = element.node.parent()[0];
+
+      if (! this.childrenInOriginalOrder.has(parentElement)) {
+        this.childrenInOriginalOrder.set(parentElement, $(parentElement).children());
+      }
+    }
+  }
+
   protected reorderAllElements (elements: AdaptiveElement[]) {
+    // Split element nodes by parents
     let nodes = elements.map((element) => {
       return element.node;
     });
 
     let nodesSplitByParents = this.splitNodesByParents(nodes);
 
+    // Reorder elements grouped by common parent nodes
     for (let parent of nodesSplitByParents.keys()) {
       let parentNode = $(parent);
+      let childNodes = nodesSplitByParents.get(parent);
 
-      this.saveNonReorderedElementsOriginalIndices(parentNode);
+      // Save the initial indices of non-reorderable elements
+      this.saveNonReorderableElementsOriginalIndices(parentNode);
 
-      let nodesWithSameParent = nodesSplitByParents.get(parent);
+      // Move nodes at indices of element nodes' of the same kind (e.g. item or group)
       let insertionIndices = this.getSortedChildrenIndices(parentNode);
-
-      nodesWithSameParent.forEach((node, index) => {
-        this.moveNode(node, insertionIndices[index]);
+      childNodes.forEach((node, index) => {
+        this.moveReorderableNode(node, insertionIndices[index]);
       });
     }
 
-    this.reinsertNonReorderedElements();
+    // Finally reinsert elements which should not be reordered at their initial indices
+    this.reinsertNonReorderableElements();
   }
 
   reset () {
+    // Reinsert all children of parents of reordered elements at their original indices
     for (let [parent, orderedChildNodes] of this.childrenInOriginalOrder.entries()) {
       let parentNode = $(parent);
       orderedChildNodes.each((_, element) => {
@@ -138,10 +156,12 @@ export abstract class Reorder implements Technique<Policy> {
 
     this.childrenInOriginalOrder.clear();
 
+    // Remove all reordered element classes
     let reorderedElementClass = this.getReorderedElementClass();
     $("." + reorderedElementClass).removeClass(reorderedElementClass);
 
-    this.nonReorderedElementsOriginalIndices.clear();
+    // Reset internal fields
+    this.nonReorderableElementsInitialIndices.clear();
   }
 
   abstract apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser);
