@@ -16,7 +16,7 @@
 
 /* Folding */
 
-.awm-folded > .awm-foldable {
+.awm-folder.awm-folded .awm-foldable {
   display: none;
 }
 
