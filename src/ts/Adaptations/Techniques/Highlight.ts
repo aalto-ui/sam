@@ -22,21 +22,27 @@ const HIGHLIGHTING_LEVELS_CLASSES: string[] = Object.keys(HighlightingLevel)
 
 export class Highlight implements Technique<Policy> {
 
-  readonly name: string = "Highlight";
-
   private static readonly HIGHLIGHTED_ELEMENT_CLASS: string = "awm-highlighted";
 
+  readonly name: string = "Highlight";
 
-  constructor () { }
+  // Internal set of items which should be highlighted at an high level
+  // The set must be emptied and recomputed each time the technique is applied
+  protected itemsToHighlightAtHighLevel: Set<Item>;
+
+
+  constructor () {
+    this.itemsToHighlightAtHighLevel = new Set();
+  }
 
 
   private onNode (node: JQuery, level: HighlightingLevel) {
     node.addClass([Highlight.HIGHLIGHTED_ELEMENT_CLASS, level]);
   }
 
-  protected onAllItems (items: Item[], itemsToHighlightAtHighLevel: Set<Item>) {
+  protected onAllItems (items: Item[]) {
     for (let item of items) {
-      let highlightingLevel = itemsToHighlightAtHighLevel.has(item)
+      let highlightingLevel = this.itemsToHighlightAtHighLevel.has(item)
                             ? HighlightingLevel.High
                             : HighlightingLevel.Low;
 
@@ -45,11 +51,22 @@ export class Highlight implements Technique<Policy> {
   }
 
   reset () {
-    let classesToRemove = HIGHLIGHTING_LEVELS_CLASSES
+    // Simply remove highlighting and HL level classe
+    let classesToRemove = HIGHLIGHTING_LEVELS_CLASSES;
     classesToRemove.push(Highlight.HIGHLIGHTED_ELEMENT_CLASS);
 
     $("." + Highlight.HIGHLIGHTED_ELEMENT_CLASS)
       .removeClass(classesToRemove);
+
+    // Reset internal fields
+    this.itemsToHighlightAtHighLevel.clear();
+  }
+
+  private getFilteredSortedItemWithScores (menus: Menu[], policy: Policy, analyser: DataAnalyser): ItemWithScore[] {
+    return policy.getSortedItemsWithScores(menus, analyser)
+      .filter((itemWithScore) => {
+        return itemWithScore.score > 0;
+      });
   }
 
   private getMaxNbItemsToHighlight (nbItems: number): number {
@@ -60,42 +77,52 @@ export class Highlight implements Technique<Policy> {
     return Math.floor(Math.sqrt(nbItemsInGroup));
   }
 
-  protected getItemsToHighlightAtHighLevel (itemsWithScores: ItemWithScore[]): Set<Item> {
-    // TODO: really implement something here
-    // DEBUG: right now, the top (at most) 2 items are highlighted at high level
+  private computeItemsToHighlightAtHighLevel (itemWithScores: ItemWithScore[]) {
+    this.itemsToHighlightAtHighLevel.clear();
 
-    let itemsToHighlightAtHighLevel = new Set();
+    // TODO: decide on a better policy to select which items to keep here!
+    // Currently, only the at most two items with the highest, non-null scores are selected
+    for (let i = 0; i < Math.min(2, itemWithScores.length); i++) {
+      let itemWithScore = itemWithScores[i];
 
-    for (let i = 0; i < Math.min(2, itemsWithScores.length); i++) {
-      itemsToHighlightAtHighLevel.add(itemsWithScores[i].item);
+      if (itemWithScore.score === 0) {
+        continue;
+      }
+
+      this.itemsToHighlightAtHighLevel.add(itemWithScore.item);
     }
+  }
 
-    return itemsToHighlightAtHighLevel;
+  private splitAndApplyByGroup (items: Item[]) {
+    let topItemsSplitByGroup = Item.splitAllByGroup(items);
+
+    for (let sameGroupItems of topItemsSplitByGroup) {
+      this.applyInGroup(sameGroupItems);
+    }
+  }
+
+  private applyInGroup (sameGroupItems: Item[]) {
+    // Splice the same group items to only reorder the top ones
+    let totalNbGroupItems = sameGroupItems[0].parent.items.length;
+    let nbTopSameGroupItemsToKeep = this.getMaxNbItemsToHighlightInGroup(totalNbGroupItems);
+    let topSameGroupItems = sameGroupItems.splice(0, nbTopSameGroupItemsToKeep);
+
+    this.onAllItems(topSameGroupItems);
   }
 
   apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser) {
+    let itemWithScores = this.getFilteredSortedItemWithScores(menus, policy, analyser);
+
+    // Only keep the top items to highlight them
     let totalNbItems = Menu.getAllMenusItems(menus).length;
-
-    let itemScores = policy.getSortedItemsWithScores(menus, analyser)
-      .filter((itemWithScore) => {
-        return itemWithScore.score > 0;
-      });
-
     let nbTopItemsToKeep = this.getMaxNbItemsToHighlight(totalNbItems);
-    let topItemsWithScores = itemScores.slice(0, nbTopItemsToKeep);
-    let topItems = topItemsWithScores.map((itemScore) => {
+
+    let topItemWtihScores = itemWithScores.slice(0, nbTopItemsToKeep);
+    let topItems = topItemWtihScores.map((itemScore) => {
       return itemScore.item;
     });
 
-    let itemsToHighlightAtHighLevel = this.getItemsToHighlightAtHighLevel(topItemsWithScores);
-
-    let topItemsSplitByGroup = Item.splitAllByGroup(topItems);
-    for (let sameGroupItems of topItemsSplitByGroup) {
-      let totalNbGroupItems = sameGroupItems[0].parent.items.length;
-      let nbTopSameGroupItemsToKeep = this.getMaxNbItemsToHighlightInGroup(totalNbGroupItems);
-      let topSameGroupItems = sameGroupItems.splice(0, nbTopSameGroupItemsToKeep);
-
-      this.onAllItems(topSameGroupItems, itemsToHighlightAtHighLevel);
-    }
+    this.computeItemsToHighlightAtHighLevel(topItemWtihScores);
+    this.splitAndApplyByGroup(topItems);
   }
 }

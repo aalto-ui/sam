@@ -76,7 +76,8 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
         let itemsToHighlight = itemsToHighlightAtHighLevel
           .concat(self.getItemsWithCurrentState(AdaptationState.LowHighlighting));
 
-        this.onAllItems(itemsToHighlight, new Set(itemsToHighlightAtHighLevel));
+        this.itemsToHighlightAtHighLevel = new Set(itemsToHighlightAtHighLevel);
+        this.onAllItems(itemsToHighlight);
       }
     };
   }
