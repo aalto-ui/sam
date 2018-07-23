@@ -1,4 +1,4 @@
-import { Menu } from "../elements/Menu";
+import { MenuManager } from "../elements/MenuManager";
 import { DataManager } from "../data/DataManager";
 import { Technique } from "./techniques/Technique";
 import { Policy } from "./policies/Policy";
@@ -7,8 +7,8 @@ import { AVAILABLE_TECHNIQUES, AVAILABLE_POLICIES } from "./AvailableAdaptations
 
 export class AdaptationManager {
 
-  // List of menus to adapt
-  private menus: Menu[];
+  // Menu manager
+  private menuManager: MenuManager;
 
   // Data manager (access to the dabatase and data analysis tools)
   private dataManager: DataManager;
@@ -18,8 +18,8 @@ export class AdaptationManager {
   private currentPolicy: Policy;
 
 
-  constructor (menus: Menu[], dataManager: DataManager) {
-    this.menus = menus;
+  constructor (menuManager: MenuManager, dataManager: DataManager) {
+    this.menuManager = menuManager;
     this.dataManager = dataManager;
 
     this.currentTechnique = null;
@@ -112,7 +112,7 @@ export class AdaptationManager {
 
 
   applyCurrentAdaptation () {
-    this.currentTechnique.apply(this.menus, this.currentPolicy, this.dataManager);
+    this.currentTechnique.apply(this.menuManager, this.currentPolicy, this.dataManager);
     console.log(`Applying technique ${this.currentTechnique.name} with policy ${this.currentPolicy.name}.`);
   }
 

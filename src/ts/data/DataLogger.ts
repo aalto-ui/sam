@@ -1,5 +1,6 @@
 import * as $ from "jquery";
 import { Database } from "./Database";
+import { MenuManager } from "../elements/MenuManager";
 import { Menu } from "../elements/Menu";
 import { Item } from "../elements/Item";
 import { Utilities } from "../Utilities";
@@ -33,16 +34,16 @@ export class DataLogger {
   private itemClickCallbacks: Map<string, (event) => void>;
 
 
-  constructor (database: Database, menus: Menu[]) {
+  constructor (database: Database, menuManager: MenuManager) {
     this.database = database;
     this.pageLoadTimestamp = Date.now();
     this.itemClickCallbacks = new Map();
 
-    this.init(menus);
+    this.init(menuManager);
   }
 
-  init (menus: Menu[]) {
-    this.startListeningForAllMenusItemClicks(menus);
+  init (menuManager: MenuManager) {
+    this.startListeningForAllMenusItemClicks(menuManager);
     this.startListeningForPageBeforeUnload();
   }
 
@@ -78,13 +79,13 @@ export class DataLogger {
     this.stopListeningForItemClicks(items);
   }
 
-  startListeningForAllMenusItemClicks (menus: Menu[]) {
-    let items = Menu.getAllMenusItems(menus);
+  startListeningForAllMenusItemClicks (menuManager: MenuManager) {
+    let items = menuManager.getAllItems();
     this.startListeningForItemClicks(items);
   }
 
-  stopListeningForAllMenusItemClicks (menus: Menu[]) {
-    let items = Menu.getAllMenusItems(menus);
+  stopListeningForAllMenusItemClicks (menuManager: MenuManager) {
+    let items = menuManager.getAllItems();
     this.stopListeningForItemClicks(items);
   }
 

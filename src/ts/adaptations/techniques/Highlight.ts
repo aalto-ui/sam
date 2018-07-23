@@ -1,5 +1,5 @@
 import * as $ from "jquery";
-import { Menu } from "../../elements/Menu";
+import { MenuManager } from "../../elements/MenuManager";
 import { DataManager } from "../../data/DataManager";
 import { Item } from "../../elements/Item";
 import { ItemWithScore, Policy } from "../policies/Policy";
@@ -62,8 +62,8 @@ export class Highlight implements Technique<Policy> {
     this.itemsToHighlightAtHighLevel.clear();
   }
 
-  private getFilteredSortedItemWithScores (menus: Menu[], policy: Policy, dataManager?: DataManager): ItemWithScore[] {
-    return policy.getSortedItemsWithScores(menus, dataManager)
+  private getFilteredSortedItemWithScores (menuManager: MenuManager, policy: Policy, dataManager?: DataManager): ItemWithScore[] {
+    return policy.getSortedItemsWithScores(menuManager, dataManager)
       .filter((itemWithScore) => {
         return itemWithScore.score > 0;
       });
@@ -110,11 +110,11 @@ export class Highlight implements Technique<Policy> {
     this.onAllItems(topSameGroupItems);
   }
 
-  apply (menus: Menu[], policy: Policy, dataManager?: DataManager) {
-    let itemWithScores = this.getFilteredSortedItemWithScores(menus, policy, dataManager);
+  apply (menuManager: MenuManager, policy: Policy, dataManager?: DataManager) {
+    let itemWithScores = this.getFilteredSortedItemWithScores(menuManager, policy, dataManager);
 
     // Only keep the top items to highlight them
-    let totalNbItems = Menu.getAllMenusItems(menus).length;
+    let totalNbItems = menuManager.getNbItems();
     let nbTopItemsToKeep = this.getMaxNbItemsToHighlight(totalNbItems);
 
     let topItemWtihScores = itemWithScores.slice(0, nbTopItemsToKeep);

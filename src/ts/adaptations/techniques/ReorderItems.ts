@@ -1,5 +1,5 @@
 import { Reorder } from "./Reorder";
-import { Menu } from "../../elements/Menu";
+import { MenuManager } from "../../elements/MenuManager";
 import { DataManager } from "../../data/DataManager";
 import { Item } from "../../elements/Item";
 import { Policy } from "../policies/Policy";
@@ -24,8 +24,8 @@ export class ReorderItems extends Reorder {
     return Item.ELEMENT_TYPE;
   }
 
-  private getFilteredSortedItems (menus: Menu[], policy: Policy, dataManager?: DataManager): Item[] {
-    return policy.getSortedItemsWithScores(menus, dataManager)
+  private getFilteredSortedItems (menuManager: MenuManager, policy: Policy, dataManager?: DataManager): Item[] {
+    return policy.getSortedItemsWithScores(menuManager, dataManager)
       .filter((itemWithScore) => {
         if (! itemWithScore.item.canBeReordered) {
           return false;
@@ -63,14 +63,14 @@ export class ReorderItems extends Reorder {
     this.reorderAllElements(topSameGroupItems);
   }
 
-  apply (menus: Menu[], policy: Policy, dataManager?: DataManager) {
-    let items = this.getFilteredSortedItems(menus, policy, dataManager);
+  apply (menuManager: MenuManager, policy: Policy, dataManager?: DataManager) {
+    let items = this.getFilteredSortedItems(menuManager, policy, dataManager);
 
     // Save some children in their original order to be able to reset the reordering
     this.saveParentNodeChildrenInOriginalOrder(items);
 
     // Splice the items to only reorder the top ones
-    let totalNbItems = Menu.getAllMenusItems(menus).length;
+    let totalNbItems = menuManager.getNbItems();;
     let nbTopItemsToKeep = this.getMaxNbItemsToReorder(totalNbItems);
     let topItems = items.slice(0, nbTopItemsToKeep);
 

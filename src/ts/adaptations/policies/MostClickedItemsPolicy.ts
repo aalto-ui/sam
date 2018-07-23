@@ -1,4 +1,4 @@
-import { Menu } from "../../elements/Menu";
+import { MenuManager } from "../../elements/MenuManager";
 import { DataManager } from "../../data/DataManager";
 import { Item } from "../../elements/Item";
 import { ItemGroup } from "../../elements/ItemGroup";
@@ -75,12 +75,12 @@ export class MostClickedItemListPolicy extends Policy {
       });
   }
 
-  getSortedItemsWithScores (menus: Menu[], dataManager?: DataManager): ItemWithScore[] {
+  getSortedItemsWithScores (menuManager: MenuManager, dataManager?: DataManager): ItemWithScore[] {
     let itemClicksAnalysis = dataManager.analyser.getItemClickAnalysis();
 
     // Get all items, and split them in two arrays,
     // according to whether there are stats (= recorded clicks) on them or not
-    let items = Menu.getAllMenusItems(menus);
+    let items = menuManager.getAllItems();
     let splitItems = ItemClicksAnalyser.splitItemsByStatsAvailability(items, itemClicksAnalysis);
 
     let itemsMappedToNbClicks = this.mapItemsToNbClicks(splitItems.withStats, itemClicksAnalysis);
@@ -108,12 +108,12 @@ export class MostClickedItemListPolicy extends Policy {
     return sortedItemsWithScores.concat(remainingItemsWithScores);
   }
 
-  getSortedItemGroupsWithScores (menus: Menu[], dataManager?: DataManager): ItemGroupWithScore[] {
+  getSortedItemGroupsWithScores (menuManager: MenuManager, dataManager?: DataManager): ItemGroupWithScore[] {
     let itemClicksAnalysis = dataManager.analyser.getItemClickAnalysis();
 
     // Get all item groups, and split them in two arrays,
     // according to whether there are stats (= recorded clicks) on them or not
-    let groups = Menu.getAllMenusGroups(menus);
+    let groups = menuManager.getAllGroups();
     let splitGroups = ItemGroup.splitAllByStatsAvailability(groups, itemClicksAnalysis);
 
     let groupsMappedToNbClicks = this.mapGroupsToNbClicks(splitGroups.withStats, itemClicksAnalysis);

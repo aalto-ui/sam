@@ -1,5 +1,6 @@
 import * as $ from "jquery";
 
+import { MenuManager } from "./elements/MenuManager";
 import { Menu } from "./elements/Menu";
 import { ItemGroup } from "./elements/ItemGroup";
 import { Item } from "./elements/Item";
@@ -18,8 +19,8 @@ export type MenuSelectors = {
 
 
 export class AdaptiveWebMenus {
-  // List of adaptive menus
-  private readonly menus: Menu[];
+  // Adaptive menu manager
+  private readonly menuManager: MenuManager;
 
   // Data manager
   private readonly dataManager: DataManager;
@@ -31,11 +32,11 @@ export class AdaptiveWebMenus {
   private readonly debugDisplay: DebugDisplay;
 
   constructor (menus: Menu[] = [], debug: boolean = true) {
-    this.menus = menus;
+    this.menuManager = new MenuManager(menus);
 
-    this.dataManager = new DataManager(this.menus);
+    this.dataManager = new DataManager(this.menuManager);
 
-    this.adaptationManager = new AdaptationManager(this.menus, this.dataManager);
+    this.adaptationManager = new AdaptationManager(this.menuManager, this.dataManager);
     this.adaptationManager.applyCurrentAdaptation();
 
     this.debugDisplay = new DebugDisplay(this, debug);
@@ -53,7 +54,7 @@ export class AdaptiveWebMenus {
   addMenu (menu: Menu) {
     this.adaptationManager.resetCurrentAdaptation();
 
-    this.menus.push(menu);
+    this.menuManager.addMenu(menu);
 
     // Update the data logger to consider the new menu
     this.dataManager.logger.startListeningForMenuItemClicks(menu);
@@ -67,18 +68,12 @@ export class AdaptiveWebMenus {
   removeMenu (menuID: string) {
     this.adaptationManager.resetCurrentAdaptation();
 
-    let removalIndex = this.menus.findIndex((menu) => {
-      return menu.id === menuID;
-    });
-
-    if (removalIndex === -1) {
-      return;
-    }
-
-    let removedMenu = this.menus.splice(removalIndex, 1);
+    let removedMenu = this.menuManager.removeMenu(menuID);
 
     // Update the data logger to ignore the removed menu
-    this.dataManager.logger.stopListeningForMenuItemClicks(removedMenu[0]);
+    if (removedMenu !== null) {
+      this.dataManager.logger.stopListeningForMenuItemClicks(removedMenu[0]);
+    }
 
     this.adaptationManager.applyCurrentAdaptation();
   }

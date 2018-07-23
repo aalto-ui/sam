@@ -1,4 +1,4 @@
-import { Menu } from "../../elements/Menu";
+import { MenuManager } from "../../elements/MenuManager";
 import { Policy } from "../policies/Policy";
 import { DataManager } from "../../data/DataManager";
 
@@ -14,5 +14,5 @@ export interface Technique<P extends Policy> {
   reset (): void;
 
   // Adapt the page menus, using the given data analyser and database if required
-  apply (menus: Menu[], policy?: P, dataManager?: DataManager): void;
+  apply (menuManager: MenuManager, policy?: P, dataManager?: DataManager): void;
 }

@@ -1,7 +1,7 @@
 import { Database } from "./Database";
 import { DataLogger } from "./DataLogger";
 import { DataAnalyser } from "./DataAnalyser";
-import { Menu } from "../elements/Menu";
+import { MenuManager } from "../elements/MenuManager";
 
 
 export class DataManager {
@@ -10,9 +10,9 @@ export class DataManager {
   readonly logger: DataLogger;
   readonly analyser: DataAnalyser;
 
-  constructor (menus: Menu[]) {
+  constructor (menuManager: MenuManager) {
     this.database = new Database();
-    this.logger = new DataLogger(this.database, menus);
+    this.logger = new DataLogger(this.database, menuManager);
     this.analyser = new DataAnalyser(this.database);
 
     // DEBUG

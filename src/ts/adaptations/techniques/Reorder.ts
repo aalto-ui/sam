@@ -1,6 +1,6 @@
 import * as $ from "jquery";
 import { AdaptiveElement } from "../../elements/AdaptiveElement";
-import { Menu } from "../../elements/Menu";
+import { MenuManager } from "../../elements/MenuManager";
 import { DataManager } from "../../data/DataManager";
 import { Policy } from "../policies/Policy";
 import { Technique } from "./Technique";
@@ -164,5 +164,5 @@ export abstract class Reorder implements Technique<Policy> {
     this.nonReorderableElementsInitialIndices.clear();
   }
 
-  abstract apply (menus: Menu[], policy: Policy, dataManager?: DataManager);
+  abstract apply (menuManager: MenuManager, policy: Policy, dataManager?: DataManager);
 }

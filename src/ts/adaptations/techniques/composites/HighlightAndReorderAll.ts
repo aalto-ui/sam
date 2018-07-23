@@ -1,6 +1,6 @@
 import { ReorderItems } from "../ReorderItems";
 import { ReorderGroups } from "./../ReorderGroups";
-import { Menu } from "../../../elements/Menu";
+import { MenuManager } from "../../../elements/MenuManager";
 import { DataManager } from "../../../data/DataManager";
 import { Highlight } from "../Highlight";
 import { Policy } from "../../policies/Policy";
@@ -31,9 +31,9 @@ export class HighlightAndReorderAll implements Technique<Policy> {
     this.highlight.reset();
   }
 
-  apply (menus: Menu[], policy: Policy, dataManager?: DataManager) {
-    this.highlight.apply(menus, policy, dataManager);
-    this.reorderItems.apply(menus, policy, dataManager);
-    this.reorderGroups.apply(menus, policy, dataManager);
+  apply (menuManager: MenuManager, policy: Policy, dataManager?: DataManager) {
+    this.highlight.apply(menuManager, policy, dataManager);
+    this.reorderItems.apply(menuManager, policy, dataManager);
+    this.reorderGroups.apply(menuManager, policy, dataManager);
   }
 }

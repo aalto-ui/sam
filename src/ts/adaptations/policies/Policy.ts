@@ -1,4 +1,4 @@
-import { Menu } from "../../elements/Menu";
+import { MenuManager } from "../../elements/MenuManager";
 import { DataManager } from "../../data/DataManager";
 import { Item } from "../../elements/Item";
 import { ItemGroup } from "../../elements/ItemGroup";
@@ -27,11 +27,11 @@ export abstract class Policy {
 
   // Any concrete child class extending this one must implement this method
   // It should return a sorted array of items with their scores (from the given menus)
-  abstract getSortedItemsWithScores (menus: Menu[], dataManager?: DataManager): ItemWithScore[];
+  abstract getSortedItemsWithScores (menuManager: MenuManager, dataManager?: DataManager): ItemWithScore[];
 
   // Only return a sorted list of items, from the one issued by getSortedItemsWithScores
-  getSortedItems (menus: Menu[], dataManager?: DataManager): Item[] {
-    return this.getSortedItemsWithScores(menus, dataManager)
+  getSortedItems (menuManager: MenuManager, dataManager?: DataManager): Item[] {
+    return this.getSortedItemsWithScores(menuManager, dataManager)
       .map((itemWithScore) => {
         return itemWithScore.item;
       });
@@ -40,12 +40,12 @@ export abstract class Policy {
 
   // Default implementation which can be overidden by any child class
   // It should return a sorted array of item groups with their scores (from the given menus)
-  getSortedItemGroupsWithScores (menus: Menu[], dataManager?: DataManager): ItemGroupWithScore[] {
+  getSortedItemGroupsWithScores (menuManager: MenuManager, dataManager?: DataManager): ItemGroupWithScore[] {
     let scorePerGroup = new Map<ItemGroup, number>();
     let sumOfScores = 0;
 
     // Get the scores of all items
-    let sortedItemsWithScores = this.getSortedItemsWithScores(menus, dataManager);
+    let sortedItemsWithScores = this.getSortedItemsWithScores(menuManager, dataManager);
 
 
     // Sum the indices for each group
@@ -78,8 +78,8 @@ export abstract class Policy {
   }
 
   // Only return a sorted list of item groups, from the one issued by getSortedItemGroupsWithScores
-  getSortedItemGroups (menus: Menu[], dataManager?: DataManager): ItemGroup[] {
-    return this.getSortedItemGroupsWithScores(menus, dataManager)
+  getSortedItemGroups (menuManager: MenuManager, dataManager?: DataManager): ItemGroup[] {
+    return this.getSortedItemGroupsWithScores(menuManager, dataManager)
       .map((groupWithScore) => {
         return groupWithScore.group;
       });

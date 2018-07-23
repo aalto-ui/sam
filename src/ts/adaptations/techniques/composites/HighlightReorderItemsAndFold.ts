@@ -1,4 +1,4 @@
-import { Menu } from "../../../elements/Menu";
+import { MenuManager } from "../../../elements/MenuManager";
 import { DataManager } from "../../../data/DataManager";
 import { Highlight } from "../Highlight";
 import { ReorderItems } from "../ReorderItems";
@@ -34,9 +34,9 @@ export class HighlightReorderItemsAndFold implements Technique<Policy> {
     this.highlight.reset();
   }
 
-  apply (menus: Menu[], policy: Policy, dataManager?: DataManager) {
-    this.highlight.apply(menus, policy, dataManager);
-    this.reorder.apply(menus, policy, dataManager);
-    this.fold.apply(menus, this.NodeIndexOrderPolicy);
+  apply (menuManager: MenuManager, policy: Policy, dataManager?: DataManager) {
+    this.highlight.apply(menuManager, policy, dataManager);
+    this.reorder.apply(menuManager, policy, dataManager);
+    this.fold.apply(menuManager, this.NodeIndexOrderPolicy);
   }
 }

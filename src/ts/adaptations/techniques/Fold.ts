@@ -1,5 +1,5 @@
 import * as $ from "jquery";
-import { Menu } from "../../elements/Menu";
+import { MenuManager } from "../../elements/MenuManager";
 import { DataManager } from "../../data/DataManager";
 import { Item } from "../../elements/Item";
 import { Policy } from "../policies/Policy";
@@ -132,8 +132,8 @@ export class Fold implements Technique<Policy> {
     this.makeFolder(sameGroupItems);
   }
 
-  apply (menus: Menu[], policy: Policy, dataManager?: DataManager) {
-    let items = policy.getSortedItems(menus, dataManager);
+  apply (menuManager: MenuManager, policy: Policy, dataManager?: DataManager) {
+    let items = policy.getSortedItems(menuManager, dataManager);
 
     this.splitAndApplyByGroup(items);
   }

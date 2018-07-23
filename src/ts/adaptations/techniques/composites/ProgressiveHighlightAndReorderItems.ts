@@ -1,4 +1,4 @@
-import { Menu } from "../../../elements/Menu";
+import { MenuManager } from "../../../elements/MenuManager";
 import { DataManager } from "../../../data/DataManager";
 import { Highlight } from "../Highlight";
 import { ReorderItems } from "../ReorderItems";
@@ -205,9 +205,9 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
     this.currentItemCharacteristics = null;
   }
 
-  apply (menus: Menu[], _, dataManager?: DataManager) {
-    let allItems = Menu.getAllMenusItems(menus);
-    let sortedItemsWithScores = this.policy.getSortedItemsWithScores(menus, dataManager);
+  apply (menuManager: MenuManager, _, dataManager?: DataManager) {
+    let allItems = menuManager.getAllItems();
+    let sortedItemsWithScores = this.policy.getSortedItemsWithScores(menuManager, dataManager);
 
     this.allItems = allItems;
 

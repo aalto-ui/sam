@@ -1,4 +1,4 @@
-import { Menu } from "../../elements/Menu";
+import { MenuManager } from "../../elements/MenuManager";
 import { Policy, ItemWithScore, ItemGroupWithScore } from "./Policy";
 
 
@@ -11,8 +11,8 @@ export class NodeIndexOrderPolicy extends Policy {
   }
 
 
-  getSortedItemsWithScores (menus: Menu[]): ItemWithScore[] {
-    let items = Menu.getAllMenusItems(menus)
+  getSortedItemsWithScores (menuManager: MenuManager): ItemWithScore[] {
+    let items = menuManager.getAllItems();
     let uniformScore = 1 / items.length;
 
     return items
@@ -27,8 +27,8 @@ export class NodeIndexOrderPolicy extends Policy {
       });
   }
 
-  getSortedItemGroupsWithScores (menus: Menu[]): ItemGroupWithScore[] {
-    let groups = Menu.getAllMenusGroups(menus);
+  getSortedItemGroupsWithScores (menuManager: MenuManager): ItemGroupWithScore[] {
+    let groups = menuManager.getAllGroups();
     let uniformScore = 1 / groups.length;
 
     return groups

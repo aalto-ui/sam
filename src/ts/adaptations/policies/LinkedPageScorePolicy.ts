@@ -1,4 +1,4 @@
-import { Menu } from "../../elements/Menu";
+import { MenuManager } from "../../elements/MenuManager";
 import { Item } from "../../elements/Item";
 import { PageVisitsAnalysis } from "../../data/PageVisitsAnalyser";
 import { Policy, ItemWithScore } from "./Policy";
@@ -67,8 +67,8 @@ export abstract class LinkedPageScorePolicy extends Policy {
     }
   }
 
-  getSortedItemsWithScores (menus: Menu[], dataManager?: DataManager): ItemWithScore[] {
-    let items = Menu.getAllMenusItems(menus);
+  getSortedItemsWithScores (menuManager: MenuManager, dataManager?: DataManager): ItemWithScore[] {
+    let items = menuManager.getAllItems();
 
     this.pageVisitsAnalysis = dataManager.analyser.getPageVisitsAnalysis();
     this.computeAndSetPageScores();
