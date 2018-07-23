@@ -1,5 +1,5 @@
 import { Menu } from "../../../elements/Menu";
-import { DataAnalyser } from "../../../data/DataAnalyser";
+import { DataManager } from "../../../data/DataManager";
 import { Highlight } from "../Highlight";
 import { ReorderItems } from "../ReorderItems";
 import { Policy } from "../../policies/Policy";
@@ -25,8 +25,8 @@ export class HighlightAndReorderItems implements Technique<Policy> {
     this.highlight.reset();
   }
 
-  apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser) {
-    this.highlight.apply(menus, policy, analyser);
-    this.reorder.apply(menus, policy, analyser);
+  apply (menus: Menu[], policy: Policy, dataManager?: DataManager) {
+    this.highlight.apply(menus, policy, dataManager);
+    this.reorder.apply(menus, policy, dataManager);
   }
 }

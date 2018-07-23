@@ -1,5 +1,5 @@
 import { Menu } from "../../../elements/Menu";
-import { DataAnalyser } from "../../../data/DataAnalyser";
+import { DataManager } from "../../../data/DataManager";
 import { ReorderItems } from "../ReorderItems";
 import { Fold } from "../Fold";
 import { NodeIndexOrderPolicy } from "../../policies/NodeIndexOrderPolicy";
@@ -30,8 +30,8 @@ export class ReorderItemsAndFold implements Technique<Policy> {
     this.reorder.reset();
   }
 
-  apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser) {
-    this.reorder.apply(menus, policy, analyser);
+  apply (menus: Menu[], policy: Policy, dataManager?: DataManager) {
+    this.reorder.apply(menus, policy, dataManager);
     this.fold.apply(menus, this.naturalOrderPolicy);
   }
 }

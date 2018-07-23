@@ -1,6 +1,6 @@
 import { Reorder } from "./Reorder";
 import { Menu } from "../../elements/Menu";
-import { DataAnalyser } from "../../data/DataAnalyser";
+import { DataManager } from "../../data/DataManager";
 import { Item } from "../../elements/Item";
 import { Policy } from "../policies/Policy";
 
@@ -24,8 +24,8 @@ export class ReorderItems extends Reorder {
     return Item.ELEMENT_TYPE;
   }
 
-  private getFilteredSortedItems (menus: Menu[], policy: Policy, analyser: DataAnalyser): Item[] {
-    return policy.getSortedItemsWithScores(menus, analyser)
+  private getFilteredSortedItems (menus: Menu[], policy: Policy, dataManager?: DataManager): Item[] {
+    return policy.getSortedItemsWithScores(menus, dataManager)
       .filter((itemWithScore) => {
         if (! itemWithScore.item.canBeReordered) {
           return false;
@@ -63,8 +63,8 @@ export class ReorderItems extends Reorder {
     this.reorderAllElements(topSameGroupItems);
   }
 
-  apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser) {
-    let items = this.getFilteredSortedItems(menus, policy, analyser);
+  apply (menus: Menu[], policy: Policy, dataManager?: DataManager) {
+    let items = this.getFilteredSortedItems(menus, policy, dataManager);
 
     // Save some children in their original order to be able to reset the reordering
     this.saveParentNodeChildrenInOriginalOrder(items);

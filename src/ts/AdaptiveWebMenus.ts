@@ -3,9 +3,7 @@ import * as $ from "jquery";
 import { Menu } from "./elements/Menu";
 import { ItemGroup } from "./elements/ItemGroup";
 import { Item } from "./elements/Item";
-import { Database } from "./data/Database";
-import { DataLogger } from "./data/DataLogger";
-import { DataAnalyser } from "./data/DataAnalyser";
+import { DataManager } from "./data/DataManager";
 import { AdaptationManager } from "./adaptations/AdaptationManager";
 import { DebugDisplay } from "./DebugDisplay";
 import { Selector, isSelector } from "./elements/AdaptiveElement";
@@ -23,10 +21,8 @@ export class AdaptiveWebMenus {
   // List of adaptive menus
   private readonly menus: Menu[];
 
-  // Database, logger and analyser
-  private readonly database: Database;
-  private readonly dataLogger: DataLogger;
-  private readonly dataAnalyser: DataAnalyser;
+  // Data manager
+  private readonly dataManager: DataManager;
 
   // Adaptation manager
   readonly adaptationManager: AdaptationManager;
@@ -37,22 +33,16 @@ export class AdaptiveWebMenus {
   constructor (menus: Menu[] = [], debug: boolean = true) {
     this.menus = menus;
 
-    this.database = new Database();
-    this.dataLogger = new DataLogger(this.database, menus);
-    this.dataAnalyser = new DataAnalyser(this.database);
+    this.dataManager = new DataManager(this.menus);
 
-    // DEBUG
-    console.log("ITEM CLICK ANALYSIS", this.dataAnalyser.getItemClickAnalysis());
-    console.log("PAGE VISITS ANALYSIS", this.dataAnalyser.getPageVisitsAnalysis());
-
-    this.adaptationManager = new AdaptationManager(this.menus, this.database, this.dataAnalyser);
+    this.adaptationManager = new AdaptationManager(this.menus, this.dataManager);
     this.adaptationManager.applyCurrentAdaptation();
 
     this.debugDisplay = new DebugDisplay(this, debug);
   }
 
   clearHistory () {
-    this.database.empty();
+    this.dataManager.database.empty();
 
     this.adaptationManager.resetCurrentAdaptation();
     this.adaptationManager.applyCurrentAdaptation();
@@ -66,7 +56,7 @@ export class AdaptiveWebMenus {
     this.menus.push(menu);
 
     // Update the data logger to consider the new menu
-    this.dataLogger.startListeningForMenuItemClicks(menu);
+    this.dataManager.logger.startListeningForMenuItemClicks(menu);
 
     this.adaptationManager.applyCurrentAdaptation();
   }
@@ -88,7 +78,7 @@ export class AdaptiveWebMenus {
     let removedMenu = this.menus.splice(removalIndex, 1);
 
     // Update the data logger to ignore the removed menu
-    this.dataLogger.stopListeningForMenuItemClicks(removedMenu[0]);
+    this.dataManager.logger.stopListeningForMenuItemClicks(removedMenu[0]);
 
     this.adaptationManager.applyCurrentAdaptation();
   }

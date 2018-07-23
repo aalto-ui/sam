@@ -1,8 +1,8 @@
 import { Menu } from "../../elements/Menu";
-import { DataAnalyser } from "../../data/DataAnalyser";
 import { Item } from "../../elements/Item";
 import { PageVisitsAnalysis } from "../../data/PageVisitsAnalyser";
 import { Policy, ItemWithScore } from "./Policy";
+import { DataManager } from "../../data/DataManager";
 
 
 export abstract class LinkedPageScorePolicy extends Policy {
@@ -67,10 +67,10 @@ export abstract class LinkedPageScorePolicy extends Policy {
     }
   }
 
-  getSortedItemsWithScores (menus: Menu[], analyser: DataAnalyser): ItemWithScore[] {
+  getSortedItemsWithScores (menus: Menu[], dataManager?: DataManager): ItemWithScore[] {
     let items = Menu.getAllMenusItems(menus);
 
-    this.pageVisitsAnalysis = analyser.getPageVisitsAnalysis();
+    this.pageVisitsAnalysis = dataManager.analyser.getPageVisitsAnalysis();
     this.computeAndSetPageScores();
     this.computeAndSetItemScores(items);
 

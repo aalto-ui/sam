@@ -1,6 +1,6 @@
 import * as $ from "jquery";
 import { Menu } from "../../elements/Menu";
-import { DataAnalyser } from "../../data/DataAnalyser";
+import { DataManager } from "../../data/DataManager";
 import { Item } from "../../elements/Item";
 import { ItemWithScore, Policy } from "../policies/Policy";
 import { Technique } from "./Technique";
@@ -62,8 +62,8 @@ export class Highlight implements Technique<Policy> {
     this.itemsToHighlightAtHighLevel.clear();
   }
 
-  private getFilteredSortedItemWithScores (menus: Menu[], policy: Policy, analyser: DataAnalyser): ItemWithScore[] {
-    return policy.getSortedItemsWithScores(menus, analyser)
+  private getFilteredSortedItemWithScores (menus: Menu[], policy: Policy, dataManager?: DataManager): ItemWithScore[] {
+    return policy.getSortedItemsWithScores(menus, dataManager)
       .filter((itemWithScore) => {
         return itemWithScore.score > 0;
       });
@@ -110,8 +110,8 @@ export class Highlight implements Technique<Policy> {
     this.onAllItems(topSameGroupItems);
   }
 
-  apply (menus: Menu[], policy: Policy, analyser?: DataAnalyser) {
-    let itemWithScores = this.getFilteredSortedItemWithScores(menus, policy, analyser);
+  apply (menus: Menu[], policy: Policy, dataManager?: DataManager) {
+    let itemWithScores = this.getFilteredSortedItemWithScores(menus, policy, dataManager);
 
     // Only keep the top items to highlight them
     let totalNbItems = Menu.getAllMenusItems(menus).length;

@@ -1,6 +1,5 @@
 import { Menu } from "../elements/Menu";
-import { Database } from "../data/Database";
-import { DataAnalyser } from "../data/DataAnalyser";
+import { DataManager } from "../data/DataManager";
 import { Technique } from "./techniques/Technique";
 import { Policy } from "./policies/Policy";
 import { AVAILABLE_TECHNIQUES, AVAILABLE_POLICIES } from "./AvailableAdaptations";
@@ -11,21 +10,17 @@ export class AdaptationManager {
   // List of menus to adapt
   private menus: Menu[];
 
-  // The database to save the current adaptation into
-  private database: Database;
-
-  // The database analyser to use for policies
-  private analyser: DataAnalyser;
+  // Data manager (access to the dabatase and data analysis tools)
+  private dataManager: DataManager;
 
   // Current technique and policy
   private currentTechnique: Technique<Policy>;
   private currentPolicy: Policy;
 
 
-  constructor (menus: Menu[], database: Database, analyser: DataAnalyser) {
+  constructor (menus: Menu[], dataManager: DataManager) {
     this.menus = menus;
-    this.database = database;
-    this.analyser = analyser;
+    this.dataManager = dataManager;
 
     this.currentTechnique = null;
     this.currentPolicy = null;
@@ -50,7 +45,7 @@ export class AdaptationManager {
     console.log(`Technique has been set to ${name}.`);
 
     // Save the name of the current technique in the persistent storage of the database
-    this.database.persistentStorage.techniqueName = name;
+    this.dataManager.database.persistentStorage.techniqueName = name;
   }
 
   private setDefaultTechnique () {
@@ -58,7 +53,7 @@ export class AdaptationManager {
   }
 
   private restoreTechniqueFromDatabaseOrSetDefault () {
-    let techniqueName = this.database.persistentStorage.techniqueName;
+    let techniqueName = this.dataManager.database.persistentStorage.techniqueName;
     if (techniqueName === undefined) {
       this.setDefaultTechnique();
       return;
@@ -88,7 +83,7 @@ export class AdaptationManager {
     console.log(`Policy has been set to ${name}.`);
 
     // Save the name of the current policy in the persistent storage of the database
-    this.database.persistentStorage.policyName = name;
+    this.dataManager.database.persistentStorage.policyName = name;
   }
 
   private setDefaultPolicy () {
@@ -96,7 +91,7 @@ export class AdaptationManager {
   }
 
   private restorePolicyFromDatabaseOrSetDefault () {
-    let policyName = this.database.persistentStorage.policyName;
+    let policyName = this.dataManager.database.persistentStorage.policyName;
     if (policyName === undefined) {
       this.setDefaultPolicy();
       return;
@@ -117,7 +112,7 @@ export class AdaptationManager {
 
 
   applyCurrentAdaptation () {
-    this.currentTechnique.apply(this.menus, this.currentPolicy, this.analyser, this.database);
+    this.currentTechnique.apply(this.menus, this.currentPolicy, this.dataManager);
     console.log(`Applying technique ${this.currentTechnique.name} with policy ${this.currentPolicy.name}.`);
   }
 

@@ -1,5 +1,5 @@
-import { DataAnalyser } from "../../data/DataAnalyser";
 import { Menu } from "../../elements/Menu";
+import { DataManager } from "../../data/DataManager";
 import { Item } from "../../elements/Item";
 import { ItemGroup } from "../../elements/ItemGroup";
 
@@ -27,11 +27,11 @@ export abstract class Policy {
 
   // Any concrete child class extending this one must implement this method
   // It should return a sorted array of items with their scores (from the given menus)
-  abstract getSortedItemsWithScores (menus: Menu[], analyser?: DataAnalyser): ItemWithScore[];
+  abstract getSortedItemsWithScores (menus: Menu[], dataManager?: DataManager): ItemWithScore[];
 
   // Only return a sorted list of items, from the one issued by getSortedItemsWithScores
-  getSortedItems (menus: Menu[], analyser?: DataAnalyser): Item[] {
-    return this.getSortedItemsWithScores(menus, analyser)
+  getSortedItems (menus: Menu[], dataManager?: DataManager): Item[] {
+    return this.getSortedItemsWithScores(menus, dataManager)
       .map((itemWithScore) => {
         return itemWithScore.item;
       });
@@ -40,12 +40,12 @@ export abstract class Policy {
 
   // Default implementation which can be overidden by any child class
   // It should return a sorted array of item groups with their scores (from the given menus)
-  getSortedItemGroupsWithScores (menus: Menu[], analyser?: DataAnalyser): ItemGroupWithScore[] {
+  getSortedItemGroupsWithScores (menus: Menu[], dataManager?: DataManager): ItemGroupWithScore[] {
     let scorePerGroup = new Map<ItemGroup, number>();
     let sumOfScores = 0;
 
     // Get the scores of all items
-    let sortedItemsWithScores = this.getSortedItemsWithScores(menus, analyser);
+    let sortedItemsWithScores = this.getSortedItemsWithScores(menus, dataManager);
 
 
     // Sum the indices for each group
@@ -78,8 +78,8 @@ export abstract class Policy {
   }
 
   // Only return a sorted list of item groups, from the one issued by getSortedItemGroupsWithScores
-  getSortedItemGroups (menus: Menu[], analyser?: DataAnalyser): ItemGroup[] {
-    return this.getSortedItemGroupsWithScores(menus, analyser)
+  getSortedItemGroups (menus: Menu[], dataManager?: DataManager): ItemGroup[] {
+    return this.getSortedItemGroupsWithScores(menus, dataManager)
       .map((groupWithScore) => {
         return groupWithScore.group;
       });

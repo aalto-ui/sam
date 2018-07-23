@@ -1,5 +1,5 @@
 import { Menu } from "../../elements/Menu";
-import { DataAnalyser } from "../../data/DataAnalyser";
+import { DataManager } from "../../data/DataManager";
 import { Item } from "../../elements/Item";
 import { ItemGroup } from "../../elements/ItemGroup";
 import { AdaptiveElement } from "../../elements/AdaptiveElement";
@@ -75,8 +75,8 @@ export class MostClickedItemListPolicy extends Policy {
       });
   }
 
-  getSortedItemsWithScores (menus: Menu[], analyser: DataAnalyser): ItemWithScore[] {
-    let itemClicksAnalysis = analyser.getItemClickAnalysis();
+  getSortedItemsWithScores (menus: Menu[], dataManager?: DataManager): ItemWithScore[] {
+    let itemClicksAnalysis = dataManager.analyser.getItemClickAnalysis();
 
     // Get all items, and split them in two arrays,
     // according to whether there are stats (= recorded clicks) on them or not
@@ -108,8 +108,8 @@ export class MostClickedItemListPolicy extends Policy {
     return sortedItemsWithScores.concat(remainingItemsWithScores);
   }
 
-  getSortedItemGroupsWithScores (menus: Menu[], analyser: DataAnalyser): ItemGroupWithScore[] {
-    let itemClicksAnalysis = analyser.getItemClickAnalysis();
+  getSortedItemGroupsWithScores (menus: Menu[], dataManager?: DataManager): ItemGroupWithScore[] {
+    let itemClicksAnalysis = dataManager.analyser.getItemClickAnalysis();
 
     // Get all item groups, and split them in two arrays,
     // according to whether there are stats (= recorded clicks) on them or not

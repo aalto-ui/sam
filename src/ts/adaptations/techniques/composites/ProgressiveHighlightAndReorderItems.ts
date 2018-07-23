@@ -1,5 +1,5 @@
 import { Menu } from "../../../elements/Menu";
-import { DataAnalyser } from "../../../data/DataAnalyser";
+import { DataManager } from "../../../data/DataManager";
 import { Highlight } from "../Highlight";
 import { ReorderItems } from "../ReorderItems";
 import { Policy, ItemWithScore } from "../../policies/Policy";
@@ -205,15 +205,15 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
     this.currentItemCharacteristics = null;
   }
 
-  apply (menus: Menu[], _, analyser: DataAnalyser, database: Database) {
+  apply (menus: Menu[], _, dataManager?: DataManager) {
     let allItems = Menu.getAllMenusItems(menus);
-    let sortedItemsWithScores = this.policy.getSortedItemsWithScores(menus, analyser);
+    let sortedItemsWithScores = this.policy.getSortedItemsWithScores(menus, dataManager);
 
     this.allItems = allItems;
 
-    this.loadOrInitPreviousItemCharactertics(allItems, database);
+    this.loadOrInitPreviousItemCharactertics(allItems, dataManager.database);
     this.computeCurrentItemCharacteristics(sortedItemsWithScores);
-    this.saveCurrentItemCharacteristics(database);
+    this.saveCurrentItemCharacteristics(dataManager.database);
 
     console.log("Current characterstics", this.currentItemCharacteristics);
 
