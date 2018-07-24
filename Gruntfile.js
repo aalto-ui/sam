@@ -11,7 +11,6 @@ module.exports = function (grunt) {
     // Those instructions can be used at various points in the building process,
     // or for additional available tasks (e.g. cleaning task).
     exec: {
-      npmInstall: "npm install",
       clean: "rm -Rf build .tscache",
       copyCSS: "cp -Rf src/css/* build"
     },
@@ -77,7 +76,6 @@ module.exports = function (grunt) {
   /* Task registering
   /***************************************************************************/
 
-  grunt.registerTask("init", "Install all dependencies required to build AWM.", "exec:npmInstall");
   grunt.registerTask("clean", "Remove the 'build' directory, as well as temporary/caching directories.", "exec:clean");
   grunt.registerTask("build", "Compile the Typescript sources and copy other useful files into a 'build' directory.", ["ts", "exec:copyCSS"])
 
