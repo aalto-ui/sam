@@ -4,6 +4,7 @@ import { DataAnalyserModule } from "./DataAnalyserModule";
 import { Analysis } from "./DataAnalyser";
 import { ItemClickLog } from "./DataLogger";
 import { Item } from "../elements/Item";
+import { ItemGroup } from "../elements/ItemGroup";
 
 // Generic interface for element stats, and specific ones for actual elements
 export interface AdaptiveElementStats {
@@ -35,6 +36,11 @@ export interface ItemClicksAnalysis extends Analysis {
 export interface ItemsSplitByStatsAvailability {
   withStats: Item[];
   withoutStats: Item[];
+}
+
+export interface ItemGroupsSplitByStatsAvailability {
+  withStats: ItemGroup[];
+  withoutStats: ItemGroup[];
 }
 
 
@@ -186,6 +192,31 @@ export class ItemClicksAnalyser extends DataAnalyserModule {
     return {
       withStats: itemsWithStats,
       withoutStats: itemsWithoutStats
+    };
+  }
+
+  // Split a list of item groups into two lists of groups:
+  // - one list with groups whose stats are available in the given click analysis
+  // - one list with the other groups (no stats available)
+  // The order of the initial list is respected in each of the sub-lists
+  static splitItemGroupsByStatsAvailability (groups: ItemGroup[], itemClicksAnalysis: ItemClicksAnalysis): ItemGroupsSplitByStatsAvailability {
+    let groupsWithStats = [];
+    let groupsWithoutStats = [];
+
+    for (let group of groups) {
+      let groupID = group.id;
+
+      if (groupID in itemClicksAnalysis.groupStats) {
+        groupsWithStats.push(group);
+      }
+      else {
+        groupsWithoutStats.push(group);
+      }
+    }
+
+    return {
+      withStats: groupsWithStats,
+      withoutStats: groupsWithoutStats
     };
   }
 }

@@ -114,7 +114,7 @@ export class MostClickedItemListPolicy extends Policy {
     // Get all item groups, and split them in two arrays,
     // according to whether there are stats (= recorded clicks) on them or not
     let groups = menuManager.getAllGroups();
-    let splitGroups = ItemGroup.splitAllByStatsAvailability(groups, itemClicksAnalysis);
+    let splitGroups = ItemClicksAnalyser.splitItemGroupsByStatsAvailability(groups, itemClicksAnalysis);
 
     let groupsMappedToNbClicks = this.mapGroupsToNbClicks(splitGroups.withStats, itemClicksAnalysis);
     let sortedGroups = this.sortMappedClickedElements(groupsMappedToNbClicks);
