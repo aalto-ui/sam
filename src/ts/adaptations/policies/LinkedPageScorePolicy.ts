@@ -3,13 +3,14 @@ import { Item } from "../../elements/Item";
 import { PageVisitsAnalysis } from "../../data/PageVisitsAnalyser";
 import { Policy, ItemWithScore } from "./Policy";
 import { DataManager } from "../../data/DataManager";
+import { PageID } from "../../Utilities";
 
 
 export abstract class LinkedPageScorePolicy extends Policy {
 
   abstract readonly name: string;
 
-  private pageScores: Map<string, number>;
+  private pageScores: Map<PageID, number>;
   private itemScores: Map<Item, number>;
 
   // Internal reference to a page visit analysis
@@ -27,7 +28,7 @@ export abstract class LinkedPageScorePolicy extends Policy {
   }
 
 
-  protected abstract computePageScore (pageID: string): number;
+  protected abstract computePageScore (pageID: PageID): number;
 
 
   private computeAndSetPageScores () {

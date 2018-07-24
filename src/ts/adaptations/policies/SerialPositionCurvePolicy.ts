@@ -1,4 +1,5 @@
 import { LinkedPageScorePolicy } from "./LinkedPageScorePolicy";
+import { PageID } from "../../Utilities";
 
 
 export class SerialPositionCurvePolicy extends LinkedPageScorePolicy {
@@ -9,7 +10,7 @@ export class SerialPositionCurvePolicy extends LinkedPageScorePolicy {
     super();
   }
 
-  private computeFamiliarityScore (pageID: string): number {
+  private computeFamiliarityScore (pageID: PageID): number {
     // If there are no stats, immediately return a null score
     if (! (pageID in this.pageVisitsAnalysis.pageStats)) {
       return 0;
@@ -55,7 +56,7 @@ export class SerialPositionCurvePolicy extends LinkedPageScorePolicy {
     return familiarity;
   }
 
-  protected computePageScore (pageID: string): number {
+  protected computePageScore (pageID: PageID): number {
     return this.computeFamiliarityScore(pageID);
   }
 }

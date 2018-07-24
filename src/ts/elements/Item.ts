@@ -1,7 +1,10 @@
 import * as $ from "jquery";
 import { AdaptiveElement, Selector } from "./AdaptiveElement";
 import { ItemGroup } from "./ItemGroup";
-import { Utilities } from "../Utilities";
+import { Utilities, PageID } from "../Utilities";
+
+
+export type ItemID = string;
 
 
 export class Item extends AdaptiveElement {
@@ -32,7 +35,7 @@ export class Item extends AdaptiveElement {
 
   // Look for link (<a>) nodes among the link element itself and is children,
   // possibly filtered by a given pageID
-  findLinkNodes (pageID?: string): JQuery {
+  findLinkNodes (pageID?: PageID): JQuery {
     let linkNodes = this.node.find("a");
     if (this.node.is("a")) {
       linkNodes = linkNodes.add(this.node);

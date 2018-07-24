@@ -1,11 +1,14 @@
+export type PageID = string;
+
+
 export class Utilities {
 
-  static getCurrentPageID (): string {
+  static getCurrentPageID (): PageID {
     return window.location.hostname
       .concat(window.location.pathname);
   }
 
-  private static getLinkedPageID (link: string): string {
+  private static getLinkedPageID (link: string): PageID {
     let linkElement = document.createElement("a");
     linkElement.href = link;
 
@@ -14,7 +17,7 @@ export class Utilities {
   }
 
 
-  static isLinkMatchingPageID (link: string, pageID: string) {
+  static isLinkMatchingPageID (link: string, pageID: PageID) {
     return Utilities.getLinkedPageID(link) === pageID;
   }
 

@@ -1,23 +1,24 @@
 import * as $ from "jquery";
 import { Database } from "./Database";
 import { MenuManager } from "../elements/MenuManager";
-import { Menu } from "../elements/Menu";
-import { Item } from "../elements/Item";
-import { Utilities } from "../Utilities";
+import { Menu, MenuID } from "../elements/Menu";
+import { GroupID } from "../elements/ItemGroup";
+import { Item, ItemID } from "../elements/Item";
+import { Utilities, PageID } from "../Utilities";
 
 
 // Interfaces of available logs, stored in the database
 export interface ItemClickLog {
-  readonly itemID: string;
-  readonly groupID: string;
-  readonly menuID: string;
+  readonly itemID: ItemID;
+  readonly groupID: GroupID;
+  readonly menuID: MenuID;
   readonly timestamp: number;
-  readonly pageID: string;
+  readonly pageID: PageID;
 }
 
 export interface PageVisitLog {
   readonly timestamp: number;
-  readonly pageID: string;
+  readonly pageID: PageID;
   readonly duration: number;
 }
 

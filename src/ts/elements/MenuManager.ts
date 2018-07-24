@@ -1,4 +1,4 @@
-import { Menu } from "./Menu";
+import { Menu, MenuID } from "./Menu";
 import { Item } from "./Item";
 import { ItemGroup } from "./ItemGroup";
 import { Selector, isSelector } from "./AdaptiveElement";
@@ -24,9 +24,9 @@ export class MenuManager {
     this.menus.push(menu);
   }
 
-  removeMenu (menuID: string): Menu | null {
+  removeMenu (id: MenuID): Menu | null {
     let removalIndex = this.menus.findIndex((menu) => {
-      return menu.id === menuID;
+      return menu.id === id;
     });
 
     if (removalIndex === -1) {

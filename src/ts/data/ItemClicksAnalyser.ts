@@ -1,5 +1,5 @@
 import { Database, TableEntryIndex, TableEntry } from "./Database";
-import { Utilities } from "../Utilities";
+import { Utilities, PageID } from "../Utilities";
 import { DataAnalyserModule } from "./DataAnalyserModule";
 import { Analysis } from "./DataAnalyser";
 import { ItemClickLog } from "./DataLogger";
@@ -13,7 +13,7 @@ export interface AdaptiveElementStats {
   clickFrequency: number;
   localClickFrequency: number;
 
-  sourcePageIDs: string[];
+  sourcePageIDs: PageID[];
   timestamps: number[];
 
   eventIndices: TableEntryIndex[];

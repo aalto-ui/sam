@@ -1,4 +1,5 @@
 import { LinkedPageScorePolicy } from "./LinkedPageScorePolicy";
+import { PageID } from "../../Utilities";
 
 
 export class MostVisitedPagesPolicy extends LinkedPageScorePolicy {
@@ -9,7 +10,7 @@ export class MostVisitedPagesPolicy extends LinkedPageScorePolicy {
     super();
   }
 
-  protected computePageScore (pageID: string): number {
+  protected computePageScore (pageID: PageID): number {
     return this.pageVisitsAnalysis.pageStats[pageID].nbVisits;
   }
 }

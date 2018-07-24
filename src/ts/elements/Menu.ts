@@ -4,9 +4,7 @@ import { ItemGroup } from "./ItemGroup";
 import { Item } from "./Item";
 
 
-// Menu identifier
-// An groupID is formed by the position tags of a menu
-export type MenuID = number;
+export type MenuID = string;
 
 
 export class Menu extends AdaptiveElement {

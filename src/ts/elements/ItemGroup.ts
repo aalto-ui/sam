@@ -3,6 +3,7 @@ import { Item } from "./Item";
 import { Menu } from "./Menu";
 
 
+export type GroupID = string;
 
 
 export class ItemGroup extends AdaptiveElement {

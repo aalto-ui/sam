@@ -1,5 +1,5 @@
 import { MenuManager, MenuSelectors } from "./elements/MenuManager";
-import { Menu } from "./elements/Menu";
+import { Menu, MenuID } from "./elements/Menu";
 import { ItemGroup } from "./elements/ItemGroup";
 import { Item } from "./elements/Item";
 import { DataManager } from "./data/DataManager";
@@ -55,10 +55,10 @@ export class AdaptiveWebMenus {
   // Remove the menu with the given menu ID from the list of menus to adapt
   // The adaptation is automatically updated to take the removal into account
   // If no menu is found with the given ID, nothing happens
-  removeMenu (menuID: string) {
+  removeMenu (id: MenuID) {
     this.adaptationManager.resetCurrentAdaptation();
 
-    let removedMenu = this.menuManager.removeMenu(menuID);
+    let removedMenu = this.menuManager.removeMenu(id);
 
     // Update the data logger to ignore the removed menu
     if (removedMenu !== null) {
