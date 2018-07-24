@@ -22,7 +22,7 @@ export interface PageStats {
 export interface PageVisitsAnalysis extends Analysis {
   totalNbVisits: number;
   nbUniquePages: number;
-  pageStats: {[key: string]: PageStats};
+  pageStats: {[pageID: string]: PageStats};
   currentEventIndex: TableEntryIndex;
 }
 

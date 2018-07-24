@@ -88,7 +88,7 @@ export class Menu extends AdaptiveElement {
   // Fill a menu using the given specific group selectors
   // Each key must represent a specific group selector (i.e. one group only),
   // and each value must be a selector for items in the group (necessarily deeper in the DOM)
-  private fillUsingSpecificGroupSelectors (descendantSelectors: {[key: string]: Selector}) {
+  private fillUsingSpecificGroupSelectors (descendantSelectors: {[groupSelector: string]: Selector}) {
     for (let groupSelector in descendantSelectors) {
       let itemSelectors = descendantSelectors[groupSelector];
       this.groups.push(ItemGroup.fromSelectors(groupSelector, itemSelectors, this));
@@ -99,9 +99,9 @@ export class Menu extends AdaptiveElement {
   // Refer to the specific methods for more details!
   static fromSelectors (menuSelector: Selector, itemSelector: Selector): Menu;
   static fromSelectors (menuSelector: Selector, groupSelector: Selector, itemSelector: Selector): Menu;
-  static fromSelectors (menuSelector: Selector, descendantSelectors: {[key: string]: Selector}): Menu;
+  static fromSelectors (menuSelector: Selector, descendantSelectors: {[groupSelector: string]: Selector}): Menu;
 
-  static fromSelectors (menuSelector: Selector, selector2: Selector | {[key: string]: Selector}, selector3?: Selector): Menu {
+  static fromSelectors (menuSelector: Selector, selector2: Selector | {[groupSelector: string]: Selector}, selector3?: Selector): Menu {
     let node = $(menuSelector);
     let menu = new Menu(node, menuSelector);
 
@@ -114,7 +114,7 @@ export class Menu extends AdaptiveElement {
       }
       else {
         // console.log("fillUsingSpecificGroupSelectors");
-        menu.fillUsingSpecificGroupSelectors(selector2 as {[key: string]: Selector});
+        menu.fillUsingSpecificGroupSelectors(selector2 as {[groupSelector: string]: Selector});
       }
     }
 

@@ -101,7 +101,7 @@ export class MenuManager {
 
       // Case 2: the descendant selector is a specific group-item selector object
       else {
-        descendantSelector = descendantSelector as {[key: string]: Selector};
+        descendantSelector = descendantSelector as {[groupSelector: string]: Selector};
         menus.push(Menu.fromSelectors(menuSelector, descendantSelector));
       }
     }

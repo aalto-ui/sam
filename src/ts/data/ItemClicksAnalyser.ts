@@ -27,8 +27,8 @@ export interface ItemGroupStats extends AdaptiveElementStats { }
 export interface ItemClicksAnalysis extends Analysis {
   totalNbClicks: number;
   totalLocalNbClicks: number;
-  itemStats: {[key: string]: ItemStats};
-  groupStats: {[key: string]: ItemGroupStats};
+  itemStats: {[itemID: string]: ItemStats};
+  groupStats: {[groupID: string]: ItemGroupStats};
   currentEventIndex: TableEntryIndex;
 }
 
