@@ -1,4 +1,3 @@
-
 export class Utilities {
 
   static getCurrentPageID (): string {
@@ -13,7 +12,6 @@ export class Utilities {
     return linkElement.hostname
       .concat(linkElement.pathname);
   }
-
 
 
   static isLinkMatchingPageID (link: string, pageID: string) {

@@ -4,7 +4,7 @@ import { PageVisitsAnalyser, PageVisitsAnalysis } from "./PageVisitsAnalyser";
 
 
 // Generic type of an analysis, returned by an anlyser module
-export interface Analysis { };
+export interface Analysis { }
 
 
 export class DataAnalyser {

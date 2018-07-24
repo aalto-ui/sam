@@ -17,12 +17,12 @@ export const enum AdaptationState {
 }
 
 export interface ItemCharacteristics {
-  state: AdaptationState,
-  score: number,
-  lastStateChangeScore: number
+  state: AdaptationState;
+  score: number;
+  lastStateChangeScore: number;
 }
 
-
+/* tslint:disable: max-classes-per-file */
 export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
 
   readonly name: string = "Progressive HL + R items";
@@ -30,8 +30,8 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
   private readonly policy: Policy;
 
   private allItems: Item[];
-  private previousItemCharacteristics: {[itemID: string]: ItemCharacteristics}
-  private currentItemCharacteristics: {[itemID: string]: ItemCharacteristics}
+  private previousItemCharacteristics: {[itemID: string]: ItemCharacteristics};
+  private currentItemCharacteristics: {[itemID: string]: ItemCharacteristics};
 
   private readonly progressiveHighlight: Highlight;
   private readonly progressiveReorder: ReorderItems;
@@ -50,15 +50,15 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
 
   private getItemsWithCurrentState (state: AdaptationState) {
     let itemIDsWithMatchingState = Object.keys(this.currentItemCharacteristics)
-      .filter(itemID => {
+      .filter((itemID) => {
         return this.currentItemCharacteristics[itemID].state === state;
       });
 
-    return this.allItems.filter(item => {
+    return this.allItems.filter((item) => {
       return itemIDsWithMatchingState.find((itemID) => {
-        return item.id === itemID
+        return item.id === itemID;
       }) !== undefined;
-    })
+    });
   }
 
   private createProgressiveHighlight (): Highlight {
@@ -79,7 +79,7 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
         this.itemsToHighlightAtHighLevel = new Set(itemsToHighlightAtHighLevel);
         this.onAllItems(itemsToHighlight);
       }
-    };
+    }();
   }
 
   private createProgressiveReorderItem (): ReorderItems {
@@ -99,7 +99,7 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
 
         this.reorderAllElements(sortedItemsToReorder);
       }
-    };
+    }();
   }
 
 
@@ -138,33 +138,42 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
 
     switch (previousState) {
       case AdaptationState.NoAdaptation:
-        if (currentScore > 0.1)
+        if (currentScore > 0.1) {
           return AdaptationState.LowHighlighting;
-        else
+        }
+        else {
           return AdaptationState.NoAdaptation;
-
+        }
 
        case AdaptationState.LowHighlighting:
-         if (scoreDifference > 0.3)
+         if (scoreDifference > 0.3) {
            return AdaptationState.HighHighlighting;
-         else if (scoreDifference < -0.2)
+         }
+         else if (scoreDifference < -0.2) {
            return AdaptationState.NoAdaptation;
-         else
+         }
+         else {
            return AdaptationState.LowHighlighting;
+         }
 
         case AdaptationState.HighHighlighting:
-          if (scoreDifference > 0.3)
+          if (scoreDifference > 0.3){
             return AdaptationState.HighHighlightingAndReordering;
-          else if (scoreDifference < -0.2)
+          }
+          else if (scoreDifference < -0.2) {
             return AdaptationState.LowHighlighting;
-          else
+          }
+          else {
             return AdaptationState.HighHighlighting;
+          }
 
        case AdaptationState.HighHighlightingAndReordering:
-         if (scoreDifference < -0.4)
+         if (scoreDifference < -0.4) {
            return AdaptationState.HighHighlighting;
-         else
+         }
+         else {
           return AdaptationState.HighHighlightingAndReordering;
+        }
     }
   }
 
@@ -178,7 +187,7 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
       let lastStateChangeScore = this.previousItemCharacteristics[itemID].lastStateChangeScore;
       let currentScore = itemWithScore.score;
 
-      //if (previousScore !== lastStateChangeScore)
+      // if (previousScore !== lastStateChangeScore)
       //  console.log(previousScore, "==>", currentScore, itemWithScore.item);
 
       let previousState = this.previousItemCharacteristics[itemID].state;

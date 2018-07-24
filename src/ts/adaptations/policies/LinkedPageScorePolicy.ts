@@ -54,11 +54,6 @@ export abstract class LinkedPageScorePolicy extends Policy {
 
         if (matchingLinkNodes.length > 0) {
           score = this.pageScores.get(pageID);
-
-          console.info("Match between item and page ID")
-          console.log(item)
-          console.log(pageID)
-
           break;
         }
       }
@@ -74,24 +69,12 @@ export abstract class LinkedPageScorePolicy extends Policy {
     this.computeAndSetPageScores();
     this.computeAndSetItemScores(items);
 
-    console.log("Scores of linked items:")
-    console.log([...this.itemScores.entries()]
-      .map(([item, score]) => {
-        return {
-          item: item,
-          score: score
-        }
-      })
-      .sort((itemWithScore1, itemWithScore2) => {
-        return itemWithScore2.score - itemWithScore1.score;
-      }))
-
     return [...this.itemScores.entries()]
       .map(([item, score]) => {
         return {
           item: item,
           score: score
-        }
+        };
       })
       .sort((itemWithScore1, itemWithScore2) => {
         return itemWithScore2.score - itemWithScore1.score;

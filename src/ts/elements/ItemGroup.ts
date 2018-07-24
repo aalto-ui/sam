@@ -86,7 +86,7 @@ export class ItemGroup extends AdaptiveElement {
   private fillUsingItemSelector (itemSelector: Selector) {
     let self = this;
 
-    this.node.find(itemSelector).each(function (_, element) {
+    this.node.find(itemSelector).each((_, element) => {
       self.items.push(Item.fromSelector(element, self));
     });
 

@@ -7,9 +7,9 @@ import { Selector, isSelector } from "./AdaptiveElement";
 // Type alias used for convenience
 // It represents an object who keys are menu selectors, and values are either
 // generic item selectors, or specific group-items selector objects
-export type MenuSelectors = {
-  [menuSelector: string]: Selector | {[groupSelector: string]: Selector}
-};
+export interface MenuSelectors {
+  [menuSelector: string]: Selector | {[groupSelector: string]: Selector};
+}
 
 
 export class MenuManager {
@@ -67,7 +67,7 @@ export class MenuManager {
   // (see Menu and ItemGroup for details)
   static fromGenericMenuAndItemSelectors (menuSelector: Selector, itemSelector: Selector): MenuManager {
     let menus = [];
-    $(menuSelector).each(function (_, element) {
+    $(menuSelector).each((_, element) => {
       menus.push(Menu.fromSelectors(element, itemSelector));
     });
 
@@ -79,7 +79,7 @@ export class MenuManager {
   // the same as the menu node: in such case, use fromGenericMenuAndItemSelectors instead!
   static fromGenericMenuGroupAndItemSelectors (menuSelector: Selector, groupSelector: Selector, itemSelector: Selector): MenuManager {
     let menus = [];
-    $(menuSelector).each(function (_, element) {
+    $(menuSelector).each((_, element) => {
       menus.push(Menu.fromSelectors(element, groupSelector, itemSelector));
     });
 
@@ -96,13 +96,12 @@ export class MenuManager {
 
       // Case 1: the descendant selector is a generic item selector
       if (isSelector(descendantSelector)) {
-        descendantSelector = <Selector> descendantSelector;
-        menus.push(Menu.fromSelectors(menuSelector, descendantSelector));
+        menus.push(Menu.fromSelectors(menuSelector, descendantSelector as Selector));
       }
 
       // Case 2: the descendant selector is a specific group-item selector object
       else {
-        descendantSelector = <{[key: string]: Selector}> descendantSelector;
+        descendantSelector = descendantSelector as {[key: string]: Selector};
         menus.push(Menu.fromSelectors(menuSelector, descendantSelector));
       }
     }

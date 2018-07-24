@@ -41,7 +41,7 @@ export class Menu extends AdaptiveElement {
   }
 
   getAllItemNodes (): JQuery[] {
-    return this.getAllItems().map(item => {
+    return this.getAllItems().map((item) => {
       return item.node;
     });
   }
@@ -82,7 +82,7 @@ export class Menu extends AdaptiveElement {
                    ? this.node
                    : this.node.find(groupSelector);
 
-    groupNodes.each(function (_, element) {
+    groupNodes.each((_, element) => {
       self.groups.push(ItemGroup.fromSelectors(element, itemSelector, self));
     });
   }
@@ -112,11 +112,11 @@ export class Menu extends AdaptiveElement {
     if (selector3 === undefined) {
       if (isSelector(selector2)) {
         // console.log("fillUsingGenericItemSelector");
-        menu.fillUsingGenericItemSelector(<Selector> selector2);
+        menu.fillUsingGenericItemSelector(selector2 as Selector);
       }
       else {
         // console.log("fillUsingSpecificGroupSelectors");
-        menu.fillUsingSpecificGroupSelectors(<{[key: string]: Selector}> selector2);
+        menu.fillUsingSpecificGroupSelectors(selector2 as {[key: string]: Selector});
       }
     }
 
@@ -124,7 +124,7 @@ export class Menu extends AdaptiveElement {
     // selector2 and selector3 two arguments must resp. be generic group and item selectors
     else {
       // console.log("fillUsingGenericGroupAndItemSelectors");
-      menu.fillUsingGenericGroupAndItemSelectors(<Selector> selector2, selector3);
+      menu.fillUsingGenericGroupAndItemSelectors(selector2 as Selector, selector3);
     }
 
     return menu;

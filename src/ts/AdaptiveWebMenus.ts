@@ -79,23 +79,24 @@ export class AdaptiveWebMenus {
     // It must be an object of specific selectors
     if (selector2 === undefined) {
       // console.log("fromSpecificSelectors");
-      let menuManager = MenuManager.fromSpecificSelectors(<MenuSelectors> selector1);
+      let menuManager = MenuManager.fromSpecificSelectors(selector1 as MenuSelectors);
       return new AdaptiveWebMenus(menuManager);
     }
 
     // Case 2: called with two arguments
     // They must resp. be a generic menu selector and a generic item selector
-    if (selector3 === undefined) {
+    else if (selector3 === undefined) {
       // console.log("fromGenericMenuAndItemSelectors");
-      let menuManager = MenuManager.fromGenericMenuAndItemSelectors(<Selector> selector1, selector2);
+      let menuManager = MenuManager.fromGenericMenuAndItemSelectors(selector1 as Selector, selector2);
       return new AdaptiveWebMenus(menuManager);
     }
 
     // Case 3: called with three arguments
     // They must resp. be a generic menu selector, a generic group selector, and a generic item selector
-    // console.log("fromGenericMenuGroupAndItemSelectors");
-    let menuManager = MenuManager.fromGenericMenuGroupAndItemSelectors(<Selector> selector1, selector2, selector3);
-    return new AdaptiveWebMenus(menuManager);
+    else {
+      let menuManager = MenuManager.fromGenericMenuGroupAndItemSelectors(selector1 as Selector, selector2, selector3);
+      return new AdaptiveWebMenus(menuManager);
+    }
   }
 
   // Create an AWM instance from standard AWM classes selectors

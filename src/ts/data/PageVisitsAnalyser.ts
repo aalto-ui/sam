@@ -5,25 +5,25 @@ import { PageVisitLog } from "./DataLogger";
 
 
 export interface PageStats {
-  nbVisits: number,
-  visitFrequency: number,
+  nbVisits: number;
+  visitFrequency: number;
 
-  timestamps: number[],
-  firstVisitTimestamp: number,
-  lastVisitTimestamp: number,
+  timestamps: number[];
+  firstVisitTimestamp: number;
+  lastVisitTimestamp: number;
 
-  visitDurations: number[],
-  totalVisitDuration: number,
+  visitDurations: number[];
+  totalVisitDuration: number;
 
-  eventIndices: TableEntryIndex[]
+  eventIndices: TableEntryIndex[];
 }
 
 // Interface implemented by the page visits analysis returned by this module
 export interface PageVisitsAnalysis extends Analysis {
-  totalNbVisits: number,
-  nbUniquePages: number,
-  pageStats: {[key: string]: PageStats},
-  currentEventIndex: TableEntryIndex
+  totalNbVisits: number;
+  nbUniquePages: number;
+  pageStats: {[key: string]: PageStats};
+  currentEventIndex: TableEntryIndex;
 }
 
 

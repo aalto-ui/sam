@@ -17,7 +17,7 @@ export class HighlightReorderItemsAndFold implements Technique<Policy> {
   readonly reorder: ReorderItems;
   readonly fold: Fold;
 
-  readonly NodeIndexOrderPolicy: NodeIndexOrderPolicy;
+  readonly nodeIndexOrderPolicy: NodeIndexOrderPolicy;
 
 
   constructor () {
@@ -25,7 +25,7 @@ export class HighlightReorderItemsAndFold implements Technique<Policy> {
     this.reorder = new ReorderItems();
     this.fold = new Fold();
 
-    this.NodeIndexOrderPolicy = new NodeIndexOrderPolicy();
+    this.nodeIndexOrderPolicy = new NodeIndexOrderPolicy();
   }
 
   reset () {
@@ -37,6 +37,6 @@ export class HighlightReorderItemsAndFold implements Technique<Policy> {
   apply (menuManager: MenuManager, policy: Policy, dataManager?: DataManager) {
     this.highlight.apply(menuManager, policy, dataManager);
     this.reorder.apply(menuManager, policy, dataManager);
-    this.fold.apply(menuManager, this.NodeIndexOrderPolicy);
+    this.fold.apply(menuManager, this.nodeIndexOrderPolicy);
   }
 }

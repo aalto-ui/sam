@@ -7,6 +7,12 @@ import { ItemClicksAnalysis, ItemClicksAnalyser } from "../../data/ItemClicksAna
 import { Policy, ItemWithScore, ItemGroupWithScore } from "./Policy";
 
 
+interface ElementWithNbClicks<E extends AdaptiveElement> {
+  element: E;
+  nbClicks: number;
+}
+
+
 export class MostClickedItemListPolicy extends Policy {
 
   readonly name: string = "Most clicked items";
@@ -21,25 +27,19 @@ export class MostClickedItemListPolicy extends Policy {
 
 
   private getItemNbClicks (item: Item, analysis: ItemClicksAnalysis): number {
-    let itemID = item.id;
-    let itemStats = analysis.itemStats[itemID];
+    let itemStats = analysis.itemStats[item.id];
 
-    if (this.onlyLocalClicks) {
-      return itemStats.localNbClicks;
-    }
-
-    return itemStats.nbClicks;
+    return this.onlyLocalClicks
+         ? itemStats.localNbClicks
+         : itemStats.nbClicks;
   }
 
-  private getGroupNbClicks (group: ItemGroup, analysis: ItemClicksAnalysis) {
-    let groupID = group.id;
-    let groupStats = analysis.groupStats[groupID];
+  private getGroupNbClicks (group: ItemGroup, analysis: ItemClicksAnalysis): number {
+    let groupStats = analysis.groupStats[group.id];
 
-    if (this.onlyLocalClicks) {
-      return groupStats.localNbClicks;
-    }
-
-    return groupStats.nbClicks;
+    return this.onlyLocalClicks
+         ? groupStats.localNbClicks
+         : groupStats.nbClicks;
   }
 
   private mapItemsToNbClicks (items: Item[], analysis: ItemClicksAnalysis): Map<Item, number> {
@@ -64,10 +64,10 @@ export class MostClickedItemListPolicy extends Policy {
     return groupsMappedToNbClicks;
   }
 
-  private sortMappedClickedElements<E extends AdaptiveElement> (elementsMappedToNbClicks: Map<E, number>): { element: E, nbClicks: number }[] {
+  private sortMappedClickedElements<E extends AdaptiveElement> (elementsToNbClicks: Map<E, number>): ElementWithNbClicks<E>[] {
     // Turn the map into a list sorted by the nb of clicks
-    return [...elementsMappedToNbClicks.entries()]
-      .map(tuple => {
+    return [...elementsToNbClicks.entries()]
+      .map((tuple) => {
         return { element: tuple[0], nbClicks: tuple[1] };
       })
       .sort((e1, e2) => {
@@ -96,14 +96,14 @@ export class MostClickedItemListPolicy extends Policy {
         item: e.element,
         score: e.nbClicks / totalNbConsideredClicks
       };
-    })
+    });
 
     let remainingItemsWithScores = splitItems.withoutStats.map((item) => {
       return {
         item: item,
         score: 0
       };
-    })
+    });
 
     return sortedItemsWithScores.concat(remainingItemsWithScores);
   }
@@ -129,14 +129,14 @@ export class MostClickedItemListPolicy extends Policy {
         group: e.element,
         score: e.nbClicks / totalNbConsideredClicks
       };
-    })
+    });
 
     let remainingGroupsWithScores = splitGroups.withoutStats.map((group) => {
       return {
         group: group,
         score: 0
       };
-    })
+    });
 
     return sortedGroupsWithScores.concat(remainingGroupsWithScores);
   }

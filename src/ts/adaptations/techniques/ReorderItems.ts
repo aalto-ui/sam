@@ -70,7 +70,7 @@ export class ReorderItems extends Reorder {
     this.saveParentNodeChildrenInOriginalOrder(items);
 
     // Splice the items to only reorder the top ones
-    let totalNbItems = menuManager.getNbItems();;
+    let totalNbItems = menuManager.getNbItems();
     let nbTopItemsToKeep = this.getMaxNbItemsToReorder(totalNbItems);
     let topItems = items.slice(0, nbTopItemsToKeep);
 

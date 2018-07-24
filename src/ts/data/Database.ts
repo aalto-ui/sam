@@ -56,7 +56,7 @@ export class Database {
   persistentStorage: PersistentStorage;
 
   // Current revision of the database
-  private currentRevision : DatabaseRevision;
+  private currentRevision: DatabaseRevision;
 
 
   constructor () {
@@ -175,9 +175,9 @@ export class Database {
       return value1 !== undefined ? value1 : value2;
     }
 
-    this.tables = getFirstValueIfDefined(unpackedData.tables ,this.tables);
-    this.persistentStorage = getFirstValueIfDefined(unpackedData.persistentStorage ,this.persistentStorage);
-    this.currentRevision = getFirstValueIfDefined(unpackedData.currentRevision ,this.currentRevision);
+    this.tables = getFirstValueIfDefined(unpackedData.tables, this.tables);
+    this.persistentStorage = getFirstValueIfDefined(unpackedData.persistentStorage, this.persistentStorage);
+    this.currentRevision = getFirstValueIfDefined(unpackedData.currentRevision, this.currentRevision);
   }
 
   // Return true if database data si available in the local storage

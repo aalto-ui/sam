@@ -7,15 +7,15 @@ import { Item } from "../elements/Item";
 
 // Generic interface for element stats, and specific ones for actual elements
 export interface AdaptiveElementStats {
-  nbClicks: number,
-  localNbClicks: number,
-  clickFrequency: number,
-  localClickFrequency: number,
+  nbClicks: number;
+  localNbClicks: number;
+  clickFrequency: number;
+  localClickFrequency: number;
 
-  sourcePageIDs: string[],
-  timestamps: number[],
+  sourcePageIDs: string[];
+  timestamps: number[];
 
-  eventIndices: TableEntryIndex[]
+  eventIndices: TableEntryIndex[];
 }
 
 export interface ItemStats extends AdaptiveElementStats { }
@@ -24,11 +24,11 @@ export interface ItemGroupStats extends AdaptiveElementStats { }
 
 // Interface implemented by the item clicks analysis returned by this module
 export interface ItemClicksAnalysis extends Analysis {
-  totalNbClicks: number,
-  totalLocalNbClicks: number,
-  itemStats: {[key: string]: ItemStats},
-  groupStats: {[key: string]: ItemGroupStats},
-  currentEventIndex: TableEntryIndex
+  totalNbClicks: number;
+  totalLocalNbClicks: number;
+  itemStats: {[key: string]: ItemStats};
+  groupStats: {[key: string]: ItemGroupStats};
+  currentEventIndex: TableEntryIndex;
 }
 
 
@@ -79,8 +79,7 @@ export class ItemClicksAnalyser extends DataAnalyserModule {
     };
   }
 
-  private updateItemStats (log: TableEntry<ItemClickLog>, analysis: ItemClicksAnalysis,
-                           clickHappenedOnThisPage: boolean) {
+  private updateItemStats (log: TableEntry<ItemClickLog>, analysis: ItemClicksAnalysis, clickHappenedOnThisPage: boolean) {
     let itemID = log.itemID;
 
     // Create an item stats object if required
@@ -102,8 +101,7 @@ export class ItemClicksAnalyser extends DataAnalyserModule {
     itemStats.eventIndices.push(log.index);
   }
 
-  private updateItemGroupStats (log: TableEntry<ItemClickLog>, analysis: ItemClicksAnalysis,
-                            clickHappenedOnThisPage: boolean) {
+  private updateItemGroupStats (log: TableEntry<ItemClickLog>, analysis: ItemClicksAnalysis, clickHappenedOnThisPage: boolean) {
     let groupID = log.groupID;
 
     // Create an item group stats object if required

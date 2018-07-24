@@ -30,7 +30,7 @@ export const AVAILABLE_TECHNIQUES = [
   new ProgressiveHighlightAndReorderItems()
 ];
 
-export const AVAILABLE_TECHNIQUE_NAMES = AVAILABLE_TECHNIQUES.map(technique => {
+export const AVAILABLE_TECHNIQUE_NAMES = AVAILABLE_TECHNIQUES.map((technique) => {
   return technique.name;
 });
 
@@ -46,7 +46,7 @@ export const AVAILABLE_POLICIES = [
   new AccessRankPolicy()
 ];
 
-export const AVAILABLE_POLICY_NAMES = AVAILABLE_POLICIES.map(policy => {
+export const AVAILABLE_POLICY_NAMES = AVAILABLE_POLICIES.map((policy) => {
   return policy.name;
 });
 

@@ -51,7 +51,7 @@ export class DataLogger {
     let self = this;
 
     for (let item of items) {
-      let callback = function (event) {
+      let callback = (event) => {
         self.onMenuItemClick(event, item);
       };
 
@@ -102,7 +102,7 @@ export class DataLogger {
   startListeningForPageBeforeUnload () {
     let self = this;
 
-    $(window).on("beforeunload", function (event) {
+    $(window).on("beforeunload", (event) => {
       self.onPageBeforeUnload(event);
     });
   }

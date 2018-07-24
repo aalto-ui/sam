@@ -32,7 +32,7 @@ export class AccessRankPolicy extends Policy {
 
   private computeCRFScores (items: Item[], itemClicksAnalysis: ItemClicksAnalysis): Map<Item, number> {
     let currentIndex = itemClicksAnalysis.currentEventIndex;
-    let CRFScores = new Map();
+    let crfScores = new Map();
 
     for (let item of items) {
       let itemID = item.id;
@@ -46,12 +46,12 @@ export class AccessRankPolicy extends Policy {
         score += Math.pow(1 / p, lambda * (currentIndex - eventIndex));
       }
 
-      CRFScores.set(item, score);
+      crfScores.set(item, score);
     }
 
-    // console.log("CRF scores: ", CRFScores);
+    // console.log("CRF scores: ", crfScores);
 
-    return CRFScores;
+    return crfScores;
   }
 
   private computeRegularityScores (items: Item[], itemClicksAnalysis: ItemClicksAnalysis): Map<Item, number> {
@@ -151,7 +151,7 @@ export class AccessRankPolicy extends Policy {
 
     // Compute intermediate scores for items with stats
     let markovScores = this.computeMarkovScores(itemsWithStats, itemClicksAnalysis);
-    let CRFScores = this.computeCRFScores(itemsWithStats, itemClicksAnalysis);
+    let crfScores = this.computeCRFScores(itemsWithStats, itemClicksAnalysis);
     let regularityScores = this.computeRegularityScores(itemsWithStats, itemClicksAnalysis);
 
     // Compute AccessRank scores from intermediate ones
@@ -162,11 +162,11 @@ export class AccessRankPolicy extends Policy {
 
     for (let item of itemsWithStats) {
       let markovScore = markovScores.get(item);
-      let CRFScore = CRFScores.get(item);
+      let crfScore = crfScores.get(item);
       let regularityScore = regularityScores.get(item);
 
       let score = Math.pow(markovScore, alpha)
-                * Math.pow(CRFScore, 1 / alpha)
+                * Math.pow(crfScore, 1 / alpha)
                 * regularityScore;
 
       accessRankScores.set(item, score);
@@ -178,7 +178,7 @@ export class AccessRankPolicy extends Policy {
       .sort((tuple1, tuple2) => {
         return tuple2[1] - tuple1[1];
       })
-      .map(tuple => {
+      .map((tuple) => {
         return {
           item: tuple[0],
           score: tuple[1] // / scoreSum
@@ -196,11 +196,11 @@ export class AccessRankPolicy extends Policy {
     */
 
     // Give a score of zero to items without stats
-    let itemsWithoutStatsWithScores = itemsWithoutStats.map(item => {
+    let itemsWithoutStatsWithScores = itemsWithoutStats.map((item) => {
       return {
         item: item,
         score: 0
-      }
+      };
     });
 
     // Return sorted item (with stats) with scores, followed by those without stats

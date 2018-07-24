@@ -23,13 +23,13 @@ export class DebugDisplay {
   }
 
   private updateTechnique () {
-    let techniqueName = <string> $("#awm-debug-switch-technique-menu").val();
+    let techniqueName = $("#awm-debug-switch-technique-menu").val() as string;
 
     this.awm.adaptationManager.switchToTechnique(techniqueName);
   }
 
   private updatePolicy () {
-    let policyName = <string> $("#awm-debug-switch-policy-menu").val();
+    let policyName = $("#awm-debug-switch-policy-menu").val() as string;
 
     this.awm.adaptationManager.switchToPolicy(policyName);
   }

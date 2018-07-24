@@ -21,13 +21,13 @@ export class SerialPositionCurvePolicy extends LinkedPageScorePolicy {
     let recency = 0;
     let primacy = 0;
 
-    let lastVisitTimestamp = pageStats.lastVisitTimestamp
+    let lastVisitTimestamp = pageStats.lastVisitTimestamp;
     let firstVisitTimestamp = pageStats.firstVisitTimestamp;
 
     // In order to compute recency and primacy, count how many visits occured
     // (1) later for the last time and (2) earlier for the first time (than in the given page stats)
-    for (let pageID in this.pageVisitsAnalysis.pageStats) {
-      let currentPageStats = this.pageVisitsAnalysis.pageStats[pageID];
+    for (let id in this.pageVisitsAnalysis.pageStats) {
+      let currentPageStats = this.pageVisitsAnalysis.pageStats[id];
 
       if (currentPageStats.lastVisitTimestamp > lastVisitTimestamp) {
         recency++;
