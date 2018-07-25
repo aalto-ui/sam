@@ -17,10 +17,16 @@ export interface ItemGroupWithScore {
 
 export abstract class Policy {
 
+  /*************************************************************** PROPERTIES */
+
   // Any concrete child class extending this one must define this field
   // It represents the policy name, and must be unique among all policies
   abstract readonly name: string;
 
+
+  /************************************************************** CONSTRUCTOR */
+
+  /****************************************************************** METHODS */
 
   // Any concrete child class extending this one must implement this method
   // It should return a sorted array of items with their scores (from the given menus)

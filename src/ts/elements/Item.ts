@@ -8,6 +8,9 @@ export type ItemID = string;
 
 
 export class Item extends AdaptiveElement {
+
+  /*************************************************************** PROPERTIES */
+
   // Standard AWM class for menus
   static readonly AWM_CLASS: string = "awm-item";
 
@@ -20,6 +23,8 @@ export class Item extends AdaptiveElement {
   canBeReordered: boolean;
 
 
+  /************************************************************** CONSTRUCTOR */
+
   constructor (node: JQuery, selector: Selector, parent: ItemGroup) {
     super(node, selector, parent);
 
@@ -28,6 +33,9 @@ export class Item extends AdaptiveElement {
       this.canBeReordered = false;
     }
   }
+
+
+  /****************************************************************** METHODS */
 
   getType (): string {
     return Item.ELEMENT_TYPE;
@@ -51,6 +59,9 @@ export class Item extends AdaptiveElement {
 
     return linkNodes;
   }
+
+
+  /*********************************************************** STATIC METHODS */
 
   // Split a list of items into a list of lists of items belonging to the same group
   // The order of the initial list is respected in the returned sub-lists

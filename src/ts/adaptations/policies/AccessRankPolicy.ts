@@ -7,12 +7,19 @@ import { Policy, ItemWithScore } from "./Policy";
 
 export class AccessRankPolicy extends Policy {
 
+  /*************************************************************** PROPERTIES */
+
   readonly name: string = "AccessRank";
+
+
+  /************************************************************** CONSTRUCTOR */
 
   constructor () {
     super();
   }
 
+
+  /****************************************************************** METHODS */
 
   private computeMarkovScores (items: Item[], itemClicksAnalysis: ItemClicksAnalysis): Map<Item, number> {
     let markovScores = new Map();

@@ -44,9 +44,17 @@ export interface ItemGroupsSplitByStatsAvailability {
 
 
 export class ItemClicksAnalyser extends DataAnalyserModule<ItemClicksAnalysis> {
+
+  /*************************************************************** PROPERTIES */
+
+  /************************************************************** CONSTRUCTOR */
+
   constructor (database: Database) {
     super(database);
   }
+
+
+  /****************************************************************** METHODS */
 
   private createItemClickAnalysis (): ItemClicksAnalysis {
     return {
@@ -176,6 +184,9 @@ export class ItemClicksAnalyser extends DataAnalyserModule<ItemClicksAnalysis> {
 
     return analysis;
   }
+
+
+  /*********************************************************** STATIC METHODS */
 
   // Split a list of items into two lists of items:
   // - one list with items whose stats are available in the given click analysis

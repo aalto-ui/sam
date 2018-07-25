@@ -22,6 +22,8 @@ const HIGHLIGHTING_LEVELS_CLASSES: string[] = Object.keys(HighlightingLevel)
 
 export class Highlight implements Technique<Policy> {
 
+  /*************************************************************** PROPERTIES */
+
   static readonly HIGHLIGHTED_ELEMENT_CLASS: string = "awm-highlighted";
 
   readonly name: string = "Highlight";
@@ -31,10 +33,14 @@ export class Highlight implements Technique<Policy> {
   protected itemsToHighlightAtHighLevel: Set<Item>;
 
 
+  /************************************************************** CONSTRUCTOR */
+
   constructor () {
     this.itemsToHighlightAtHighLevel = new Set();
   }
 
+
+  /****************************************************************** METHODS */
 
   private onNode (node: JQuery, level: HighlightingLevel) {
     node.addClass([Highlight.HIGHLIGHTED_ELEMENT_CLASS, level]);

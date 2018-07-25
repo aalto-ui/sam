@@ -13,12 +13,21 @@ export interface MenuSelectors {
 
 
 export class MenuManager {
+
+  /*************************************************************** PROPERTIES */
+
   // List of adaptive menus
   private readonly menus: Menu[];
+
+
+  /************************************************************** CONSTRUCTOR */
 
   constructor (menus: Menu[] = []) {
     this.menus = menus;
   }
+
+
+  /****************************************************************** METHODS */
 
   addMenu (menu: Menu) {
     this.menus.push(menu);
@@ -61,6 +70,8 @@ export class MenuManager {
     return this.getAllMenus().length;
   }
 
+
+  /*********************************************************** STATIC METHODS */
 
   // Create a menu manager from the given generic menu and item selectors
   // This builder method assumes that each menu is its own single group

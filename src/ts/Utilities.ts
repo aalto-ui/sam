@@ -3,6 +3,8 @@ export type PageID = string;
 
 export class Utilities {
 
+  /*********************************************************** STATIC METHODS */
+
   static getCurrentPageID (): PageID {
     return window.location.hostname
       .concat(window.location.pathname);

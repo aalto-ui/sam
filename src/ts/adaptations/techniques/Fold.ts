@@ -8,6 +8,8 @@ import { Technique } from "./Technique";
 
 export class Fold implements Technique<Policy> {
 
+  /*************************************************************** PROPERTIES */
+
   static readonly IS_FOLDED_CLASS: string = "awm-folded";
   static readonly SWITCH_FOLD_BUTTON_CLASS: string = "awm-fold-button";
   static readonly FOLDABLE_ELEMENT_CLASS: string = "awm-foldable";
@@ -18,10 +20,14 @@ export class Fold implements Technique<Policy> {
   private folderNodes: JQuery[];
 
 
+  /************************************************************** CONSTRUCTOR */
+
   constructor () {
     this.folderNodes = [];
   }
 
+
+  /****************************************************************** METHODS */
 
   private unfold (folderNode: JQuery) {
     folderNode.removeClass(Fold.IS_FOLDED_CLASS);

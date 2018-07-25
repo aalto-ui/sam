@@ -41,6 +41,9 @@ export interface PersistentStorage {
 
 
 export class Database {
+
+  /*************************************************************** PROPERTIES */
+
   // Local storage key
   static readonly LOCAL_STORAGE_KEY: string = "awm-data";
 
@@ -59,12 +62,17 @@ export class Database {
   private currentRevision: DatabaseRevision;
 
 
+  /************************************************************** CONSTRUCTOR */
+
   constructor () {
     this.init();
     this.startListeningForPageUnload();
 
     console.log("Database loaded:", this);
   }
+
+
+  /****************************************************************** METHODS */
 
   // Initialize the database contentrom
   // It first init the content with default values,

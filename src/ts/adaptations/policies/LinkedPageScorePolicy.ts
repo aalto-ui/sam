@@ -8,6 +8,8 @@ import { PageID } from "../../Utilities";
 
 export abstract class LinkedPageScorePolicy extends Policy {
 
+  /*************************************************************** PROPERTIES */
+
   abstract readonly name: string;
 
   private readonly pageScores: Map<PageID, number>;
@@ -18,6 +20,8 @@ export abstract class LinkedPageScorePolicy extends Policy {
   protected pageVisitsAnalysis: PageVisitsAnalysis;
 
 
+  /************************************************************** CONSTRUCTOR */
+
   constructor () {
     super();
 
@@ -27,6 +31,8 @@ export abstract class LinkedPageScorePolicy extends Policy {
     this.pageVisitsAnalysis = null;
   }
 
+
+  /****************************************************************** METHODS */
 
   protected abstract computePageScore (pageID: PageID): number;
 

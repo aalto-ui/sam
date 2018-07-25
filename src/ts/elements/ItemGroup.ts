@@ -7,6 +7,9 @@ export type GroupID = string;
 
 
 export class ItemGroup extends AdaptiveElement {
+
+  /*************************************************************** PROPERTIES */
+
   // Standard AWM class for groups
   static readonly AWM_CLASS: string = "awm-group";
 
@@ -22,6 +25,8 @@ export class ItemGroup extends AdaptiveElement {
   canBeReordered: boolean;
 
 
+  /************************************************************** CONSTRUCTOR */
+
   constructor (node: JQuery, selector: Selector | NoSelector, parent: Menu, items: Item[] = []) {
     super(node, selector, parent);
 
@@ -32,6 +37,9 @@ export class ItemGroup extends AdaptiveElement {
       this.canBeReordered = false;
     }
   }
+
+
+  /****************************************************************** METHODS */
 
   // Return true if all the group items are alphabetically sorted, false otherwise
   isAlphabeticallySorted (): boolean {
@@ -91,6 +99,9 @@ export class ItemGroup extends AdaptiveElement {
     // The reordering constraint of all (new) items must then be updated
     this.updateItemsReorderingConstraints();
   }
+
+
+  /*********************************************************** STATIC METHODS */
 
   // Build a menu from selectors
   // If NO_SELECTOR is passed as the groupSelector argument, it means this groups share its parent menu node

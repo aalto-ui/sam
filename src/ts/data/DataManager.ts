@@ -5,10 +5,16 @@ import { MenuManager } from "../elements/MenuManager";
 
 
 export class DataManager {
+
+  /*************************************************************** PROPERTIES */
+
   // Database, logger and analyser
   readonly database: Database;
   readonly logger: DataLogger;
   readonly analyser: DataAnalyser;
+
+
+  /************************************************************** CONSTRUCTOR */
 
   constructor (menuManager: MenuManager) {
     this.database = new Database();
@@ -19,4 +25,8 @@ export class DataManager {
     console.log("ITEM CLICK ANALYSIS", this.analyser.getItemClickAnalysis());
     console.log("PAGE VISITS ANALYSIS", this.analyser.getPageVisitsAnalysis());
   }
+
+
+  /****************************************************************** METHODS */
+
 }

@@ -8,12 +8,19 @@ import { Technique } from "../Technique";
 
 export class HighlightAndReorderItems implements Technique<Policy> {
 
+  /*************************************************************** PROPERTIES */
+
   readonly name: string = "Highlight + reorder items";
+
+
+  /************************************************************** CONSTRUCTOR */
 
   // Instances of other techniques used by this mixed one
   private readonly highlight: Highlight;
   private readonly reorder: ReorderItems;
 
+
+  /****************************************************************** METHODS */
 
   constructor () {
     this.highlight = new Highlight();

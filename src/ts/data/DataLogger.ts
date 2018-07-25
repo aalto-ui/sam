@@ -24,6 +24,9 @@ export interface PageVisitLog {
 
 
 export class DataLogger {
+
+  /*************************************************************** PROPERTIES */
+
   // The database to use for logging
   private readonly database: Database;
 
@@ -35,6 +38,8 @@ export class DataLogger {
   private readonly itemClickCallbacks: Map<string, (event) => void>;
 
 
+  /************************************************************** CONSTRUCTOR */
+
   constructor (database: Database, menuManager: MenuManager) {
     this.database = database;
     this.pageLoadTimestamp = Date.now();
@@ -42,6 +47,9 @@ export class DataLogger {
 
     this.init(menuManager);
   }
+
+
+  /****************************************************************** METHODS */
 
   init (menuManager: MenuManager) {
     this.startListeningForAllMenusItemClicks(menuManager);

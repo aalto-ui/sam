@@ -9,8 +9,9 @@ import { Technique } from "../Technique";
 
 export class HighlightAndReorderAll implements Technique<Policy> {
 
-  readonly name: string = "Highlight + reorder items & groups";
+  /*************************************************************** PROPERTIES */
 
+  readonly name: string = "Highlight + reorder items & groups";
 
   // Instances of other techniques used by this mixed one
   private readonly highlight: Highlight;
@@ -18,11 +19,16 @@ export class HighlightAndReorderAll implements Technique<Policy> {
   private readonly reorderGroups: ReorderGroups;
 
 
+  /************************************************************** CONSTRUCTOR */
+
   constructor () {
     this.highlight = new Highlight();
     this.reorderItems = new ReorderItems();
     this.reorderGroups = new ReorderGroups();
   }
+
+
+  /****************************************************************** METHODS */
 
   reset () {
     this.reorderGroups.reset();

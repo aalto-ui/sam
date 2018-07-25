@@ -9,6 +9,9 @@ import { Selector } from "./elements/AdaptiveElement";
 
 
 export class AdaptiveWebMenus {
+
+  /*************************************************************** PROPERTIES */
+
   // Adaptive menu manager
   private readonly menuManager: MenuManager;
 
@@ -21,6 +24,9 @@ export class AdaptiveWebMenus {
   // Debug display
   private readonly debugDisplay: DebugDisplay;
 
+
+  /************************************************************** CONSTRUCTOR */
+
   constructor (menuManager: MenuManager, debug: boolean = true) {
     this.menuManager = menuManager;
 
@@ -31,6 +37,9 @@ export class AdaptiveWebMenus {
 
     this.debugDisplay = new DebugDisplay(this, debug);
   }
+
+
+  /****************************************************************** METHODS */
 
   clearHistory () {
     this.dataManager.database.empty();
@@ -67,6 +76,9 @@ export class AdaptiveWebMenus {
 
     this.adaptationManager.applyCurrentAdaptation();
   }
+
+
+  /*********************************************************** STATIC METHODS */
 
   // Create an AWM instance from the given selectors
   // Refer to the specific methods for more details!

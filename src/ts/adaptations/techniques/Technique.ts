@@ -7,8 +7,16 @@ import { DataManager } from "../../data/DataManager";
 // Any adaptation technique must implement this interface
 // It has a type parameter P, which represent the type of policies it can accept
 export interface Technique<P extends Policy> {
+
+  /*************************************************************** PROPERTIES */
+
   // Represents the technique name, and must be unique among all techniques
   readonly name: string;
+
+
+  /************************************************************** CONSTRUCTOR */
+
+  /****************************************************************** METHODS */
 
   // Reset the page menus, by removing any changes made by this adaptation
   reset (): void;

@@ -10,6 +10,8 @@ import { Technique } from "../Technique";
 
 export class HighlightReorderItemsAndFold implements Technique<Policy> {
 
+  /*************************************************************** PROPERTIES */
+
   readonly name: string = "Highlight + reorder + fold";
 
   // Instances of other techniques used by this mixed one
@@ -20,6 +22,8 @@ export class HighlightReorderItemsAndFold implements Technique<Policy> {
   private readonly nodeIndexOrderPolicy: NodeIndexOrderPolicy;
 
 
+  /************************************************************** CONSTRUCTOR */
+
   constructor () {
     this.highlight = new Highlight();
     this.reorder = new ReorderItems();
@@ -27,6 +31,9 @@ export class HighlightReorderItemsAndFold implements Technique<Policy> {
 
     this.nodeIndexOrderPolicy = new NodeIndexOrderPolicy();
   }
+
+
+  /****************************************************************** METHODS */
 
   reset () {
     this.fold.reset();

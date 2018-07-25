@@ -8,6 +8,9 @@ export type MenuID = string;
 
 
 export class Menu extends AdaptiveElement {
+
+  /*************************************************************** PROPERTIES */
+
   // Standard AWM class for menus
   static readonly AWM_CLASS: string = "awm-menu";
 
@@ -19,11 +22,17 @@ export class Menu extends AdaptiveElement {
   // Ordered list of menu item groups
   readonly groups: ItemGroup[];
 
+
+  /************************************************************** CONSTRUCTOR */
+
   constructor (node: JQuery, selector: Selector, groups: ItemGroup[] = []) {
     super(node, selector);
 
     this.groups = groups;
   }
+
+
+  /****************************************************************** METHODS */
 
   getType (): string {
     return Menu.ELEMENT_TYPE;
@@ -96,6 +105,9 @@ export class Menu extends AdaptiveElement {
       }
     }
   }
+
+
+  /*********************************************************** STATIC METHODS */
 
   // Build a menu from selectors, with various combinations available depending on the arguments
   // Refer to the specific methods for more details!

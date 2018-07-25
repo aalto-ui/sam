@@ -15,16 +15,22 @@ interface ElementWithNbClicks<E extends AdaptiveElement> {
 
 export class MostClickedItemListPolicy extends Policy {
 
+  /*************************************************************** PROPERTIES */
+
   readonly name: string = "Most clicked items";
 
   // If true, only compute stats from click events recorded on the current page
   onlyLocalClicks: boolean = false;
 
 
+  /************************************************************** CONSTRUCTOR */
+
   constructor () {
     super();
   }
 
+
+  /****************************************************************** METHODS */
 
   private getItemNbClicks (item: Item, analysis: ItemClicksAnalysis): number {
     let itemStats = analysis.itemStats.get(item.id);

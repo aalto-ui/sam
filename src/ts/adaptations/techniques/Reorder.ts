@@ -8,6 +8,8 @@ import { Technique } from "./Technique";
 
 export abstract class Reorder implements Technique<Policy> {
 
+  /*************************************************************** PROPERTIES */
+
   static readonly NON_REORDERABLE_ELEMENT_CLASS = ".awm-no-reordering";
 
   abstract readonly name: string;
@@ -21,10 +23,15 @@ export abstract class Reorder implements Technique<Policy> {
   private readonly nonReorderableElementsInitialIndices: Map<HTMLElement, number>;
 
 
+  /************************************************************** CONSTRUCTOR */
+
   constructor () {
     this.childrenInOriginalOrder = new Map();
     this.nonReorderableElementsInitialIndices = new Map();
   }
+
+
+  /****************************************************************** METHODS */
 
   // This method should be overriden by child classes which
   // wish to distinguish their reordering from other types of reordering!

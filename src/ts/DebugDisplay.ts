@@ -4,6 +4,9 @@ import { AVAILABLE_TECHNIQUE_NAMES, AVAILABLE_POLICY_NAMES } from "./adaptations
 
 
 export class DebugDisplay {
+
+  /*************************************************************** PROPERTIES */
+
   // Related instance of the library
   private readonly awm: AdaptiveWebMenus;
 
@@ -13,6 +16,9 @@ export class DebugDisplay {
   // Referene to the control container node
   private controlsContainerNode: JQuery;
 
+
+  /************************************************************** CONSTRUCTOR */
+
   constructor (awm: AdaptiveWebMenus, activate: boolean = true) {
     this.awm = awm;
     this.controlsContainerNode = null;
@@ -21,6 +27,9 @@ export class DebugDisplay {
       this.activate();
     }
   }
+
+
+  /****************************************************************** METHODS */
 
   private updateTechnique () {
     let techniqueName = $("#awm-debug-switch-technique-menu").val() as string;

@@ -6,7 +6,14 @@ import { Technique } from "./Technique";
 // Its only purpose is to be available (with the right type) as a baseline
 export class Identity implements Technique<Policy> {
 
+  /*************************************************************** PROPERTIES */
+
   readonly name: string = "Identity";
+
+
+  /************************************************************** CONSTRUCTOR */
+
+  /****************************************************************** METHODS */
 
   reset () {
     // Nothing to do

@@ -7,6 +7,8 @@ import { AVAILABLE_TECHNIQUES, AVAILABLE_POLICIES } from "./AvailableAdaptations
 
 export class AdaptationManager {
 
+  /*************************************************************** PROPERTIES */
+
   // Menu manager
   private readonly menuManager: MenuManager;
 
@@ -18,6 +20,8 @@ export class AdaptationManager {
   private currentPolicy: Policy;
 
 
+  /************************************************************** CONSTRUCTOR */
+
   constructor (menuManager: MenuManager, dataManager: DataManager) {
     this.menuManager = menuManager;
     this.dataManager = dataManager;
@@ -28,6 +32,8 @@ export class AdaptationManager {
     this.restoreAdaptationFromDatabaseOrSetDefault();
   }
 
+
+  /****************************************************************** METHODS */
 
   private setTechnique (name: string) {
     // Look for a technique with the given name

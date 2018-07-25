@@ -21,6 +21,9 @@ export function isSelector (candidate: any): boolean {
 
 
 export abstract class AdaptiveElement {
+
+  /*************************************************************** PROPERTIES */
+
   // Prefix of any element tag (see tag-related methods for details)
   static readonly TAG_PREFIX: string = "data-awm-";
 
@@ -37,6 +40,8 @@ export abstract class AdaptiveElement {
   readonly id: string;
 
 
+  /************************************************************** CONSTRUCTOR */
+
   constructor (node: JQuery, selector: Selector | NoSelector = NO_SELECTOR, parent: AdaptiveElement = null) {
     this.node = node;
     this.selector = selector;
@@ -47,6 +52,9 @@ export abstract class AdaptiveElement {
     // Automatically tag the element with its type
     this.tagWithType();
   }
+
+
+  /****************************************************************** METHODS */
 
   // Abstract method which must be implemented by any adaptive element
   // It must return a string describing the element type (e.g. "item"),
@@ -73,6 +81,9 @@ export abstract class AdaptiveElement {
   private tagWithType () {
     this.tag("type", this.getType());
   }
+
+
+  /*********************************************************** STATIC METHODS */
 
   // Return a standalone jQuery selector,
   // based on the selectors of this element and all its (grand-)parents

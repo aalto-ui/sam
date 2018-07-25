@@ -25,6 +25,8 @@ export interface ItemCharacteristics {
 /* tslint:disable: max-classes-per-file */
 export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
 
+  /*************************************************************** PROPERTIES */
+
   readonly name: string = "Progressive HL + R items";
 
   private readonly policy: Policy;
@@ -37,6 +39,8 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
   private readonly progressiveReorder: ReorderItems;
 
 
+  /************************************************************** CONSTRUCTOR */
+
   constructor () {
     this.policy = new AccessRankPolicy();
 
@@ -47,6 +51,9 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
     this.progressiveHighlight = this.createProgressiveHighlight();
     this.progressiveReorder = this.createProgressiveReorderItem();
   }
+
+
+  /****************************************************************** METHODS */
 
   private getItemsWithCurrentState (state: AdaptationState): Item[] {
     let itemIDsWithMatchingState = Object.keys(this.currentItemCharacteristics)

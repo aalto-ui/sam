@@ -6,6 +6,9 @@ export interface Analysis { }
 
 
 export abstract class DataAnalyserModule<A extends Analysis> {
+
+  /*************************************************************** PROPERTIES */
+
   // The database to fetch data from, and the revision of the latest data fetched
   protected readonly database: Database;
 
@@ -13,12 +16,18 @@ export abstract class DataAnalyserModule<A extends Analysis> {
   private cachedAnalysis: A | null;
   private cachedAnalysisContentRevision: number;
 
+
+  /************************************************************** CONSTRUCTOR */
+
   constructor (database: Database) {
     this.database = database;
 
     this.cachedAnalysis = null;
     this.cachedAnalysisContentRevision = 0;
   }
+
+
+  /****************************************************************** METHODS */
 
   // Return true if there has not been any analysis done yet,
   // or if the cached version is outdated and needs to be recomputed
