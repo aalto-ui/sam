@@ -12,20 +12,20 @@ export class HighlightAndReorderItems implements Technique<Policy> {
 
   readonly name: string = "Highlight + reorder items";
 
-
-  /************************************************************** CONSTRUCTOR */
-
   // Instances of other techniques used by this mixed one
   private readonly highlight: Highlight;
   private readonly reorder: ReorderItems;
 
 
-  /****************************************************************** METHODS */
+  /************************************************************** CONSTRUCTOR */
 
   constructor () {
     this.highlight = new Highlight();
     this.reorder = new ReorderItems();
   }
+
+
+  /****************************************************************** METHODS */
 
   reset () {
     this.reorder.reset();
