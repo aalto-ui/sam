@@ -181,14 +181,14 @@ export class ItemClicksAnalyser extends DataAnalyserModule<ItemClicksAnalysis> {
   // - one list with items whose stats are available in the given click analysis
   // - one list with the other items (no stats available)
   // The order of the initial list is respected in each of the sub-lists
-  static splitItemsByStatsAvailability (items: Item[], itemClicksAnalysis: ItemClicksAnalysis): ItemsSplitByStatsAvailability {
+  static splitItemsByStatsAvailability (items: Item[], analysis: ItemClicksAnalysis): ItemsSplitByStatsAvailability {
     let itemsWithStats = [];
     let itemsWithoutStats = [];
 
     for (let item of items) {
       let itemID = item.id;
 
-      if (itemClicksAnalysis.itemStats.has(itemID)) {
+      if (analysis.itemStats.has(itemID)) {
         itemsWithStats.push(item);
       }
       else {
@@ -206,14 +206,14 @@ export class ItemClicksAnalyser extends DataAnalyserModule<ItemClicksAnalysis> {
   // - one list with groups whose stats are available in the given click analysis
   // - one list with the other groups (no stats available)
   // The order of the initial list is respected in each of the sub-lists
-  static splitItemGroupsByStatsAvailability (groups: ItemGroup[], itemClicksAnalysis: ItemClicksAnalysis): ItemGroupsSplitByStatsAvailability {
+  static splitItemGroupsByStatsAvailability (groups: ItemGroup[], analysis: ItemClicksAnalysis): ItemGroupsSplitByStatsAvailability {
     let groupsWithStats = [];
     let groupsWithoutStats = [];
 
     for (let group of groups) {
       let groupID = group.id;
 
-      if (itemClicksAnalysis.groupStats.has(groupID)) {
+      if (analysis.groupStats.has(groupID)) {
         groupsWithStats.push(group);
       }
       else {
