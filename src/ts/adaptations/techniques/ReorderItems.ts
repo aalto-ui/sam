@@ -7,7 +7,7 @@ import { Policy } from "../policies/Policy";
 
 export class ReorderItems extends Reorder {
 
-  protected static readonly REORDERED_ELEMENT_CLASS: string = "awm-reordered-item";
+  static readonly REORDERED_ELEMENT_CLASS: string = "awm-reordered-item";
 
   readonly name: string = "Reorder items";
 

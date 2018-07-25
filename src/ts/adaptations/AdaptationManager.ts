@@ -8,10 +8,10 @@ import { AVAILABLE_TECHNIQUES, AVAILABLE_POLICIES } from "./AvailableAdaptations
 export class AdaptationManager {
 
   // Menu manager
-  private menuManager: MenuManager;
+  private readonly menuManager: MenuManager;
 
   // Data manager (access to the dabatase and data analysis tools)
-  private dataManager: DataManager;
+  private readonly dataManager: DataManager;
 
   // Current technique and policy
   private currentTechnique: Technique<Policy>;

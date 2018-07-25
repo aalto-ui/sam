@@ -42,7 +42,7 @@ export interface PersistentStorage {
 
 export class Database {
   // Local storage key
-  private static readonly LOCAL_STORAGE_KEY: string = "awm-data";
+  static readonly LOCAL_STORAGE_KEY: string = "awm-data";
 
   // Database tables (keys are their names)
   private tables: {

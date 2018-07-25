@@ -14,7 +14,7 @@ export class Item extends AdaptiveElement {
   // Type of the element
   static readonly ELEMENT_TYPE = "item";
 
-  parent: ItemGroup;
+  readonly parent: ItemGroup;
 
   // Flag indicating whether the item can be reordered or not
   canBeReordered: boolean;

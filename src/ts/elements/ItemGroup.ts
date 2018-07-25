@@ -13,10 +13,10 @@ export class ItemGroup extends AdaptiveElement {
   // Type of the element
   static readonly ELEMENT_TYPE = "group";
 
-  parent: Menu;
+  readonly parent: Menu;
 
   // Ordered list of menu items
-  items: Item[];
+  readonly items: Item[];
 
   // Flag indicating whether the group can be reordered or not
   canBeReordered: boolean;

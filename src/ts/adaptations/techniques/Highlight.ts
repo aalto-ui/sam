@@ -22,7 +22,7 @@ const HIGHLIGHTING_LEVELS_CLASSES: string[] = Object.keys(HighlightingLevel)
 
 export class Highlight implements Technique<Policy> {
 
-  private static readonly HIGHLIGHTED_ELEMENT_CLASS: string = "awm-highlighted";
+  static readonly HIGHLIGHTED_ELEMENT_CLASS: string = "awm-highlighted";
 
   readonly name: string = "Highlight";
 

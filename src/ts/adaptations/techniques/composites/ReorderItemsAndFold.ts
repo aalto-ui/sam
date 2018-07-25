@@ -12,10 +12,10 @@ export class ReorderItemsAndFold implements Technique<Policy> {
   readonly name: string = "Reorder items + fold";
 
   // Instances of other techniques used by this mixed one
-  readonly reorder: ReorderItems;
-  readonly fold: Fold;
+  private readonly reorder: ReorderItems;
+  private readonly fold: Fold;
 
-  readonly naturalOrderPolicy: NodeIndexOrderPolicy;
+  private readonly naturalOrderPolicy: NodeIndexOrderPolicy;
 
 
   constructor () {

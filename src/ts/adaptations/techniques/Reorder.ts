@@ -14,11 +14,11 @@ export abstract class Reorder implements Technique<Policy> {
 
   // Map from HTML parent elements to JQuery children in their original order
   // This is internally used to reset the reordering
-  protected childrenInOriginalOrder: Map<HTMLElement, JQuery>;
+  protected readonly childrenInOriginalOrder: Map<HTMLElement, JQuery>;
 
   // Map from HTML elements which should not be reordered to their original indices
   // This is internally used to always reinsert them at their original position
-  private nonReorderableElementsInitialIndices: Map<HTMLElement, number>;
+  private readonly nonReorderableElementsInitialIndices: Map<HTMLElement, number>;
 
 
   constructor () {

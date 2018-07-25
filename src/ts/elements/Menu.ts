@@ -14,10 +14,10 @@ export class Menu extends AdaptiveElement {
   // Type of the element
   static readonly ELEMENT_TYPE = "menu";
 
-  parent: null;
+  readonly parent: null;
 
   // Ordered list of menu item groups
-  groups: ItemGroup[];
+  readonly groups: ItemGroup[];
 
   constructor (node: JQuery, selector: Selector, groups: ItemGroup[] = []) {
     super(node, selector);

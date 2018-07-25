@@ -13,11 +13,11 @@ export class HighlightReorderItemsAndFold implements Technique<Policy> {
   readonly name: string = "Highlight + reorder + fold";
 
   // Instances of other techniques used by this mixed one
-  readonly highlight: Highlight;
-  readonly reorder: ReorderItems;
-  readonly fold: Fold;
+  private readonly highlight: Highlight;
+  private readonly reorder: ReorderItems;
+  private readonly fold: Fold;
 
-  readonly nodeIndexOrderPolicy: NodeIndexOrderPolicy;
+  private readonly nodeIndexOrderPolicy: NodeIndexOrderPolicy;
 
 
   constructor () {

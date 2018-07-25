@@ -8,10 +8,10 @@ import { Technique } from "./Technique";
 
 export class Fold implements Technique<Policy> {
 
-  private static readonly IS_FOLDED_CLASS: string = "awm-folded";
-  private static readonly SWITCH_FOLD_BUTTON_CLASS: string = "awm-fold-button";
-  private static readonly FOLDABLE_ELEMENT_CLASS: string = "awm-foldable";
-  private static readonly FOLDER_ELEMENT_CLASS: string = "awm-folder";
+  static readonly IS_FOLDED_CLASS: string = "awm-folded";
+  static readonly SWITCH_FOLD_BUTTON_CLASS: string = "awm-fold-button";
+  static readonly FOLDABLE_ELEMENT_CLASS: string = "awm-foldable";
+  static readonly FOLDER_ELEMENT_CLASS: string = "awm-folder";
 
   readonly name: string = "Fold";
 

@@ -25,14 +25,14 @@ export interface PageVisitLog {
 
 export class DataLogger {
   // The database to use for logging
-  private database: Database;
+  private readonly database: Database;
 
   // Timestamp on page load
-  private pageLoadTimestamp: number;
+  private readonly pageLoadTimestamp: number;
 
   // Map from item IDs to (on)click callbacks
   // (references to callbacks are required to detach an event handler)
-  private itemClickCallbacks: Map<string, (event) => void>;
+  private readonly itemClickCallbacks: Map<string, (event) => void>;
 
 
   constructor (database: Database, menuManager: MenuManager) {

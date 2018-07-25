@@ -10,8 +10,8 @@ export abstract class LinkedPageScorePolicy extends Policy {
 
   abstract readonly name: string;
 
-  private pageScores: Map<PageID, number>;
-  private itemScores: Map<Item, number>;
+  private readonly pageScores: Map<PageID, number>;
+  private readonly itemScores: Map<Item, number>;
 
   // Internal reference to a page visit analysis
   // This property can be used by any policy method, and is refreshed every time a new sorting occurs

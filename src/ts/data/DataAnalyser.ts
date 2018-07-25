@@ -5,8 +5,8 @@ import { PageVisitsAnalyser, PageVisitsAnalysis } from "./PageVisitsAnalyser";
 
 export class DataAnalyser {
   // Analyser modules
-  private itemClicksAnalyser: ItemClicksAnalyser;
-  private pageVisitsAnalyser: PageVisitsAnalyser;
+  private readonly itemClicksAnalyser: ItemClicksAnalyser;
+  private readonly pageVisitsAnalyser: PageVisitsAnalyser;
 
   constructor (database: Database) {
     this.itemClicksAnalyser = new ItemClicksAnalyser(database);

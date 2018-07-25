@@ -13,9 +13,9 @@ export class HighlightAndReorderAll implements Technique<Policy> {
 
 
   // Instances of other techniques used by this mixed one
-  readonly highlight: Highlight;
-  readonly reorderItems: ReorderItems;
-  readonly reorderGroups: ReorderGroups;
+  private readonly highlight: Highlight;
+  private readonly reorderItems: ReorderItems;
+  private readonly reorderGroups: ReorderGroups;
 
 
   constructor () {
