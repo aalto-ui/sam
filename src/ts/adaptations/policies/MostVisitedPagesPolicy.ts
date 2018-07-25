@@ -11,6 +11,6 @@ export class MostVisitedPagesPolicy extends LinkedPageScorePolicy {
   }
 
   protected computePageScore (pageID: PageID): number {
-    return this.pageVisitsAnalysis.pageStats[pageID].nbVisits;
+    return this.pageVisitsAnalysis.pageStats.get(pageID).nbVisits;
   }
 }

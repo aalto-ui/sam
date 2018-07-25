@@ -11,6 +11,6 @@ export class LongestVisitDurationPolicy extends LinkedPageScorePolicy {
   }
 
   protected computePageScore (pageID: PageID): number {
-    return this.pageVisitsAnalysis.pageStats[pageID].totalVisitDuration;
+    return this.pageVisitsAnalysis.pageStats.get(pageID).totalVisitDuration;
   }
 }

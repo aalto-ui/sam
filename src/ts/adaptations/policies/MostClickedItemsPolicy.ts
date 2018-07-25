@@ -27,7 +27,7 @@ export class MostClickedItemListPolicy extends Policy {
 
 
   private getItemNbClicks (item: Item, analysis: ItemClicksAnalysis): number {
-    let itemStats = analysis.itemStats[item.id];
+    let itemStats = analysis.itemStats.get(item.id);
 
     return this.onlyLocalClicks
          ? itemStats.localNbClicks
@@ -35,7 +35,7 @@ export class MostClickedItemListPolicy extends Policy {
   }
 
   private getGroupNbClicks (group: ItemGroup, analysis: ItemClicksAnalysis): number {
-    let groupStats = analysis.groupStats[group.id];
+    let groupStats = analysis.groupStats.get(group.id);
 
     return this.onlyLocalClicks
          ? groupStats.localNbClicks

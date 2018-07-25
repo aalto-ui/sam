@@ -20,7 +20,7 @@ export class AccessRankPolicy extends Policy {
     for (let item of items) {
       let itemID = item.id;
 
-      let score = (itemClicksAnalysis.itemStats[itemID].localNbClicks + 1)
+      let score = (itemClicksAnalysis.itemStats.get(itemID).localNbClicks + 1)
                 / (itemClicksAnalysis.totalLocalNbClicks + 1);
       markovScores.set(item, score);
     }
@@ -42,7 +42,7 @@ export class AccessRankPolicy extends Policy {
       const lambda = 0.1;
 
       let score = 0;
-      for (let eventIndex of itemClicksAnalysis.itemStats[itemID].eventIndices) {
+      for (let eventIndex of itemClicksAnalysis.itemStats.get(itemID).eventIndices) {
         score += Math.pow(1 / p, lambda * (currentIndex - eventIndex));
       }
 
@@ -62,7 +62,7 @@ export class AccessRankPolicy extends Policy {
 
     for (let item of items) {
       let itemID = item.id;
-      let timestamps = itemClicksAnalysis.itemStats[itemID].timestamps;
+      let timestamps = itemClicksAnalysis.itemStats.get(itemID).timestamps;
 
       // Otherwise, approximate/count how many have occurend during
       // (1) the same hour and (2) the same day
@@ -92,7 +92,7 @@ export class AccessRankPolicy extends Policy {
       let d = 1;
 
       // Otherwise, compute hour- and day- regularity ratios (compared to current time)
-      if (itemClicksAnalysis.itemStats[itemID].nbClicks > 10) {
+      if (itemClicksAnalysis.itemStats.get(itemID).nbClicks > 10) {
         // Hour-related score part
         let currentHour = new Date().getHours();
         let previousHour = currentHour === 0 ? 23 : currentHour - 1;

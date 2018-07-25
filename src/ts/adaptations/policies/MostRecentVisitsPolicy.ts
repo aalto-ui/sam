@@ -11,6 +11,6 @@ export class MostRecentVisitsPolicy extends LinkedPageScorePolicy {
   }
 
   protected computePageScore (pageID: PageID): number {
-    return this.pageVisitsAnalysis.pageStats[pageID].lastVisitTimestamp;
+    return this.pageVisitsAnalysis.pageStats.get(pageID).lastVisitTimestamp;
   }
 }

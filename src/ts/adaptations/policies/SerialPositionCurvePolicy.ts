@@ -12,11 +12,11 @@ export class SerialPositionCurvePolicy extends LinkedPageScorePolicy {
 
   private computeFamiliarityScore (pageID: PageID): number {
     // If there are no stats, immediately return a null score
-    if (! (pageID in this.pageVisitsAnalysis.pageStats)) {
+    if (! this.pageVisitsAnalysis.pageStats.has(pageID)) {
       return 0;
     }
 
-    let pageStats = this.pageVisitsAnalysis.pageStats[pageID];
+    let pageStats = this.pageVisitsAnalysis.pageStats.get(pageID);
 
     // Recency and primacy (note: lower values lead to higher score below!)
     let recency = 0;
@@ -27,9 +27,7 @@ export class SerialPositionCurvePolicy extends LinkedPageScorePolicy {
 
     // In order to compute recency and primacy, count how many visits occured
     // (1) later for the last time and (2) earlier for the first time (than in the given page stats)
-    for (let id in this.pageVisitsAnalysis.pageStats) {
-      let currentPageStats = this.pageVisitsAnalysis.pageStats[id];
-
+    for (let currentPageStats of this.pageVisitsAnalysis.pageStats.values()) {
       if (currentPageStats.lastVisitTimestamp > lastVisitTimestamp) {
         recency++;
       }

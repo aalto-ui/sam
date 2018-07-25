@@ -3,10 +3,6 @@ import { ItemClicksAnalyser, ItemClicksAnalysis } from "./ItemClicksAnalyser";
 import { PageVisitsAnalyser, PageVisitsAnalysis } from "./PageVisitsAnalyser";
 
 
-// Generic type of an analysis, returned by an anlyser module
-export interface Analysis { }
-
-
 export class DataAnalyser {
   // The database to analyse
   private database: Database;

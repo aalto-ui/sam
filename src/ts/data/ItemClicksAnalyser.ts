@@ -1,10 +1,9 @@
 import { Database, TableEntryIndex, TableEntry } from "./Database";
 import { Utilities, PageID } from "../Utilities";
-import { DataAnalyserModule } from "./DataAnalyserModule";
-import { Analysis } from "./DataAnalyser";
+import { DataAnalyserModule, Analysis } from "./DataAnalyserModule";
 import { ItemClickLog } from "./DataLogger";
-import { Item } from "../elements/Item";
-import { ItemGroup } from "../elements/ItemGroup";
+import { Item, ItemID } from "../elements/Item";
+import { ItemGroup, GroupID } from "../elements/ItemGroup";
 
 // Generic interface for element stats, and specific ones for actual elements
 export interface AdaptiveElementStats {
@@ -27,8 +26,8 @@ export interface ItemGroupStats extends AdaptiveElementStats { }
 export interface ItemClicksAnalysis extends Analysis {
   totalNbClicks: number;
   totalLocalNbClicks: number;
-  itemStats: {[itemID: string]: ItemStats};
-  groupStats: {[groupID: string]: ItemGroupStats};
+  itemStats: Map<ItemID, ItemStats>;
+  groupStats: Map<GroupID, ItemGroupStats>;
   currentEventIndex: TableEntryIndex;
 }
 
@@ -44,7 +43,7 @@ export interface ItemGroupsSplitByStatsAvailability {
 }
 
 
-export class ItemClicksAnalyser extends DataAnalyserModule {
+export class ItemClicksAnalyser extends DataAnalyserModule<ItemClicksAnalysis> {
   constructor (database: Database) {
     super(database);
   }
@@ -53,9 +52,19 @@ export class ItemClicksAnalyser extends DataAnalyserModule {
     return {
       totalNbClicks: 0,
       totalLocalNbClicks: 0,
-      itemStats: {},
-      groupStats: {},
+      itemStats: new Map(),
+      groupStats: new Map(),
       currentEventIndex: this.database.getItemClickLogsCurrentIndex()
+    };
+  }
+
+  protected makeAnalysisDeepCopy (analysis: ItemClicksAnalysis): ItemClicksAnalysis {
+    return {
+      totalNbClicks: analysis.totalNbClicks,
+      totalLocalNbClicks: analysis.totalLocalNbClicks,
+      itemStats: new Map(analysis.itemStats),
+      groupStats: new Map(analysis.groupStats),
+      currentEventIndex: analysis.currentEventIndex
     };
   }
 
@@ -89,12 +98,12 @@ export class ItemClicksAnalyser extends DataAnalyserModule {
     let itemID = log.itemID;
 
     // Create an item stats object if required
-    if (! (itemID in analysis.itemStats)) {
-      analysis.itemStats[itemID] = this.createItemStats();
+    if (! analysis.itemStats.has(itemID)) {
+      analysis.itemStats.set(itemID, this.createItemStats());
     }
 
     // Update the item stats
-    let itemStats = analysis.itemStats[itemID];
+    let itemStats = analysis.itemStats.get(itemID);
 
     itemStats.nbClicks += 1;
     if (clickHappenedOnThisPage) {
@@ -111,12 +120,12 @@ export class ItemClicksAnalyser extends DataAnalyserModule {
     let groupID = log.groupID;
 
     // Create an item group stats object if required
-    if (! (groupID in analysis.groupStats)) {
-      analysis.groupStats[groupID] = this.createItemGroupStats();
+    if (! analysis.groupStats.has(groupID)) {
+      analysis.groupStats.set(groupID, this.createItemGroupStats());
     }
 
     // Update the item group stats
-    let groupStats = analysis.groupStats[groupID];
+    let groupStats = analysis.groupStats.get(groupID);
 
     groupStats.nbClicks += 1;
     if (clickHappenedOnThisPage) {
@@ -145,9 +154,7 @@ export class ItemClicksAnalyser extends DataAnalyserModule {
   }
 
   private computeFrequencies (analysis: ItemClicksAnalysis) {
-    for (let itemID in analysis.itemStats) {
-      let itemStats = analysis.itemStats[itemID];
-
+    for (let itemStats of analysis.itemStats.values()) {
       itemStats.clickFrequency = itemStats.nbClicks / analysis.totalNbClicks;
       itemStats.localClickFrequency = itemStats.localNbClicks / analysis.totalLocalNbClicks;
     }
@@ -181,7 +188,7 @@ export class ItemClicksAnalyser extends DataAnalyserModule {
     for (let item of items) {
       let itemID = item.id;
 
-      if (itemID in itemClicksAnalysis.itemStats) {
+      if (itemClicksAnalysis.itemStats.has(itemID)) {
         itemsWithStats.push(item);
       }
       else {
@@ -206,7 +213,7 @@ export class ItemClicksAnalyser extends DataAnalyserModule {
     for (let group of groups) {
       let groupID = group.id;
 
-      if (groupID in itemClicksAnalysis.groupStats) {
+      if (itemClicksAnalysis.groupStats.has(groupID)) {
         groupsWithStats.push(group);
       }
       else {

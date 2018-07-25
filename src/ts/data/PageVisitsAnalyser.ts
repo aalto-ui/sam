@@ -1,7 +1,7 @@
 import { Database, TableEntry, TableEntryIndex } from "./Database";
-import { DataAnalyserModule } from "./DataAnalyserModule";
-import { Analysis } from "./DataAnalyser";
+import { DataAnalyserModule, Analysis } from "./DataAnalyserModule";
 import { PageVisitLog } from "./DataLogger";
+import { PageID } from "../Utilities";
 
 
 export interface PageStats {
@@ -22,12 +22,12 @@ export interface PageStats {
 export interface PageVisitsAnalysis extends Analysis {
   totalNbVisits: number;
   nbUniquePages: number;
-  pageStats: {[pageID: string]: PageStats};
+  pageStats: Map<PageID, PageStats>;
   currentEventIndex: TableEntryIndex;
 }
 
 
-export class PageVisitsAnalyser extends DataAnalyserModule {
+export class PageVisitsAnalyser extends DataAnalyserModule<PageVisitsAnalysis> {
   constructor (database: Database) {
     super(database);
   }
@@ -36,10 +36,20 @@ export class PageVisitsAnalyser extends DataAnalyserModule {
     return {
       totalNbVisits: 0,
       nbUniquePages: 0,
-      pageStats: {},
+      pageStats: new Map(),
       currentEventIndex: this.database.getItemClickLogsCurrentIndex()
     };
   }
+
+  protected makeAnalysisDeepCopy (analysis: PageVisitsAnalysis): PageVisitsAnalysis {
+    return {
+      totalNbVisits: analysis.totalNbVisits,
+      nbUniquePages: analysis.nbUniquePages,
+      pageStats: new Map(analysis.pageStats),
+      currentEventIndex: analysis.currentEventIndex
+    };
+  }
+
 
   private createPageStats (): PageStats {
     return {
@@ -59,7 +69,7 @@ export class PageVisitsAnalyser extends DataAnalyserModule {
 
   private processPageVisitLog (log: TableEntry<PageVisitLog>, analysis: PageVisitsAnalysis) {
     let pageID = log.pageID;
-    let pageHasAlreadyBeenSeen = pageID in analysis.pageStats;
+    let pageHasAlreadyBeenSeen = analysis.pageStats.has(pageID);
 
     // Update global visit counters
     analysis.totalNbVisits += 1;
@@ -69,11 +79,11 @@ export class PageVisitsAnalyser extends DataAnalyserModule {
 
     // Create a page stats object if required
     if (! pageHasAlreadyBeenSeen) {
-      analysis.pageStats[pageID] = this.createPageStats();
+      analysis.pageStats.set(pageID, this.createPageStats());
     }
 
     // Update the page stats
-    let pageStats = analysis.pageStats[pageID];
+    let pageStats = analysis.pageStats.get(pageID);
 
     pageStats.nbVisits += 1;
 
@@ -90,9 +100,7 @@ export class PageVisitsAnalyser extends DataAnalyserModule {
   }
 
   private computeFrequencies (analysis: PageVisitsAnalysis) {
-    for (let pageID in analysis.pageStats) {
-      let pageStats = analysis.pageStats[pageID];
-
+    for (let pageStats of analysis.pageStats.values()) {
       pageStats.visitFrequency = pageStats.nbVisits / analysis.totalNbVisits;
     }
   }
