@@ -64,7 +64,7 @@ export class MostClickedItemListPolicy extends Policy {
     return groupsMappedToNbClicks;
   }
 
-  private sortMappedClickedElements<E extends AdaptiveElement> (elementsToNbClicks: Map<E, number>): ElementWithNbClicks<E>[] {
+  private sortMappedElementsByNbClicks<E extends AdaptiveElement> (elementsToNbClicks: Map<E, number>): ElementWithNbClicks<E>[] {
     // Turn the map into a list sorted by the nb of clicks
     return [...elementsToNbClicks.entries()]
       .map((tuple) => {
@@ -84,7 +84,7 @@ export class MostClickedItemListPolicy extends Policy {
     let splitItems = ItemClicksAnalyser.splitItemsByStatsAvailability(items, itemClicksAnalysis);
 
     let itemsMappedToNbClicks = this.mapItemsToNbClicks(splitItems.withStats, itemClicksAnalysis);
-    let sortedItems = this.sortMappedClickedElements(itemsMappedToNbClicks);
+    let sortedItems = this.sortMappedElementsByNbClicks(itemsMappedToNbClicks);
 
     // Make items with scores out of the ordered items and their nb of clicks
     let totalNbConsideredClicks = this.onlyLocalClicks
@@ -117,7 +117,7 @@ export class MostClickedItemListPolicy extends Policy {
     let splitGroups = ItemClicksAnalyser.splitItemGroupsByStatsAvailability(groups, itemClicksAnalysis);
 
     let groupsMappedToNbClicks = this.mapGroupsToNbClicks(splitGroups.withStats, itemClicksAnalysis);
-    let sortedGroups = this.sortMappedClickedElements(groupsMappedToNbClicks);
+    let sortedGroups = this.sortMappedElementsByNbClicks(groupsMappedToNbClicks);
 
     // Make item groups with scores out of the ordered item groups and their nb of clicks
     let totalNbConsideredClicks = this.onlyLocalClicks

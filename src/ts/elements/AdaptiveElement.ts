@@ -42,7 +42,7 @@ export abstract class AdaptiveElement {
     this.selector = selector;
     this.parent = parent;
 
-    this.id = this.toID();
+    this.id = this.getID();
 
     // Automatically tag the element with its type
     this.tagWithType();
@@ -102,12 +102,12 @@ export abstract class AdaptiveElement {
   }
 
   // Returns a standalone jQuery selector of this adaptive element, using nodeToSelector static method
-  toSelector (): string {
+  getSelector (): string {
     return AdaptiveElement.nodeToSelector(this.node);
   }
 
   // Return an unique ID for the element, based on its selector
-  private toID (): string {
-    return this.getType() + "/" + this.toSelector();
+  private getID (): string {
+    return this.getType() + "/" + this.getSelector();
   }
 }

@@ -94,7 +94,7 @@ export class ItemClicksAnalyser extends DataAnalyserModule<ItemClicksAnalysis> {
     };
   }
 
-  private updateItemStats (log: TableEntry<ItemClickLog>, analysis: ItemClicksAnalysis, clickHappenedOnThisPage: boolean) {
+  private updateItemStatsWithClick (log: TableEntry<ItemClickLog>, analysis: ItemClicksAnalysis, clickIsLocal: boolean) {
     let itemID = log.itemID;
 
     // Create an item stats object if required
@@ -106,7 +106,7 @@ export class ItemClicksAnalyser extends DataAnalyserModule<ItemClicksAnalysis> {
     let itemStats = analysis.itemStats.get(itemID);
 
     itemStats.nbClicks += 1;
-    if (clickHappenedOnThisPage) {
+    if (clickIsLocal) {
       itemStats.localNbClicks += 1;
     }
 
@@ -116,7 +116,7 @@ export class ItemClicksAnalyser extends DataAnalyserModule<ItemClicksAnalysis> {
     itemStats.eventIndices.push(log.index);
   }
 
-  private updateItemGroupStats (log: TableEntry<ItemClickLog>, analysis: ItemClicksAnalysis, clickHappenedOnThisPage: boolean) {
+  private updateItemGroupStatsWithClick (log: TableEntry<ItemClickLog>, analysis: ItemClicksAnalysis, clickIsLocal: boolean) {
     let groupID = log.groupID;
 
     // Create an item group stats object if required
@@ -128,7 +128,7 @@ export class ItemClicksAnalyser extends DataAnalyserModule<ItemClicksAnalysis> {
     let groupStats = analysis.groupStats.get(groupID);
 
     groupStats.nbClicks += 1;
-    if (clickHappenedOnThisPage) {
+    if (clickIsLocal) {
       groupStats.localNbClicks += 1;
     }
 
@@ -140,17 +140,17 @@ export class ItemClicksAnalyser extends DataAnalyserModule<ItemClicksAnalysis> {
 
   private processItemClickLog (log: TableEntry<ItemClickLog>, analysis: ItemClicksAnalysis) {
     let currentPageID = Utilities.getCurrentPageID();
-    let clickHappenedOnThisPage = log.pageID === currentPageID;
+    let clickIsLocal = log.pageID === currentPageID;
 
     // Update global click counters
     analysis.totalNbClicks += 1;
-    if (clickHappenedOnThisPage) {
+    if (clickIsLocal) {
       analysis.totalLocalNbClicks += 1;
     }
 
     // Update related item and group stats
-    this.updateItemStats(log, analysis, clickHappenedOnThisPage);
-    this.updateItemGroupStats(log, analysis, clickHappenedOnThisPage);
+    this.updateItemStatsWithClick(log, analysis, clickIsLocal);
+    this.updateItemGroupStatsWithClick(log, analysis, clickIsLocal);
   }
 
   private computeFrequencies (analysis: ItemClicksAnalysis) {
