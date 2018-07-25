@@ -48,7 +48,7 @@ export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
     this.progressiveReorder = this.createProgressiveReorderItem();
   }
 
-  private getItemsWithCurrentState (state: AdaptationState) {
+  private getItemsWithCurrentState (state: AdaptationState): Item[] {
     let itemIDsWithMatchingState = Object.keys(this.currentItemCharacteristics)
       .filter((itemID) => {
         return this.currentItemCharacteristics[itemID].state === state;

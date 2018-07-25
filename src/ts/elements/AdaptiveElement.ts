@@ -22,7 +22,7 @@ export function isSelector (candidate: any): boolean {
 
 export abstract class AdaptiveElement {
   // Prefix of any element tag (see tag-related methods for details)
-  static readonly TAG_PREFIX = "data-awm-";
+  static readonly TAG_PREFIX: string = "data-awm-";
 
   // Reference to the related jQuery node
   readonly node: JQuery;

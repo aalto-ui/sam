@@ -8,10 +8,10 @@ export type GroupID = string;
 
 export class ItemGroup extends AdaptiveElement {
   // Standard AWM class for groups
-  static readonly AWM_CLASS = "awm-group";
+  static readonly AWM_CLASS: string = "awm-group";
 
   // Type of the element
-  static readonly ELEMENT_TYPE = "group";
+  static readonly ELEMENT_TYPE: string = "group";
 
   readonly parent: Menu;
 
@@ -34,7 +34,7 @@ export class ItemGroup extends AdaptiveElement {
   }
 
   // Return true if all the group items are alphabetically sorted, false otherwise
-  isAlphabeticallySorted () {
+  isAlphabeticallySorted (): boolean {
     let itemLabels = this.items.map((item) => {
       return item.node.text();
     });

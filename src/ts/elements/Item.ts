@@ -9,10 +9,10 @@ export type ItemID = string;
 
 export class Item extends AdaptiveElement {
   // Standard AWM class for menus
-  static readonly AWM_CLASS = "awm-item";
+  static readonly AWM_CLASS: string = "awm-item";
 
   // Type of the element
-  static readonly ELEMENT_TYPE = "item";
+  static readonly ELEMENT_TYPE: string = "item";
 
   readonly parent: ItemGroup;
 

@@ -23,7 +23,7 @@ export abstract class DataAnalyserModule<A extends Analysis> {
   // Return true if there has not been any analysis done yet,
   // or if the cached version is outdated and needs to be recomputed
   // Otherwise, return false
-  private needsAnalysisUpdate () {
+  private needsAnalysisUpdate (): boolean {
     return this.cachedAnalysis === null
         || this.cachedAnalysisContentRevision !== this.database.getCurrentRevision();
   }

@@ -9,10 +9,10 @@ export type MenuID = string;
 
 export class Menu extends AdaptiveElement {
   // Standard AWM class for menus
-  static readonly AWM_CLASS = "awm-menu";
+  static readonly AWM_CLASS: string = "awm-menu";
 
   // Type of the element
-  static readonly ELEMENT_TYPE = "menu";
+  static readonly ELEMENT_TYPE: string = "menu";
 
   readonly parent: null;
 

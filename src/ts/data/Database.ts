@@ -107,12 +107,12 @@ export class Database {
   }
 
   // Return the current revision of the database data
-  getCurrentRevision () {
+  getCurrentRevision (): DatabaseRevision {
     return this.currentRevision;
   }
 
   // Return true if the given revision match the current one, false otherwise
-  isRevisionUpToDate (revision: DatabaseRevision) {
+  isRevisionUpToDate (revision: DatabaseRevision): boolean {
     return this.currentRevision === revision;
   }
 
