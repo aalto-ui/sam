@@ -4,16 +4,11 @@ import { PageVisitsAnalyser, PageVisitsAnalysis } from "./PageVisitsAnalyser";
 
 
 export class DataAnalyser {
-  // The database to analyse
-  private database: Database;
-
   // Analyser modules
   private itemClicksAnalyser: ItemClicksAnalyser;
   private pageVisitsAnalyser: PageVisitsAnalyser;
 
   constructor (database: Database) {
-    this.database = database;
-
     this.itemClicksAnalyser = new ItemClicksAnalyser(database);
     this.pageVisitsAnalyser = new PageVisitsAnalyser(database);
   }
