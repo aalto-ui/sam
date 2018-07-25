@@ -82,9 +82,11 @@ export class ItemGroup extends AdaptiveElement {
   private fillUsingItemSelector (itemSelector: Selector) {
     let self = this;
 
-    this.node.find(itemSelector).each((_, element) => {
-      self.items.push(Item.fromSelector(element, self));
-    });
+    this.node
+      .find(itemSelector)
+      .each((_, element) => {
+        self.items.push(Item.fromSelector(element, self));
+      });
 
     // The reordering constraint of all (new) items must then be updated
     this.updateItemsReorderingConstraints();
@@ -94,9 +96,11 @@ export class ItemGroup extends AdaptiveElement {
   // If NO_SELECTOR is passed as the groupSelector argument, it means this groups share its parent menu node
   // (i.e. single group not distinguished from the menu in the DOM)
   static fromSelectors (groupSelector: Selector | NoSelector, itemSelector: Selector, parent: Menu): ItemGroup {
-    let node  = groupSelector === NO_SELECTOR ? parent.node : parent.node.find(groupSelector);
-    let group = new ItemGroup(node, groupSelector, parent);
+    let node = groupSelector === NO_SELECTOR
+             ? parent.node
+             : parent.node.find(groupSelector);
 
+    let group = new ItemGroup(node, groupSelector, parent);
     group.fillUsingItemSelector(itemSelector);
 
     return group;

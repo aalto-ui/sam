@@ -31,8 +31,8 @@ export class AdaptationManager {
 
   private setTechnique (name: string) {
     // Look for a technique with the given name
-    let technique = AVAILABLE_TECHNIQUES.find((technique) => {
-      return technique.name === name;
+    let technique = AVAILABLE_TECHNIQUES.find((candidateTechnique) => {
+      return candidateTechnique.name === name;
     });
 
     // Update the current technique if one was found
@@ -69,8 +69,8 @@ export class AdaptationManager {
 
   private setPolicy (name: string) {
     // Look for a policy with the given name
-    let policy = AVAILABLE_POLICIES.find((policy) => {
-      return policy.name === name;
+    let policy = AVAILABLE_POLICIES.find((candidatePolicy) => {
+      return candidatePolicy.name === name;
     });
 
     // Update the current policy if one was found

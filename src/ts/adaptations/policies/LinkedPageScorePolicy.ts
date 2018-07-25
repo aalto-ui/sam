@@ -34,7 +34,6 @@ export abstract class LinkedPageScorePolicy extends Policy {
   private computeAndSetPageScores () {
     this.pageScores.clear();
 
-    console.log(this.pageVisitsAnalysis)
     for (let pageID of this.pageVisitsAnalysis.pageStats.keys()) {
       let score = this.computePageScore(pageID);
       this.pageScores.set(pageID, score);

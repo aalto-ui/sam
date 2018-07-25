@@ -92,17 +92,19 @@ export class MenuManager {
   static fromSpecificSelectors (selectors: MenuSelectors): MenuManager {
     let menus = [];
     for (let menuSelector in selectors) {
-      let descendantSelector = selectors[menuSelector];
+      if (selectors.hasOwnProperty(menuSelector)) {
+        let descendantSelector = selectors[menuSelector];
 
-      // Case 1: the descendant selector is a generic item selector
-      if (isSelector(descendantSelector)) {
-        menus.push(Menu.fromSelectors(menuSelector, descendantSelector as Selector));
-      }
+        // Case 1: the descendant selector is a generic item selector
+        if (isSelector(descendantSelector)) {
+          menus.push(Menu.fromSelectors(menuSelector, descendantSelector as Selector));
+        }
 
-      // Case 2: the descendant selector is a specific group-item selector object
-      else {
-        descendantSelector = descendantSelector as {[groupSelector: string]: Selector};
-        menus.push(Menu.fromSelectors(menuSelector, descendantSelector));
+        // Case 2: the descendant selector is a specific group-item selector object
+        else {
+          descendantSelector = descendantSelector as {[groupSelector: string]: Selector};
+          menus.push(Menu.fromSelectors(menuSelector, descendantSelector));
+        }
       }
     }
 

@@ -39,9 +39,11 @@ export class Menu extends AdaptiveElement {
   }
 
   getAllItemNodes (): JQuery[] {
-    return this.getAllItems().map((item) => {
-      return item.node;
-    });
+    return this
+      .getAllItems()
+      .map((item) => {
+        return item.node;
+      });
   }
 
   static getAllMenusItems (menus: Menu[]): Item[] {
@@ -72,8 +74,6 @@ export class Menu extends AdaptiveElement {
   // If the groupSelector applies to this menu node, the fillUsingGenericItemSelector is used instead
   // Note: if there is no distinct group, consider using the aforementioned method instead
   private fillUsingGenericGroupAndItemSelectors (groupSelector: Selector, itemSelector: Selector) {
-    let self = this;
-
     // Either the menu node is its own single group node,
     // or group nodes are searched in the DOM subtree rooted in this menu node
     let groupNodes = this.node.is(groupSelector)
@@ -81,7 +81,7 @@ export class Menu extends AdaptiveElement {
                    : this.node.find(groupSelector);
 
     groupNodes.each((_, element) => {
-      self.groups.push(ItemGroup.fromSelectors(element, itemSelector, self));
+      this.groups.push(ItemGroup.fromSelectors(element, itemSelector, this));
     });
   }
 
@@ -90,8 +90,10 @@ export class Menu extends AdaptiveElement {
   // and each value must be a selector for items in the group (necessarily deeper in the DOM)
   private fillUsingSpecificGroupSelectors (descendantSelectors: {[groupSelector: string]: Selector}) {
     for (let groupSelector in descendantSelectors) {
-      let itemSelectors = descendantSelectors[groupSelector];
-      this.groups.push(ItemGroup.fromSelectors(groupSelector, itemSelectors, this));
+      if (descendantSelectors.hasOwnProperty(groupSelector)) {
+        let itemSelectors = descendantSelectors[groupSelector];
+        this.groups.push(ItemGroup.fromSelectors(groupSelector, itemSelectors, this));
+      }
     }
   }
 

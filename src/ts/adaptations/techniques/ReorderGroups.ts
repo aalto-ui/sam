@@ -25,7 +25,8 @@ export class ReorderGroups extends Reorder {
   }
 
   private getFilteredSortedGroups (menuManager: MenuManager, policy: Policy, dataManager?: DataManager): ItemGroup[] {
-    return policy.getSortedItemGroupsWithScores(menuManager, dataManager)
+    return policy
+      .getSortedItemGroupsWithScores(menuManager, dataManager)
       .filter((groupWithScore) => {
         if (! groupWithScore.group.canBeReordered) {
           return false;

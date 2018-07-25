@@ -63,7 +63,8 @@ export class Highlight implements Technique<Policy> {
   }
 
   private getFilteredSortedItemWithScores (menuManager: MenuManager, policy: Policy, dataManager?: DataManager): ItemWithScore[] {
-    return policy.getSortedItemsWithScores(menuManager, dataManager)
+    return policy
+      .getSortedItemsWithScores(menuManager, dataManager)
       .filter((itemWithScore) => {
         return itemWithScore.score > 0;
       });

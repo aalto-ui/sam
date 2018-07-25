@@ -7,7 +7,6 @@ import { Policy } from "../../policies/Policy";
 import { Technique } from "../Technique";
 
 
-
 export class HighlightAndReorderAll implements Technique<Policy> {
 
   readonly name: string = "Highlight + reorder items & groups";

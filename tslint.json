@@ -27,7 +27,8 @@
       "object-literal-shorthand": [true, "never"],
       "interface-name": [true, "never-prefix"],
       "array-type": [true, "array"],
-      "no-empty-interface": false
+      "no-empty-interface": false,
+      "newline-per-chained-call": true
     },
     "rulesDirectory": []
 }

@@ -25,7 +25,8 @@ export class ReorderItems extends Reorder {
   }
 
   private getFilteredSortedItems (menuManager: MenuManager, policy: Policy, dataManager?: DataManager): Item[] {
-    return policy.getSortedItemsWithScores(menuManager, dataManager)
+    return policy
+      .getSortedItemsWithScores(menuManager, dataManager)
       .filter((itemWithScore) => {
         if (! itemWithScore.item.canBeReordered) {
           return false;

@@ -44,13 +44,16 @@ export abstract class Reorder implements Technique<Policy> {
     }
 
     if (index === 0) {
-      node.parent()
+      node
+        .parent()
         .prepend(node);
     }
 
     else {
-      node.parent()
-        .children().eq(index - 1)
+      node
+        .parent()
+        .children()
+        .eq(index - 1)
         .after(node);
     }
   }
@@ -70,7 +73,8 @@ export abstract class Reorder implements Technique<Policy> {
   private getSortedChildrenIndices (parent: JQuery): number[] {
     let type = this.getReorderedElementType();
 
-    return parent.children(`[${AdaptiveElement.TAG_PREFIX}type=${type}]`)
+    return parent
+      .children(`[${AdaptiveElement.TAG_PREFIX}type=${type}]`)
       .get()
       .map((element) => {
         return $(element).index();
@@ -86,11 +90,14 @@ export abstract class Reorder implements Technique<Policy> {
     let parentsToChildren = new Map<HTMLElement, JQuery[]>();
 
     for (let node of nodes) {
-      let parentElement = node.parent().get(0);
+      let parentElement = node
+        .parent()
+        .get(0);
 
       if (parentsToChildren.has(parentElement)) {
-        let siblings = parentsToChildren.get(parentElement);
-        siblings.push(node);
+        parentsToChildren
+          .get(parentElement)
+          .push(node);
       }
       else {
         parentsToChildren.set(parentElement, [node]);
@@ -149,6 +156,7 @@ export abstract class Reorder implements Technique<Policy> {
     // Reinsert all children of parents of reordered elements at their original indices
     for (let [parent, orderedChildNodes] of this.childrenInOriginalOrder.entries()) {
       let parentNode = $(parent);
+
       orderedChildNodes.each((_, element) => {
         parentNode.append(element);
       });

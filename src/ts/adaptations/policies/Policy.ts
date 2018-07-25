@@ -22,9 +22,6 @@ export abstract class Policy {
   abstract readonly name: string;
 
 
-  constructor () { }
-
-
   // Any concrete child class extending this one must implement this method
   // It should return a sorted array of items with their scores (from the given menus)
   abstract getSortedItemsWithScores (menuManager: MenuManager, dataManager?: DataManager): ItemWithScore[];

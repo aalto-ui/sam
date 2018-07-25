@@ -43,11 +43,13 @@ export class DebugDisplay {
   }
 
   private addTechniqueListNode () {
-    this.controlsContainerNode.append($("<label>")
+    this.controlsContainerNode
+      .append($("<label>")
       .attr("for", "awm-debug-switch-technique-menu")
       .html("Technique:"));
 
-    this.controlsContainerNode.append($("<select>")
+    this.controlsContainerNode
+      .append($("<select>")
       .attr("id", "awm-debug-switch-technique-menu")
       .on("change", (_) => {
         this.updateTechnique();
@@ -67,11 +69,13 @@ export class DebugDisplay {
   }
 
   private addPolicyListNode () {
-    this.controlsContainerNode.append($("<label>")
+    this.controlsContainerNode
+      .append($("<label>")
       .attr("for", "awm-debug-switch-policy-menu")
       .html("Policy:"));
 
-    this.controlsContainerNode.append($("<select>")
+    this.controlsContainerNode
+      .append($("<select>")
       .attr("id", "awm-debug-switch-policy-menu")
       .on("change", (_) => {
         this.updatePolicy();
@@ -91,7 +95,8 @@ export class DebugDisplay {
   }
 
   private addClearHistoryButtonNode () {
-    this.controlsContainerNode.append($("<button>")
+    this.controlsContainerNode
+      .append($("<button>")
       .html("Clear history (require page reloading)")
       .attr("id", "awm-debug-clear-history-button")
       .on("click", () => {
