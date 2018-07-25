@@ -23,6 +23,11 @@ export class ReorderItems extends Reorder {
 
   /****************************************************************** METHODS */
 
+
+  /****************************************************************************/
+  /* Utility
+  /****************************************************************************/
+
   protected getReorderedElementClass (): string {
     return "awm-reordered-item";
   }
@@ -30,6 +35,11 @@ export class ReorderItems extends Reorder {
   protected getReorderedElementType (): string {
     return Item.ELEMENT_TYPE;
   }
+
+
+  /****************************************************************************/
+  /* Apply technique
+  /****************************************************************************/
 
   private getFilteredSortedItems (menuManager: MenuManager, policy: Policy, dataManager?: DataManager): Item[] {
     return policy
@@ -54,14 +64,6 @@ export class ReorderItems extends Reorder {
     return Math.floor(Math.sqrt(nbItemsInGroup));
   }
 
-  private splitAndApplyByGroup (items: Item[]) {
-    let topItemsSplitByGroup = Item.splitAllByGroup(items);
-
-    for (let sameGroupItems of topItemsSplitByGroup) {
-      this.applyInGroup(sameGroupItems);
-    }
-  }
-
   private applyInGroup (sameGroupItems: Item[]) {
     // Splice the same group items to only reorder the top ones
     let totalNbGroupItems = sameGroupItems[0].parent.items.length;
@@ -69,6 +71,14 @@ export class ReorderItems extends Reorder {
     let topSameGroupItems = sameGroupItems.splice(0, nbTopSameGroupItemsToKeep);
 
     this.reorderAllElements(topSameGroupItems);
+  }
+
+  private splitAndApplyByGroup (items: Item[]) {
+    let topItemsSplitByGroup = Item.splitAllByGroup(items);
+
+    for (let sameGroupItems of topItemsSplitByGroup) {
+      this.applyInGroup(sameGroupItems);
+    }
   }
 
   apply (menuManager: MenuManager, policy: Policy, dataManager?: DataManager) {

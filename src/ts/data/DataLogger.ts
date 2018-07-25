@@ -56,6 +56,11 @@ export class DataLogger {
     this.startListeningForPageBeforeUnload();
   }
 
+
+  /****************************************************************************/
+  /* Item click handling
+  /****************************************************************************/
+
   startListeningForItemClicks (items: Item[]) {
     let self = this;
 
@@ -107,6 +112,11 @@ export class DataLogger {
       pageID: Utilities.getCurrentPageID()
     });
   }
+
+
+  /****************************************************************************/
+  /* Page beforeunload handling
+  /****************************************************************************/
 
   startListeningForPageBeforeUnload () {
     let self = this;

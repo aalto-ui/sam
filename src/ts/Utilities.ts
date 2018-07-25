@@ -5,6 +5,11 @@ export class Utilities {
 
   /*********************************************************** STATIC METHODS */
 
+
+  /****************************************************************************/
+  /* Page ID
+  /****************************************************************************/
+
   static getCurrentPageID (): PageID {
     return window.location.hostname
       .concat(window.location.pathname);
@@ -18,10 +23,14 @@ export class Utilities {
       .concat(linkElement.pathname);
   }
 
-
   static isLinkMatchingPageID (link: string, pageID: PageID) {
     return Utilities.getLinkedPageID(link) === pageID;
   }
+
+
+  /****************************************************************************/
+  /* Local storage
+  /****************************************************************************/
 
   // If the local storage is available, return true
   // Otherwise, print an error message in the console, and return false

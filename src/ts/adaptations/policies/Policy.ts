@@ -28,6 +28,12 @@ export abstract class Policy {
 
   /****************************************************************** METHODS */
 
+
+  /****************************************************************************/
+  /* Item scoring & sorting
+  /****************************************************************************/
+
+
   // Any concrete child class extending this one must implement this method
   // It should return a sorted array of items with their scores (from the given menus)
   abstract getSortedItemsWithScores (menuManager: MenuManager, dataManager?: DataManager): ItemWithScore[];
@@ -40,6 +46,10 @@ export abstract class Policy {
       });
   }
 
+
+  /****************************************************************************/
+  /* Group scoring & sorting
+  /****************************************************************************/
 
   // Default implementation which can be overidden by any child class
   // It should return a sorted array of item groups with their scores (from the given menus)

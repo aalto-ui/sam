@@ -33,6 +33,11 @@ export abstract class Reorder implements Technique<Policy> {
 
   /****************************************************************** METHODS */
 
+
+  /****************************************************************************/
+  /* Utility
+  /****************************************************************************/
+
   // This method should be overriden by child classes which
   // wish to distinguish their reordering from other types of reordering!
   // It must return a string representing the class to be added to reordered elements
@@ -43,6 +48,34 @@ export abstract class Reorder implements Technique<Policy> {
   // This method must be overriden by any concrete child class
   // It must return a string representing the type of adaptive elements being reordered
   protected abstract getReorderedElementType (): string;
+
+  // Return a map from each unique parent element to its children nodes
+  // The order of the children respects the order of the nodes in the given array
+  private splitNodesByParents (nodes: JQuery[]): Map<HTMLElement, JQuery[]> {
+    let parentsToChildren = new Map<HTMLElement, JQuery[]>();
+
+    for (let node of nodes) {
+      let parentElement = node
+        .parent()
+        .get(0);
+
+      if (parentsToChildren.has(parentElement)) {
+        parentsToChildren
+          .get(parentElement)
+          .push(node);
+      }
+      else {
+        parentsToChildren.set(parentElement, [node]);
+      }
+    }
+
+    return parentsToChildren;
+  }
+
+
+  /****************************************************************************/
+  /* Node reordering
+  /****************************************************************************/
 
   // Insert a node at a given index, with no side effect
   private insertNode (node: JQuery, index: number) {
@@ -77,42 +110,10 @@ export abstract class Reorder implements Technique<Policy> {
     }
   }
 
-  private getSortedChildrenIndices (parent: JQuery): number[] {
-    let type = this.getReorderedElementType();
 
-    return parent
-      .children(`[${AdaptiveElement.TAG_PREFIX}type=${type}]`)
-      .get()
-      .map((element) => {
-        return $(element).index();
-      })
-      .sort((index1, index2) => {
-        return index1 - index2;
-      });
-  }
-
-  // Return a map from each unique parent element to its children nodes
-  // The order of the children respects the order of the nodes in the given array
-  private splitNodesByParents (nodes: JQuery[]): Map<HTMLElement, JQuery[]> {
-    let parentsToChildren = new Map<HTMLElement, JQuery[]>();
-
-    for (let node of nodes) {
-      let parentElement = node
-        .parent()
-        .get(0);
-
-      if (parentsToChildren.has(parentElement)) {
-        parentsToChildren
-          .get(parentElement)
-          .push(node);
-      }
-      else {
-        parentsToChildren.set(parentElement, [node]);
-      }
-    }
-
-    return parentsToChildren;
-  }
+  /****************************************************************************/
+  /* Apply technique
+  /****************************************************************************/
 
   private saveNonReorderableElementsOriginalIndices (parent: JQuery) {
     parent.children(Reorder.NON_REORDERABLE_ELEMENT_CLASS)
@@ -130,6 +131,20 @@ export abstract class Reorder implements Technique<Policy> {
         this.childrenInOriginalOrder.set(parentElement, $(parentElement).children());
       }
     }
+  }
+
+  private getSortedChildrenIndices (parent: JQuery): number[] {
+    let type = this.getReorderedElementType();
+
+    return parent
+      .children(`[${AdaptiveElement.TAG_PREFIX}type=${type}]`)
+      .get()
+      .map((element) => {
+        return $(element).index();
+      })
+      .sort((index1, index2) => {
+        return index1 - index2;
+      });
   }
 
   protected reorderAllElements (elements: AdaptiveElement[]) {
@@ -159,6 +174,13 @@ export abstract class Reorder implements Technique<Policy> {
     this.reinsertNonReorderableElements();
   }
 
+  abstract apply (menuManager: MenuManager, policy: Policy, dataManager?: DataManager);
+
+
+  /****************************************************************************/
+  /* Reset technique
+  /****************************************************************************/
+
   reset () {
     // Reinsert all children of parents of reordered elements at their original indices
     for (let [parent, orderedChildNodes] of this.childrenInOriginalOrder.entries()) {
@@ -178,6 +200,4 @@ export abstract class Reorder implements Technique<Policy> {
     // Reset internal fields
     this.nonReorderableElementsInitialIndices.clear();
   }
-
-  abstract apply (menuManager: MenuManager, policy: Policy, dataManager?: DataManager);
 }

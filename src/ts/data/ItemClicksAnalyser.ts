@@ -56,6 +56,11 @@ export class ItemClicksAnalyser extends DataAnalyserModule<ItemClicksAnalysis> {
 
   /****************************************************************** METHODS */
 
+
+  /****************************************************************************/
+  /* Data structures init/copy
+  /****************************************************************************/
+
   private createItemClickAnalysis (): ItemClicksAnalysis {
     return {
       totalNbClicks: 0,
@@ -63,16 +68,6 @@ export class ItemClicksAnalyser extends DataAnalyserModule<ItemClicksAnalysis> {
       itemStats: new Map(),
       groupStats: new Map(),
       currentEventIndex: this.database.getItemClickLogsCurrentIndex()
-    };
-  }
-
-  protected makeAnalysisDeepCopy (analysis: ItemClicksAnalysis): ItemClicksAnalysis {
-    return {
-      totalNbClicks: analysis.totalNbClicks,
-      totalLocalNbClicks: analysis.totalLocalNbClicks,
-      itemStats: new Map(analysis.itemStats),
-      groupStats: new Map(analysis.groupStats),
-      currentEventIndex: analysis.currentEventIndex
     };
   }
 
@@ -101,6 +96,21 @@ export class ItemClicksAnalyser extends DataAnalyserModule<ItemClicksAnalysis> {
       timestamps: []
     };
   }
+
+  protected makeAnalysisDeepCopy (analysis: ItemClicksAnalysis): ItemClicksAnalysis {
+    return {
+      totalNbClicks: analysis.totalNbClicks,
+      totalLocalNbClicks: analysis.totalLocalNbClicks,
+      itemStats: new Map(analysis.itemStats),
+      groupStats: new Map(analysis.groupStats),
+      currentEventIndex: analysis.currentEventIndex
+    };
+  }
+
+
+  /****************************************************************************/
+  /* Stats computation
+  /****************************************************************************/
 
   private updateItemStatsWithClick (log: TableEntry<ItemClickLog>, analysis: ItemClicksAnalysis, clickIsLocal: boolean) {
     let itemID = log.itemID;

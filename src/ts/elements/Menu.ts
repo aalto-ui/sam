@@ -55,23 +55,10 @@ export class Menu extends AdaptiveElement {
       });
   }
 
-  static getAllMenusItems (menus: Menu[]): Item[] {
-    let allMenusItems = [];
-    for (let menu of menus) {
-      allMenusItems = allMenusItems.concat(menu.getAllItems());
-    }
 
-    return allMenusItems;
-  }
-
-  static getAllMenusGroups (menus: Menu[]): ItemGroup[] {
-    let allMenusGroups = [];
-    for (let menu of menus) {
-      allMenusGroups = allMenusGroups.concat(menu.groups);
-    }
-
-    return allMenusGroups;
-  }
+  /****************************************************************************/
+  /* Menu building
+  /****************************************************************************/
 
   // Fill a menu using the given generic item selector
   // This method should be used when there is no group selector (i.e. menus whose group node is the same as the menu node)
@@ -108,6 +95,25 @@ export class Menu extends AdaptiveElement {
 
 
   /*********************************************************** STATIC METHODS */
+
+  static getAllMenusItems (menus: Menu[]): Item[] {
+    let allMenusItems = [];
+    for (let menu of menus) {
+      allMenusItems = allMenusItems.concat(menu.getAllItems());
+    }
+
+    return allMenusItems;
+  }
+
+  static getAllMenusGroups (menus: Menu[]): ItemGroup[] {
+    let allMenusGroups = [];
+    for (let menu of menus) {
+      allMenusGroups = allMenusGroups.concat(menu.groups);
+    }
+
+    return allMenusGroups;
+  }
+
 
   // Build a menu from selectors, with various combinations available depending on the arguments
   // Refer to the specific methods for more details!

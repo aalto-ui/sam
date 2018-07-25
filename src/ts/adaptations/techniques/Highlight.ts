@@ -42,6 +42,11 @@ export class Highlight implements Technique<Policy> {
 
   /****************************************************************** METHODS */
 
+
+  /****************************************************************************/
+  /* Item highlighting
+  /****************************************************************************/
+
   private onNode (node: JQuery, level: HighlightingLevel) {
     node.addClass([Highlight.HIGHLIGHTED_ELEMENT_CLASS, level]);
   }
@@ -56,17 +61,10 @@ export class Highlight implements Technique<Policy> {
     }
   }
 
-  reset () {
-    // Simply remove highlighting and HL level classe
-    let classesToRemove = HIGHLIGHTING_LEVELS_CLASSES;
-    classesToRemove.push(Highlight.HIGHLIGHTED_ELEMENT_CLASS);
 
-    $("." + Highlight.HIGHLIGHTED_ELEMENT_CLASS)
-      .removeClass(classesToRemove);
-
-    // Reset internal fields
-    this.itemsToHighlightAtHighLevel.clear();
-  }
+  /****************************************************************************/
+  /* Apply technique
+  /****************************************************************************/
 
   private getFilteredSortedItemWithScores (menuManager: MenuManager, policy: Policy, dataManager?: DataManager): ItemWithScore[] {
     return policy
@@ -100,14 +98,6 @@ export class Highlight implements Technique<Policy> {
     }
   }
 
-  private splitAndApplyByGroup (items: Item[]) {
-    let topItemsSplitByGroup = Item.splitAllByGroup(items);
-
-    for (let sameGroupItems of topItemsSplitByGroup) {
-      this.applyInGroup(sameGroupItems);
-    }
-  }
-
   private applyInGroup (sameGroupItems: Item[]) {
     // Splice the same group items to only reorder the top ones
     let totalNbGroupItems = sameGroupItems[0].parent.items.length;
@@ -115,6 +105,14 @@ export class Highlight implements Technique<Policy> {
     let topSameGroupItems = sameGroupItems.splice(0, nbTopSameGroupItemsToKeep);
 
     this.onAllItems(topSameGroupItems);
+  }
+
+  private splitAndApplyByGroup (items: Item[]) {
+    let topItemsSplitByGroup = Item.splitAllByGroup(items);
+
+    for (let sameGroupItems of topItemsSplitByGroup) {
+      this.applyInGroup(sameGroupItems);
+    }
   }
 
   apply (menuManager: MenuManager, policy: Policy, dataManager?: DataManager) {
@@ -131,5 +129,22 @@ export class Highlight implements Technique<Policy> {
 
     this.computeItemsToHighlightAtHighLevel(topItemWtihScores);
     this.splitAndApplyByGroup(topItems);
+  }
+
+
+  /****************************************************************************/
+  /* Reset technique
+  /****************************************************************************/
+
+  reset () {
+    // Simply remove highlighting and HL level classe
+    let classesToRemove = HIGHLIGHTING_LEVELS_CLASSES;
+    classesToRemove.push(Highlight.HIGHLIGHTED_ELEMENT_CLASS);
+
+    $("." + Highlight.HIGHLIGHTED_ELEMENT_CLASS)
+      .removeClass(classesToRemove);
+
+    // Reset internal fields
+    this.itemsToHighlightAtHighLevel.clear();
   }
 }

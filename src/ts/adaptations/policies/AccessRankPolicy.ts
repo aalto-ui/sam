@@ -21,6 +21,11 @@ export class AccessRankPolicy extends Policy {
 
   /****************************************************************** METHODS */
 
+
+  /****************************************************************************/
+  /* Sub-scores computation
+  /****************************************************************************/
+
   private computeMarkovScores (items: Item[], itemClicksAnalysis: ItemClicksAnalysis): Map<Item, number> {
     let markovScores = new Map();
 
@@ -144,6 +149,11 @@ export class AccessRankPolicy extends Policy {
 
     return regularityScores;
   }
+
+
+  /****************************************************************************/
+  /* Item scoring and sorting
+  /****************************************************************************/
 
   getSortedItemsWithScores (menuManager: MenuManager, dataManager?: DataManager): ItemWithScore[] {
     let itemClicksAnalysis = dataManager.analyser.getItemClickAnalysis();

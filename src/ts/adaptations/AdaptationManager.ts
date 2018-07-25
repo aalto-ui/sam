@@ -35,6 +35,15 @@ export class AdaptationManager {
 
   /****************************************************************** METHODS */
 
+
+  /****************************************************************************/
+  /* Technique
+  /****************************************************************************/
+
+  getCurrentTechniqueName (): string {
+    return this.currentTechnique.name;
+  }
+
   private setTechnique (name: string) {
     // Look for a technique with the given name
     let technique = AVAILABLE_TECHNIQUES.find((candidateTechnique) => {
@@ -68,10 +77,20 @@ export class AdaptationManager {
     this.setTechnique(techniqueName);
   }
 
-  getCurrentTechniqueName (): string {
-    return this.currentTechnique.name;
+  switchToTechnique (name: string) {
+    this.resetCurrentAdaptation();
+    this.setTechnique(name);
+    this.applyCurrentAdaptation();
   }
 
+
+  /****************************************************************************/
+  /* Policy
+  /****************************************************************************/
+
+  getCurrentPolicyName (): string {
+    return this.currentPolicy.name;
+  }
 
   private setPolicy (name: string) {
     // Look for a policy with the given name
@@ -106,16 +125,21 @@ export class AdaptationManager {
     this.setPolicy(policyName);
   }
 
-  getCurrentPolicyName (): string {
-    return this.currentPolicy.name;
+  switchToPolicy (name: string) {
+    this.resetCurrentAdaptation();
+    this.setPolicy(name);
+    this.applyCurrentAdaptation();
   }
 
+
+  /****************************************************************************/
+  /* Adaptation (technique + policy)
+  /****************************************************************************/
 
   private restoreAdaptationFromDatabaseOrSetDefault () {
     this.restoreTechniqueFromDatabaseOrSetDefault();
     this.restorePolicyFromDatabaseOrSetDefault();
   }
-
 
   applyCurrentAdaptation () {
     this.currentTechnique.apply(this.menuManager, this.currentPolicy, this.dataManager);
@@ -124,19 +148,6 @@ export class AdaptationManager {
 
   resetCurrentAdaptation () {
     this.currentTechnique.reset();
-  }
-
-
-  switchToTechnique (name: string) {
-    this.resetCurrentAdaptation();
-    this.setTechnique(name);
-    this.applyCurrentAdaptation();
-  }
-
-  switchToPolicy (name: string) {
-    this.resetCurrentAdaptation();
-    this.setPolicy(name);
-    this.applyCurrentAdaptation();
   }
 
   switchToAdaptation (techniqueName: string, policyName: string) {

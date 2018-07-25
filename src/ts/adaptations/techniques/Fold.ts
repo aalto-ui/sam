@@ -29,6 +29,11 @@ export class Fold implements Technique<Policy> {
 
   /****************************************************************** METHODS */
 
+
+  /****************************************************************************/
+  /* Folding and unfolding
+  /****************************************************************************/
+
   private unfold (folderNode: JQuery) {
     folderNode.removeClass(Fold.IS_FOLDED_CLASS);
 
@@ -55,6 +60,10 @@ export class Fold implements Technique<Policy> {
   }
 
 
+  /****************************************************************************/
+  /* Fold button
+  /****************************************************************************/
+
   private createSwitchFoldButton (folderNode: JQuery): JQuery {
     let button = $("<button>")
       .addClass(Fold.SWITCH_FOLD_BUTTON_CLASS)
@@ -68,7 +77,6 @@ export class Fold implements Technique<Policy> {
     return button;
   }
 
-
   private createAndAppendFoldButtonToFolder (folderNode: JQuery) {
     let button = this.createSwitchFoldButton(folderNode);
 
@@ -78,6 +86,11 @@ export class Fold implements Technique<Policy> {
       .last()
       .after(button);
   }
+
+
+  /****************************************************************************/
+  /* Apply technique
+  /****************************************************************************/
 
   private makeFolder (items: Item[]) {
     // Tag items as foldables
@@ -96,25 +109,6 @@ export class Fold implements Technique<Policy> {
 
     // By default, start with a folded folder
     this.fold(folderNode);
-  }
-
-  reset () {
-    for (let folderNode of this.folderNodes) {
-      // Remove foldable classes
-      folderNode
-        .find("." + Fold.FOLDABLE_ELEMENT_CLASS)
-        .removeClass(Fold.FOLDER_ELEMENT_CLASS);
-
-      // Remove the switch fold button
-      folderNode
-        .find("." + Fold.SWITCH_FOLD_BUTTON_CLASS)
-        .remove();
-
-      // Remove the folder class
-      folderNode.removeClass(Fold.FOLDER_ELEMENT_CLASS);
-    }
-
-    this.folderNodes = [];
   }
 
   private getMaxNbItemsToDisplayInGroup (nbItemsInGroup: number): number {
@@ -142,5 +136,29 @@ export class Fold implements Technique<Policy> {
     let items = policy.getSortedItems(menuManager, dataManager);
 
     this.splitAndApplyByGroup(items);
+  }
+
+
+  /****************************************************************************/
+  /* Reset technique
+  /****************************************************************************/
+
+  reset () {
+    for (let folderNode of this.folderNodes) {
+      // Remove foldable classes
+      folderNode
+        .find("." + Fold.FOLDABLE_ELEMENT_CLASS)
+        .removeClass(Fold.FOLDER_ELEMENT_CLASS);
+
+      // Remove the switch fold button
+      folderNode
+        .find("." + Fold.SWITCH_FOLD_BUTTON_CLASS)
+        .remove();
+
+      // Remove the folder class
+      folderNode.removeClass(Fold.FOLDER_ELEMENT_CLASS);
+    }
+
+    this.folderNodes = [];
   }
 }

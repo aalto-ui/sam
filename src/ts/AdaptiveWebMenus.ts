@@ -48,6 +48,11 @@ export class AdaptiveWebMenus {
     this.adaptationManager.applyCurrentAdaptation();
   }
 
+
+  /****************************************************************************/
+  /* Menu addition and removal
+  /****************************************************************************/
+
   // Add a menu to the list of menus to adapt
   // The adaptation is automatically updated to take the addition into account
   addMenu (menu: Menu) {

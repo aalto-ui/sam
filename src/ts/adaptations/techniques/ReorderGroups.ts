@@ -23,6 +23,11 @@ export class ReorderGroups extends Reorder {
 
   /****************************************************************** METHODS */
 
+
+  /****************************************************************************/
+  /* Utility
+  /****************************************************************************/
+
   protected getReorderedElementClass (): string {
     return "awm-reordered-group";
   }
@@ -30,6 +35,11 @@ export class ReorderGroups extends Reorder {
   protected getReorderedElementType (): string {
     return ItemGroup.ELEMENT_TYPE;
   }
+
+
+  /****************************************************************************/
+  /* Apply technique
+  /****************************************************************************/
 
   private getFilteredSortedGroups (menuManager: MenuManager, policy: Policy, dataManager?: DataManager): ItemGroup[] {
     return policy

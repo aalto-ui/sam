@@ -40,21 +40,17 @@ export class PageVisitsAnalyser extends DataAnalyserModule<PageVisitsAnalysis> {
 
   /****************************************************************** METHODS */
 
+
+  /****************************************************************************/
+  /* Data structures init/copy
+  /****************************************************************************/
+
   private createPageVisitsAnalysis (): PageVisitsAnalysis {
     return {
       totalNbVisits: 0,
       nbUniquePages: 0,
       pageStats: new Map(),
       currentEventIndex: this.database.getItemClickLogsCurrentIndex()
-    };
-  }
-
-  protected makeAnalysisDeepCopy (analysis: PageVisitsAnalysis): PageVisitsAnalysis {
-    return {
-      totalNbVisits: analysis.totalNbVisits,
-      nbUniquePages: analysis.nbUniquePages,
-      pageStats: new Map(analysis.pageStats),
-      currentEventIndex: analysis.currentEventIndex
     };
   }
 
@@ -74,6 +70,20 @@ export class PageVisitsAnalyser extends DataAnalyserModule<PageVisitsAnalysis> {
       eventIndices: []
     };
   }
+
+  protected makeAnalysisDeepCopy (analysis: PageVisitsAnalysis): PageVisitsAnalysis {
+    return {
+      totalNbVisits: analysis.totalNbVisits,
+      nbUniquePages: analysis.nbUniquePages,
+      pageStats: new Map(analysis.pageStats),
+      currentEventIndex: analysis.currentEventIndex
+    };
+  }
+
+
+  /****************************************************************************/
+  /* Stats computation
+  /****************************************************************************/
 
   private processPageVisitLog (log: TableEntry<PageVisitLog>, analysis: PageVisitsAnalysis) {
     let pageID = log.pageID;

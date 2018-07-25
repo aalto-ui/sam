@@ -43,6 +43,11 @@ export class DebugDisplay {
     this.awm.adaptationManager.switchToPolicy(policyName);
   }
 
+
+  /****************************************************************************/
+  /* Visual controls building
+  /****************************************************************************/
+
   private addControlContainerNode () {
     let controlsContainer = $("<div>")
       .attr("id", "awm-debug-controls-container");
@@ -124,6 +129,10 @@ export class DebugDisplay {
     this.controlsContainerNode.remove();
     this.controlsContainerNode = null;
   }
+
+  /****************************************************************************/
+  /* De-activation of the visual controls
+  /****************************************************************************/
 
   activate () {
     this.activated = true;

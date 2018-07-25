@@ -41,6 +41,29 @@ export class ItemGroup extends AdaptiveElement {
 
   /****************************************************************** METHODS */
 
+  getType (): string {
+    return ItemGroup.ELEMENT_TYPE;
+  }
+
+  // Fill a menu using the given item selector
+  private fillUsingItemSelector (itemSelector: Selector) {
+    let self = this;
+
+    this.node
+      .find(itemSelector)
+      .each((_, element) => {
+        self.items.push(Item.fromSelector(element, self));
+      });
+
+    // The reordering constraint of all (new) items must then be updated
+    this.updateItemsReorderingConstraints();
+  }
+
+
+  /****************************************************************************/
+  /* Reordering constraint
+  /****************************************************************************/
+
   // Return true if all the group items are alphabetically sorted, false otherwise
   isAlphabeticallySorted (): boolean {
     let itemLabels = this.items.map((item) => {
@@ -79,25 +102,6 @@ export class ItemGroup extends AdaptiveElement {
                           ? false
                           : notAlphabeticallySorted;
     }
-  }
-
-
-  getType (): string {
-    return ItemGroup.ELEMENT_TYPE;
-  }
-
-  // Fill a menu using the given item selector
-  private fillUsingItemSelector (itemSelector: Selector) {
-    let self = this;
-
-    this.node
-      .find(itemSelector)
-      .each((_, element) => {
-        self.items.push(Item.fromSelector(element, self));
-      });
-
-    // The reordering constraint of all (new) items must then be updated
-    this.updateItemsReorderingConstraints();
   }
 
 

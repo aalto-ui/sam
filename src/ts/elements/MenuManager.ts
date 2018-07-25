@@ -29,22 +29,9 @@ export class MenuManager {
 
   /****************************************************************** METHODS */
 
-  addMenu (menu: Menu) {
-    this.menus.push(menu);
-  }
-
-  removeMenu (id: MenuID): Menu | null {
-    let removalIndex = this.menus.findIndex((menu) => {
-      return menu.id === id;
-    });
-
-    if (removalIndex === -1) {
-      return null;
-    }
-
-    return this.menus.splice(removalIndex, 1)[0];
-  }
-
+  /****************************************************************************/
+  /* Menu/group/item-related getters
+  /****************************************************************************/
 
   getAllItems (): Item[] {
     return Menu.getAllMenusItems(this.menus);
@@ -68,6 +55,27 @@ export class MenuManager {
 
   getNbMenus (): number {
     return this.getAllMenus().length;
+  }
+
+
+  /****************************************************************************/
+  /* Menu addition and removal
+  /****************************************************************************/
+
+  addMenu (menu: Menu) {
+    this.menus.push(menu);
+  }
+
+  removeMenu (id: MenuID): Menu | null {
+    let removalIndex = this.menus.findIndex((menu) => {
+      return menu.id === id;
+    });
+
+    if (removalIndex === -1) {
+      return null;
+    }
+
+    return this.menus.splice(removalIndex, 1)[0];
   }
 
 

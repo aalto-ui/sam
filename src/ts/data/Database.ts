@@ -74,6 +74,11 @@ export class Database {
 
   /****************************************************************** METHODS */
 
+
+  /****************************************************************************/
+  /* Init/reset
+  /****************************************************************************/
+
   // Initialize the database contentrom
   // It first init the content with default values,
   // and then replace it with anything that can be loaded from loca storage
@@ -114,6 +119,11 @@ export class Database {
     this.clearLocalStorageData();
   }
 
+
+  /****************************************************************************/
+  /* Revision
+  /****************************************************************************/
+
   // Return the current revision of the database data
   getCurrentRevision (): DatabaseRevision {
     return this.currentRevision;
@@ -123,6 +133,11 @@ export class Database {
   isRevisionUpToDate (revision: DatabaseRevision): boolean {
     return this.currentRevision === revision;
   }
+
+
+  /****************************************************************************/
+  /* Item click logging
+  /****************************************************************************/
 
   getItemClickLogs (): ReadonlyArray<TableEntry<ItemClickLog>> {
     return this.tables.itemClicks.entries;
@@ -144,6 +159,11 @@ export class Database {
     return this.currentRevision;
   }
 
+
+  /****************************************************************************/
+  /* Page visit logging
+  /****************************************************************************/
+
   getPageVisitLogs (): ReadonlyArray<TableEntry<PageVisitLog>> {
     return this.tables.pageVisits.entries;
   }
@@ -163,6 +183,11 @@ export class Database {
     this.currentRevision += 1;
     return this.currentRevision;
   }
+
+
+  /****************************************************************************/
+  /* Local storage management & saving/loading
+  /****************************************************************************/
 
   // Group all persistent data to save, and stringify it to JSON
   private packDataToJSON (): string {
@@ -225,6 +250,11 @@ export class Database {
 
     window.localStorage.removeItem(Database.LOCAL_STORAGE_KEY);
   }
+
+
+  /****************************************************************************/
+  /* Page unload handling
+  /****************************************************************************/
 
   // Start listening for page unload events
   private startListeningForPageUnload () {
