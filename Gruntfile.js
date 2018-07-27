@@ -58,7 +58,22 @@ module.exports = function (grunt) {
       options: {
         compress: true
       }
-    }
+    },
+
+    // Making documentation task
+    // It generates the whole documentation of the library from the sources.
+    typedoc: {
+  		build: {
+  			options: {
+  				module: "commonjs",
+  				out: "./doc",
+  				name: "Adaptive Web Menus",
+  				target: "ES6"
+  			},
+
+  			src: ["./src/ts/**/*.ts"]
+  		}
+  	}
   });
 
 
@@ -70,14 +85,15 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks("grunt-ts");
   grunt.loadNpmTasks("grunt-contrib-uglify-es");
   grunt.loadNpmTasks("grunt-browserify");
-
+  grunt.loadNpmTasks("grunt-typedoc");
 
   /***************************************************************************/
   /* Task registering
   /***************************************************************************/
 
   grunt.registerTask("clean", "Remove the 'build' directory, as well as temporary/caching directories.", "exec:clean");
-  grunt.registerTask("build", "Compile the Typescript sources and copy other useful files into a 'build' directory.", ["ts", "exec:copyCSS"])
+  grunt.registerTask("build", "Compile the Typescript sources and copy other useful files into a 'build' directory.", ["ts", "exec:copyCSS"]);
+  grunt.registerTask("doc", "Generates the documentation of the library.", "typedoc");
 
   // The default task should build the whole library,
   // and create both a typed library and a standalone script for webpages.

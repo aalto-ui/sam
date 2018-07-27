@@ -29,6 +29,7 @@
 		"grunt-contrib-uglify-es": "^3.3.0",
 		"grunt-exec": "^3.0.0",
 		"grunt-ts": "^6.0.0-beta",
+		"grunt-typedoc": "^0.2.4",
 		"typedoc": "^0.11.1",
 		"typescript": "^2.9.2",
 		"uglify-es": "^3.3.9"
