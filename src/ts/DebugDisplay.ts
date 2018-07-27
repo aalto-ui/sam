@@ -1,6 +1,6 @@
 import * as $ from "jquery";
 import { AdaptiveWebMenus } from "./AdaptiveWebMenus";
-import { AVAILABLE_TECHNIQUE_NAMES, AVAILABLE_POLICY_NAMES } from "./adaptations/AvailableAdaptations";
+import { AVAILABLE_TECHNIQUE_NAMES, AVAILABLE_POLICY_NAMES } from "./adaptations/AdaptationManager";
 
 
 export class DebugDisplay {
