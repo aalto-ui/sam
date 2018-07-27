@@ -2,6 +2,7 @@ import * as $ from "jquery";
 import { AdaptiveElement, Selector } from "./AdaptiveElement";
 import { ItemGroup } from "./ItemGroup";
 import { Utilities, PageID } from "../Utilities";
+import { Reorder } from "../adaptations/techniques/Reorder";
 
 
 export type ItemID = string;
@@ -29,7 +30,7 @@ export class Item extends AdaptiveElement {
     super(node, selector, parent);
 
     this.canBeReordered = true;
-    if (node.hasClass("awm-no-reordering")) {
+    if (node.hasClass(Reorder.NON_REORDERABLE_ELEMENT_CLASS)) {
       this.canBeReordered = false;
     }
   }

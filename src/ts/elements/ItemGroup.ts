@@ -1,6 +1,7 @@
 import { AdaptiveElement, Selector, NO_SELECTOR, NoSelector } from "./AdaptiveElement";
 import { Item } from "./Item";
 import { Menu } from "./Menu";
+import { Reorder } from "../adaptations/techniques/Reorder";
 
 
 export type GroupID = string;
@@ -33,7 +34,7 @@ export class ItemGroup extends AdaptiveElement {
     this.items = items;
 
     this.canBeReordered = true;
-    if (node.hasClass("awm-no-reordering")) {
+    if (node.hasClass(Reorder.NON_REORDERABLE_ELEMENT_CLASS)) {
       this.canBeReordered = false;
     }
   }
@@ -92,13 +93,13 @@ export class ItemGroup extends AdaptiveElement {
   }
 
   // Update the reordering constraints (canBeReordered) of all the group items, such that:
-  // - Any individual item with the awm-no-reordering class will not be reorderable
-  // - All other item will be reorderable, EXCEPT if all items are alphabetically ordered
+  // - Any item which was set as non-reorderable remains so
+  // - All other item remain reorderable, EXCEPT if all items are alphabetically ordered
   updateItemsReorderingConstraints () {
     let notAlphabeticallySorted = ! this.isAlphabeticallySorted();
 
     for (let item of this.items) {
-      item.canBeReordered = item.node.hasClass("awm-no-reordering")
+      item.canBeReordered = item.canBeReordered
                           ? false
                           : notAlphabeticallySorted;
     }
