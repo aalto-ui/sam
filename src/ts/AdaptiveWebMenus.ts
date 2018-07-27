@@ -12,21 +12,40 @@ export class AdaptiveWebMenus {
 
   /*************************************************************** PROPERTIES */
 
-  // Adaptive menu manager
+  /**
+   * Menu manager single instance of the library.
+   */
   private readonly menuManager: MenuManager;
 
-  // Data manager
+  /**
+   * Data manager single instance of the library.
+   */
   private readonly dataManager: DataManager;
 
-  // Adaptation manager
+  /**
+   * Adaptation manager single instance of the library.
+   */
   readonly adaptationManager: AdaptationManager;
 
-  // Debug display
+  /**
+   * Debug display single instance of the library.
+   */
   private readonly debugDisplay: DebugDisplay;
 
 
   /************************************************************** CONSTRUCTOR */
 
+  /**
+   * Create a new instance of the AWM library.
+   * This constructor is mainly meant for internal use only:
+   * for external uses, use static _builder methods_ instead.
+   *
+   * Note: no more than one instance should be instanciated at the same time;
+   *       running more at once may result in unexpected behaviours.
+   *
+   * @param menuManager The menu manager instance to use.
+   * @param debug       Control the debug display (activated on `true`).
+   */
   constructor (menuManager: MenuManager, debug: boolean = true) {
     this.menuManager = menuManager;
 
@@ -41,6 +60,9 @@ export class AdaptiveWebMenus {
 
   /****************************************************************** METHODS */
 
+  /**
+   * Clear all the recorded history, and update the current adaptation.
+   */
   clearHistory () {
     this.dataManager.database.empty();
 
@@ -53,8 +75,11 @@ export class AdaptiveWebMenus {
   /* Menu addition and removal
   /****************************************************************************/
 
-  // Add a menu to the list of menus to adapt
-  // The adaptation is automatically updated to take the addition into account
+  /**
+   * Add a new adaptive menus, and update the current adaptation.
+   *
+   * @param  menu The menu to add.
+   */
   addMenu (menu: Menu) {
     this.adaptationManager.resetCurrentAdaptation();
 
@@ -66,9 +91,12 @@ export class AdaptiveWebMenus {
     this.adaptationManager.applyCurrentAdaptation();
   }
 
-  // Remove the menu with the given menu ID from the list of menus to adapt
-  // The adaptation is automatically updated to take the removal into account
-  // If no menu is found with the given ID, nothing happens
+  /**
+   * Remove the adaptive menu with the given menu ID, and update the current adaptation.
+   * If there is no match for the given ID, nothing happens.
+   *
+   * @param  id The ID of the menu to remove.
+   */
   removeMenu (id: MenuID) {
     this.adaptationManager.resetCurrentAdaptation();
 
@@ -85,10 +113,43 @@ export class AdaptiveWebMenus {
 
   /*********************************************************** STATIC METHODS */
 
-  // Create an AWM instance from the given selectors
-  // Refer to the specific methods for more details!
+  /**
+   * Build an AWM instance from a single menu forming a single group.
+   *
+   * The menu node will also be the item group node.
+   * Item nodes are only searched inside the menu node.
+   *
+   * @param  menuSelector Selector of the menu (and group) node.
+   * @param  itemSelector Selector of all item nodes.
+   * @return              A new instance of the AWM library.
+   */
   static fromSelectors (menuSelector: Selector, itemSelector: Selector): AdaptiveWebMenus;
+
+  /**
+   * Build an AWM instance from a single menu, using generic selectors.
+   *
+   * The menu node cannot be a group node itself (see [[fromSelectors]] variant).
+   * Group nodes are only searched inside the menu node.
+   * Item nodes are only searched inside the group node.
+   *
+   * @param  menuSelector  Selector of the menu node.
+   * @param  groupSelector Selector of all group nodes.
+   * @param  itemSelector  Selector of all item nodes.
+   * @return               A new instance of the AWM library.
+   */
   static fromSelectors (menuSelector: Selector, groupSelector: Selector, itemSelector: Selector): AdaptiveWebMenus;
+
+  /**
+   * Build an AWM instance from a single menu, using specific selectors.
+   * See [[MenuSelectors]] definition for details on the expected object structure.
+   *
+   * The menu node cannot be a group node itself (see [[fromSelectors]] variant).
+   * Group nodes are only searched inside the menu node.
+   * Item nodes are only searched inside the group node.
+   *
+   * @param  selectors  Selectors of all menus, groups and items.
+   * @return            A new instance of the AWM library.
+   */
   static fromSelectors (selectors: MenuSelectors): AdaptiveWebMenus;
 
   static fromSelectors (selector1: Selector | MenuSelectors, selector2?: Selector, selector3?: Selector): AdaptiveWebMenus {
@@ -116,8 +177,16 @@ export class AdaptiveWebMenus {
     }
   }
 
-  // Create an AWM instance from standard AWM classes selectors
-  // The related classes are defined as static properties of related AdaptiveElements
+  /**
+   * Build an AWM instance using standard AWM classes as selectors.
+   * See [[Menu]], [[ItemGroup]] and [[Item]] for the standard classes definition.
+   *
+   * The menu node cannot be a group node itself (use [[fromSelectors]]).
+   * Group nodes are only searched inside the menu node.
+   * Item nodes are only searched inside the group node.
+   *
+   * @return A new instance of the AWM library.
+   */
   static fromAWMClasses (): AdaptiveWebMenus {
     let menuSelector = "." + Menu.AWM_CLASS;
     let groupSelector = "." + ItemGroup.AWM_CLASS;

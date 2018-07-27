@@ -11,20 +11,36 @@ export class Menu extends AdaptiveElement {
 
   /*************************************************************** PROPERTIES */
 
-  // Standard AWM class for menus
+  /**
+   * Standard HTML class for menu elements.
+   */
   static readonly AWM_CLASS: string = "awm-menu";
 
-  // Type of the element
+  /**
+   * Type of menu element.
+   */
   static readonly ELEMENT_TYPE: string = "menu";
 
+  /**
+   * `null` since a menu always has no parent.
+   */
   readonly parent: null;
 
-  // Ordered list of menu item groups
+  /**
+   * List of all the menu groups.
+   */
   readonly groups: ItemGroup[];
 
 
   /************************************************************** CONSTRUCTOR */
 
+  /**
+   * Creates a new instance of menu.
+   *
+   * @param node     The node of the element.
+   * @param selector The selector used to find the element node.
+   * @param groups   A list of the menu groups.
+   */
   constructor (node: JQuery, selector: Selector, groups: ItemGroup[] = []) {
     super(node, selector);
 
@@ -38,6 +54,11 @@ export class Menu extends AdaptiveElement {
     return Menu.ELEMENT_TYPE;
   }
 
+  /**
+   * Return a list of all the menu items.
+   *
+   * @return A list of all items.
+   */
   getAllItems (): Item[] {
     let items = [];
     for (let group of this.groups) {
@@ -47,6 +68,11 @@ export class Menu extends AdaptiveElement {
     return items;
   }
 
+  /**
+   * Return a list of all the menu item nodes.
+   *
+   * @return A list of all item nodes.
+   */
   getAllItemNodes (): JQuery[] {
     return this
       .getAllItems()

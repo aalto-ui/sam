@@ -16,12 +16,19 @@ export class MenuManager {
 
   /*************************************************************** PROPERTIES */
 
-  // List of adaptive menus
+  /**
+   * List of all adaptive menus.
+   */
   private readonly menus: Menu[];
 
 
   /************************************************************** CONSTRUCTOR */
 
+  /**
+   * Create a new instance of menu manager.
+   *
+   * @param menus A list of adaptive menus to use.
+   */
   constructor (menus: Menu[] = []) {
     this.menus = menus;
   }
@@ -33,26 +40,56 @@ export class MenuManager {
   /* Menu/group/item-related getters
   /****************************************************************************/
 
+  /**
+   * Get all the items of all adaptive menus.
+   *
+   * @return A list of all the items.
+   */
   getAllItems (): Item[] {
     return Menu.getAllMenusItems(this.menus);
   }
 
+  /**
+   * Get the number of items of all adaptive menus.
+   *
+   * @return The total number of items.
+   */
   getNbItems (): number {
     return this.getAllItems().length;
   }
 
+  /**
+   * Get all the groups of all adaptive menus.
+   *
+   * @return A list of all the groups.
+   */
   getAllGroups (): ItemGroup[] {
     return Menu.getAllMenusGroups(this.menus);
   }
 
+  /**
+   * Get the number of groups of all adaptive menus.
+   *
+   * @return The total number of groups.
+   */
   getNbGroups (): number {
     return this.getAllGroups().length;
   }
 
+  /**
+   * Get all the adaptive menus.
+   *
+   * @return A list of all the menus.
+   */
   getAllMenus (): Menu[] {
     return this.menus;
   }
 
+  /**
+   * Get the number of adaptive menus.
+   *
+   * @return The total number of menus.
+   */
   getNbMenus (): number {
     return this.getAllMenus().length;
   }
@@ -62,10 +99,22 @@ export class MenuManager {
   /* Menu addition and removal
   /****************************************************************************/
 
+  /**
+   * Add a new adaptive menu.
+   *
+   * @param  menu The menu to add.
+   */
   addMenu (menu: Menu) {
     this.menus.push(menu);
   }
 
+  /**
+   * Remove an adaptive menu.
+   * If there is no match with the given ID, return `null`.
+   *
+   * @param  id The ID of the menu to remove.
+   * @return    The removed menu, or `null` if it could not be found.
+   */
   removeMenu (id: MenuID): Menu | null {
     let removalIndex = this.menus.findIndex((menu) => {
       return menu.id === id;

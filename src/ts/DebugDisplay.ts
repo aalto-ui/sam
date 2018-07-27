@@ -7,18 +7,30 @@ export class DebugDisplay {
 
   /*************************************************************** PROPERTIES */
 
-  // Related instance of the library
+  /**
+   * AWM library instance owning this debug display instance.
+   */
   private readonly awm: AdaptiveWebMenus;
 
-  // State of the debug display
+  /**
+   * Flag indicating whether the debug display is activated or not.
+   */
   private activated: boolean;
 
-  // Referene to the control container node
+  /**
+   * Node containing all the debug displayed controls.
+   */
   private controlsContainerNode: JQuery;
 
 
   /************************************************************** CONSTRUCTOR */
 
+  /**
+   * Creates a new instance of debug display.
+   *
+   * @param awm      AWM library instance owning this debug display.
+   * @param activate Control the debug display (activated on `true`).
+   */
   constructor (awm: AdaptiveWebMenus, activate: boolean = true) {
     this.awm = awm;
     this.controlsContainerNode = null;
@@ -31,12 +43,18 @@ export class DebugDisplay {
 
   /****************************************************************** METHODS */
 
+  /**
+   * Update the adaptation technique from the selected one.
+   */
   private updateTechnique () {
     let techniqueName = $("#awm-debug-switch-technique-menu").val() as string;
 
     this.awm.adaptationManager.switchToTechnique(techniqueName);
   }
 
+  /**
+   * Update the adatation policy from the selected one.
+   */
   private updatePolicy () {
     let policyName = $("#awm-debug-switch-policy-menu").val() as string;
 
@@ -48,6 +66,9 @@ export class DebugDisplay {
   /* Visual controls building
   /****************************************************************************/
 
+  /**
+   * Create a container for the debug display, and prepend it to the page body.
+   */
   private addControlContainerNode () {
     let controlsContainer = $("<div>")
       .attr("id", "awm-debug-controls-container");
@@ -56,6 +77,9 @@ export class DebugDisplay {
     this.controlsContainerNode = controlsContainer;
   }
 
+  /**
+   * Create a list of adaptation techniques, and append it to the container.
+   */
   private addTechniqueListNode () {
     this.controlsContainerNode
       .append($("<label>")
@@ -82,6 +106,9 @@ export class DebugDisplay {
     }
   }
 
+  /**
+   * Create a list of adaptation policies, and append it to the container.
+   */
   private addPolicyListNode () {
     this.controlsContainerNode
       .append($("<label>")
@@ -108,6 +135,9 @@ export class DebugDisplay {
     }
   }
 
+  /**
+   * Create a button to clear the history, and append it to the container.
+   */
   private addClearHistoryButtonNode () {
     this.controlsContainerNode
       .append($("<button>")
@@ -118,6 +148,10 @@ export class DebugDisplay {
       }));
   }
 
+  /**
+   * Create and append the container and all its controls.
+   * This will display the full debug display panel on the page.
+   */
   private addAllControls () {
     this.addControlContainerNode();
     this.addTechniqueListNode();
@@ -125,6 +159,10 @@ export class DebugDisplay {
     this.addClearHistoryButtonNode();
   }
 
+  /**
+   * Remove the container and all its controls from the page.
+   * This will remove the full debug display panel from the page.
+   */
   private removeAllControls () {
     this.controlsContainerNode.remove();
     this.controlsContainerNode = null;
@@ -134,11 +172,17 @@ export class DebugDisplay {
   /* De-activation of the visual controls
   /****************************************************************************/
 
+  /**
+   * Activate the debug display, and display the debug display panel.
+   */
   activate () {
     this.activated = true;
     this.addAllControls();
   }
 
+  /**
+   * Desactivate the debug display, and hide the debug display panel.
+   */
   desactivate () {
     this.activated = false;
     this.removeAllControls();

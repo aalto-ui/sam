@@ -11,23 +11,45 @@ export class ItemGroup extends AdaptiveElement {
 
   /*************************************************************** PROPERTIES */
 
-  // Standard AWM class for groups
+  /**
+   * Standard HTML class for group elements.
+   */
   static readonly AWM_CLASS: string = "awm-group";
 
-  // Type of the element
+  /**
+   * Type of group elements.
+   */
   static readonly ELEMENT_TYPE: string = "group";
 
+  /**
+   * Menu element owning the item.
+   */
   readonly parent: Menu;
 
-  // Ordered list of menu items
+  /**
+   * List of all the group items.
+   */
   readonly items: Item[];
 
-  // Flag indicating whether the group can be reordered or not
+  /**
+   * Flag indicating whether the item can be reordered or not.
+   */
   canBeReordered: boolean;
 
 
   /************************************************************** CONSTRUCTOR */
 
+  /**
+   * Create a new instance of group.
+   *
+   * If the given node has the [[Reorder.NON_REORDERABLE_ELEMENT_CLASS]] class,
+   * the group will be marked as non-reorderable.
+   *
+   * @param node     The node of the element.
+   * @param selector The selector used to find the element node.
+   * @param parent   The parent menu.
+   * @param items    A list of the group items.
+   */
   constructor (node: JQuery, selector: Selector | NoSelector, parent: Menu, items: Item[] = []) {
     super(node, selector, parent);
 
@@ -46,7 +68,13 @@ export class ItemGroup extends AdaptiveElement {
     return ItemGroup.ELEMENT_TYPE;
   }
 
-  // Fill a menu using the given item selector
+  /**
+   * Create item from the given selector, and add them all to the group.
+   *
+   * Item nodes are only searched inside the group node.
+   *
+   * @param  itemSelector The selector for all item elements.
+   */
   private fillUsingItemSelector (itemSelector: Selector) {
     let self = this;
 
@@ -65,7 +93,12 @@ export class ItemGroup extends AdaptiveElement {
   /* Reordering constraint
   /****************************************************************************/
 
-  // Return true if all the group items are alphabetically sorted, false otherwise
+  /**
+   * Test whether the group items are alphabetically sorted.
+   * Character case and punctation are ignored (see _localCompare_ details).
+   *
+   * @return `true` if they are sorted, `false` otherwise.
+   */
   isAlphabeticallySorted (): boolean {
     let itemLabels = this.items.map((item) => {
       return item.node.text();
@@ -92,9 +125,11 @@ export class ItemGroup extends AdaptiveElement {
     });
   }
 
-  // Update the reordering constraints (canBeReordered) of all the group items, such that:
-  // - Any item which was set as non-reorderable remains so
-  // - All other item remain reorderable, EXCEPT if all items are alphabetically ordered
+  /**
+   * Update the reordering constraints of all the group items, such that:
+   * - any item which already is non-reorderable remains so;
+   * - all other item remain reorderable, _except_ if all items are alphabetically ordered.
+   */
   updateItemsReorderingConstraints () {
     let notAlphabeticallySorted = ! this.isAlphabeticallySorted();
 
