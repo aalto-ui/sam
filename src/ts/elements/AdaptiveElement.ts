@@ -99,18 +99,6 @@ export abstract class AdaptiveElement {
   }
 
   /**
-   * Get the value of a tag of the given node.
-   * Note: the prefix is automatically prepended to the tag name.
-   *
-   * @param  node The tagged node (with the attribute).
-   * @param  name The name of the tag (without the prefix).
-   * @return      The value of the tag, or `undefined` if the tag was not found.
-   */
-  static getNodeTag (node: JQuery, name: string): string | undefined {
-    return node.attr(AdaptiveElement.TAG_PREFIX + name);
-  }
-
-  /**
    * Call [[getNodeTag]] on the element node.
    *
    * @param  name The name of the tag (without the prefix).
@@ -127,8 +115,41 @@ export abstract class AdaptiveElement {
     this.tag("type", this.getType());
   }
 
+  /**
+   * Call [[nodeToSelector]] on the element node.
+   *
+   * @return The element selector.
+   */
+  getSelector (): string {
+    return AdaptiveElement.nodeToSelector(this.node);
+  }
+
+  /**
+   * Get the ID of the element, which should uniquely identify it.
+   *
+   * It is formed by the element type followed by the element selector,
+   * with a slash ("/") in between.
+   *
+   * @return The element ID.
+   */
+  private getID (): string {
+    return this.getType() + "/" + this.getSelector();
+  }
+
 
   /*********************************************************** STATIC METHODS */
+
+  /**
+   * Get the value of a tag of the given node.
+   * Note: the prefix is automatically prepended to the tag name.
+   *
+   * @param  node The tagged node (with the attribute).
+   * @param  name The name of the tag (without the prefix).
+   * @return      The value of the tag, or `undefined` if the tag was not found.
+   */
+  static getNodeTag (node: JQuery, name: string): string | undefined {
+    return node.attr(AdaptiveElement.TAG_PREFIX + name);
+  }
 
   /**
    * Return a standalone jQuery string selector for the given node,
@@ -169,26 +190,5 @@ export abstract class AdaptiveElement {
     let index = node.index();
 
     return AdaptiveElement.nodeToSelector(node.parent()) + ` > ${tag}:eq(${index})`;
-  }
-
-  /**
-   * Call [[nodeToSelector]] on the element node.
-   *
-   * @return The element selector.
-   */
-  getSelector (): string {
-    return AdaptiveElement.nodeToSelector(this.node);
-  }
-
-  /**
-   * Get the ID of the element, which should uniquely identify it.
-   *
-   * It is formed by the element type followed by the element selector,
-   * with a slash ("/") in between.
-   *
-   * @return The element ID.
-   */
-  private getID (): string {
-    return this.getType() + "/" + this.getSelector();
   }
 }
