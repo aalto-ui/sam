@@ -33,6 +33,11 @@ export class PageVisitsAnalyser extends DataAnalyserModule<PageVisitsAnalysis> {
 
   /************************************************************** CONSTRUCTOR */
 
+  /**
+   * Create a new instance of page visits analyser.
+   *
+   * @param database The database where to fetch data to analyse.
+   */
   constructor (database: Database) {
     super(database);
   }
@@ -45,6 +50,11 @@ export class PageVisitsAnalyser extends DataAnalyserModule<PageVisitsAnalysis> {
   /* Data structures init/copy
   /****************************************************************************/
 
+  /**
+   * Create an initialized page visits analysis object.
+   *
+   * @return A fresh page visits analysis object.
+   */
   private createPageVisitsAnalysis (): PageVisitsAnalysis {
     return {
       totalNbVisits: 0,
@@ -54,7 +64,11 @@ export class PageVisitsAnalyser extends DataAnalyserModule<PageVisitsAnalysis> {
     };
   }
 
-
+  /**
+   * Create an initialized page stats object.
+   *
+   * @return A fresh page stats object.
+   */
   private createPageStats (): PageStats {
     return {
       nbVisits: 0,
@@ -71,6 +85,13 @@ export class PageVisitsAnalyser extends DataAnalyserModule<PageVisitsAnalysis> {
     };
   }
 
+  /**
+   * Make a deep copy of the given analysis.
+   * Overriden method with a manual field-by-field copy (to handle Map objets).
+   *
+   * @param  analysis The analysis top copy.
+   * @return          A deep copy of the given analysis.
+   */
   protected makeAnalysisDeepCopy (analysis: PageVisitsAnalysis): PageVisitsAnalysis {
     return {
       totalNbVisits: analysis.totalNbVisits,
@@ -85,6 +106,12 @@ export class PageVisitsAnalyser extends DataAnalyserModule<PageVisitsAnalysis> {
   /* Stats computation
   /****************************************************************************/
 
+  /**
+   * Update an analysis by processing the given page visit log.
+   *
+   * @param  log      The page visit log to process.
+   * @param  analysis The analysis to update.
+   */
   private processPageVisitLog (log: TableEntry<PageVisitLog>, analysis: PageVisitsAnalysis) {
     let pageID = log.pageID;
     let pageHasAlreadyBeenSeen = analysis.pageStats.has(pageID);
@@ -117,12 +144,25 @@ export class PageVisitsAnalyser extends DataAnalyserModule<PageVisitsAnalysis> {
     pageStats.eventIndices.push(log.index);
   }
 
+  /**
+   * Update an analysis by computing the page visit frequencies, for each page with stats.
+   *
+   * This method must only be called once all page visit logs have been processed.
+   *
+   * @param  analysis The analysis to update with frequencies.
+   */
   private computeFrequencies (analysis: PageVisitsAnalysis) {
     for (let pageStats of analysis.pageStats.values()) {
       pageStats.visitFrequency = pageStats.nbVisits / analysis.totalNbVisits;
     }
   }
 
+  /**
+   * Create, compute and return a fresh page visits analysis,
+   * by processing all page visit logs of the database.
+   *
+   * @return An up-to-date analysis of the database page visit logs.
+   */
   protected computeAnalysis (): PageVisitsAnalysis {
     // Get the required data
     let pageVisitLogs = this.database.getPageVisitLogs();

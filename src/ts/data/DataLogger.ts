@@ -27,19 +27,32 @@ export class DataLogger {
 
   /*************************************************************** PROPERTIES */
 
-  // The database to use for logging
+  /**
+   * Database where to store logged data.
+   */
   private readonly database: Database;
 
-  // Timestamp on page load
+  /**
+   * Timestamp of the page load.
+   * This is required to measure the visit duration on page leave.
+   */
   private readonly pageLoadTimestamp: number;
 
-  // Map from item IDs to (on)click callbacks
-  // (references to callbacks are required to detach an event handler)
+  /**
+   * Map from item IDs to onclick callbacks attached to them.
+   * This is required to detach such handlers from the item nodes if need be.
+   */
   private readonly itemClickCallbacks: Map<string, (event) => void>;
 
 
   /************************************************************** CONSTRUCTOR */
 
+  /**
+   * Create a new instance of data logger.
+   *
+   * @param database    The database where to store logged data.
+   * @param menuManager The menu manager with menu items to start watching.
+   */
   constructor (database: Database, menuManager: MenuManager) {
     this.database = database;
     this.pageLoadTimestamp = Date.now();
@@ -51,6 +64,11 @@ export class DataLogger {
 
   /****************************************************************** METHODS */
 
+  /**
+   * Start logging item clicks and page visits.
+   *
+   * @param  menuManager The menu manager with menu items to watch.
+   */
   init (menuManager: MenuManager) {
     this.startListeningForAllMenusItemClicks(menuManager);
     this.startListeningForPageBeforeUnload();
@@ -61,6 +79,11 @@ export class DataLogger {
   /* Item click handling
   /****************************************************************************/
 
+  /**
+   * Start logging clicks on the nodes of the given items.
+   *
+   * @param  items The items to start watching.
+   */
   startListeningForItemClicks (items: Item[]) {
     let self = this;
 
@@ -74,6 +97,11 @@ export class DataLogger {
     }
   }
 
+  /**
+   * Stop logging clicks on the nodes of the given items.
+   *
+   * @param  items The items to stop watching.
+   */
   stopListeningForItemClicks (items: Item[]) {
     for (let item of items) {
       let callback = this.itemClickCallbacks.get(item.id);
@@ -83,26 +111,52 @@ export class DataLogger {
     }
   }
 
+  /**
+   * Start logging clicks on the nodes of all the items of the given menu.
+   *
+   * @param  menu The menu containing items to start watching.
+   */
   startListeningForMenuItemClicks (menu: Menu) {
     let items = menu.getAllItems();
     this.startListeningForItemClicks(items);
   }
 
+  /**
+   * Stop logging clicks on the nodes of all the items of the given menu.
+   *
+   * @param  menu The menu containing items to stop watching.
+   */
   stopListeningForMenuItemClicks (menu: Menu) {
     let items = menu.getAllItems();
     this.stopListeningForItemClicks(items);
   }
 
+  /**
+   * Start logging clicks on the nodes of all the items of all menus.
+   *
+   * @param  menuManager The menu manager handling all the items to start watching.
+   */
   startListeningForAllMenusItemClicks (menuManager: MenuManager) {
     let items = menuManager.getAllItems();
     this.startListeningForItemClicks(items);
   }
 
+  /**
+   * Stop logging clicks on the nodes of all the items of all menus.
+   *
+   * @param  menuManager The menu manager handling all the items to stop watching.
+   */
   stopListeningForAllMenusItemClicks (menuManager: MenuManager) {
     let items = menuManager.getAllItems();
     this.stopListeningForItemClicks(items);
   }
 
+  /**
+   * Handle an item click (`click` event) by logging it into the database.
+   *
+   * @param  event The `click` event issued on the item node click.
+   * @param  item  The clicked item.
+   */
   onMenuItemClick (event: JQuery.Event, item: Item) {
     this.database.logItemClick({
       itemID: item.id,
@@ -118,6 +172,9 @@ export class DataLogger {
   /* Page beforeunload handling
   /****************************************************************************/
 
+  /**
+   * Start logging the current page visit by listening for a `beforeunload` event.
+   */
   startListeningForPageBeforeUnload () {
     let self = this;
 
@@ -126,6 +183,11 @@ export class DataLogger {
     });
   }
 
+  /**
+   * Handle a page leave (`beforeunload event) by logging the visit into the database.
+   *
+   * @param  event The `beforeunload` event issued on the page leave.
+   */
   onPageBeforeUnload (event: JQuery.Event) {
     this.database.logPageVisit({
       timestamp: this.pageLoadTimestamp,

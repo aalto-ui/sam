@@ -9,16 +9,30 @@ export abstract class DataAnalyserModule<A extends Analysis> {
 
   /*************************************************************** PROPERTIES */
 
-  // The database to fetch data from, and the revision of the latest data fetched
+  /**
+   * Database where to fetch data to analyse (and the revisions).
+   */
   protected readonly database: Database;
 
-  // Cached version of the last analysis, and related source database revision
+  /**
+   * Cached version of the last analysis produced by the module.
+   * Before the first analysis computation, it is set to `null`.
+   */
   private cachedAnalysis: A | null;
+
+  /**
+   * Database revision of the data used to compute the cached analysis.
+   */
   private cachedAnalysisContentRevision: number;
 
 
   /************************************************************** CONSTRUCTOR */
 
+  /**
+   * Create a new instance of data analyser module.
+   *
+   * @param database The database where to fetch data to analyse.
+   */
   constructor (database: Database) {
     this.database = database;
 
@@ -29,28 +43,45 @@ export abstract class DataAnalyserModule<A extends Analysis> {
 
   /****************************************************************** METHODS */
 
-  // Return true if there has not been any analysis done yet,
-  // or if the cached version is outdated and needs to be recomputed
-  // Otherwise, return false
+  /**
+   * Test whether the analysis needs to be updated (computed anew):
+   * - If no analysis has been computed yet;
+   * - Or if the revision has changed since the last cached analysis computation.
+   *
+   * @return `true` if it needs to be updated, `false` otherwise.
+   */
   private needsAnalysisUpdate (): boolean {
     return this.cachedAnalysis === null
         || this.cachedAnalysisContentRevision !== this.database.getCurrentRevision();
   }
 
-  // Update the content revision with the current one of the database
+  /**
+   * Update the revision asssociated with the last cached analysis,
+   * using the current revision of the database.
+   */
   private updateContentRevision () {
     this.cachedAnalysisContentRevision = this.database.getCurrentRevision();
   }
 
-  // Return a deep copy of the given analysis
-  // This method should be overidden by concrete child classes with special needs,
-  // e.g. to make deep copies of data structures not handled by JSON (de)serialization
+  /**
+   * Make a deep copy of the given analysis.
+   *
+   * This method should be overidden by any concrete analyser module if need be,
+   * e.g. to make deep copies of data structures not handled by
+   * the JSON (de)serialization copy technique implemented by default.
+   *
+   * @param  analysis The analysis to copy.
+   * @return          A deep copy of the given analysis.
+   */
   protected makeAnalysisDeepCopy (analysis: A): A {
     return JSON.parse(JSON.stringify(analysis));
   }
 
-  // If the cached version is up to date, return a copy of it
-  // Otherwise, recompute it first, then return a copy of it
+  /**
+   * Update the cached analysis if need be, and returns a deep copy of it.
+   *
+   * @return An up-to-date, deep copy of the cached analysis.
+   */
   getAnalysis (): A {
     if (this.needsAnalysisUpdate()) {
       this.updateContentRevision();
@@ -60,7 +91,13 @@ export abstract class DataAnalyserModule<A extends Analysis> {
     return this.makeAnalysisDeepCopy(this.cachedAnalysis);
   }
 
-  // Abstract method which must be implemented by any concrete child class,
-  // and should actually compute and return the analysis
+  /**
+   * Compute and return an analysis from the database data.
+   *
+   * Each concrete analyser module must return a fresh analysis,
+   * of the analysis type [[A]] (extending [[Analysis]]) they offer.
+   *
+   * @return An up-to-date analysis of the database data.
+   */
   protected abstract computeAnalysis (): A;
 }

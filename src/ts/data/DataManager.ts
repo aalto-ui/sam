@@ -8,14 +8,29 @@ export class DataManager {
 
   /*************************************************************** PROPERTIES */
 
-  // Database, logger and analyser
+  /**
+   * Database where to store and load data.
+   */
   readonly database: Database;
+
+  /**
+   * Data logger to listen for and log events into the database.
+   */
   readonly logger: DataLogger;
+
+  /**
+   * Data analyser to get analyses of the database data.
+   */
   readonly analyser: DataAnalyser;
 
 
   /************************************************************** CONSTRUCTOR */
 
+  /**
+   * Create a new instance of data manager.
+   *
+   * @param menuManager The menu manager handling the library menus.
+   */
   constructor (menuManager: MenuManager) {
     this.database = new Database();
     this.logger = new DataLogger(this.database, menuManager);
