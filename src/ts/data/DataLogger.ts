@@ -42,7 +42,7 @@ export class DataLogger {
    * Map from item IDs to onclick callbacks attached to them.
    * This is required to detach such handlers from the item nodes if need be.
    */
-  private readonly itemClickCallbacks: Map<string, (event) => void>;
+  private readonly itemClickCallbacks: Map<ItemID, (event) => void>;
 
 
   /************************************************************** CONSTRUCTOR */
