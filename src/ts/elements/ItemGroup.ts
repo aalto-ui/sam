@@ -135,8 +135,8 @@ export class ItemGroup extends AdaptiveElement {
 
     for (let item of this.items) {
       item.canBeReordered = item.canBeReordered
-                          ? false
-                          : notAlphabeticallySorted;
+                          ? notAlphabeticallySorted
+                          : false;
     }
   }
 
