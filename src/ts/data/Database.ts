@@ -44,26 +44,40 @@ export class Database {
 
   /*************************************************************** PROPERTIES */
 
-  // Local storage key
+  /**
+   * Local storage key used to save the serialized database content.
+   */
   static readonly LOCAL_STORAGE_KEY: string = "awm-data";
 
-  // Database tables (keys are their names)
+  /**
+   * Tables of the database.
+   * The keys are the table names,
+   * and  the values are the related [[DatabaseTable]] objects.
+   */
   private tables: {
     itemClicks: DatabaseTable<ItemClickLog>,
     pageVisits: DatabaseTable<PageVisitLog>
   };
 
-  // Persistent sotrage object
-  // It is automatically saved on page leave and loaded on page load,
-  // but provide no special feature (e.g. no revision system) and is public
+  /**
+   * Persistent storage of the database.
+   * It is automatically saved and loaded by the database,
+   * but is publicly exposed and provide no special feature like revisions.
+   */
   persistentStorage: PersistentStorage;
 
-  // Current revision of the database
+  /**
+   * Current revision of the database.
+   * Incremented at every change in a table.
+   */
   private currentRevision: DatabaseRevision;
 
 
   /************************************************************** CONSTRUCTOR */
 
+  /**
+   * Create a new instance of database.
+   */
   constructor () {
     this.init();
     this.startListeningForPageUnload();
@@ -79,9 +93,14 @@ export class Database {
   /* Init/reset
   /****************************************************************************/
 
-  // Initialize the database contentrom
-  // It first init the content with default values,
-  // and then replace it with anything that can be loaded from loca storage
+  /**
+   * Initializes the database and its content.
+   *
+   * Even a partial save can be loaded: the related fields are updated with
+   * the loaded content (see [[loadFromLocalStorage]]), while the others
+   * are set to default values (see [[setContentToDefault]]).
+   *
+   */
   private init () {
     this.setContentToDefault();
 
@@ -90,8 +109,11 @@ export class Database {
     }
   }
 
-  // Reset the current database content to default values (or set it, if there is none)
-  // Note: this does not affect any data stored in the local storage
+  /**
+   * Set or reset the database content to default values (empty content).
+   *
+   * Note: this does not affect any data stored in the local storage.
+   */
   private setContentToDefault () {
     // Database content
     this.tables = {
@@ -112,8 +134,12 @@ export class Database {
     this.currentRevision = 0;
   }
 
-  // Clear the current database and the local storage from any data,
-  // and reset it to default
+  /**
+   * Empty the database content (set to default values),
+   * and clear all data saved in the local storage.
+   *
+   * @return [description]
+   */
   empty () {
     this.setContentToDefault();
     this.clearLocalStorageData();
@@ -124,12 +150,21 @@ export class Database {
   /* Revision
   /****************************************************************************/
 
-  // Return the current revision of the database data
+  /**
+   * Get the current revision of the database.
+   *
+   * @return The current revision of the database.
+   */
   getCurrentRevision (): DatabaseRevision {
     return this.currentRevision;
   }
 
-  // Return true if the given revision match the current one, false otherwise
+  /**
+   * Test whether the given revision is equal to the current one.
+   *
+   * @param  revision The revision to compare to the current one.
+   * @return          `true` if the two revisions are equal, `false` otherwise.
+   */
   isRevisionUpToDate (revision: DatabaseRevision): boolean {
     return this.currentRevision === revision;
   }
@@ -139,14 +174,32 @@ export class Database {
   /* Item click logging
   /****************************************************************************/
 
+  /**
+   * Get all item click logs stored in the database.
+   *
+   * @return A readonly array of all item click logs (as table entries).
+   */
   getItemClickLogs (): ReadonlyArray<TableEntry<ItemClickLog>> {
     return this.tables.itemClicks.entries;
   }
 
+  /**
+   * Get the index where the next item click log would be inserted in the table.
+   *
+   * Note: this is also equal to the number of item click log entries.
+   *
+   * @return The index of the next item click log entry.
+   */
   getItemClickLogsCurrentIndex (): TableEntryIndex {
     return this.tables.itemClicks.currentIndex;
   }
 
+  /**
+   * Save the given item click log in the dedicated database table.
+   *
+   * @param  log The item click log to save.
+   * @return     The new revision of the database.
+   */
   logItemClick (log: ItemClickLog): DatabaseRevision {
     let newEntry = Object.assign(log, {
       index: this.tables.itemClicks.currentIndex
@@ -164,14 +217,32 @@ export class Database {
   /* Page visit logging
   /****************************************************************************/
 
+  /**
+   * Get all page visit logs stored in the database.
+   *
+   * @return A readonly array of all page visit logs (as table entries).
+   */
   getPageVisitLogs (): ReadonlyArray<TableEntry<PageVisitLog>> {
     return this.tables.pageVisits.entries;
   }
 
+  /**
+   * Get the index where the next page visit log would be inserted in the table.
+   *
+   * Note: this is also equal to the number of page visit log entries.
+   *
+   * @return The index of the next page visit log entry.
+   */
   getPageVisitLogsCurrentIndex (): TableEntryIndex {
     return this.tables.pageVisits.currentIndex;
   }
 
+  /**
+   * Save the given page visit log in the dedicated database table.
+   *
+   * @param  log The page visit log to save.
+   * @return     The new revision of the database.
+   */
   logPageVisit (log: PageVisitLog): DatabaseRevision {
     let newEntry = Object.assign(log, {
       index: this.tables.pageVisits.currentIndex
@@ -189,7 +260,14 @@ export class Database {
   /* Local storage management & saving/loading
   /****************************************************************************/
 
-  // Group all persistent data to save, and stringify it to JSON
+  /**
+   * Group all the data to save, and serialize it as a single JSON string.
+   *
+   * Note: the data must be natively compatible with JSON serialization,
+   *       using `JSON.stringify` (e.g. it does not work with `Map`s).
+   *
+   * @return A JSON string representing the serialized data.
+   */
   private packDataToJSON (): string {
     let packedData = {
       tables: this.tables,
@@ -200,7 +278,13 @@ export class Database {
     return JSON.stringify(packedData);
   }
 
-  // Parse a JSON string representing packed data, and fill the database with it
+  /**
+  * Unserialize the given JSON string, which must represent grouped data
+  * (according to [[packDataToJSON]] protocol), and update all internal fields
+  * for which some data is available (i.e. non-undefined values).
+  *    *
+   * @param  json A JSON string representing the serialized data.
+   */
   private unpackDataFromJSON (json: string) {
     let unpackedData = JSON.parse(json);
 
@@ -213,8 +297,12 @@ export class Database {
     this.currentRevision = getFirstValueIfDefined(unpackedData.currentRevision, this.currentRevision);
   }
 
-  // Return true if database data si available in the local storage
-  // Otherwise, or if the local storage is not available, return false
+  /**
+   * Test whether some database data is available in the local storage.
+   *
+   * @return `true` if the local storage is available and the value for key
+   *         [[Database.LOCAL_STORAGE_KEY]] is not `null`, `false` otherwise.
+   */
   isLocalStorageDataAvailable (): boolean {
     return Utilities.isLocalStorageAvailable()
         && window.localStorage.getItem(Database.LOCAL_STORAGE_KEY) !== null;
@@ -222,6 +310,13 @@ export class Database {
 
   // Save the database data in the local storage
   // If the local storage is not available, an error is printed in the console and nothing happens
+
+  /**
+   * Group and serialize the database data into a JSON description (see [[packDataToJSON]]),
+   * and save it in the local storage.
+   *
+   * Note: if the local storage is not available, nothing happen.
+   */
   private saveInLocalStorage () {
     if (! Utilities.isLocalStorageAvailable()) {
       return;
@@ -231,8 +326,12 @@ export class Database {
     window.localStorage.setItem(Database.LOCAL_STORAGE_KEY, packedDataAsJSON);
   }
 
-  // Load the database data from the local storage
-  // If the local storage is not available, an error is printed in the console and nothing happens
+  /**
+   * Load a JSON description database data from the local storage, unserialize it,
+   * and update internal fields with available data (see [[unpackDataFromJSON]]).
+   *
+   * Note: if the local storage is not available, nothing happen.
+   */
   private loadFromLocalStorage () {
     if (! Utilities.isLocalStorageAvailable()) {
       return;
@@ -242,7 +341,11 @@ export class Database {
     this.unpackDataFromJSON(packedDataAsJSON);
   }
 
-  // Clear the local storage from database data (if any)
+  /**
+   * Clear any local storage field holding database data.
+   *
+   * Note: if the local storage is not available, nothing happen.
+   */
   private clearLocalStorageData () {
     if (! Utilities.isLocalStorageAvailable()) {
       return;
@@ -256,15 +359,18 @@ export class Database {
   /* Page unload handling
   /****************************************************************************/
 
-  // Start listening for page unload events
+  /**
+   * Start listening for page unload events.
+   */
   private startListeningForPageUnload () {
     $(window).on("unload", (_) => {
       this.onPageUnload();
     });
   }
 
-  // Callback for page unload event
-  // Automatically save the content of the page in the local storage
+  /**
+   * Page unload callback: save the database content in the local storage.
+   */
   private onPageUnload () {
     this.saveInLocalStorage();
   }
