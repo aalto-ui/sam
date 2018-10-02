@@ -9,6 +9,9 @@ export class ReorderGroups extends Reorder {
 
   /*************************************************************** PROPERTIES */
 
+  /**
+   * HTML class of group elements which have been reordered.
+   */
   static readonly REORDERED_ELEMENT_CLASS: string = "awm-reordered-group";
 
   readonly name: string = "Reorder groups";
@@ -16,6 +19,9 @@ export class ReorderGroups extends Reorder {
 
   /************************************************************** CONSTRUCTOR */
 
+  /**
+   * Create a new instance of ReorderGroups.
+   */
   constructor () {
     super();
   }
@@ -41,6 +47,17 @@ export class ReorderGroups extends Reorder {
   /* Apply technique
   /****************************************************************************/
 
+  /**
+   * Use the given policy to score and sort the groups of all the menus to adapt,
+   * and filter out any group which:
+   * - cannot be reordered;
+   * - has a null (0) score.
+   *
+   * @param  menuManager The menu manager containing the menus with groups to reorder.
+   * @param  policy      The policy to use to score the groups.
+   * @param  dataManager The data manager containing data for the policy.
+   * @return             A sorted and filtered list of groups.
+   */
   private getFilteredSortedGroups (menuManager: MenuManager, policy: Policy, dataManager?: DataManager): ItemGroup[] {
     return policy
       .getSortedItemGroupsWithScores(menuManager, dataManager)

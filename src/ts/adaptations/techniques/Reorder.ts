@@ -10,21 +10,31 @@ export abstract class Reorder implements Technique {
 
   /*************************************************************** PROPERTIES */
 
+  /**
+   * HTML class of container nodes whose children must *not* be reordered.
+   */
   static readonly NON_REORDERABLE_ELEMENT_CLASS = "awm-no-reordering";
 
   abstract readonly name: string;
 
-  // Map from HTML parent elements to JQuery children in their original order
-  // This is internally used to reset the reordering
+  /**
+   * Map from HTML parent elements to JQuery children nodes, in their original order.
+   * This is used to save the original element ordering.
+   */
   protected readonly childrenInOriginalOrder: Map<HTMLElement, JQuery>;
 
-  // Map from HTML elements which should not be reordered to their original indices
-  // This is internally used to always reinsert them at their original position
+  /**
+   * Map from HTML elements to their original indices.
+   * This is used to move non-reorderable elements back to their original position.
+   */
   private readonly nonReorderableElementsInitialIndices: Map<HTMLElement, number>;
 
 
   /************************************************************** CONSTRUCTOR */
 
+  /**
+   * Create a new instance of Reorder.
+   */
   constructor () {
     this.childrenInOriginalOrder = new Map();
     this.nonReorderableElementsInitialIndices = new Map();
@@ -38,19 +48,35 @@ export abstract class Reorder implements Technique {
   /* Utility
   /****************************************************************************/
 
-  // This method should be overriden by child classes which
-  // wish to distinguish their reordering from other types of reordering!
-  // It must return a string representing the class to be added to reordered elements
+  /**
+   * Return the HTML class to add to elements which have been reordered.
+   *
+   * This method should be overriden by any child class willing to distinguish
+   * the elements it can reorder by their class.
+   *
+   * @return The class to add to reordered elements.
+   */
   protected getReorderedElementClass (): string {
     return "awm-reordered";
   }
 
-  // This method must be overriden by any concrete child class
-  // It must return a string representing the type of adaptive elements being reordered
+  /**
+   * Return the type of adaptive elements (as returned by [[AdaptiveElement.getType]])
+   * which are being reordered.
+   *
+   * @return The type of adaptive elements which are being reordered.
+   */
   protected abstract getReorderedElementType (): string;
 
-  // Return a map from each unique parent element to its children nodes
-  // The order of the children respects the order of the nodes in the given array
+  /**
+   * Compute and return a map from each unique parent element (of all given nodes)
+   * to an array of all their children.
+   *
+   * The original order of the children is conserved in the arrays.
+   *
+   * @param  nodes The nodes to split by their parents.
+   * @return       A map from parent elements to arrays of child nodes.
+   */
   private splitNodesByParents (nodes: JQuery[]): Map<HTMLElement, JQuery[]> {
     let parentsToChildren = new Map<HTMLElement, JQuery[]>();
 
@@ -77,7 +103,12 @@ export abstract class Reorder implements Technique {
   /* Node reordering
   /****************************************************************************/
 
-  // Insert a node at a given index, with no side effect
+  /**
+   * Reinsert the given node at the given index (in its own parent).
+   *
+   * @param  node  The node to reinsert.
+   * @param  index The new index of the node.
+   */
   private insertNode (node: JQuery, index: number) {
     if (index === node.index()) {
       return;
@@ -98,11 +129,21 @@ export abstract class Reorder implements Technique {
     }
   }
 
+  /**
+   * Move the given node at the given index (in its own parent),
+   * and add a class to the node to mark it as reordered.
+   *
+   * @param  node  The node to move.
+   * @param  index The new index of the node.
+   */
   private moveReorderableNode (node: JQuery, index: number) {
     this.insertNode(node, index);
     node.addClass(this.getReorderedElementClass());
   }
 
+  /**
+   * Move all non-reorderable elements back to their original indices.
+   */
   private reinsertNonReorderableElements () {
     for (let element of this.nonReorderableElementsInitialIndices.keys()) {
       let originalIndex = this.nonReorderableElementsInitialIndices.get(element);
@@ -115,6 +156,12 @@ export abstract class Reorder implements Technique {
   /* Apply technique
   /****************************************************************************/
 
+  /**
+   * Save the original indices of all child nodes of the given parent node
+   * which have the [[Reorder.NON_REORDERABLE_ELEMENT_CLASS]] class.
+   *
+   * @param  parent The parent node with possibly non-reorderable children.
+   */
   private saveNonReorderableElementsOriginalIndices (parent: JQuery) {
     parent.children("." + Reorder.NON_REORDERABLE_ELEMENT_CLASS)
       .each((_, element) => {
@@ -123,6 +170,14 @@ export abstract class Reorder implements Technique {
       });
   }
 
+  /**
+   * Save the original order of all children of all the nodes of the given adaptive elements.
+   *
+   * The order is saved by saving an array of references
+   * to all the children(as jQuery nodes) in their original orders.
+   *
+   * @param  elements The adaptive elements whose children order must be saved.
+   */
   protected saveParentNodeChildrenInOriginalOrder (elements: AdaptiveElement[]) {
     for (let element of elements) {
       let parentElement = element.node.parent()[0];
@@ -133,6 +188,15 @@ export abstract class Reorder implements Technique {
     }
   }
 
+  /**
+   * Sort and return the indices of all the child nodes of the given parent node
+   * which can be reordered, i.e. which have a matching adaptive element type
+   * (according to [[Reorder.getReorderedElementType]]).
+   *
+   * @param  parent The parent node containing reorderable child nodes
+   *                whose indices must be sorted.
+   * @return        A sorted list of child node indices.
+   */
   private getSortedChildrenIndices (parent: JQuery): number[] {
     let type = this.getReorderedElementType();
 
@@ -147,6 +211,17 @@ export abstract class Reorder implements Technique {
       });
   }
 
+  /**
+   * Reorder all given elements in the given order.
+   *
+   * Non-given elements may be moved to a higher index if need be,
+   * except for elements marked as non-reorderable.
+   *
+   * This method expects a complete list of menu adaptive elements, supposedly computed by a policy.
+   * It was designed to be called by implementations of [[Technique.apply]].
+   *
+   * @param  elements The sorted list of elements to reorder.
+   */
   protected reorderAllElements (elements: AdaptiveElement[]) {
     // Split element nodes by parents
     let nodes = elements.map((element) => {
