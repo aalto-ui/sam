@@ -17,16 +17,16 @@ export interface ItemGroupWithScore {
 
 export abstract class Policy {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   // Any concrete child class extending this one must define this field
   // It represents the policy name, and must be unique among all policies
   abstract readonly name: string;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
 
   // ===========================================================================

@@ -25,7 +25,7 @@ export interface PageVisitLog {
 
 export class DataLogger {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   /**
    * Database where to store logged data.
@@ -45,7 +45,7 @@ export class DataLogger {
   private readonly itemClickCallbacks: Map<ItemID, (event) => void>;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Create a new instance of data logger.
@@ -62,7 +62,7 @@ export class DataLogger {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   /**
    * Start logging item clicks and page visits.

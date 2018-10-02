@@ -6,7 +6,7 @@ import { MenuManager } from "../elements/MenuManager";
 
 export class DataManager {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   /**
    * Database where to store and load data.
@@ -24,7 +24,7 @@ export class DataManager {
   readonly analyser: DataAnalyser;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Create a new instance of data manager.
@@ -42,6 +42,6 @@ export class DataManager {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
 }

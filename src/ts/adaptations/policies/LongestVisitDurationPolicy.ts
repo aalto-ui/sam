@@ -4,19 +4,19 @@ import { PageID } from "../../Utilities";
 
 export class LongestVisitDurationPolicy extends LinkedPageScorePolicy {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   readonly name: string = "Longest visit duration";
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   constructor () {
     super();
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   protected computePageScore (pageID: PageID): number {
     return this.pageVisitsAnalysis.pageStats.get(pageID).totalVisitDuration;

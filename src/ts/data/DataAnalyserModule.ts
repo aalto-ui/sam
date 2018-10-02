@@ -7,7 +7,7 @@ export interface Analysis { }
 
 export abstract class DataAnalyserModule<A extends Analysis> {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   /**
    * Database where to fetch data to analyse (and the revisions).
@@ -26,7 +26,7 @@ export abstract class DataAnalyserModule<A extends Analysis> {
   private cachedAnalysisContentRevision: number;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Create a new instance of data analyser module.
@@ -41,7 +41,7 @@ export abstract class DataAnalyserModule<A extends Analysis> {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   /**
    * Test whether the analysis needs to be updated (computed anew):

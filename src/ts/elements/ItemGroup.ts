@@ -9,7 +9,7 @@ export type GroupID = string;
 
 export class ItemGroup extends AdaptiveElement {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   /**
    * Standard HTML class for group elements.
@@ -37,7 +37,7 @@ export class ItemGroup extends AdaptiveElement {
   canBeReordered: boolean;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Create a new instance of group.
@@ -62,7 +62,7 @@ export class ItemGroup extends AdaptiveElement {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   getType (): string {
     return ItemGroup.ELEMENT_TYPE;
@@ -141,7 +141,7 @@ export class ItemGroup extends AdaptiveElement {
   }
 
 
-  /*********************************************************** STATIC METHODS */
+  // ======================================================== STATIC METHODS ===
 
   // Build a menu from selectors
   // If NO_SELECTOR is passed as the groupSelector argument, it means this groups share its parent menu node

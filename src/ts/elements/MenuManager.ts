@@ -14,7 +14,7 @@ export interface MenuSelectors {
 
 export class MenuManager {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   /**
    * List of all adaptive menus.
@@ -22,7 +22,7 @@ export class MenuManager {
   private readonly menus: Menu[];
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Create a new instance of menu manager.
@@ -34,7 +34,7 @@ export class MenuManager {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   // ===========================================================================
   // Menu/group/item-related getters
@@ -128,7 +128,7 @@ export class MenuManager {
   }
 
 
-  /*********************************************************** STATIC METHODS */
+  // ======================================================== STATIC METHODS ===
 
   // Create a menu manager from the given generic menu and item selectors
   // This builder method assumes that each menu is its own single group

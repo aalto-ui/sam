@@ -9,7 +9,7 @@ import { Technique } from "../Technique";
 
 export class ReorderItemsAndFold implements Technique {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   readonly name: string = "Reorder items + fold";
 
@@ -20,7 +20,7 @@ export class ReorderItemsAndFold implements Technique {
   private readonly naturalOrderPolicy: NodeIndexOrderPolicy;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   constructor () {
     this.reorder = new ReorderItems();
@@ -30,7 +30,7 @@ export class ReorderItemsAndFold implements Technique {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   reset () {
     this.fold.reset();

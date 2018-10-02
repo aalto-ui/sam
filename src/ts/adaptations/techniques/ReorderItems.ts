@@ -7,7 +7,7 @@ import { Policy } from "../policies/Policy";
 
 export class ReorderItems extends Reorder {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   /**
    * HTML class of item elements which have been reordered.
@@ -17,7 +17,7 @@ export class ReorderItems extends Reorder {
   readonly name: string = "Reorder items";
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Create a new instance of ReorderItem.
@@ -27,7 +27,7 @@ export class ReorderItems extends Reorder {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
 
   // ===========================================================================

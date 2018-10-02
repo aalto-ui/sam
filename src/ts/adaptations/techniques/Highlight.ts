@@ -22,7 +22,7 @@ const HIGHLIGHTING_LEVELS_CLASSES: string[] = Object.keys(HighlightingLevel)
 
 export class Highlight implements Technique {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   static readonly HIGHLIGHTED_ELEMENT_CLASS: string = "awm-highlighted";
 
@@ -33,14 +33,14 @@ export class Highlight implements Technique {
   protected itemsToHighlightAtHighLevel: Set<Item>;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   constructor () {
     this.itemsToHighlightAtHighLevel = new Set();
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
 
   // ===========================================================================

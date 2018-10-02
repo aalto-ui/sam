@@ -60,7 +60,7 @@ export type AvailablePolicies = typeof AVAILABLE_POLICIES[0];
 
 export class AdaptationManager {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   /**
    * Menu manager of the library.
@@ -83,7 +83,7 @@ export class AdaptationManager {
   private currentPolicy: Policy;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Creates a new instance of AdaptationManager.
@@ -102,7 +102,7 @@ export class AdaptationManager {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
 
   // ===========================================================================

@@ -10,7 +10,7 @@ export type ItemID = string;
 
 export class Item extends AdaptiveElement {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   /**
    * Standard HTML class for item elements.
@@ -33,7 +33,7 @@ export class Item extends AdaptiveElement {
   canBeReordered: boolean;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Create a new instance of item.
@@ -55,7 +55,7 @@ export class Item extends AdaptiveElement {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   getType (): string {
     return Item.ELEMENT_TYPE;
@@ -86,7 +86,7 @@ export class Item extends AdaptiveElement {
   }
 
 
-  /*********************************************************** STATIC METHODS */
+  // ======================================================== STATIC METHODS ===
 
   /**
    * Split the given list of items into sub-lists of items of the same group.

@@ -42,7 +42,7 @@ export interface PersistentStorage {
 
 export class Database {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   /**
    * Local storage key used to save the serialized database content.
@@ -73,7 +73,7 @@ export class Database {
   private currentRevision: DatabaseRevision;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Create a new instance of database.
@@ -86,7 +86,7 @@ export class Database {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
 
   // ===========================================================================

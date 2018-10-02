@@ -15,7 +15,7 @@ interface ElementWithNbClicks<E extends AdaptiveElement> {
 
 export class MostClickedItemListPolicy extends Policy {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   readonly name: string = "Most clicked items";
 
@@ -23,14 +23,14 @@ export class MostClickedItemListPolicy extends Policy {
   onlyLocalClicks: boolean = false;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   constructor () {
     super();
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   private sortMappedElementsByNbClicks<E extends AdaptiveElement> (elementsToNbClicks: Map<E, number>): ElementWithNbClicks<E>[] {
     // Turn the map into a list sorted by the nb of clicks

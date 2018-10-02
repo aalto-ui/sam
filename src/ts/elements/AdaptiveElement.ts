@@ -22,7 +22,7 @@ export function isSelector (candidate: any): boolean {
 
 export abstract class AdaptiveElement {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   /**
    * Prefix of all AWM tags added to nodes as HTML attributes.
@@ -53,7 +53,7 @@ export abstract class AdaptiveElement {
   readonly id: string;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Create a new instance of adaptive element.
@@ -75,7 +75,7 @@ export abstract class AdaptiveElement {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   /**
    * Get the type of the element.
@@ -137,7 +137,7 @@ export abstract class AdaptiveElement {
   }
 
 
-  /*********************************************************** STATIC METHODS */
+  // ======================================================== STATIC METHODS ===
 
   /**
    * Get the value of a tag of the given node.

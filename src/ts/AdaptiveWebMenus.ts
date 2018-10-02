@@ -10,7 +10,7 @@ import { Selector } from "./elements/AdaptiveElement";
 
 export class AdaptiveWebMenus {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   /**
    * Menu manager single instance of the library.
@@ -33,7 +33,7 @@ export class AdaptiveWebMenus {
   private readonly debugDisplay: DebugDisplay;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Create a new instance of the AWM library.
@@ -58,7 +58,7 @@ export class AdaptiveWebMenus {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   /**
    * Clear all the recorded history, and update the current adaptation.
@@ -111,7 +111,7 @@ export class AdaptiveWebMenus {
   }
 
 
-  /*********************************************************** STATIC METHODS */
+  // ======================================================== STATIC METHODS ===
 
   /**
    * Build an AWM instance from a single menu forming a single group.

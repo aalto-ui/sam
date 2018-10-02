@@ -8,7 +8,7 @@ import { Technique } from "./Technique";
 
 export abstract class Reorder implements Technique {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   /**
    * HTML class of container nodes whose children must *not* be reordered.
@@ -30,7 +30,7 @@ export abstract class Reorder implements Technique {
   private readonly nonReorderableElementsInitialIndices: Map<HTMLElement, number>;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Create a new instance of Reorder.
@@ -41,7 +41,7 @@ export abstract class Reorder implements Technique {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
 
   // ===========================================================================

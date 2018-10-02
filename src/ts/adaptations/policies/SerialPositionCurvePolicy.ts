@@ -4,19 +4,19 @@ import { PageID } from "../../Utilities";
 
 export class SerialPositionCurvePolicy extends LinkedPageScorePolicy {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   readonly name: string = "Serial-Position curve";
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   constructor () {
     super();
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   private computeFamiliarityScore (pageID: PageID): number {
     // If there are no stats, immediately return a null score

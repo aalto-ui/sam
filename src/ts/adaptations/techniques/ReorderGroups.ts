@@ -7,7 +7,7 @@ import { Policy } from "../policies/Policy";
 
 export class ReorderGroups extends Reorder {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   /**
    * HTML class of group elements which have been reordered.
@@ -17,7 +17,7 @@ export class ReorderGroups extends Reorder {
   readonly name: string = "Reorder groups";
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Create a new instance of ReorderGroups.
@@ -27,7 +27,7 @@ export class ReorderGroups extends Reorder {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
 
   // ===========================================================================

@@ -8,7 +8,7 @@ import { PageID } from "../../Utilities";
 
 export abstract class LinkedPageScorePolicy extends Policy {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   abstract readonly name: string;
 
@@ -20,7 +20,7 @@ export abstract class LinkedPageScorePolicy extends Policy {
   protected pageVisitsAnalysis: PageVisitsAnalysis;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   constructor () {
     super();
@@ -32,7 +32,7 @@ export abstract class LinkedPageScorePolicy extends Policy {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   protected abstract computePageScore (pageID: PageID): number;
 

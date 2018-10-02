@@ -4,19 +4,19 @@ import { PageID } from "../../Utilities";
 
 export class MostRecentVisitsPolicy extends LinkedPageScorePolicy {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   readonly name: string = "Most recently visited";
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   constructor () {
     super();
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   protected computePageScore (pageID: PageID): number {
     return this.pageVisitsAnalysis.pageStats.get(pageID).lastVisitTimestamp;

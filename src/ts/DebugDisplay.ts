@@ -5,7 +5,7 @@ import { AVAILABLE_TECHNIQUE_NAMES, AVAILABLE_POLICY_NAMES } from "./adaptations
 
 export class DebugDisplay {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   /**
    * AWM library instance owning this debug display instance.
@@ -23,7 +23,7 @@ export class DebugDisplay {
   private controlsContainerNode: JQuery;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Creates a new instance of debug display.
@@ -41,7 +41,7 @@ export class DebugDisplay {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   /**
    * Update the adaptation technique from the selected one.

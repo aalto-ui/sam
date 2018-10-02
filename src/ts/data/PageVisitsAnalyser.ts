@@ -29,9 +29,9 @@ export interface PageVisitsAnalysis extends Analysis {
 
 export class PageVisitsAnalyser extends DataAnalyserModule<PageVisitsAnalysis> {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Create a new instance of page visits analyser.
@@ -43,7 +43,7 @@ export class PageVisitsAnalyser extends DataAnalyserModule<PageVisitsAnalysis> {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
 
   // ===========================================================================

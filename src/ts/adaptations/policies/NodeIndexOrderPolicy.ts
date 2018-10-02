@@ -4,19 +4,19 @@ import { Policy, ItemWithScore, ItemGroupWithScore } from "./Policy";
 
 export class NodeIndexOrderPolicy extends Policy {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   readonly name: string = "Node index order";
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   constructor () {
     super();
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   getSortedItemsWithScores (menuManager: MenuManager): ItemWithScore[] {
     let items = menuManager.getAllItems();

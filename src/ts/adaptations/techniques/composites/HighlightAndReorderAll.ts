@@ -9,7 +9,7 @@ import { Technique } from "../Technique";
 
 export class HighlightAndReorderAll implements Technique {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   readonly name: string = "Highlight + reorder items & groups";
 
@@ -19,7 +19,7 @@ export class HighlightAndReorderAll implements Technique {
   private readonly reorderGroups: ReorderGroups;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   constructor () {
     this.highlight = new Highlight();
@@ -28,7 +28,7 @@ export class HighlightAndReorderAll implements Technique {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   reset () {
     this.reorderGroups.reset();

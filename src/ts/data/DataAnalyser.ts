@@ -5,7 +5,7 @@ import { PageVisitsAnalyser, PageVisitsAnalysis } from "./PageVisitsAnalyser";
 
 export class DataAnalyser {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   /**
    * Item clicks analyser module.
@@ -18,7 +18,7 @@ export class DataAnalyser {
   private readonly pageVisitsAnalyser: PageVisitsAnalyser;
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Create a new instance of data analyser.
@@ -31,7 +31,7 @@ export class DataAnalyser {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   /**
    * Return an item clicks analysis.

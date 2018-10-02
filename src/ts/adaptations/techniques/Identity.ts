@@ -5,14 +5,14 @@ import { Technique } from "./Technique";
 // Its only purpose is to be available (with the right type) as a baseline
 export class Identity implements Technique {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   readonly name: string = "Identity";
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   reset () {
     // Nothing to do

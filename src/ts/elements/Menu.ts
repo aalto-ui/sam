@@ -9,7 +9,7 @@ export type MenuID = string;
 
 export class Menu extends AdaptiveElement {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
   /**
    * Standard HTML class for menu elements.
@@ -32,7 +32,7 @@ export class Menu extends AdaptiveElement {
   readonly groups: ItemGroup[];
 
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Creates a new instance of menu.
@@ -48,7 +48,7 @@ export class Menu extends AdaptiveElement {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
   getType (): string {
     return Menu.ELEMENT_TYPE;
@@ -120,7 +120,7 @@ export class Menu extends AdaptiveElement {
   }
 
 
-  /*********************************************************** STATIC METHODS */
+  // ======================================================== STATIC METHODS ===
 
   static getAllMenusItems (menus: Menu[]): Item[] {
     let allMenusItems = [];

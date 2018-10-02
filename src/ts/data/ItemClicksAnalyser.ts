@@ -45,9 +45,9 @@ export interface ItemGroupsSplitByStatsAvailability {
 
 export class ItemClicksAnalyser extends DataAnalyserModule<ItemClicksAnalysis> {
 
-  /*************************************************************** PROPERTIES */
+  // ============================================================ PROPERTIES ===
 
-  /************************************************************** CONSTRUCTOR */
+  // =========================================================== CONSTRUCTOR ===
 
   /**
    * Create a new instance of item clicks analyser.
@@ -59,7 +59,7 @@ export class ItemClicksAnalyser extends DataAnalyserModule<ItemClicksAnalysis> {
   }
 
 
-  /****************************************************************** METHODS */
+  // =============================================================== METHODS ===
 
 
   // ===========================================================================
@@ -263,7 +263,7 @@ export class ItemClicksAnalyser extends DataAnalyserModule<ItemClicksAnalysis> {
   }
 
 
-  /*********************************************************** STATIC METHODS */
+  // ======================================================== STATIC METHODS ===
 
   /**
    * Split a list of items into two sub-lists:
