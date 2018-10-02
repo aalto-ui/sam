@@ -82,9 +82,9 @@ export class Menu extends AdaptiveElement {
   }
 
 
-  /****************************************************************************/
-  /* Menu building
-  /****************************************************************************/
+  // ===========================================================================
+  // Menu building
+  // ===========================================================================
 
   // Fill a menu using the given generic item selector
   // This method should be used when there is no group selector (i.e. menus whose group node is the same as the menu node)

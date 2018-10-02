@@ -44,9 +44,9 @@ export class MostClickedItemListPolicy extends Policy {
   }
 
 
-  /****************************************************************************/
-  /* Item scoring & sorting
-  /****************************************************************************/
+  // ===========================================================================
+  // Item scoring & sorting
+  // ===========================================================================
 
   private getItemNbClicks (item: Item, analysis: ItemClicksAnalysis): number {
     let itemStats = analysis.itemStats.get(item.id);
@@ -101,9 +101,9 @@ export class MostClickedItemListPolicy extends Policy {
   }
 
 
-  /****************************************************************************/
-  /* Group scoring & sorting
-  /****************************************************************************/
+  // ===========================================================================
+  // Group scoring & sorting
+  // ===========================================================================
 
   private getGroupNbClicks (group: ItemGroup, analysis: ItemClicksAnalysis): number {
     let groupStats = analysis.groupStats.get(group.id);
