@@ -62,19 +62,35 @@ export class AdaptationManager {
 
   /*************************************************************** PROPERTIES */
 
-  // Menu manager
+  /**
+   * Menu manager of the library.
+   */
   private readonly menuManager: MenuManager;
 
-  // Data manager (access to the dabatase and data analysis tools)
+  /**
+   * Data manager of the library.
+   */
   private readonly dataManager: DataManager;
 
-  // Current technique and policy
+  /**
+   * Current adaptation technique.
+   */
   private currentTechnique: Technique;
+
+  /**
+   * Current adaptation policy.
+   */
   private currentPolicy: Policy;
 
 
   /************************************************************** CONSTRUCTOR */
 
+  /**
+   * Creates a new instance of AdaptationManager.
+   *
+   * @param menuManager The menu manager containing the menus to adapt.
+   * @param dataManager The data manager containing data for policies.
+   */
   constructor (menuManager: MenuManager, dataManager: DataManager) {
     this.menuManager = menuManager;
     this.dataManager = dataManager;
@@ -93,10 +109,21 @@ export class AdaptationManager {
   /* Technique
   /****************************************************************************/
 
+  /**
+   * Return the name of the current adaptation technique.
+   *
+   * @return The name of the current technique.
+   */
   getCurrentTechniqueName (): string {
     return this.currentTechnique.name;
   }
 
+  /**
+   * Set the current adaptation technique.
+   * If the name does not match any technique, the technique is not updated.
+   *
+   * @param  name The name of the new technique.
+   */
   private setTechnique (name: string) {
     // Look for a technique with the given name
     let technique = AVAILABLE_TECHNIQUES.find((candidateTechnique) => {
@@ -116,10 +143,17 @@ export class AdaptationManager {
     this.dataManager.database.persistentStorage.techniqueName = name;
   }
 
+  /**
+   * Set the default adaptation technique.
+   */
   private setDefaultTechnique () {
     this.setTechnique("Highlight + reorder items");
   }
 
+  /**
+   * Set the adaptation technique to the last one which has been in use,
+   * or to the default technique if no previous technique is found.
+   */
   private restoreTechniqueFromDatabaseOrSetDefault () {
     let techniqueName = this.dataManager.database.persistentStorage.techniqueName;
     if (techniqueName === undefined) {
@@ -130,6 +164,12 @@ export class AdaptationManager {
     this.setTechnique(techniqueName);
   }
 
+  /**
+   * Cancel any existing adaptation, switch to the given adaptation technique,
+   * and update all adapted menus accordingly.
+   *
+   * @param  name The name of the new technique.
+   */
   switchToTechnique (name: string) {
     this.resetCurrentAdaptation();
     this.setTechnique(name);
@@ -141,10 +181,22 @@ export class AdaptationManager {
   /* Policy
   /****************************************************************************/
 
+
+  /**
+   * Return the name of the current adaptation policy.
+   *
+   * @return The name of the current policy.
+   */
   getCurrentPolicyName (): string {
     return this.currentPolicy.name;
   }
 
+  /**
+   * Set the current adaptation policy.
+   * If the name does not match any policy, the technique is not updated.
+   *
+   * @param  name The name of the new policy.
+   */
   private setPolicy (name: string) {
     // Look for a policy with the given name
     let policy = AVAILABLE_POLICIES.find((candidatePolicy) => {
@@ -164,10 +216,17 @@ export class AdaptationManager {
     this.dataManager.database.persistentStorage.policyName = name;
   }
 
+  /**
+   * Set the default adaptation policy.
+   */
   private setDefaultPolicy () {
     this.setPolicy("AccessRank");
   }
 
+  /**
+   * Set the adaptation policy to the last one which has been in use,
+   * or to the default policy if no previous policy is found.
+   */
   private restorePolicyFromDatabaseOrSetDefault () {
     let policyName = this.dataManager.database.persistentStorage.policyName;
     if (policyName === undefined) {
@@ -178,6 +237,12 @@ export class AdaptationManager {
     this.setPolicy(policyName);
   }
 
+  /**
+   * Cancel any existing adaptation, switch to the given adaptation policy,
+   * and update all adapted menus accordingly.
+   *
+   * @param  name The name of the new policy.
+   */
   switchToPolicy (name: string) {
     this.resetCurrentAdaptation();
     this.setPolicy(name);
@@ -189,20 +254,38 @@ export class AdaptationManager {
   /* Adaptation (technique + policy)
   /****************************************************************************/
 
+  /**
+   * Set the adaptation technique and policy to the last ones which has been in use,
+   * or to the default ones if no previous ones are found.
+   */
   private restoreAdaptationFromDatabaseOrSetDefault () {
     this.restoreTechniqueFromDatabaseOrSetDefault();
     this.restorePolicyFromDatabaseOrSetDefault();
   }
 
+  /**
+   * Apply the current adaptation technique to all menus of the menu manager,
+   * using the current adaptation policy.
+   */
   applyCurrentAdaptation () {
     this.currentTechnique.apply(this.menuManager, this.currentPolicy, this.dataManager);
     console.log(`Applying technique ${this.currentTechnique.name} with policy ${this.currentPolicy.name}.`);
   }
 
+  /**
+   * Cancel the current adaptation technique on all the menus which are adapted.
+   */
   resetCurrentAdaptation () {
     this.currentTechnique.reset();
   }
 
+  /**
+   * Cancel any existing adaptation, switch to the given couple of adaptation
+   * technique and policy, and update all adapted menus accordingly.
+   *
+   * @param  techniqueName The name of the new technique.
+   * @param  policyName    The name of the new policy.
+   */
   switchToAdaptation (techniqueName: string, policyName: string) {
     this.resetCurrentAdaptation();
     this.setTechnique(techniqueName);
