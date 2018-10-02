@@ -10,7 +10,7 @@ export abstract class Reorder implements Technique {
 
   /*************************************************************** PROPERTIES */
 
-  static readonly NON_REORDERABLE_ELEMENT_CLASS = ".awm-no-reordering";
+  static readonly NON_REORDERABLE_ELEMENT_CLASS = "awm-no-reordering";
 
   abstract readonly name: string;
 
@@ -116,7 +116,7 @@ export abstract class Reorder implements Technique {
   /****************************************************************************/
 
   private saveNonReorderableElementsOriginalIndices (parent: JQuery) {
-    parent.children(Reorder.NON_REORDERABLE_ELEMENT_CLASS)
+    parent.children("." + Reorder.NON_REORDERABLE_ELEMENT_CLASS)
       .each((_, element) => {
         let index = $(element).index();
         this.nonReorderableElementsInitialIndices.set(element, index);
