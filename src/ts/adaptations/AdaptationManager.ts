@@ -69,7 +69,7 @@ export class AdaptationManager {
   private readonly dataManager: DataManager;
 
   // Current technique and policy
-  private currentTechnique: Technique<Policy>;
+  private currentTechnique: Technique;
   private currentPolicy: Policy;
 
 

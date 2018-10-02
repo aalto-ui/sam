@@ -20,7 +20,7 @@ const HIGHLIGHTING_LEVELS_CLASSES: string[] = Object.keys(HighlightingLevel)
   });
 
 
-export class Highlight implements Technique<Policy> {
+export class Highlight implements Technique {
 
   /*************************************************************** PROPERTIES */
 

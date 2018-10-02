@@ -6,7 +6,7 @@ import { Policy } from "../policies/Policy";
 import { Technique } from "./Technique";
 
 
-export abstract class Reorder implements Technique<Policy> {
+export abstract class Reorder implements Technique {
 
   /*************************************************************** PROPERTIES */
 

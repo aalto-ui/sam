@@ -6,7 +6,7 @@ import { Policy } from "../policies/Policy";
 import { Technique } from "./Technique";
 
 
-export class Fold implements Technique<Policy> {
+export class Fold implements Technique {
 
   /*************************************************************** PROPERTIES */
 

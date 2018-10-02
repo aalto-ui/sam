@@ -6,7 +6,7 @@ import { Policy } from "../../policies/Policy";
 import { Technique } from "../Technique";
 
 
-export class HighlightAndReorderItems implements Technique<Policy> {
+export class HighlightAndReorderItems implements Technique {
 
   /*************************************************************** PROPERTIES */
 

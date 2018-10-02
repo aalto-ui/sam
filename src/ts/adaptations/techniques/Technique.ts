@@ -5,8 +5,7 @@ import { DataManager } from "../../data/DataManager";
 
 // Interface of a menu adaptation
 // Any adaptation technique must implement this interface
-// It has a type parameter P, which represent the type of policies it can accept
-export interface Technique<P extends Policy> {
+export interface Technique {
 
   // Represents the technique name, and must be unique among all techniques
   readonly name: string;
@@ -15,5 +14,5 @@ export interface Technique<P extends Policy> {
   reset (): void;
 
   // Adapt the page menus, using the given data analyser and database if required
-  apply (menuManager: MenuManager, policy?: P, dataManager?: DataManager): void;
+  apply (menuManager: MenuManager, policy?: Policy, dataManager?: DataManager): void;
 }

@@ -23,7 +23,7 @@ export interface ItemCharacteristics {
 }
 
 /* tslint:disable: max-classes-per-file */
-export class ProgressiveHighlightAndReorderItems implements Technique<Policy> {
+export class ProgressiveHighlightAndReorderItems implements Technique {
 
   /*************************************************************** PROPERTIES */
 
