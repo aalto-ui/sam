@@ -8,12 +8,22 @@ import { Technique } from "./Technique";
 
 // Discrete strength levels of the highlighting effect
 // The values are used as additional classes, added to the the highlighted items
+
+/**
+ * Levels of highlighting.
+ *
+ * A higher level should be associated with a more important visual cue,
+ * e.g. a more opaque background color.
+ */
 enum HighlightingLevel {
   High = "awm-high",
   Low = "awm-low"
 }
 
-// All highlighting levels classes
+/**
+ * List of the HTML classes of highlighted elements, of each highlighting level.
+ * They are equal to the value of the related enum options.
+ */
 const HIGHLIGHTING_LEVELS_CLASSES: string[] = Object.keys(HighlightingLevel)
   .map((key) => {
     return HighlightingLevel[key];
@@ -24,17 +34,28 @@ export class Highlight implements Technique {
 
   // ============================================================ PROPERTIES ===
 
+  /**
+   * HTML class of a highlighted element.
+   *
+   * This class is generic, and complementary to level-specific classes
+   * (see [[HIGHLIGHTING_LEVELS_CLASSES]]).
+   */
   static readonly HIGHLIGHTED_ELEMENT_CLASS: string = "awm-highlighted";
 
   readonly name: string = "Highlight";
 
-  // Internal set of items which should be highlighted at an high level
-  // The set must be emptied and recomputed each time the technique is applied
+  /**
+   * Set of items which must be highlighted at high level.
+   * The set must be emptied and recomputed each time the technique is applied.
+   */
   protected itemsToHighlightAtHighLevel: Set<Item>;
 
 
   // =========================================================== CONSTRUCTOR ===
 
+  /**
+   * Create a new instance of Highlight.
+   */
   constructor () {
     this.itemsToHighlightAtHighLevel = new Set();
   }
@@ -47,10 +68,22 @@ export class Highlight implements Technique {
   // Item highlighting
   // ===========================================================================
 
+  /**
+   * Highlight the given node at the given level, by adding appropriate HTML classes.
+   *
+   * @param  node  The node to highlight.
+   * @param  level The level to highlight the node at.
+   */
   private onNode (node: JQuery, level: HighlightingLevel) {
     node.addClass([Highlight.HIGHLIGHTED_ELEMENT_CLASS, level]);
   }
 
+  /**
+   * Highlight all the given nodes,
+   * according to levels specified by [[itemsToHighlightAtHighLevel]].
+   *
+   * @param  items The list of items to highlight.
+   */
   protected onAllItems (items: Item[]) {
     for (let item of items) {
       let highlightingLevel = this.itemsToHighlightAtHighLevel.has(item)
@@ -66,6 +99,15 @@ export class Highlight implements Technique {
   // Apply technique
   // ===========================================================================
 
+  /**
+   * Use the given policy to score and sort the items of all the menus to adapt,
+   * and filter out any item which has a null (0) score.
+   *
+   * @param  menuManager The menu manager containing the menus with items to highlight.
+   * @param  policy      The policy to use to score the items.
+   * @param  dataManager The data manager containing data for the policy.
+   * @return             A sorted and filtered list of items.
+   */
   private getFilteredSortedItemWithScores (menuManager: MenuManager, policy: Policy, dataManager?: DataManager): ItemWithScore[] {
     return policy
       .getSortedItemsWithScores(menuManager, dataManager)
@@ -74,14 +116,32 @@ export class Highlight implements Technique {
       });
   }
 
+  /**
+   * Return the maximum number of items which can be highlighted in a menu.
+   *
+   * @param  nbItems The total number of items in the menu.
+   * @return         The maximum number of items to highlight in the menu.
+   */
   private getMaxNbItemsToHighlight (nbItems: number): number {
     return Math.floor(Math.sqrt(nbItems));
   }
 
+  /**
+   * Return the maximum number of items which can be highlighted in a group.
+   *
+   * @param  nbItemsInGroup The total number of items in the group.
+   * @return                The maximum number of items to highlight in the group.
+   */
   private getMaxNbItemsToHighlightInGroup (nbItemsInGroup: number): number {
     return Math.floor(Math.sqrt(nbItemsInGroup));
   }
 
+  /**
+   * Compute the set of items which must be highlighted at high level.
+   * The (internal) set is cleared beforehand.
+   *
+   * @param  itemWithScores Sorted list of items with their scores.
+   */
   private computeItemsToHighlightAtHighLevel (itemWithScores: ItemWithScore[]) {
     this.itemsToHighlightAtHighLevel.clear();
 
@@ -98,6 +158,11 @@ export class Highlight implements Technique {
     }
   }
 
+  /**
+   * Highlight all the given items, assuming they all belong to the same group.
+   *
+   * @param  sameGroupItems The sorted list of items located in the same group.
+   */
   private applyInGroup (sameGroupItems: Item[]) {
     // Splice the same group items to only reorder the top ones
     let totalNbGroupItems = sameGroupItems[0].parent.items.length;
@@ -107,6 +172,12 @@ export class Highlight implements Technique {
     this.onAllItems(topSameGroupItems);
   }
 
+  /**
+   * Split all the given items by their group, and highlight them group by group
+   * (using [[applyInGroup]]).
+   *
+   * @param  items The sorted list of items to highlight.
+   */
   private splitAndApplyByGroup (items: Item[]) {
     let topItemsSplitByGroup = Item.splitAllByGroup(items);
 
