@@ -1,18 +1,18 @@
 {
-	"name": "adaptive-web-menus",
+	"name": "sam",
 	"version": "1.0.0",
-	"description": "Adaptive web menus library (research project from Aalto UI group).",
-	"homepage": "https://github.com/Daru13/adaptive-web-menus#readme",
+	"description": "A JavaScript library for Self-Adapting Web Menus.",
+	"homepage": "https://github.com/aalto-ui/sam#readme",
 	"main": "build/lib/index.js",
 	"types": "build/lib/index.d.ts",
 	"private": true,
 	"bugs": {
-		"url": "https://github.com/Daru13/adaptive-web-menus/issues"
+		"url": "https://github.com/aalto-ui/sam/issues"
 	},
 	"author": "Daru13",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Daru13/adaptive-web-menus.git"
+		"url": "git+https://github.com/aalto-ui/sam.git"
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
