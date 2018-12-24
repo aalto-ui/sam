@@ -1,18 +1,18 @@
 import { MenuManager } from "../elements/MenuManager";
 import { DataManager } from "../data/DataManager";
-import { Technique } from "./techniques/Technique";
-import { Policy } from "./policies/Policy";
+import { AdaptationStyle } from "./styles/AdaptationStyle";
+import { TargetPolicy } from "./policies/TargetPolicy";
 
-import { Highlight } from "./techniques/Highlight";
-import { Identity } from "./techniques/Identity";
-import { ReorderItems } from "./techniques/ReorderItems";
-import { HighlightAndReorderItems } from "./techniques/composites/HighlightAndReorderItems";
-import { Fold } from "./techniques/Fold";
-import { ReorderItemsAndFold } from "./techniques/composites/ReorderItemsAndFold";
-import { HighlightReorderItemsAndFold } from "./techniques/composites/HighlightReorderItemsAndFold";
-import { ReorderGroups } from "./techniques/ReorderGroups";
-import { HighlightAndReorderAll } from "./techniques/composites/HighlightAndReorderAll";
-import { ProgressiveHighlightAndReorderItems } from "./techniques/composites/ProgressiveHighlightAndReorderItems";
+import { Highlight } from "./styles/Highlight";
+import { Identity } from "./styles/Identity";
+import { ReorderItems } from "./styles/ReorderItems";
+import { HighlightAndReorderItems } from "./styles/composites/HighlightAndReorderItems";
+import { Fold } from "./styles/Fold";
+import { ReorderItemsAndFold } from "./styles/composites/ReorderItemsAndFold";
+import { HighlightReorderItemsAndFold } from "./styles/composites/HighlightReorderItemsAndFold";
+import { ReorderGroups } from "./styles/ReorderGroups";
+import { HighlightAndReorderAll } from "./styles/composites/HighlightAndReorderAll";
+import { ProgressiveHighlightAndReorderItems } from "./styles/composites/ProgressiveHighlightAndReorderItems";
 
 import { AccessRankPolicy } from "./policies/AccessRankPolicy";
 import { LongestVisitDurationPolicy } from "./policies/LongestVisitDurationPolicy";
@@ -73,14 +73,14 @@ export class AdaptationManager {
   private readonly dataManager: DataManager;
 
   /**
-   * Current adaptation technique.
+   * Current adaptation style.
    */
-  private currentTechnique: Technique;
+  private currentStyle: AdaptationStyle;
 
   /**
    * Current adaptation policy.
    */
-  private currentPolicy: Policy;
+  private currentPolicy: TargetPolicy;
 
 
   // =========================================================== CONSTRUCTOR ===
@@ -95,7 +95,7 @@ export class AdaptationManager {
     this.menuManager = menuManager;
     this.dataManager = dataManager;
 
-    this.currentTechnique = null;
+    this.currentStyle = null;
     this.currentPolicy = null;
 
     this.restoreAdaptationFromDatabaseOrSetDefault();
@@ -115,7 +115,7 @@ export class AdaptationManager {
    * @return The name of the current technique.
    */
   getCurrentTechniqueName (): string {
-    return this.currentTechnique.name;
+    return this.currentStyle.name;
   }
 
   /**
@@ -136,7 +136,7 @@ export class AdaptationManager {
       return;
     }
 
-    this.currentTechnique = technique;
+    this.currentStyle = technique;
     console.log(`Technique has been set to ${name}.`);
 
     // Save the name of the current technique in the persistent storage of the database
@@ -268,15 +268,15 @@ export class AdaptationManager {
    * using the current adaptation policy.
    */
   applyCurrentAdaptation () {
-    this.currentTechnique.apply(this.menuManager, this.currentPolicy, this.dataManager);
-    console.log(`Applying technique ${this.currentTechnique.name} with policy ${this.currentPolicy.name}.`);
+    this.currentStyle.apply(this.menuManager, this.currentPolicy, this.dataManager);
+    console.log(`Applying technique ${this.currentStyle.name} with policy ${this.currentPolicy.name}.`);
   }
 
   /**
    * Cancel the current adaptation technique on all the menus which are adapted.
    */
   resetCurrentAdaptation () {
-    this.currentTechnique.reset();
+    this.currentStyle.reset();
   }
 
   /**

@@ -1,8 +1,8 @@
 import { MenuManager } from "../../elements/MenuManager";
-import { Policy, ItemWithScore, ItemGroupWithScore } from "./Policy";
+import { TargetPolicy, ItemWithScore, ItemGroupWithScore } from "./TargetPolicy";
 
 
-export class NodeIndexOrderPolicy extends Policy {
+export class NodeIndexOrderPolicy extends TargetPolicy {
 
   // ============================================================ PROPERTIES ===
 

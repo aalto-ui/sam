@@ -2,11 +2,11 @@ import * as $ from "jquery";
 import { AdaptiveElement } from "../../elements/AdaptiveElement";
 import { MenuManager } from "../../elements/MenuManager";
 import { DataManager } from "../../data/DataManager";
-import { Policy } from "../policies/Policy";
-import { Technique } from "./Technique";
+import { TargetPolicy } from "../policies/TargetPolicy";
+import { AdaptationStyle } from "./AdaptationStyle";
 
 
-export abstract class Reorder implements Technique {
+export abstract class Reorder implements AdaptationStyle {
 
   // ============================================================ PROPERTIES ===
 
@@ -249,7 +249,7 @@ export abstract class Reorder implements Technique {
     this.reinsertNonReorderableElements();
   }
 
-  abstract apply (menuManager: MenuManager, policy: Policy, dataManager?: DataManager);
+  abstract apply (menuManager: MenuManager, policy: TargetPolicy, dataManager?: DataManager);
 
 
   // ===========================================================================

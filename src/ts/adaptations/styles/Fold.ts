@@ -2,11 +2,11 @@ import * as $ from "jquery";
 import { MenuManager } from "../../elements/MenuManager";
 import { DataManager } from "../../data/DataManager";
 import { Item } from "../../elements/Item";
-import { Policy } from "../policies/Policy";
-import { Technique } from "./Technique";
+import { TargetPolicy } from "../policies/TargetPolicy";
+import { AdaptationStyle } from "./AdaptationStyle";
 
 
-export class Fold implements Technique {
+export class Fold implements AdaptationStyle {
 
   // ============================================================ PROPERTIES ===
 
@@ -137,7 +137,7 @@ export class Fold implements Technique {
 
 
   // ===========================================================================
-  // Apply technique
+  // Apply s
   // ===========================================================================
 
   /**
@@ -210,7 +210,7 @@ export class Fold implements Technique {
     this.makeFolder(sameGroupItems);
   }
 
-  apply (menuManager: MenuManager, policy: Policy, dataManager?: DataManager) {
+  apply (menuManager: MenuManager, policy: TargetPolicy, dataManager?: DataManager) {
     let items = policy.getSortedItems(menuManager, dataManager);
 
     this.splitAndApplyByGroup(items);

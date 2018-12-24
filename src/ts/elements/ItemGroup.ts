@@ -1,7 +1,7 @@
 import { AdaptiveElement, Selector, NO_SELECTOR, NoSelector } from "./AdaptiveElement";
 import { Item } from "./Item";
 import { Menu } from "./Menu";
-import { Reorder } from "../adaptations/techniques/Reorder";
+import { Reorder } from "../adaptations/styles/Reorder";
 
 
 export type GroupID = string;

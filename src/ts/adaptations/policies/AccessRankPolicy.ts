@@ -2,10 +2,10 @@ import { MenuManager } from "../../elements/MenuManager";
 import { DataManager } from "../../data/DataManager";
 import { Item } from "../../elements/Item";
 import { ItemClicksAnalysis, ItemClicksAnalyser } from "../../data/ItemClicksAnalyser";
-import { Policy, ItemWithScore } from "./Policy";
+import { TargetPolicy, ItemWithScore } from "./TargetPolicy";
 
 
-export class AccessRankPolicy extends Policy {
+export class AccessRankPolicy extends TargetPolicy {
 
   // ============================================================ PROPERTIES ===
 

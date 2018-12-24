@@ -3,11 +3,11 @@ import { ReorderGroups } from "./../ReorderGroups";
 import { MenuManager } from "../../../elements/MenuManager";
 import { DataManager } from "../../../data/DataManager";
 import { Highlight } from "../Highlight";
-import { Policy } from "../../policies/Policy";
-import { Technique } from "../Technique";
+import { TargetPolicy } from "../../policies/TargetPolicy";
+import { AdaptationStyle } from "../AdaptationStyle";
 
 
-export class HighlightAndReorderAll implements Technique {
+export class HighlightAndReorderAll implements AdaptationStyle {
 
   // ============================================================ PROPERTIES ===
 
@@ -36,7 +36,7 @@ export class HighlightAndReorderAll implements Technique {
     this.highlight.reset();
   }
 
-  apply (menuManager: MenuManager, policy: Policy, dataManager?: DataManager) {
+  apply (menuManager: MenuManager, policy: TargetPolicy, dataManager?: DataManager) {
     this.highlight.apply(menuManager, policy, dataManager);
     this.reorderItems.apply(menuManager, policy, dataManager);
     this.reorderGroups.apply(menuManager, policy, dataManager);

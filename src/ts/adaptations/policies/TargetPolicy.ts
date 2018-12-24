@@ -15,7 +15,7 @@ export interface ItemGroupWithScore {
 }
 
 
-export abstract class Policy {
+export abstract class TargetPolicy {
 
   // ============================================================ PROPERTIES ===
 

@@ -2,8 +2,8 @@ import { MenuManager } from "../../../elements/MenuManager";
 import { DataManager } from "../../../data/DataManager";
 import { Highlight } from "../Highlight";
 import { ReorderItems } from "../ReorderItems";
-import { Policy, ItemWithScore } from "../../policies/Policy";
-import { Technique } from "../Technique";
+import { TargetPolicy, ItemWithScore } from "../../policies/TargetPolicy";
+import { AdaptationStyle } from "../AdaptationStyle";
 import { AccessRankPolicy } from "../../policies/AccessRankPolicy";
 import { Database } from "../../../data/Database";
 import { Item } from "../../../elements/Item";
@@ -23,13 +23,13 @@ export interface ItemCharacteristics {
 }
 
 /* tslint:disable: max-classes-per-file */
-export class ProgressiveHighlightAndReorderItems implements Technique {
+export class ProgressiveHighlightAndReorderItems implements AdaptationStyle {
 
   // ============================================================ PROPERTIES ===
 
   readonly name: string = "Progressive HL + R items";
 
-  private readonly policy: Policy;
+  private readonly policy: TargetPolicy;
 
   private allItems: Item[];
   private previousItemCharacteristics: {[itemID: string]: ItemCharacteristics};

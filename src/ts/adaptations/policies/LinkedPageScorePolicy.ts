@@ -1,12 +1,12 @@
 import { MenuManager } from "../../elements/MenuManager";
 import { Item } from "../../elements/Item";
 import { PageVisitsAnalysis } from "../../data/PageVisitsAnalyser";
-import { Policy, ItemWithScore } from "./Policy";
+import { TargetPolicy, ItemWithScore } from "./TargetPolicy";
 import { DataManager } from "../../data/DataManager";
 import { PageID } from "../../Utilities";
 
 
-export abstract class LinkedPageScorePolicy extends Policy {
+export abstract class LinkedPageScorePolicy extends TargetPolicy {
 
   // ============================================================ PROPERTIES ===
 

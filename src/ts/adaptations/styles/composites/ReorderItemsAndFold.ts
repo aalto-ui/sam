@@ -3,11 +3,11 @@ import { DataManager } from "../../../data/DataManager";
 import { ReorderItems } from "../ReorderItems";
 import { Fold } from "../Fold";
 import { NodeIndexOrderPolicy } from "../../policies/NodeIndexOrderPolicy";
-import { Policy } from "../../policies/Policy";
-import { Technique } from "../Technique";
+import { TargetPolicy } from "../../policies/TargetPolicy";
+import { AdaptationStyle } from "../AdaptationStyle";
 
 
-export class ReorderItemsAndFold implements Technique {
+export class ReorderItemsAndFold implements AdaptationStyle {
 
   // ============================================================ PROPERTIES ===
 
@@ -37,7 +37,7 @@ export class ReorderItemsAndFold implements Technique {
     this.reorder.reset();
   }
 
-  apply (menuManager: MenuManager, policy: Policy, dataManager?: DataManager) {
+  apply (menuManager: MenuManager, policy: TargetPolicy, dataManager?: DataManager) {
     this.reorder.apply(menuManager, policy, dataManager);
     this.fold.apply(menuManager, this.naturalOrderPolicy);
   }

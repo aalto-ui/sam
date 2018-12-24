@@ -1,9 +1,9 @@
-import { Technique } from "./Technique";
+import { AdaptationStyle } from "./AdaptationStyle";
 
 
 // This technique is doing nothing (no change to the page)
 // Its only purpose is to be available (with the right type) as a baseline
-export class Identity implements Technique {
+export class Identity implements AdaptationStyle {
 
   // ============================================================ PROPERTIES ===
 

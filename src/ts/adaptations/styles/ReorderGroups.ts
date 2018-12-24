@@ -2,7 +2,7 @@ import { Reorder } from "./Reorder";
 import { MenuManager } from "../../elements/MenuManager";
 import { DataManager } from "../../data/DataManager";
 import { ItemGroup } from "../../elements/ItemGroup";
-import { Policy } from "../policies/Policy";
+import { TargetPolicy } from "../policies/TargetPolicy";
 
 
 export class ReorderGroups extends Reorder {
@@ -58,7 +58,7 @@ export class ReorderGroups extends Reorder {
    * @param  dataManager The data manager containing data for the policy.
    * @return             A sorted and filtered list of groups.
    */
-  private getFilteredSortedGroups (menuManager: MenuManager, policy: Policy, dataManager?: DataManager): ItemGroup[] {
+  private getFilteredSortedGroups (menuManager: MenuManager, policy: TargetPolicy, dataManager?: DataManager): ItemGroup[] {
     return policy
       .getSortedItemGroupsWithScores(menuManager, dataManager)
       .filter((groupWithScore) => {
@@ -73,7 +73,7 @@ export class ReorderGroups extends Reorder {
       });
   }
 
-  apply (menuManager: MenuManager, policy: Policy, dataManager?: DataManager) {
+  apply (menuManager: MenuManager, policy: TargetPolicy, dataManager?: DataManager) {
     let groups = this.getFilteredSortedGroups(menuManager, policy, dataManager);
 
     // Save some children in their original order to be able to reset the reordering

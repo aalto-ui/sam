@@ -2,7 +2,7 @@ import * as $ from "jquery";
 import { AdaptiveElement, Selector } from "./AdaptiveElement";
 import { ItemGroup } from "./ItemGroup";
 import { Utilities, PageID } from "../Utilities";
-import { Reorder } from "../adaptations/techniques/Reorder";
+import { Reorder } from "../adaptations/styles/Reorder";
 
 
 export type ItemID = string;

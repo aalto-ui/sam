@@ -4,7 +4,7 @@ import { Item } from "../../elements/Item";
 import { ItemGroup } from "../../elements/ItemGroup";
 import { AdaptiveElement } from "../../elements/AdaptiveElement";
 import { ItemClicksAnalysis, ItemClicksAnalyser } from "../../data/ItemClicksAnalyser";
-import { Policy, ItemWithScore, ItemGroupWithScore } from "./Policy";
+import { TargetPolicy, ItemWithScore, ItemGroupWithScore } from "./TargetPolicy";
 
 
 interface ElementWithNbClicks<E extends AdaptiveElement> {
@@ -13,7 +13,7 @@ interface ElementWithNbClicks<E extends AdaptiveElement> {
 }
 
 
-export class MostClickedItemListPolicy extends Policy {
+export class MostClickedItemListPolicy extends TargetPolicy {
 
   // ============================================================ PROPERTIES ===
 

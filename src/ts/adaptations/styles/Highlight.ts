@@ -2,8 +2,8 @@ import * as $ from "jquery";
 import { MenuManager } from "../../elements/MenuManager";
 import { DataManager } from "../../data/DataManager";
 import { Item } from "../../elements/Item";
-import { ItemWithScore, Policy } from "../policies/Policy";
-import { Technique } from "./Technique";
+import { ItemWithScore, TargetPolicy } from "../policies/TargetPolicy";
+import { AdaptationStyle } from "./AdaptationStyle";
 
 
 // Discrete strength levels of the highlighting effect
@@ -30,7 +30,7 @@ const HIGHLIGHTING_LEVELS_CLASSES: string[] = Object.keys(HighlightingLevel)
   });
 
 
-export class Highlight implements Technique {
+export class Highlight implements AdaptationStyle {
 
   // ============================================================ PROPERTIES ===
 
@@ -108,7 +108,7 @@ export class Highlight implements Technique {
    * @param  dataManager The data manager containing data for the policy.
    * @return             A sorted and filtered list of items.
    */
-  private getFilteredSortedItemWithScores (menuManager: MenuManager, policy: Policy, dataManager?: DataManager): ItemWithScore[] {
+  private getFilteredSortedItemWithScores (menuManager: MenuManager, policy: TargetPolicy, dataManager?: DataManager): ItemWithScore[] {
     return policy
       .getSortedItemsWithScores(menuManager, dataManager)
       .filter((itemWithScore) => {
@@ -186,7 +186,7 @@ export class Highlight implements Technique {
     }
   }
 
-  apply (menuManager: MenuManager, policy: Policy, dataManager?: DataManager) {
+  apply (menuManager: MenuManager, policy: TargetPolicy, dataManager?: DataManager) {
     let itemWithScores = this.getFilteredSortedItemWithScores(menuManager, policy, dataManager);
 
     // Only keep the top items to highlight them
