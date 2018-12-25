@@ -34,7 +34,7 @@ export class Fold implements AdaptationStyle {
 
   /**
    * List of folder nodes.
-   * The list must be emptied and recomputed each time the technique is applied.
+   * The list must be emptied and recomputed each time the style is applied.
    */
   private folderNodes: JQuery[];
 
@@ -218,7 +218,7 @@ export class Fold implements AdaptationStyle {
 
 
   // ===========================================================================
-  // Reset technique
+  // Reset style
   // ===========================================================================
 
   reset () {

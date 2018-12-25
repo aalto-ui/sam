@@ -12,7 +12,7 @@ export class HighlightAndReorderItems implements AdaptationStyle {
 
   readonly name: string = "Highlight + reorder items";
 
-  // Instances of other techniques used by this mixed one
+  // Instances of other styles used by this mixed one
   private readonly highlight: Highlight;
   private readonly reorder: ReorderItems;
 

@@ -13,7 +13,7 @@ export class ReorderItemsAndFold implements AdaptationStyle {
 
   readonly name: string = "Reorder items + fold";
 
-  // Instances of other techniques used by this mixed one
+  // Instances of other styles used by this mixed one
   private readonly reorder: ReorderItems;
   private readonly fold: Fold;
 

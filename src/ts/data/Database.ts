@@ -34,7 +34,7 @@ interface DatabaseTable<T extends {}> {
 // Interface of a persistent storage object
 // It should be used to store and load persistent data accross pages and sessions
 export interface PersistentStorage {
-  techniqueName?: string;
+  styleName?: string;
   policyName?: string;
   previousItemCharacteristics?: {[itemID: string]: ItemCharacteristics};
 }

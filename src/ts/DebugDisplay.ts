@@ -1,6 +1,6 @@
 import * as $ from "jquery";
 import { AdaptiveWebMenus } from "./AdaptiveWebMenus";
-import { AVAILABLE_TECHNIQUE_NAMES, AVAILABLE_POLICY_NAMES } from "./adaptations/AdaptationManager";
+import { AVAILABLE_STYLE_NAMES, AVAILABLE_POLICY_NAMES } from "./adaptations/AdaptationManager";
 
 
 export class DebugDisplay {
@@ -44,18 +44,18 @@ export class DebugDisplay {
   // =============================================================== METHODS ===
 
   /**
-   * Update the adaptation technique from the selected one.
+   * Update the adaptation style from the selected one.
    */
-  private updateTechnique () {
-    let techniqueName = $("#awm-debug-switch-technique-menu").val() as string;
+  private updateAdaptationStyle () {
+    let styleName = $("#awm-debug-switch-style-menu").val() as string;
 
-    this.awm.adaptationManager.switchToTechnique(techniqueName);
+    this.awm.adaptationManager.switchToStyle(styleName);
   }
 
   /**
-   * Update the adatation policy from the selected one.
+   * Update the target policy from the selected one.
    */
-  private updatePolicy () {
+  private updateTargetPolicy () {
     let policyName = $("#awm-debug-switch-policy-menu").val() as string;
 
     this.awm.adaptationManager.switchToPolicy(policyName);
@@ -78,31 +78,31 @@ export class DebugDisplay {
   }
 
   /**
-   * Create a list of adaptation techniques, and append it to the container.
+   * Create a list of adaptation styles, and append it to the container.
    */
-  private addTechniqueListNode () {
+  private addStyleListNode () {
     this.controlsContainerNode
       .append($("<label>")
-      .attr("for", "awm-debug-switch-technique-menu")
-      .html("Technique:"));
+      .attr("for", "awm-debug-switch-style-menu")
+      .html("Style:"));
 
     this.controlsContainerNode
       .append($("<select>")
-      .attr("id", "awm-debug-switch-technique-menu")
+      .attr("id", "awm-debug-switch-style-menu")
       .on("change", (_) => {
-        this.updateTechnique();
+        this.updateAdaptationStyle();
       }));
 
-    for (let name of AVAILABLE_TECHNIQUE_NAMES) {
+    for (let name of AVAILABLE_STYLE_NAMES) {
       let option = $("<option>")
         .attr("val", name)
         .html(name);
 
-      if (name === this.awm.adaptationManager.getCurrentTechniqueName()) {
+      if (name === this.awm.adaptationManager.getCurrentStyleName()) {
         option.prop("selected", true);
       }
 
-      $("#awm-debug-switch-technique-menu").append(option);
+      $("#awm-debug-switch-style-menu").append(option);
     }
   }
 
@@ -119,7 +119,7 @@ export class DebugDisplay {
       .append($("<select>")
       .attr("id", "awm-debug-switch-policy-menu")
       .on("change", (_) => {
-        this.updatePolicy();
+        this.updateTargetPolicy();
       }));
 
     for (let name of AVAILABLE_POLICY_NAMES) {
@@ -154,7 +154,7 @@ export class DebugDisplay {
    */
   private addAllControls () {
     this.addControlContainerNode();
-    this.addTechniqueListNode();
+    this.addStyleListNode();
     this.addPolicyListNode();
     this.addClearHistoryButtonNode();
   }

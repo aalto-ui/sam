@@ -46,7 +46,7 @@ export class Highlight implements AdaptationStyle {
 
   /**
    * Set of items which must be highlighted at high level.
-   * The set must be emptied and recomputed each time the technique is applied.
+   * The set must be emptied and recomputed each time the style is applied.
    */
   protected itemsToHighlightAtHighLevel: Set<Item>;
 
@@ -96,7 +96,7 @@ export class Highlight implements AdaptationStyle {
 
 
   // ===========================================================================
-  // Apply technique
+  // Apply style
   // ===========================================================================
 
   /**
@@ -204,7 +204,7 @@ export class Highlight implements AdaptationStyle {
 
 
   // ===========================================================================
-  // Reset technique
+  // Reset style
   // ===========================================================================
 
   reset () {

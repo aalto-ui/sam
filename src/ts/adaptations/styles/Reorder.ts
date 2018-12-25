@@ -153,7 +153,7 @@ export abstract class Reorder implements AdaptationStyle {
 
 
   // ===========================================================================
-  // Apply technique
+  // Apply style
   // ===========================================================================
 
   /**
@@ -218,7 +218,7 @@ export abstract class Reorder implements AdaptationStyle {
    * except for elements marked as non-reorderable.
    *
    * This method expects a complete list of menu adaptive elements, supposedly computed by a policy.
-   * It was designed to be called by implementations of [[Technique.apply]].
+   * It was designed to be called by implementations of [[AdaptationStyle.apply]].
    *
    * @param  elements The sorted list of elements to reorder.
    */
@@ -253,7 +253,7 @@ export abstract class Reorder implements AdaptationStyle {
 
 
   // ===========================================================================
-  // Reset technique
+  // Reset style
   // ===========================================================================
 
   reset () {
