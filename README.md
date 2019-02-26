@@ -1,7 +1,7 @@
 # SAM
 A JavaScript library which offers **Self-Adapting Web Menus**.
 
-## Running SAM (for users)
+## Running SAM (for end-users)
 SAM works by injecting custom JavaScript and CSS into an open webpage on the browser. We have currently tested it on Mozilla Firefox. To get started: 
 1. Install an add-on for injecting JS/CSS. We use **Code Injector**: https://addons.mozilla.org/en-US/firefox/addon/codeinjector/
 2. Add global rules (common for all URLs). Open the Code Injector add-on, and add new rules for the following: 
