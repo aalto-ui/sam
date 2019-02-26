@@ -11,6 +11,9 @@ export class LongestVisitDurationPolicy extends LinkedPageScorePolicy {
 
   // =========================================================== CONSTRUCTOR ===
 
+  /**
+   * Create a new instance of LongestVisitDurationPolicy.
+   */
   constructor () {
     super();
   }

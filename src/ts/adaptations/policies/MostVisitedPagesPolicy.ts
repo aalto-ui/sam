@@ -11,6 +11,9 @@ export class MostVisitedPagesPolicy extends LinkedPageScorePolicy {
 
   // =========================================================== CONSTRUCTOR ===
 
+  /**
+   * Create a new instance of MostVIsitedPagesPolicy.
+   */
   constructor () {
     super();
   }

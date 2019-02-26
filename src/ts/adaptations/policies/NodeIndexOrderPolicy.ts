@@ -11,6 +11,9 @@ export class NodeIndexOrderPolicy extends TargetPolicy {
 
   // =========================================================== CONSTRUCTOR ===
 
+  /**
+   * Create a new instance of NodeIndexOrderPolicy.
+   */
   constructor () {
     super();
   }

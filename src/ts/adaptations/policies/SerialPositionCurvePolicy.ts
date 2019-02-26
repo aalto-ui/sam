@@ -18,6 +18,18 @@ export class SerialPositionCurvePolicy extends LinkedPageScorePolicy {
 
   // =============================================================== METHODS ===
 
+  /**
+   * Compute and return the _familiarity_ score of the webpage with the given ID,
+   * using data about the page from [[LinkedPageScorePolicy.pageVisitsAnalysis]].
+   * 
+   * The _familiarity_ of a page is defined as the weighted sum of:
+   * - the frequency of the visits;
+   * - the recency of the last visit;
+   * - the primacy of the first visit.
+   * 
+   * @param  pageID The ID of the page to rank.
+   * @return        The familiarity score of the page with the given ID.
+   */
   private computeFamiliarityScore (pageID: PageID): number {
     // If there are no stats, immediately return a null score
     if (! this.pageVisitsAnalysis.pageStats.has(pageID)) {

@@ -14,6 +14,9 @@ export class AccessRankPolicy extends TargetPolicy {
 
   // =========================================================== CONSTRUCTOR ===
 
+  /**
+   * Create a new instance of AccessRankPolicy.
+   */
   constructor () {
     super();
   }
@@ -26,6 +29,13 @@ export class AccessRankPolicy extends TargetPolicy {
   // Sub-scores computation
   // ===========================================================================
 
+  /**
+   * Compute and return the _Markov_ component of the score of each given item.
+   * 
+   * @param  items              The list of items to rank.
+   * @param  itemClicksAnalysis The item clicks analysis to use to assign scores.
+   * @return                    A map from items to their _Markov_ sub-scores.
+   */
   private computeMarkovScores (items: Item[], itemClicksAnalysis: ItemClicksAnalysis): Map<Item, number> {
     let markovScores = new Map();
 
@@ -42,6 +52,14 @@ export class AccessRankPolicy extends TargetPolicy {
     return markovScores;
   }
 
+  /**
+   * Compute and return the CRF (Combined Recency and Frequency)
+   * component of the score of each given item.
+   * 
+   * @param  items              The list of items to rank.
+   * @param  itemClicksAnalysis The item clicks analysis to use to assign scores.
+   * @return                    A map from items to their CRF sub-scores.
+   */
   private computeCRFScores (items: Item[], itemClicksAnalysis: ItemClicksAnalysis): Map<Item, number> {
     let currentIndex = itemClicksAnalysis.currentEventIndex;
     let crfScores = new Map();
@@ -66,6 +84,14 @@ export class AccessRankPolicy extends TargetPolicy {
     return crfScores;
   }
 
+  /**
+   * Compute and return the regularity component of the score of each given item,
+   * i.e. what is called _Time Weighting_ in AccessRank paper. 
+   * 
+   * @param  items              The list of items to rank.
+   * @param  itemClicksAnalysis The item clicks analysis to use to assign scores.
+   * @return                    A map from items to their regularity sub-scores.
+   */
   private computeRegularityScores (items: Item[], itemClicksAnalysis: ItemClicksAnalysis): Map<Item, number> {
     // First, count how many clicks occur each hour/day
     // Arrays are resp. indexed by hours (0-23) and days (0-6)

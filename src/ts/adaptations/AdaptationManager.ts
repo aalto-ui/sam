@@ -16,7 +16,7 @@ import { ProgressiveHighlightAndReorderItems } from "./styles/composites/Progres
 
 import { AccessRankPolicy } from "./policies/AccessRankPolicy";
 import { LongestVisitDurationPolicy } from "./policies/LongestVisitDurationPolicy";
-import { MostClickedItemListPolicy } from "./policies/MostClickedItemsPolicy";
+import { MostClickedItemsPolicy } from "./policies/MostClickedItemsPolicy";
 import { MostRecentVisitsPolicy } from "./policies/MostRecentVisitsPolicy";
 import { MostVisitedPagesPolicy } from "./policies/MostVisitedPagesPolicy";
 import { SerialPositionCurvePolicy } from "./policies/SerialPositionCurvePolicy";
@@ -43,7 +43,7 @@ export type AvailableStyle = typeof AVAILABLE_STYLES[0];
 
 
 export const AVAILABLE_POLICIES = [
-  new MostClickedItemListPolicy(),
+  new MostClickedItemsPolicy(),
   new MostVisitedPagesPolicy(),
   new MostRecentVisitsPolicy(),
   new LongestVisitDurationPolicy(),

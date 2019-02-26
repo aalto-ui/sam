@@ -11,6 +11,9 @@ export class MostRecentVisitsPolicy extends LinkedPageScorePolicy {
 
   // =========================================================== CONSTRUCTOR ===
 
+  /**
+   * Create a new instance of MostRecentVisitsPolicy.
+   */
   constructor () {
     super();
   }
