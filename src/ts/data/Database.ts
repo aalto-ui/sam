@@ -76,7 +76,7 @@ export class Database {
   // =========================================================== CONSTRUCTOR ===
 
   /**
-   * Create a new instance of database.
+   * Create a new instance of Database.
    */
   constructor () {
     this.init();
