@@ -1,3 +1,5 @@
+/** @module adaptation */
+
 import { LinkedPageScorePolicy } from "./LinkedPageScorePolicy";
 import { PageID } from "../../Utilities";
 

@@ -1,3 +1,5 @@
+/** @module adaptation */
+
 import { MenuManager } from "../../elements/MenuManager";
 import { Item } from "../../elements/Item";
 import { PageVisitsAnalysis } from "../../data/PageVisitsAnalyser";

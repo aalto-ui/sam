@@ -1,3 +1,5 @@
+/** @module core */
+
 import * as $ from "jquery";
 import { AdaptiveWebMenus } from "./AdaptiveWebMenus";
 import { AVAILABLE_STYLE_NAMES, AVAILABLE_POLICY_NAMES } from "./adaptations/AdaptationManager";

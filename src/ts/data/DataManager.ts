@@ -1,3 +1,5 @@
+/** @module user-data */
+
 import { Database } from "./Database";
 import { DataLogger } from "./DataLogger";
 import { DataAnalyser } from "./DataAnalyser";

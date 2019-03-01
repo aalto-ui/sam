@@ -1,3 +1,5 @@
+/** @module adaptation */
+
 import * as $ from "jquery";
 import { MenuManager } from "../../elements/MenuManager";
 import { DataManager } from "../../data/DataManager";

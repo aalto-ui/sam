@@ -1,3 +1,5 @@
+/** @module menu-abstraction */
+
 import * as $ from "jquery";
 
 

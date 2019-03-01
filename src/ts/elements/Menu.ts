@@ -1,3 +1,5 @@
+/** @module menu-abstraction */
+
 import * as $ from "jquery";
 import { AdaptiveElement, Selector, isSelector, NO_SELECTOR } from "./AdaptiveElement";
 import { ItemGroup } from "./ItemGroup";

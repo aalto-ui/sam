@@ -1,3 +1,5 @@
+/** @module menu-abstraction */
+
 import { Menu, MenuID } from "./Menu";
 import { Item } from "./Item";
 import { ItemGroup } from "./ItemGroup";

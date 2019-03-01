@@ -1,3 +1,5 @@
+/** @module adaptation */
+
 import * as $ from "jquery";
 import { AdaptiveElement } from "../../elements/AdaptiveElement";
 import { MenuManager } from "../../elements/MenuManager";

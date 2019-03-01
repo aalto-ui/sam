@@ -1,3 +1,5 @@
+/** @module core */
+
 /**
  * Type of the unique identifier of a webpage.
  * See [[getLinkedPageID]] method for details.

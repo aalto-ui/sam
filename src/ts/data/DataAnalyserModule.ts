@@ -1,3 +1,5 @@
+/** @module user-data */
+
 import { Database } from "./Database";
 
 

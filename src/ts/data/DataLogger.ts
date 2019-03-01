@@ -1,3 +1,5 @@
+/** @module user-data */
+
 import * as $ from "jquery";
 import { Database } from "./Database";
 import { MenuManager } from "../elements/MenuManager";

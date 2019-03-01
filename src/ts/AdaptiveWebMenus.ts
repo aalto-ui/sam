@@ -1,3 +1,5 @@
+/** @module core */
+
 import { MenuManager, MenuSelectors } from "./elements/MenuManager";
 import { Menu, MenuID } from "./elements/Menu";
 import { ItemGroup } from "./elements/ItemGroup";

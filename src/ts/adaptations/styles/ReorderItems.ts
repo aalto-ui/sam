@@ -1,3 +1,5 @@
+/** @module adaptation */
+
 import { Reorder } from "./Reorder";
 import { MenuManager } from "../../elements/MenuManager";
 import { DataManager } from "../../data/DataManager";

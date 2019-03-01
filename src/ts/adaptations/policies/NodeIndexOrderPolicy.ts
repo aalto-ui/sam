@@ -1,3 +1,5 @@
+/** @module adaptation */
+
 import { MenuManager } from "../../elements/MenuManager";
 import { TargetPolicy, ItemWithScore, ItemGroupWithScore } from "./TargetPolicy";
 

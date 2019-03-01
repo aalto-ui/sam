@@ -1,3 +1,5 @@
+/** @module adaptation */
+
 import { AdaptationStyle } from "./AdaptationStyle";
 
 

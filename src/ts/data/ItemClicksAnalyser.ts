@@ -1,3 +1,5 @@
+/** @module user-data */
+
 import { Database, TableEntryIndex, TableEntry } from "./Database";
 import { Utilities, PageID } from "../Utilities";
 import { DataAnalyserModule, Analysis } from "./DataAnalyserModule";

@@ -1,3 +1,5 @@
+/** @module user-data */
+
 import * as $ from "jquery";
 import { Utilities } from "../Utilities";
 import { ItemClickLog, PageVisitLog } from "./DataLogger";

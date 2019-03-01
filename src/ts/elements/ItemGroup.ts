@@ -1,3 +1,5 @@
+/** @module menu-abstraction */
+
 import { AdaptiveElement, Selector, NO_SELECTOR, NoSelector } from "./AdaptiveElement";
 import { Item } from "./Item";
 import { Menu } from "./Menu";

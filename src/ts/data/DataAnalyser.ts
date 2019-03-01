@@ -1,3 +1,5 @@
+/** @module user-data */
+
 import { Database } from "./Database";
 import { ItemClicksAnalyser, ItemClicksAnalysis } from "./ItemClicksAnalyser";
 import { PageVisitsAnalyser, PageVisitsAnalysis } from "./PageVisitsAnalyser";
