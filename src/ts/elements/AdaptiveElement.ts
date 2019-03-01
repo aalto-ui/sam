@@ -3,7 +3,7 @@ import * as $ from "jquery";
 
 // Internally used type for and element selector
 // It should be compatible with expected types by jQuery selector tool
-export type Selector = JQuery | Element | string;
+export type Selector = JQuery;
 
 export const NO_SELECTOR = Symbol("No selector");
 export type NoSelector = typeof NO_SELECTOR;

@@ -103,7 +103,7 @@ export class Menu extends AdaptiveElement {
                    : this.node.find(groupSelector);
 
     groupNodes.each((_, element) => {
-      this.groups.push(ItemGroup.fromSelectors(element, itemSelector, this));
+      this.groups.push(ItemGroup.fromSelectors($(element), itemSelector, this));
     });
   }
 
@@ -114,7 +114,7 @@ export class Menu extends AdaptiveElement {
     for (let groupSelector in descendantSelectors) {
       if (descendantSelectors.hasOwnProperty(groupSelector)) {
         let itemSelectors = descendantSelectors[groupSelector];
-        this.groups.push(ItemGroup.fromSelectors(groupSelector, itemSelectors, this));
+        this.groups.push(ItemGroup.fromSelectors($(groupSelector), itemSelectors, this));
       }
     }
   }

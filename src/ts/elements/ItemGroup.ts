@@ -81,7 +81,7 @@ export class ItemGroup extends AdaptiveElement {
     this.node
       .find(itemSelector)
       .each((_, element) => {
-        self.items.push(Item.fromSelector(element, self));
+        self.items.push(Item.fromSelector($(element), self));
       });
 
     // The reordering constraint of all (new) items must then be updated

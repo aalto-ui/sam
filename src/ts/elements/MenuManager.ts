@@ -136,7 +136,7 @@ export class MenuManager {
   static fromGenericMenuAndItemSelectors (menuSelector: Selector, itemSelector: Selector): MenuManager {
     let menus = [];
     $(menuSelector).each((_, element) => {
-      menus.push(Menu.fromSelectors(element, itemSelector));
+      menus.push(Menu.fromSelectors($(element), itemSelector));
     });
 
     return new MenuManager(menus);
@@ -148,7 +148,7 @@ export class MenuManager {
   static fromGenericMenuGroupAndItemSelectors (menuSelector: Selector, groupSelector: Selector, itemSelector: Selector): MenuManager {
     let menus = [];
     $(menuSelector).each((_, element) => {
-      menus.push(Menu.fromSelectors(element, groupSelector, itemSelector));
+      menus.push(Menu.fromSelectors($(element), groupSelector, itemSelector));
     });
 
     return new MenuManager(menus);
@@ -165,13 +165,13 @@ export class MenuManager {
 
         // Case 1: the descendant selector is a generic item selector
         if (isSelector(descendantSelector)) {
-          menus.push(Menu.fromSelectors(menuSelector, descendantSelector as Selector));
+          menus.push(Menu.fromSelectors($(menuSelector), descendantSelector as Selector));
         }
 
         // Case 2: the descendant selector is a specific group-item selector object
         else {
           descendantSelector = descendantSelector as {[groupSelector: string]: Selector};
-          menus.push(Menu.fromSelectors(menuSelector, descendantSelector));
+          menus.push(Menu.fromSelectors($(menuSelector), descendantSelector));
         }
       }
     }

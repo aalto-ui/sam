@@ -192,7 +192,7 @@ export class AdaptiveWebMenus {
     let groupSelector = "." + ItemGroup.AWM_CLASS;
     let itemSelector = "." + Item.AWM_CLASS;
 
-    let menuManager = MenuManager.fromGenericMenuGroupAndItemSelectors(menuSelector, groupSelector, itemSelector);
+    let menuManager = MenuManager.fromGenericMenuGroupAndItemSelectors($(menuSelector), $(groupSelector), $(itemSelector));
     return new AdaptiveWebMenus(menuManager);
   }
 }
