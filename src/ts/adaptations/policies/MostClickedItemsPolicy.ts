@@ -7,6 +7,12 @@ import { ItemClicksAnalysis, ItemClicksAnalyser } from "../../data/ItemClicksAna
 import { TargetPolicy, ItemWithScore, ItemGroupWithScore } from "./TargetPolicy";
 
 
+/**
+ * Interface of an object representing a menu element (most likely [[Item]] or [[ItemGroup]])
+ * and the number of time it has been clicked.
+ * 
+ * It is used internally by the policy.
+ */
 interface ElementWithNbClicks<E extends AdaptiveElement> {
   element: E;
   nbClicks: number;

@@ -4,11 +4,19 @@ import { Item } from "../../elements/Item";
 import { ItemGroup } from "../../elements/ItemGroup";
 
 
+/**
+ * Interface of an object containing an item and its score
+ * (according to a certain policy).
+ */
 export interface ItemWithScore {
   item: Item;
   score: number;
 }
 
+/**
+ * Interface of an object containing a group and its score
+ * (according to a certain policy).
+ */
 export interface ItemGroupWithScore {
   group: ItemGroup;
   score: number;

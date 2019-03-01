@@ -5,7 +5,14 @@ import { ItemClickLog } from "./DataLogger";
 import { Item, ItemID } from "../elements/Item";
 import { ItemGroup, GroupID } from "../elements/ItemGroup";
 
-// Generic interface for element stats, and specific ones for actual elements
+
+/**
+ * Abstract interface of the click-related statistics
+ * of a specific type of adaptive element.
+ * 
+ * It should be specialised for each type of adaptive element
+ * which is part of the complete click analysis.
+ */
 export interface AdaptiveElementStats {
   nbClicks: number;
   localNbClicks: number;
@@ -18,11 +25,21 @@ export interface AdaptiveElementStats {
   eventIndices: TableEntryIndex[];
 }
 
+/**
+ * Interface of the click-related statistics of an item.
+ */
 export interface ItemStats extends AdaptiveElementStats { }
+
+/**
+ * Interface of the click-related statistics of a group.
+ */
 export interface ItemGroupStats extends AdaptiveElementStats { }
 
 
-// Interface implemented by the item clicks analysis returned by this module
+/**
+ * Interface of the analysis of item clicks.
+ * It describes the structure of the object computed by the item click analyser module.
+ */
 export interface ItemClicksAnalysis extends Analysis {
   totalNbClicks: number;
   totalLocalNbClicks: number;
@@ -32,11 +49,19 @@ export interface ItemClicksAnalysis extends Analysis {
 }
 
 
+/**
+ * Interface of a division of a list of items,
+ * depending on whether stats about them exist or not.
+ */
 export interface ItemsSplitByStatsAvailability {
   withStats: Item[];
   withoutStats: Item[];
 }
 
+/**
+ * Interface of a division of a list of groups,
+ * depending on whether stats about them exist or not.
+ */
 export interface ItemGroupsSplitByStatsAvailability {
   withStats: ItemGroup[];
   withoutStats: ItemGroup[];

@@ -4,6 +4,7 @@ import { PageVisitLog } from "./DataLogger";
 import { PageID } from "../Utilities";
 
 
+/** Interface of the visit-related statistics of a webpage. */
 export interface PageStats {
   nbVisits: number;
   visitFrequency: number;
@@ -18,7 +19,10 @@ export interface PageStats {
   eventIndices: TableEntryIndex[];
 }
 
-// Interface implemented by the page visits analysis returned by this module
+/**
+ * Interface of the analysis of page visits.
+ * It describes the structure of the object computed by the page visits analyser module.
+ */
 export interface PageVisitsAnalysis extends Analysis {
   totalNbVisits: number;
   nbUniquePages: number;

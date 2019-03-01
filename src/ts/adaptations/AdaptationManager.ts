@@ -22,6 +22,7 @@ import { MostVisitedPagesPolicy } from "./policies/MostVisitedPagesPolicy";
 import { SerialPositionCurvePolicy } from "./policies/SerialPositionCurvePolicy";
 
 
+/** List of all the styles available in SAM. */
 export const AVAILABLE_STYLES = [
   new Identity(),
   new Highlight(),
@@ -35,13 +36,16 @@ export const AVAILABLE_STYLES = [
   new ProgressiveHighlightAndReorderItems()
 ];
 
+/** List of the names of all the styles available in SAM. */
 export const AVAILABLE_STYLE_NAMES = AVAILABLE_STYLES.map((style) => {
   return style.name;
 });
 
+/** Union type of all the available styles. */
 export type AvailableStyle = typeof AVAILABLE_STYLES[0];
 
 
+/** List of all the policies available in SAM. */
 export const AVAILABLE_POLICIES = [
   new MostClickedItemsPolicy(),
   new MostVisitedPagesPolicy(),
@@ -51,10 +55,12 @@ export const AVAILABLE_POLICIES = [
   new AccessRankPolicy()
 ];
 
+/** List of the names of all the policies available in SAM. */
 export const AVAILABLE_POLICY_NAMES = AVAILABLE_POLICIES.map((policy) => {
   return policy.name;
 });
 
+/** Union type of all the available policies. */
 export type AvailablePolicies = typeof AVAILABLE_POLICIES[0];
 
 

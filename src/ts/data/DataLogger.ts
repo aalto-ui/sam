@@ -7,7 +7,7 @@ import { Item, ItemID } from "../elements/Item";
 import { Utilities, PageID } from "../Utilities";
 
 
-// Interfaces of available logs, stored in the database
+/** Interface of the log of an item click, to be stored in the database. */
 export interface ItemClickLog {
   readonly itemID: ItemID;
   readonly groupID: GroupID;
@@ -16,6 +16,7 @@ export interface ItemClickLog {
   readonly pageID: PageID;
 }
 
+/** Interface of the log of a page visit, to be stored in the database. */
 export interface PageVisitLog {
   readonly timestamp: number;
   readonly pageID: PageID;

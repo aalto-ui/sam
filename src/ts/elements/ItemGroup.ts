@@ -4,6 +4,10 @@ import { Menu } from "./Menu";
 import { Reorder } from "../adaptations/styles/Reorder";
 
 
+/**
+ * Type of the unique identifier of a group.
+ * See [[AdaptiveElement.getID]] method for details.
+ */
 export type GroupID = string;
 
 

@@ -5,6 +5,10 @@ import { Utilities, PageID } from "../Utilities";
 import { Reorder } from "../adaptations/styles/Reorder";
 
 
+/**
+ * Type of the unique identifier of an item.
+ * See [[AdaptiveElement.getID]] method for details.
+ */
 export type ItemID = string;
 
 

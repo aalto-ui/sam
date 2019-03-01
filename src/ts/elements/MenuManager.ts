@@ -4,9 +4,18 @@ import { ItemGroup } from "./ItemGroup";
 import { Selector, isSelector } from "./AdaptiveElement";
 
 
-// Type alias used for convenience
-// It represents an object who keys are menu selectors, and values are either
-// generic item selectors, or specific group-items selector objects
+/**
+ * Interface of a complex selector.
+ * 
+ * It can used to select or more menus, groups and items
+ * when creating a new instance of menu manager.
+ * 
+ * Each `menuSelector` key must be a string selector which targets a single menu.
+ * Each associated value can either be:
+ * - a selector for all the items of the menu;
+ * - an object whose each `groupSelector` key is a string selector for a group,
+ *   and whose associated value is a selector for the items it contains.
+ */
 export interface MenuSelectors {
   [menuSelector: string]: Selector | {[groupSelector: string]: Selector};
 }

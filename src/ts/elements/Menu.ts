@@ -4,6 +4,10 @@ import { ItemGroup } from "./ItemGroup";
 import { Item } from "./Item";
 
 
+/**
+ * Type of the unique identifier of a menu.
+ * See [[AdaptiveElement.getID]] method for details.
+ */
 export type MenuID = string;
 
 

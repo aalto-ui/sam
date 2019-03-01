@@ -1,7 +1,10 @@
 import { Database } from "./Database";
 
 
-// Generic interface of an analysis returned by an analyser module
+/**
+ * Generic type of an analysis.
+ * Each analyser module should specialize this interface according to what it returns.
+ */
 export interface Analysis { }
 
 
