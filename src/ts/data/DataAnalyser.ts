@@ -1,3 +1,5 @@
+/** @module user-data */
+
 import { Database } from "./Database";
 import { ItemClicksAnalyser, ItemClicksAnalysis } from "./ItemClicksAnalyser";
 import { PageVisitsAnalyser, PageVisitsAnalysis } from "./PageVisitsAnalyser";
@@ -7,14 +9,10 @@ export class DataAnalyser {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * Item clicks analyser module.
-   */
+  /* Item clicks analyser module. */
   private readonly itemClicksAnalyser: ItemClicksAnalyser;
 
-  /**
-   * Page visits analyser module.
-   */
+  /* Page visits analyser module. */
   private readonly pageVisitsAnalyser: PageVisitsAnalyser;
 
 

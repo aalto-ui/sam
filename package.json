@@ -31,7 +31,11 @@
 		"grunt-ts": "^6.0.0-beta.22",
 		"grunt-typedoc": "^0.2.4",
 		"typedoc": "^0.14.2",
+		"typedoc-plugin-external-module-name": "^2.0.0",
 		"typescript": "^3.3.3333",
+		"typedoc": "^0.11.1",
+		"typedoc-plugin-external-module-name": "^2.0.0",
+		"typescript": "^2.9.2",
 		"uglify-es": "^3.3.9"
 	},
 	"browserify": {

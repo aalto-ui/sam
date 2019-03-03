@@ -1,3 +1,5 @@
+/** @module adaptation */
+
 import { MenuManager } from "../elements/MenuManager";
 import { DataManager } from "../data/DataManager";
 import { AdaptationStyle } from "./styles/AdaptationStyle";
@@ -16,12 +18,13 @@ import { ProgressiveHighlightAndReorderItems } from "./styles/composites/Progres
 
 import { AccessRankPolicy } from "./policies/AccessRankPolicy";
 import { LongestVisitDurationPolicy } from "./policies/LongestVisitDurationPolicy";
-import { MostClickedItemListPolicy } from "./policies/MostClickedItemsPolicy";
+import { MostClickedItemsPolicy } from "./policies/MostClickedItemsPolicy";
 import { MostRecentVisitsPolicy } from "./policies/MostRecentVisitsPolicy";
 import { MostVisitedPagesPolicy } from "./policies/MostVisitedPagesPolicy";
 import { SerialPositionCurvePolicy } from "./policies/SerialPositionCurvePolicy";
 
 
+/** List of all the styles available in SAM. */
 export const AVAILABLE_STYLES = [
   new Identity(),
   new Highlight(),
@@ -35,15 +38,18 @@ export const AVAILABLE_STYLES = [
   new ProgressiveHighlightAndReorderItems()
 ];
 
+/** List of the names of all the styles available in SAM. */
 export const AVAILABLE_STYLE_NAMES = AVAILABLE_STYLES.map((style) => {
   return style.name;
 });
 
+/** Union type of all the available styles. */
 export type AvailableStyle = typeof AVAILABLE_STYLES[0];
 
 
+/** List of all the policies available in SAM. */
 export const AVAILABLE_POLICIES = [
-  new MostClickedItemListPolicy(),
+  new MostClickedItemsPolicy(),
   new MostVisitedPagesPolicy(),
   new MostRecentVisitsPolicy(),
   new LongestVisitDurationPolicy(),
@@ -51,10 +57,12 @@ export const AVAILABLE_POLICIES = [
   new AccessRankPolicy()
 ];
 
+/** List of the names of all the policies available in SAM. */
 export const AVAILABLE_POLICY_NAMES = AVAILABLE_POLICIES.map((policy) => {
   return policy.name;
 });
 
+/** Union type of all the available policies. */
 export type AvailablePolicies = typeof AVAILABLE_POLICIES[0];
 
 
@@ -62,24 +70,16 @@ export class AdaptationManager {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * Menu manager of the library.
-   */
+  /** Menu manager of the library. */
   private readonly menuManager: MenuManager;
 
-  /**
-   * Data manager of the library.
-   */
+  /** Data manager of the library. */
   private readonly dataManager: DataManager;
 
-  /**
-   * Current adaptation style.
-   */
+  /** Current adaptation style. */
   private currentStyle: AdaptationStyle;
 
-  /**
-   * Current target policy.
-   */
+  /** Current target policy. */
   private currentPolicy: TargetPolicy;
 
 

@@ -1,3 +1,5 @@
+/** @module adaptation */
+
 import { MenuManager } from "../../../elements/MenuManager";
 import { DataManager } from "../../../data/DataManager";
 import { Highlight } from "../Highlight";

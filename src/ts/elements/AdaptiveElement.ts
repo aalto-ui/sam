@@ -1,13 +1,31 @@
+/** @module menu-abstraction */
+
 import * as $ from "jquery";
 
 
-// Internally used type for and element selector
-// It should be compatible with expected types by jQuery selector tool
+/**
+ * Type of HTML element selectors accepted and used by SAM.
+ * 
+ * Any accepted type must be compatible with jQuery selector,
+ * i.e. $(<selector>) should work as expected.
+ */
 export type Selector = JQuery;
 
+/**
+ * Unique value representing the explicit absence of a selector
+ * (see [[Selector]]).
+ */
 export const NO_SELECTOR = Symbol("No selector");
+
+/** Type of an explicit absence of selector (see [[NO_SELECTOR]]). */
 export type NoSelector = typeof NO_SELECTOR;
 
+/**
+ * Test whether the given candidate object is a [[Selector]].
+ * 
+ * @param  candidate The object to test as a selector.
+ * @return           `true` if `candidate` has the right type, `false` otherwise.
+ */
 export function isSelector (candidate: any): boolean {
   let type = $.type(candidate);
 
@@ -24,14 +42,10 @@ export abstract class AdaptiveElement {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * Prefix of all AWM tags added to nodes as HTML attributes.
-   */
+  /** Prefix of all AWM tags added to nodes as HTML attributes. */
   static readonly TAG_PREFIX: string = "data-awm-";
 
-  /**
-   * Node of the element.
-   */
+  /** Node of the element. */
   readonly node: JQuery;
 
   /**

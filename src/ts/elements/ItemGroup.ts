@@ -1,9 +1,15 @@
+/** @module menu-abstraction */
+
 import { AdaptiveElement, Selector, NO_SELECTOR, NoSelector } from "./AdaptiveElement";
 import { Item } from "./Item";
 import { Menu } from "./Menu";
 import { Reorder } from "../adaptations/styles/Reorder";
 
 
+/**
+ * Type of the unique identifier of a group.
+ * See [[AdaptiveElement.getID]] method for details.
+ */
 export type GroupID = string;
 
 
@@ -11,29 +17,19 @@ export class ItemGroup extends AdaptiveElement {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * Standard HTML class for group elements.
-   */
+  /** Standard HTML class for group elements. */
   static readonly AWM_CLASS: string = "awm-group";
 
-  /**
-   * Type of group elements.
-   */
+  /** Type of group elements. */
   static readonly ELEMENT_TYPE: string = "group";
 
-  /**
-   * Menu element owning the item.
-   */
+  /** Menu element owning the item. */
   readonly parent: Menu;
 
-  /**
-   * List of all the group items.
-   */
+  /** List of all the group items. */
   readonly items: Item[];
 
-  /**
-   * Flag indicating whether the item can be reordered or not.
-   */
+  /** Flag indicating whether the item can be reordered or not. */
   canBeReordered: boolean;
 
 
@@ -143,9 +139,17 @@ export class ItemGroup extends AdaptiveElement {
 
   // ======================================================== STATIC METHODS ===
 
-  // Build a menu from selectors
-  // If NO_SELECTOR is passed as the groupSelector argument, it means this groups share its parent menu node
-  // (i.e. single group not distinguished from the menu in the DOM)
+  /**
+   * Create a group from the given selectors.
+   * 
+   * If `NO_SELECTOR` is passed to `groupSelector`,
+   * the group node will be equal to the node of its parent menu.
+   * 
+   * @param  groupSelector Selector of the group node, or `NO_SELECTOR` flag.
+   * @param  itemSelector  Selector of the item nodes.
+   * @param  parent        The menu containing this group.
+   * @return               A new instance of ItemGroup.
+   */
   static fromSelectors (groupSelector: Selector | NoSelector, itemSelector: Selector, parent: Menu): ItemGroup {
     let node = groupSelector === NO_SELECTOR
              ? parent.node

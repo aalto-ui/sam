@@ -1,3 +1,5 @@
+/** @module adaptation */
+
 import { MenuManager } from "../../elements/MenuManager";
 import { TargetPolicy, ItemWithScore, ItemGroupWithScore } from "./TargetPolicy";
 
@@ -11,6 +13,9 @@ export class NodeIndexOrderPolicy extends TargetPolicy {
 
   // =========================================================== CONSTRUCTOR ===
 
+  /**
+   * Create a new instance of NodeIndexOrderPolicy.
+   */
   constructor () {
     super();
   }

@@ -1,3 +1,5 @@
+/** @module user-data */
+
 import { Database } from "./Database";
 import { DataLogger } from "./DataLogger";
 import { DataAnalyser } from "./DataAnalyser";
@@ -8,19 +10,13 @@ export class DataManager {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * Database where to store and load data.
-   */
+  /** Database where to store and load data. */
   readonly database: Database;
 
-  /**
-   * Data logger to listen for and log events into the database.
-   */
+  /** Data logger to listen for and log events into the database. */
   readonly logger: DataLogger;
 
-  /**
-   * Data analyser to get analyses of the database data.
-   */
+  /** Data analyser to get analyses of the database data. */
   readonly analyser: DataAnalyser;
 
 

@@ -1,3 +1,5 @@
+/** @module adaptation */
+
 import { LinkedPageScorePolicy } from "./LinkedPageScorePolicy";
 import { PageID } from "../../Utilities";
 
@@ -11,6 +13,9 @@ export class MostVisitedPagesPolicy extends LinkedPageScorePolicy {
 
   // =========================================================== CONSTRUCTOR ===
 
+  /**
+   * Create a new instance of MostVIsitedPagesPolicy.
+   */
   constructor () {
     super();
   }

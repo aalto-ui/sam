@@ -1,38 +1,64 @@
+/** @module user-data */
+
 import * as $ from "jquery";
 import { Utilities } from "../Utilities";
 import { ItemClickLog, PageVisitLog } from "./DataLogger";
 import { ItemCharacteristics } from "../adaptations/styles/composites/ProgressiveHighlightAndReorderItems";
 
 
-// Type of a database revision
-// It is used to keep track of database updates, e.g. for caching purposes
+/**
+ * Type of a database _revision_, i.e. a version of its content.
+ * 
+ * It is used to keep track of certain changes in the database,
+ * mostly for caching purposes (in other modules relying on the database content).
+ */
 export type DatabaseRevision = number;
 
-
-// Type of an table entry index
-// Every entry is given an index, automatically incremented for each type of event
+/**
+ * Type of the index of an entry in a database table.
+ * 
+ * It can be used to identify an entry in a given table,
+ * as well as to compare the order in which two events have been recorded
+ * (e.g. to compute primacy or recency scores).
+ */
 export type TableEntryIndex = number;
 
-
-// Generic type of a table entry
-// It should be parametrized by the type of the data stored in the related table
-// It contains an additional index, which should be unique in the related table
+/**
+ * Type of an entry in a database table.
+ * 
+ * The `index` field contains the index of the entry in the table (see [[TableEntryIndex]]),
+ * which is automatically incremented for each new entry.
+ * 
+ * It must be parametrised by the type of data [[T]] the entry contains,
+ * which must be an object (which must **not** have an `index` field).
+ */
 export type TableEntry<T extends {}> = T & {
   readonly index: TableEntryIndex;
 };
 
-
-// Generic interface of database table
-// It should be parametrized by the type of the data stored in the related table
-// It contains all its entries, as well as the current (last) index of the table
+/**
+ * Interface of a database table.
+ * 
+ * It contains a list of indexed entries, as well as the current index
+ * (equal to the index of the last added entry).
+ * 
+ * It must be parametrised by the type of data [[T]] of the table entries,
+ * (see type parameter of [[TableEntry]]).
+ */
 interface DatabaseTable<T extends {}> {
   currentIndex: TableEntryIndex;
   entries: TableEntry<T>[];
 }
 
-
-// Interface of a persistent storage object
-// It should be used to store and load persistent data accross pages and sessions
+/**
+ * Interface of the persistent storage object of the database.
+ * 
+ * This object should contain properties whose values can be
+ * freely updated by other modules of SAM, without any revision mechanism.
+ * 
+ * The database only takes care of saving and loading its content
+ * accross page changes.
+ */
 export interface PersistentStorage {
   styleName?: string;
   policyName?: string;
@@ -44,9 +70,7 @@ export class Database {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * Local storage key used to save the serialized database content.
-   */
+  /** Local storage key used to save the serialized database content. */
   static readonly LOCAL_STORAGE_KEY: string = "awm-data";
 
   /**
@@ -76,7 +100,7 @@ export class Database {
   // =========================================================== CONSTRUCTOR ===
 
   /**
-   * Create a new instance of database.
+   * Create a new instance of Database.
    */
   constructor () {
     this.init();

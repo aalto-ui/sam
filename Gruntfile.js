@@ -68,10 +68,12 @@ module.exports = function (grunt) {
   				module: "commonjs",
   				out: "./doc",
   				name: "Adaptive Web Menus",
-  				target: "ES6"
+          target: "ES6",
+          mode: "modules",
+          exclude: ["**/src/ts/index.ts", "**/src/ts/awm.ts"]
   			},
 
-  			src: ["./src/ts/**/*.ts"]
+        src: ["./src/ts/**/*.ts"]
   		}
   	}
   });

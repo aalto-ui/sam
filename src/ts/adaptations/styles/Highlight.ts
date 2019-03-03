@@ -1,3 +1,5 @@
+/** @module adaptation */
+
 import * as $ from "jquery";
 import { MenuManager } from "../../elements/MenuManager";
 import { DataManager } from "../../data/DataManager";
@@ -5,9 +7,6 @@ import { Item } from "../../elements/Item";
 import { ItemWithScore, TargetPolicy } from "../policies/TargetPolicy";
 import { AdaptationStyle } from "./AdaptationStyle";
 
-
-// Discrete strength levels of the highlighting effect
-// The values are used as additional classes, added to the the highlighted items
 
 /**
  * Levels of highlighting.

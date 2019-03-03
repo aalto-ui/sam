@@ -1,3 +1,5 @@
+/** @module adaptation */
+
 import { MenuManager } from "../../elements/MenuManager";
 import { Item } from "../../elements/Item";
 import { PageVisitsAnalysis } from "../../data/PageVisitsAnalyser";
@@ -12,16 +14,36 @@ export abstract class LinkedPageScorePolicy extends TargetPolicy {
 
   abstract readonly name: string;
 
+  /**
+   * Map from webpage IDs to their scores.
+   * 
+   * It is used internally to share scores easily accross methods,
+   * and is cleared and recomputed everytime new scores must be computed.
+   */
   private readonly pageScores: Map<PageID, number>;
+
+  /**
+   * Map from items to their scores.
+   * 
+   * It is used internally to share scores easily accross methods,
+   * and is cleared and recomputed everytime new scores must be computed.
+   */
   private readonly itemScores: Map<Item, number>;
 
-  // Internal reference to a page visit analysis
-  // This property can be used by any policy method, and is refreshed every time a new sorting occurs
+  /**
+   * Page visits analysis used to compute scores.
+   * 
+   * It is used internally to share it easily accross methods,
+   * and is cleared and recomputed everytime new scores must be computed.
+   */
   protected pageVisitsAnalysis: PageVisitsAnalysis;
 
 
   // =========================================================== CONSTRUCTOR ===
 
+  /**
+   * Create a new instance of LinkedPageScorePolicy.
+   */
   constructor () {
     super();
 
@@ -34,9 +56,20 @@ export abstract class LinkedPageScorePolicy extends TargetPolicy {
 
   // =============================================================== METHODS ===
 
+  /**
+   * Compute the score of the webpage with the given ID,
+   * possibly using data from [[pageVisitsAnalysis]].
+   * 
+   * @param  pageID The ID of the page to rank.
+   * @return        The score of the page with the given ID.
+   */
   protected abstract computePageScore (pageID: PageID): number;
 
 
+  /**
+   * Compute the score of each webpage listed in the page visits analysis,
+   * and fill the [[pageScores]] map accordingly.
+   */
   private computeAndSetPageScores () {
     this.pageScores.clear();
 
@@ -46,6 +79,12 @@ export abstract class LinkedPageScorePolicy extends TargetPolicy {
     }
   }
 
+  /**
+   * Compute the score of each given item,
+   * and fill the [[itemScores]] map accordingly.
+   * 
+   * @param items The list of items to rank.
+   */
   private computeAndSetItemScores (items: Item[]) {
     this.itemScores.clear();
 

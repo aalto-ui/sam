@@ -1,3 +1,5 @@
+/** @module core */
+
 import * as $ from "jquery";
 import { AdaptiveWebMenus } from "./AdaptiveWebMenus";
 import { AVAILABLE_STYLE_NAMES, AVAILABLE_POLICY_NAMES } from "./adaptations/AdaptationManager";
@@ -7,19 +9,13 @@ export class DebugDisplay {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * AWM library instance owning this debug display instance.
-   */
+  /** AWM library instance owning this debug display instance. */
   private readonly awm: AdaptiveWebMenus;
 
-  /**
-   * Flag indicating whether the debug display is activated or not.
-   */
+  /** Flag indicating whether the debug display is activated or not. */
   private activated: boolean;
 
-  /**
-   * Node containing all the debug displayed controls.
-   */
+  /** Node containing all the debug displayed controls. */
   private controlsContainerNode: JQuery;
 
 
