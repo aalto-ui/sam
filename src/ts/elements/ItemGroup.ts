@@ -17,29 +17,19 @@ export class ItemGroup extends AdaptiveElement {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * Standard HTML class for group elements.
-   */
+  /** Standard HTML class for group elements. */
   static readonly AWM_CLASS: string = "awm-group";
 
-  /**
-   * Type of group elements.
-   */
+  /** Type of group elements. */
   static readonly ELEMENT_TYPE: string = "group";
 
-  /**
-   * Menu element owning the item.
-   */
+  /** Menu element owning the item. */
   readonly parent: Menu;
 
-  /**
-   * List of all the group items.
-   */
+  /** List of all the group items. */
   readonly items: Item[];
 
-  /**
-   * Flag indicating whether the item can be reordered or not.
-   */
+  /** Flag indicating whether the item can be reordered or not. */
   canBeReordered: boolean;
 
 

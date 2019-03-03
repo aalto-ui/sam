@@ -16,9 +16,7 @@ export class AccessRankPolicy extends TargetPolicy {
 
   // =========================================================== CONSTRUCTOR ===
 
-  /**
-   * Create a new instance of AccessRankPolicy.
-   */
+  /** Create a new instance of AccessRankPolicy. */
   constructor () {
     super();
   }

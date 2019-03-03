@@ -17,9 +17,7 @@ export type Selector = JQuery | Element | string;
  */
 export const NO_SELECTOR = Symbol("No selector");
 
-/**
- * Type of an explicit absence of selector (see [[NO_SELECTOR]]).
- */
+/** Type of an explicit absence of selector (see [[NO_SELECTOR]]). */
 export type NoSelector = typeof NO_SELECTOR;
 
 /**
@@ -44,14 +42,10 @@ export abstract class AdaptiveElement {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * Prefix of all AWM tags added to nodes as HTML attributes.
-   */
+  /** Prefix of all AWM tags added to nodes as HTML attributes. */
   static readonly TAG_PREFIX: string = "data-awm-";
 
-  /**
-   * Node of the element.
-   */
+  /** Node of the element. */
   readonly node: JQuery;
 
   /**

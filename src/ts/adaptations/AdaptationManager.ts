@@ -70,24 +70,16 @@ export class AdaptationManager {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * Menu manager of the library.
-   */
+  /** Menu manager of the library. */
   private readonly menuManager: MenuManager;
 
-  /**
-   * Data manager of the library.
-   */
+  /** Data manager of the library. */
   private readonly dataManager: DataManager;
 
-  /**
-   * Current adaptation style.
-   */
+  /** Current adaptation style. */
   private currentStyle: AdaptationStyle;
 
-  /**
-   * Current target policy.
-   */
+  /** Current target policy. */
   private currentPolicy: TargetPolicy;
 
 

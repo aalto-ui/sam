@@ -14,24 +14,16 @@ export class AdaptiveWebMenus {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * Menu manager single instance of the library.
-   */
+  /** Menu manager single instance of the library. */
   private readonly menuManager: MenuManager;
 
-  /**
-   * Data manager single instance of the library.
-   */
+  /** Data manager single instance of the library. */
   private readonly dataManager: DataManager;
 
-  /**
-   * Adaptation manager single instance of the library.
-   */
+  /** Adaptation manager single instance of the library. */
   readonly adaptationManager: AdaptationManager;
 
-  /**
-   * Debug display single instance of the library.
-   */
+  /** Debug display single instance of the library. */
   private readonly debugDisplay: DebugDisplay;
 
 

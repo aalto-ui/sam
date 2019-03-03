@@ -30,9 +30,7 @@ export class DataLogger {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * Database where to store logged data.
-   */
+  /** Database where to store logged data. */
   private readonly database: Database;
 
   /**

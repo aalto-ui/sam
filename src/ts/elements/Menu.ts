@@ -17,24 +17,16 @@ export class Menu extends AdaptiveElement {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * Standard HTML class for menu elements.
-   */
+  /** Standard HTML class for menu elements. */
   static readonly AWM_CLASS: string = "awm-menu";
 
-  /**
-   * Type of menu element.
-   */
+  /** Type of menu element. */
   static readonly ELEMENT_TYPE: string = "menu";
 
-  /**
-   * `null` since a menu always has no parent.
-   */
+  /** `null` since a menu always has no parent. */
   readonly parent: null;
 
-  /**
-   * List of all the menu groups.
-   */
+  /** List of all the menu groups. */
   readonly groups: ItemGroup[];
 
 

@@ -12,24 +12,16 @@ export class Fold implements AdaptationStyle {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * HTML class of a folded folder element (containing hidden items).
-   */
+  /** HTML class of a folded folder element (containing hidden items). */
   static readonly IS_FOLDED_CLASS: string = "awm-folded";
 
-  /**
-   * HTML class of a folder switch button (to open/close the folder).
-   */
+  /** HTML class of a folder switch button (to open/close the folder). */
   static readonly SWITCH_FOLD_BUTTON_CLASS: string = "awm-fold-button";
 
-  /**
-   * HTML class of a foldable element (contained by a folder).
-   */
+  /** HTML class of a foldable element (contained by a folder). */
   static readonly FOLDABLE_ELEMENT_CLASS: string = "awm-foldable";
 
-  /**
-   * HTML class of a folder element.
-   */
+  /** HTML class of a folder element. */
   static readonly FOLDER_ELEMENT_CLASS: string = "awm-folder";
 
   readonly name: string = "Fold";

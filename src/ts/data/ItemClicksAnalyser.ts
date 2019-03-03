@@ -27,14 +27,10 @@ export interface AdaptiveElementStats {
   eventIndices: TableEntryIndex[];
 }
 
-/**
- * Interface of the click-related statistics of an item.
- */
+/** Interface of the click-related statistics of an item. */
 export interface ItemStats extends AdaptiveElementStats { }
 
-/**
- * Interface of the click-related statistics of a group.
- */
+/** Interface of the click-related statistics of a group. */
 export interface ItemGroupStats extends AdaptiveElementStats { }
 
 

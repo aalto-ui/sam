@@ -14,9 +14,7 @@ export abstract class DataAnalyserModule<A extends Analysis> {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * Database where to fetch data to analyse (and the revisions).
-   */
+  /** Database where to fetch data to analyse (and the revisions). */
   protected readonly database: Database;
 
   /**
@@ -25,9 +23,7 @@ export abstract class DataAnalyserModule<A extends Analysis> {
    */
   private cachedAnalysis: A | null;
 
-  /**
-   * Database revision of the data used to compute the cached analysis.
-   */
+  /** Database revision of the data used to compute the cached analysis. */
   private cachedAnalysisContentRevision: number;
 
 

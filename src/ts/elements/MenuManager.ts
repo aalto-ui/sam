@@ -27,9 +27,7 @@ export class MenuManager {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * List of all adaptive menus.
-   */
+  /** List of all adaptive menus. */
   private readonly menus: Menu[];
 
 

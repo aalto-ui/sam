@@ -11,9 +11,7 @@ export class ReorderItems extends Reorder {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * HTML class of item elements which have been reordered.
-   */
+  /** HTML class of item elements which have been reordered. */
   static readonly REORDERED_ELEMENT_CLASS: string = "awm-reordered-item";
 
   readonly name: string = "Reorder items";

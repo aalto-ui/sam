@@ -12,9 +12,7 @@ export abstract class Reorder implements AdaptationStyle {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * HTML class of container nodes whose children must *not* be reordered.
-   */
+  /** HTML class of container nodes whose children must *not* be reordered. */
   static readonly NON_REORDERABLE_ELEMENT_CLASS = "awm-no-reordering";
 
   abstract readonly name: string;

@@ -18,24 +18,16 @@ export class Item extends AdaptiveElement {
 
   // ============================================================ PROPERTIES ===
 
-  /**
-   * Standard HTML class for item elements.
-   */
+  /** Standard HTML class for item elements. */
   static readonly AWM_CLASS: string = "awm-item";
 
-  /**
-   * Type of item elements.
-   */
+  /** Type of item elements. */
   static readonly ELEMENT_TYPE: string = "item";
 
-  /**
-   * Group element owning the item.
-   */
+  /** Group element owning the item. */
   readonly parent: ItemGroup;
 
-  /**
-   * Flag indicating whether the item can be reordered or not.
-   */
+  /** Flag indicating whether the item can be reordered or not. */
   canBeReordered: boolean;
 
 
