@@ -108,41 +108,45 @@ export class AdaptiveWebMenus {
   // ======================================================== STATIC METHODS ===
 
   /**
-   * Build an AWM instance from a single menu forming a single group.
+   * Create a new instance of SAM from generic menu and item selectors.
    *
    * The menu node will also be the item group node.
    * Item nodes are only searched inside the menu node.
    *
    * @param  menuSelector Selector of the menu (and group) node.
    * @param  itemSelector Selector of all item nodes.
-   * @return              A new instance of the AWM library.
+   * @return              A new instance of SAM.
    */
   static fromSelectors (menuSelector: Selector, itemSelector: Selector): AdaptiveWebMenus;
 
   /**
-   * Build an AWM instance from a single menu, using generic selectors.
+   * Create a new instance of SAM from generic menu, group and item selectors.
    *
-   * The menu node cannot be a group node itself (see [[fromSelectors]] variant).
+   * The menu node must not be a group node itself
+   * (see the variant of [[fromSelectors]] with two arguments instead).
+   * 
    * Group nodes are only searched inside the menu node.
    * Item nodes are only searched inside the group node.
    *
    * @param  menuSelector  Selector of the menu node.
    * @param  groupSelector Selector of all group nodes.
    * @param  itemSelector  Selector of all item nodes.
-   * @return               A new instance of the AWM library.
+   * @return               A new instance of SAM.
    */
   static fromSelectors (menuSelector: Selector, groupSelector: Selector, itemSelector: Selector): AdaptiveWebMenus;
 
   /**
-   * Build an AWM instance from a single menu, using specific selectors.
-   * See [[MenuSelectors]] definition for details on the expected object structure.
+   * Create a new instance of SAM from specific selectors.
+   * See [[MenuSelectors]] for details on the expected structure of selectors.
    *
-   * The menu node cannot be a group node itself (see [[fromSelectors]] variant).
+   * The menu node must not be a group node itself
+   * (see the variant of [[fromSelectors]] with two arguments instead).
+   * 
    * Group nodes are only searched inside the menu node.
    * Item nodes are only searched inside the group node.
    *
-   * @param  selectors  Selectors of all menus, groups and items.
-   * @return            A new instance of the AWM library.
+   * @param  selectors  Structure of selectors of menu, group and item nodes.
+   * @return            A new instance of SAM.
    */
   static fromSelectors (selectors: MenuSelectors): AdaptiveWebMenus;
 

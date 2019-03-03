@@ -139,9 +139,17 @@ export class ItemGroup extends AdaptiveElement {
 
   // ======================================================== STATIC METHODS ===
 
-  // Build a menu from selectors
-  // If NO_SELECTOR is passed as the groupSelector argument, it means this groups share its parent menu node
-  // (i.e. single group not distinguished from the menu in the DOM)
+  /**
+   * Create a group from the given selectors.
+   * 
+   * If `NO_SELECTOR` is passed to `groupSelector`,
+   * the group node will be equal to the node of its parent menu.
+   * 
+   * @param  groupSelector Selector of the group node, or `NO_SELECTOR` flag.
+   * @param  itemSelector  Selector of the item nodes.
+   * @param  parent        The menu containing this group.
+   * @return               A new instance of ItemGroup.
+   */
   static fromSelectors (groupSelector: Selector | NoSelector, itemSelector: Selector, parent: Menu): ItemGroup {
     let node = groupSelector === NO_SELECTOR
              ? parent.node

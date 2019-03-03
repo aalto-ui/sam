@@ -114,7 +114,13 @@ export class Item extends AdaptiveElement {
     return [...itemsSplitByGroup.values()];
   }
 
-  
+  /**
+   * Create an item from the given selector.
+   * 
+   * @param  selector Selector of the item node.
+   * @param  parent   The group containing this item.
+   * @return          A new instance of Item.
+   */
   static fromSelector (selector: Selector, parent: ItemGroup): Item {
     let node = parent.node.find(selector);
     return new Item(node, selector, parent);
