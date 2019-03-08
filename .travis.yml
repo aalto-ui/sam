@@ -1,0 +1,17 @@
+language: node_js
+
+install:
+  - npm install
+
+script:
+  - grunt
+  - grunt doc
+
+deploy:
+  provider: pages
+  local-dir: doc
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: false
+  on:
+    branch: master
