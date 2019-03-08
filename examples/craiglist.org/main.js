@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  let menuSelectors = {
+  let selectors = {
     "#center": {
       "#ccc": "li",
       "#bbb": "li",
@@ -13,8 +13,8 @@ $(document).ready(function () {
     }
   };
 
-  let mainInstance = AdaptiveWebMenus.fromSelectors(menuSelectors);
+  let sam = SAM.fromSelectors(selectors);
 
-  console.log("AWM library initialised");
-  console.log(mainInstance);
+  console.log("SAM has been initialised.");
+  console.log(sam);
 });

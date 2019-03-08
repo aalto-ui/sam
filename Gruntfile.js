@@ -30,7 +30,7 @@ module.exports = function (grunt) {
     browserify: {
       dist: {
         files: {
-          "build/awm.js": "build/lib/awm.js"
+          "build/sam.js": "build/lib/sam.js"
         },
 
         options: {
@@ -39,7 +39,7 @@ module.exports = function (grunt) {
           // Note: it is also declared in package.json (required?)
           transform: ["browserify-shim"],
           browserifyOptions: {
-            "--standalone": "awm"
+            "--standalone": "sam"
           }
         }
       }
@@ -51,7 +51,7 @@ module.exports = function (grunt) {
     uglify: {
       default: {
         files: {
-          'build/awm.min.js': ['build/awm.js']
+          'build/sam.min.js': ['build/sam.js']
         }
       },
 
@@ -70,7 +70,7 @@ module.exports = function (grunt) {
   				name: "Adaptive Web Menus",
           target: "ES6",
           mode: "modules",
-          exclude: ["**/src/ts/index.ts", "**/src/ts/awm.ts"]
+          exclude: ["**/src/ts/index.ts", "**/src/ts/sam.ts"]
   			},
 
         src: ["./src/ts/**/*.ts"]

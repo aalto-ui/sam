@@ -15,7 +15,7 @@ script:
   - grunt doc
   - mkdir deploy deploy/build
   - mv doc deploy/docs
-  - mv build/awm.css build/awm.min.js deploy/build
+  - mv build/sam.css build/sam.min.js deploy/build
 
 deploy:
   provider: pages

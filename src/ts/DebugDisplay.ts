@@ -1,7 +1,7 @@
 /** @module core */
 
 import * as $ from "jquery";
-import { AdaptiveWebMenus } from "./AdaptiveWebMenus";
+import { SelfAdaptingMenus } from "./SelfAdaptingMenus";
 import { AVAILABLE_STYLE_NAMES, AVAILABLE_POLICY_NAMES } from "./adaptations/AdaptationManager";
 
 
@@ -9,8 +9,8 @@ export class DebugDisplay {
 
   // ============================================================ PROPERTIES ===
 
-  /** AWM library instance owning this debug display instance. */
-  private readonly awm: AdaptiveWebMenus;
+  /** Instance of SAM owning this debug display. */
+  private readonly sam: SelfAdaptingMenus;
 
   /** Flag indicating whether the debug display is activated or not. */
   private activated: boolean;
@@ -24,11 +24,11 @@ export class DebugDisplay {
   /**
    * Creates a new instance of debug display.
    *
-   * @param awm      AWM library instance owning this debug display.
+   * @param sam      Instance of SAM owning this debug display.
    * @param activate Control the debug display (activated on `true`).
    */
-  constructor (awm: AdaptiveWebMenus, activate: boolean = true) {
-    this.awm = awm;
+  constructor (sam: SelfAdaptingMenus, activate: boolean = true) {
+    this.sam = sam;
     this.controlsContainerNode = null;
 
     if (activate) {
@@ -43,18 +43,18 @@ export class DebugDisplay {
    * Update the adaptation style from the selected one.
    */
   private updateAdaptationStyle () {
-    let styleName = $("#awm-debug-switch-style-menu").val() as string;
+    let styleName = $("#sam-debug-switch-style-menu").val() as string;
 
-    this.awm.adaptationManager.switchToStyle(styleName);
+    this.sam.adaptationManager.switchToStyle(styleName);
   }
 
   /**
    * Update the target policy from the selected one.
    */
   private updateTargetPolicy () {
-    let policyName = $("#awm-debug-switch-policy-menu").val() as string;
+    let policyName = $("#sam-debug-switch-policy-menu").val() as string;
 
-    this.awm.adaptationManager.switchToPolicy(policyName);
+    this.sam.adaptationManager.switchToPolicy(policyName);
   }
 
 
@@ -67,7 +67,7 @@ export class DebugDisplay {
    */
   private addControlContainerNode () {
     let controlsContainer = $("<div>")
-      .attr("id", "awm-debug-controls-container");
+      .attr("id", "sam-debug-controls-container");
     $("body").prepend(controlsContainer);
 
     this.controlsContainerNode = controlsContainer;
@@ -79,12 +79,12 @@ export class DebugDisplay {
   private addStyleListNode () {
     this.controlsContainerNode
       .append($("<label>")
-      .attr("for", "awm-debug-switch-style-menu")
+      .attr("for", "sam-debug-switch-style-menu")
       .html("Style:"));
 
     this.controlsContainerNode
       .append($("<select>")
-      .attr("id", "awm-debug-switch-style-menu")
+      .attr("id", "sam-debug-switch-style-menu")
       .on("change", (_) => {
         this.updateAdaptationStyle();
       }));
@@ -94,11 +94,11 @@ export class DebugDisplay {
         .attr("val", name)
         .html(name);
 
-      if (name === this.awm.adaptationManager.getCurrentStyleName()) {
+      if (name === this.sam.adaptationManager.getCurrentStyleName()) {
         option.prop("selected", true);
       }
 
-      $("#awm-debug-switch-style-menu").append(option);
+      $("#sam-debug-switch-style-menu").append(option);
     }
   }
 
@@ -108,12 +108,12 @@ export class DebugDisplay {
   private addPolicyListNode () {
     this.controlsContainerNode
       .append($("<label>")
-      .attr("for", "awm-debug-switch-policy-menu")
+      .attr("for", "sam-debug-switch-policy-menu")
       .html("Policy:"));
 
     this.controlsContainerNode
       .append($("<select>")
-      .attr("id", "awm-debug-switch-policy-menu")
+      .attr("id", "sam-debug-switch-policy-menu")
       .on("change", (_) => {
         this.updateTargetPolicy();
       }));
@@ -123,11 +123,11 @@ export class DebugDisplay {
         .attr("val", name)
         .html(name);
 
-      if (name === this.awm.adaptationManager.getCurrentPolicyName()) {
+      if (name === this.sam.adaptationManager.getCurrentPolicyName()) {
         option.prop("selected", true);
       }
 
-      $("#awm-debug-switch-policy-menu").append(option);
+      $("#sam-debug-switch-policy-menu").append(option);
     }
   }
 
@@ -138,9 +138,9 @@ export class DebugDisplay {
     this.controlsContainerNode
       .append($("<button>")
       .html("Clear history (require page reloading)")
-      .attr("id", "awm-debug-clear-history-button")
+      .attr("id", "sam-debug-clear-history-button")
       .on("click", () => {
-        this.awm.clearHistory();
+        this.sam.clearHistory();
       }));
   }
 

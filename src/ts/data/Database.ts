@@ -71,7 +71,7 @@ export class Database {
   // ============================================================ PROPERTIES ===
 
   /** Local storage key used to save the serialized database content. */
-  static readonly LOCAL_STORAGE_KEY: string = "awm-data";
+  static readonly LOCAL_STORAGE_KEY: string = "sam-data";
 
   /**
    * Tables of the database.

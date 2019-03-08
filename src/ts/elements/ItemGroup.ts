@@ -18,7 +18,7 @@ export class ItemGroup extends AdaptiveElement {
   // ============================================================ PROPERTIES ===
 
   /** Standard HTML class for group elements. */
-  static readonly AWM_CLASS: string = "awm-group";
+  static readonly HTML_CLASS: string = "sam-group";
 
   /** Type of group elements. */
   static readonly ELEMENT_TYPE: string = "group";

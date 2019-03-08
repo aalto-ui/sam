@@ -15,8 +15,8 @@ import { AdaptationStyle } from "./AdaptationStyle";
  * e.g. a more opaque background color.
  */
 enum HighlightingLevel {
-  High = "awm-high",
-  Low = "awm-low"
+  High = "sam-high",
+  Low = "sam-low"
 }
 
 /**
@@ -39,7 +39,7 @@ export class Highlight implements AdaptationStyle {
    * This class is generic, and complementary to level-specific classes
    * (see [[HIGHLIGHTING_LEVELS_CLASSES]]).
    */
-  static readonly HIGHLIGHTED_ELEMENT_CLASS: string = "awm-highlighted";
+  static readonly HIGHLIGHTED_ELEMENT_CLASS: string = "sam-highlighted";
 
   readonly name: string = "Highlight";
 

@@ -1,12 +1,6 @@
 $(document).ready(function () {
-  let menuSelectors = {
-    ".subnav:eq(0)": {
-      ".subnav__list": "li"
-    }
-  };
+  let sam = SAM.fromSelectors(".subnav:eq(0)", ".subnav__list", "li");
 
-  let mainInstance = AdaptiveWebMenus.fromSelectors(menuSelectors);
-
-  console.log("AWM library initialised");
-  console.log(mainInstance);
+  console.log("SAM has been initialised.");
+  console.log(sam);
 });

@@ -1,10 +1,6 @@
 $(document).ready(function () {
-  let menuSelectors = {
-    "#hdtb-msb": ".hdtb-mitem"
-  };
+  let sam = SAM.fromSelectors("#hdtb-msb", ".hdtb-mitem");
 
-  let mainInstance = AdaptiveWebMenus.fromSelectors(menuSelectors);
-
-  console.log("AWM library initialised");
-  console.log(mainInstance);
+  console.log("SAM has been initialised.");
+  console.log(sam);
 });

@@ -10,7 +10,7 @@ import { DebugDisplay } from "./DebugDisplay";
 import { Selector } from "./elements/AdaptiveElement";
 
 
-export class AdaptiveWebMenus {
+export class SelfAdaptingMenus {
 
   // ============================================================ PROPERTIES ===
 
@@ -30,7 +30,7 @@ export class AdaptiveWebMenus {
   // =========================================================== CONSTRUCTOR ===
 
   /**
-   * Create a new instance of the AWM library.
+   * Create a new instance of SAM.
    * This constructor is mainly meant for internal use only:
    * for external uses, use static _builder methods_ instead.
    *
@@ -117,7 +117,7 @@ export class AdaptiveWebMenus {
    * @param  itemSelector Selector of all item nodes.
    * @return              A new instance of SAM.
    */
-  static fromSelectors (menuSelector: Selector, itemSelector: Selector): AdaptiveWebMenus;
+  static fromSelectors (menuSelector: Selector, itemSelector: Selector): SelfAdaptingMenus;
 
   /**
    * Create a new instance of SAM from generic menu, group and item selectors.
@@ -133,7 +133,7 @@ export class AdaptiveWebMenus {
    * @param  itemSelector  Selector of all item nodes.
    * @return               A new instance of SAM.
    */
-  static fromSelectors (menuSelector: Selector, groupSelector: Selector, itemSelector: Selector): AdaptiveWebMenus;
+  static fromSelectors (menuSelector: Selector, groupSelector: Selector, itemSelector: Selector): SelfAdaptingMenus;
 
   /**
    * Create a new instance of SAM from specific selectors.
@@ -148,15 +148,15 @@ export class AdaptiveWebMenus {
    * @param  selectors  Structure of selectors of menu, group and item nodes.
    * @return            A new instance of SAM.
    */
-  static fromSelectors (selectors: MenuSelectors): AdaptiveWebMenus;
+  static fromSelectors (selectors: MenuSelectors): SelfAdaptingMenus;
 
-  static fromSelectors (selector1: Selector | MenuSelectors, selector2?: Selector, selector3?: Selector): AdaptiveWebMenus {
+  static fromSelectors (selector1: Selector | MenuSelectors, selector2?: Selector, selector3?: Selector): SelfAdaptingMenus {
     // Case 1: called with one argument
     // It must be an object of specific selectors
     if (selector2 === undefined) {
       // console.log("fromSpecificSelectors");
       let menuManager = MenuManager.fromSpecificSelectors(selector1 as MenuSelectors);
-      return new AdaptiveWebMenus(menuManager);
+      return new SelfAdaptingMenus(menuManager);
     }
 
     // Case 2: called with two arguments
@@ -164,33 +164,35 @@ export class AdaptiveWebMenus {
     else if (selector3 === undefined) {
       // console.log("fromGenericMenuAndItemSelectors");
       let menuManager = MenuManager.fromGenericMenuAndItemSelectors(selector1 as Selector, selector2);
-      return new AdaptiveWebMenus(menuManager);
+      return new SelfAdaptingMenus(menuManager);
     }
 
     // Case 3: called with three arguments
     // They must resp. be a generic menu selector, a generic group selector, and a generic item selector
     else {
       let menuManager = MenuManager.fromGenericMenuGroupAndItemSelectors(selector1 as Selector, selector2, selector3);
-      return new AdaptiveWebMenus(menuManager);
+      return new SelfAdaptingMenus(menuManager);
     }
   }
 
   /**
-   * Build an AWM instance using standard AWM classes as selectors.
-   * See [[Menu]], [[ItemGroup]] and [[Item]] for the standard classes definition.
-   *
+   * Create a new instance of SAM from standard class selectors:
+   * - [[Menu.HTML_CLASS]] for menus;
+   * - [[ItemGroup.HTML_CLASS]] for groups;
+   * - [[Item.HTML_CLASS]] for items.
+   * 
    * The menu node cannot be a group node itself (use [[fromSelectors]]).
    * Group nodes are only searched inside the menu node.
    * Item nodes are only searched inside the group node.
    *
-   * @return A new instance of the AWM library.
+   * @return A new instance of SAM.
    */
-  static fromAWMClasses (): AdaptiveWebMenus {
-    let menuSelector = "." + Menu.AWM_CLASS;
-    let groupSelector = "." + ItemGroup.AWM_CLASS;
-    let itemSelector = "." + Item.AWM_CLASS;
+  static fromStandardClasses (): SelfAdaptingMenus {
+    let menuSelector = "." + Menu.HTML_CLASS;
+    let groupSelector = "." + ItemGroup.HTML_CLASS;
+    let itemSelector = "." + Item.HTML_CLASS;
 
     let menuManager = MenuManager.fromGenericMenuGroupAndItemSelectors($(menuSelector), $(groupSelector), $(itemSelector));
-    return new AdaptiveWebMenus(menuManager);
+    return new SelfAdaptingMenus(menuManager);
   }
 }

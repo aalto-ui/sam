@@ -42,8 +42,11 @@ export abstract class AdaptiveElement {
 
   // ============================================================ PROPERTIES ===
 
-  /** Prefix of all AWM tags added to nodes as HTML attributes. */
-  static readonly TAG_PREFIX: string = "data-awm-";
+  /**
+   * Prefix of all tags added to nodes by SAM.
+   * It acts as a sort of HTML attribute namespace.
+   */
+  static readonly TAG_PREFIX: string = "data-sam-";
 
   /** Node of the element. */
   readonly node: JQuery;
@@ -71,7 +74,7 @@ export abstract class AdaptiveElement {
 
   /**
    * Create a new instance of adaptive element.
-   * The ID is automatically computed, and the node is tagged with its AWM type.
+   * The ID is automatically computed, and the node is tagged with the element type.
    *
    * @param node     The node of the element.
    * @param selector The selector used to find the element node.
@@ -94,7 +97,7 @@ export abstract class AdaptiveElement {
   /**
    * Get the type of the element.
    *
-   * Each concrete type of element must return an AWM type
+   * Each concrete type of element must return an type
    * which must be unique among all types of elements.
    *
    * @return The element type.

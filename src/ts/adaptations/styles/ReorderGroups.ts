@@ -12,7 +12,7 @@ export class ReorderGroups extends Reorder {
   // ============================================================ PROPERTIES ===
 
   /** HTML class of group elements which have been reordered. */
-  static readonly REORDERED_ELEMENT_CLASS: string = "awm-reordered-group";
+  static readonly REORDERED_ELEMENT_CLASS: string = "sam-reordered-group";
 
   readonly name: string = "Reorder groups";
 
@@ -35,7 +35,7 @@ export class ReorderGroups extends Reorder {
   // ===========================================================================
 
   protected getReorderedElementClass (): string {
-    return "awm-reordered-group";
+    return "sam-reordered-group";
   }
 
   protected getReorderedElementType (): string {

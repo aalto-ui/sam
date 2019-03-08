@@ -19,7 +19,7 @@ export class Item extends AdaptiveElement {
   // ============================================================ PROPERTIES ===
 
   /** Standard HTML class for item elements. */
-  static readonly AWM_CLASS: string = "awm-item";
+  static readonly HTML_CLASS: string = "sam-item";
 
   /** Type of item elements. */
   static readonly ELEMENT_TYPE: string = "item";

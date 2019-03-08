@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<meta charset="utf-8"></meta>
-		<link rel="stylesheet" href="../../../build/awm.css"></link>
+		<link rel="stylesheet" href="../../../build/sam.css"></link>
 		<link rel="stylesheet" href="../css/test-style.css"></link>
 
-		<title>Dropdown menu - AWM test page</title>
+		<title>Dropdown menu - SAM test page</title>
 	</head>
 
 	<body>
@@ -24,14 +24,15 @@
   </body>
 
 	<script type="text/javascript" src="../js/jquery-3.3.1.slim.min.js"></script>
-	<script type="text/javascript" src="../../../build/awm.min.js"></script>
+	<script type="text/javascript" src="../../../build/sam.min.js"></script>
 
 	<script type="text/javascript">
     $(document).ready(function () {
-      let awm = AdaptiveWebMenus.fromSelectors("#dropdown-menu", "option");
-      window["awm"] = awm;
+      let sam = SAM.fromSelectors("#dropdown-menu", "option");
+      window["sam"] = sam; // for debug purposes only!
 
-      console.log(awm);
+      console.log("SAM has been initialised.");
+      console.log(sam);
     });
   </script>
 </html>

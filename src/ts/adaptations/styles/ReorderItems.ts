@@ -12,7 +12,7 @@ export class ReorderItems extends Reorder {
   // ============================================================ PROPERTIES ===
 
   /** HTML class of item elements which have been reordered. */
-  static readonly REORDERED_ELEMENT_CLASS: string = "awm-reordered-item";
+  static readonly REORDERED_ELEMENT_CLASS: string = "sam-reordered-item";
 
   readonly name: string = "Reorder items";
 
@@ -35,7 +35,7 @@ export class ReorderItems extends Reorder {
   // ===========================================================================
 
   protected getReorderedElementClass (): string {
-    return "awm-reordered-item";
+    return "sam-reordered-item";
   }
 
   protected getReorderedElementType (): string {
