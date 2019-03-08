@@ -13,10 +13,13 @@ install:
 script:
   - grunt
   - grunt doc
+  - mkdir deploy deploy/build
+  - mv doc deploy/docs
+  - mv build/awm.css build/awm.min.js deploy/build
 
 deploy:
   provider: pages
-  local-dir: doc
+  local-dir: deploy
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
   keep-history: false
