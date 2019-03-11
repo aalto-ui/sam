@@ -6,7 +6,7 @@ import { ItemGroup } from "./elements/ItemGroup";
 import { Item } from "./elements/Item";
 import { DataManager } from "./data/DataManager";
 import { AdaptationManager } from "./adaptations/AdaptationManager";
-import { DebugDisplay } from "./DebugDisplay";
+import { VisualControls } from "./VisualControls";
 import { Selector } from "./elements/AdaptiveElement";
 
 
@@ -23,8 +23,8 @@ export class SelfAdaptingMenus {
   /** Adaptation manager single instance of the library. */
   readonly adaptationManager: AdaptationManager;
 
-  /** Debug display single instance of the library. */
-  private readonly debugDisplay: DebugDisplay;
+  /** Visual controls single instance of the library. */
+  private readonly visualControls: VisualControls;
 
 
   // =========================================================== CONSTRUCTOR ===
@@ -37,10 +37,11 @@ export class SelfAdaptingMenus {
    * Note: no more than one instance should be instanciated at the same time;
    *       running more at once may result in unexpected behaviours.
    *
-   * @param menuManager The menu manager instance to use.
-   * @param debug       Control the debug display (activated on `true`).
+   * @param menuManager           The menu manager instance to use.
+   * @param displayVisualControls Indicate whether to display the visual controls
+   *                              or not (visible on `true`).
    */
-  constructor (menuManager: MenuManager, debug: boolean = true) {
+  constructor (menuManager: MenuManager, displayVisualControls: boolean = true) {
     this.menuManager = menuManager;
 
     this.dataManager = new DataManager(this.menuManager);
@@ -48,7 +49,7 @@ export class SelfAdaptingMenus {
     this.adaptationManager = new AdaptationManager(this.menuManager, this.dataManager);
     this.adaptationManager.applyCurrentAdaptation();
 
-    this.debugDisplay = new DebugDisplay(this, debug);
+    this.visualControls = new VisualControls(this, displayVisualControls);
   }
 
 

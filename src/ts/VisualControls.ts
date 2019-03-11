@@ -1,38 +1,41 @@
-/** @module core */
+/** @module gui */
 
 import * as $ from "jquery";
 import { SelfAdaptingMenus } from "./SelfAdaptingMenus";
 import { AVAILABLE_STYLE_NAMES, AVAILABLE_POLICY_NAMES } from "./adaptations/AdaptationManager";
 
 
-export class DebugDisplay {
+export class VisualControls {
 
   // ============================================================ PROPERTIES ===
 
-  /** Instance of SAM owning this debug display. */
+  /** Instance of SAM to control. */
   private readonly sam: SelfAdaptingMenus;
 
-  /** Flag indicating whether the debug display is activated or not. */
-  private activated: boolean;
+  /**
+   * Flag indicating whether the controls should be displayed or not.
+   * If `true`, they should be displayed. 
+   */
+  private display: boolean;
 
-  /** Node containing all the debug displayed controls. */
+  /** Node containing all the controls' nodes. */
   private controlsContainerNode: JQuery;
 
 
   // =========================================================== CONSTRUCTOR ===
 
   /**
-   * Creates a new instance of debug display.
+   * Creates a new instance of visual controls.
    *
-   * @param sam      Instance of SAM owning this debug display.
-   * @param activate Control the debug display (activated on `true`).
+   * @param sam     Instance of SAM to control.
+   * @param display Indicate whether to display the controls or not (visible on `true`).
    */
-  constructor (sam: SelfAdaptingMenus, activate: boolean = true) {
+  constructor (sam: SelfAdaptingMenus, display: boolean = true) {
     this.sam = sam;
     this.controlsContainerNode = null;
 
-    if (activate) {
-      this.activate();
+    if (display) {
+      this.show();
     }
   }
 
@@ -43,7 +46,7 @@ export class DebugDisplay {
    * Update the adaptation style from the selected one.
    */
   private updateAdaptationStyle () {
-    let styleName = $("#sam-debug-switch-style-menu").val() as string;
+    let styleName = $("#sam-gui-switch-style-menu").val() as string;
 
     this.sam.adaptationManager.switchToStyle(styleName);
   }
@@ -52,39 +55,40 @@ export class DebugDisplay {
    * Update the target policy from the selected one.
    */
   private updateTargetPolicy () {
-    let policyName = $("#sam-debug-switch-policy-menu").val() as string;
+    let policyName = $("#sam-gui-switch-policy-menu").val() as string;
 
     this.sam.adaptationManager.switchToPolicy(policyName);
   }
 
 
   // ===========================================================================
-  // Visual controls building
+  // Control nodes
   // ===========================================================================
 
   /**
-   * Create a container for the debug display, and prepend it to the page body.
+   * Create a container for the gui display, and prepend it to the page body.
    */
   private addControlContainerNode () {
     let controlsContainer = $("<div>")
-      .attr("id", "sam-debug-controls-container");
+      .attr("id", "sam-gui-controls-container");
     $("body").prepend(controlsContainer);
 
     this.controlsContainerNode = controlsContainer;
   }
 
   /**
-   * Create a list of adaptation styles, and append it to the container.
+   * Create a list of adaptation styles, attach an event handler to the list
+   * to update the style on `change` event, and append it to the container.
    */
   private addStyleListNode () {
     this.controlsContainerNode
       .append($("<label>")
-      .attr("for", "sam-debug-switch-style-menu")
+      .attr("for", "sam-gui-switch-style-menu")
       .html("Style:"));
 
     this.controlsContainerNode
       .append($("<select>")
-      .attr("id", "sam-debug-switch-style-menu")
+      .attr("id", "sam-gui-switch-style-menu")
       .on("change", (_) => {
         this.updateAdaptationStyle();
       }));
@@ -98,22 +102,23 @@ export class DebugDisplay {
         option.prop("selected", true);
       }
 
-      $("#sam-debug-switch-style-menu").append(option);
+      $("#sam-gui-switch-style-menu").append(option);
     }
   }
 
-  /**
-   * Create a list of adaptation policies, and append it to the container.
+    /**
+   * Create a list of target policies, attach an event handler to the list
+   * to update the policy on `change` event, and append it to the container.
    */
   private addPolicyListNode () {
     this.controlsContainerNode
       .append($("<label>")
-      .attr("for", "sam-debug-switch-policy-menu")
+      .attr("for", "sam-gui-switch-policy-menu")
       .html("Policy:"));
 
     this.controlsContainerNode
       .append($("<select>")
-      .attr("id", "sam-debug-switch-policy-menu")
+      .attr("id", "sam-gui-switch-policy-menu")
       .on("change", (_) => {
         this.updateTargetPolicy();
       }));
@@ -127,7 +132,7 @@ export class DebugDisplay {
         option.prop("selected", true);
       }
 
-      $("#sam-debug-switch-policy-menu").append(option);
+      $("#sam-gui-switch-policy-menu").append(option);
     }
   }
 
@@ -138,15 +143,15 @@ export class DebugDisplay {
     this.controlsContainerNode
       .append($("<button>")
       .html("Clear history (require page reloading)")
-      .attr("id", "sam-debug-clear-history-button")
+      .attr("id", "sam-gui-clear-history-button")
       .on("click", () => {
         this.sam.clearHistory();
       }));
   }
 
   /**
-   * Create and append the container and all its controls.
-   * This will display the full debug display panel on the page.
+   * Create the container and all the control nodes, and append them to the DOM.
+   * This will display the control panel on the page.
    */
   private addAllControls () {
     this.addControlContainerNode();
@@ -156,8 +161,8 @@ export class DebugDisplay {
   }
 
   /**
-   * Remove the container and all its controls from the page.
-   * This will remove the full debug display panel from the page.
+   * Remove the container node from the DOM.
+   * This will hide the control panel from the page.
    */
   private removeAllControls () {
     this.controlsContainerNode.remove();
@@ -165,22 +170,22 @@ export class DebugDisplay {
   }
 
   // ===========================================================================
-  // De-activation of the visual controls
+  // Visibility control
   // ===========================================================================
 
   /**
-   * Activate the debug display, and display the debug display panel.
+   * Show the control panel.
    */
-  activate () {
-    this.activated = true;
+  show () {
+    this.display = true;
     this.addAllControls();
   }
 
   /**
-   * Desactivate the debug display, and hide the debug display panel.
+   * Hide the control panel.
    */
-  desactivate () {
-    this.activated = false;
+  hide () {
+    this.display = false;
     this.removeAllControls();
   }
 }
