@@ -61,7 +61,7 @@ export class SelfAdaptingMenus {
   clearHistory () {
     this.dataManager.database.empty();
 
-    this.adaptationManager.resetCurrentAdaptation();
+    this.adaptationManager.cancelCurrentAdaptation();
     this.adaptationManager.applyCurrentAdaptation();
   }
 
@@ -76,7 +76,7 @@ export class SelfAdaptingMenus {
    * @param  menu The menu to add.
    */
   addMenu (menu: Menu) {
-    this.adaptationManager.resetCurrentAdaptation();
+    this.adaptationManager.cancelCurrentAdaptation();
 
     this.menuManager.addMenu(menu);
 
@@ -93,7 +93,7 @@ export class SelfAdaptingMenus {
    * @param  id The ID of the menu to remove.
    */
   removeMenu (id: MenuID) {
-    this.adaptationManager.resetCurrentAdaptation();
+    this.adaptationManager.cancelCurrentAdaptation();
 
     let removedMenu = this.menuManager.removeMenu(id);
 

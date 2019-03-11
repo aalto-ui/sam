@@ -16,7 +16,7 @@ export class Identity implements AdaptationStyle {
 
   // =============================================================== METHODS ===
 
-  reset () {
+  cancel () {
     // Nothing to do
   }
 

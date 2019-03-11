@@ -125,7 +125,7 @@ export class ReorderItems extends Reorder {
   apply (menuManager: MenuManager, policy: TargetPolicy, dataManager?: DataManager) {
     let items = this.getFilteredSortedItems(menuManager, policy, dataManager);
 
-    // Save some children in their original order to be able to reset the reordering
+    // Save some children in their original order to be able to cancel the reordering
     this.saveParentNodeChildrenInOriginalOrder(items);
 
     // Splice the items to only reorder the top ones

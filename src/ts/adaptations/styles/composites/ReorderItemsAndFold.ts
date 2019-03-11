@@ -34,9 +34,9 @@ export class ReorderItemsAndFold implements AdaptationStyle {
 
   // =============================================================== METHODS ===
 
-  reset () {
-    this.fold.reset();
-    this.reorder.reset();
+  cancel () {
+    this.fold.cancel();
+    this.reorder.cancel();
   }
 
   apply (menuManager: MenuManager, policy: TargetPolicy, dataManager?: DataManager) {

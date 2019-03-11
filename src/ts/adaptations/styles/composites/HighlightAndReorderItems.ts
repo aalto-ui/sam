@@ -29,9 +29,9 @@ export class HighlightAndReorderItems implements AdaptationStyle {
 
   // =============================================================== METHODS ===
 
-  reset () {
-    this.reorder.reset();
-    this.highlight.reset();
+  cancel () {
+    this.reorder.cancel();
+    this.highlight.cancel();
   }
 
   apply (menuManager: MenuManager, policy: TargetPolicy, dataManager?: DataManager) {

@@ -212,10 +212,10 @@ export class Fold implements AdaptationStyle {
 
 
   // ===========================================================================
-  // Reset style
+  // Cancel style
   // ===========================================================================
 
-  reset () {
+  cancel () {
     for (let folderNode of this.folderNodes) {
       // Remove foldable classes
       folderNode

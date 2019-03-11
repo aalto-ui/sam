@@ -76,7 +76,7 @@ export class ReorderGroups extends Reorder {
   apply (menuManager: MenuManager, policy: TargetPolicy, dataManager?: DataManager) {
     let groups = this.getFilteredSortedGroups(menuManager, policy, dataManager);
 
-    // Save some children in their original order to be able to reset the reordering
+    // Save some children in their original order to be able to cancel the reordering
     this.saveParentNodeChildrenInOriginalOrder(groups);
 
     this.reorderAllElements(groups);

@@ -37,10 +37,10 @@ export class HighlightReorderItemsAndFold implements AdaptationStyle {
 
   // =============================================================== METHODS ===
 
-  reset () {
-    this.fold.reset();
-    this.reorder.reset();
-    this.highlight.reset();
+  cancel () {
+    this.fold.cancel();
+    this.reorder.cancel();
+    this.highlight.cancel();
   }
 
   apply (menuManager: MenuManager, policy: TargetPolicy, dataManager?: DataManager) {

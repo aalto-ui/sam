@@ -171,7 +171,7 @@ export class AdaptationManager {
    * @param  name The name of the new style.
    */
   switchToStyle (name: string) {
-    this.resetCurrentAdaptation();
+    this.cancelCurrentAdaptation();
     this.setStyle(name);
     this.applyCurrentAdaptation();
   }
@@ -244,7 +244,7 @@ export class AdaptationManager {
    * @param  name The name of the new policy.
    */
   switchToPolicy (name: string) {
-    this.resetCurrentAdaptation();
+    this.cancelCurrentAdaptation();
     this.setPolicy(name);
     this.applyCurrentAdaptation();
   }
@@ -275,8 +275,8 @@ export class AdaptationManager {
   /**
    * Cancel the current adaptation style on all the menus which are adapted.
    */
-  resetCurrentAdaptation () {
-    this.currentStyle.reset();
+  cancelCurrentAdaptation () {
+    this.currentStyle.cancel();
   }
 
   /**
@@ -287,7 +287,7 @@ export class AdaptationManager {
    * @param  policyName The name of the new policy.
    */
   switchToAdaptation (styleName: string, policyName: string) {
-    this.resetCurrentAdaptation();
+    this.cancelCurrentAdaptation();
     this.setStyle(styleName);
     this.setPolicy(policyName);
     this.applyCurrentAdaptation();

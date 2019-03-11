@@ -23,7 +23,7 @@ export interface AdaptationStyle {
    * This method must restore the adapted menus into their original states,
    * as if they had not been adapted.
    */
-  reset (): void;
+  cancel (): void;
 
   /**
    * Apply the adaptation to all the menus of the given menu manager,

@@ -253,10 +253,10 @@ export abstract class Reorder implements AdaptationStyle {
 
 
   // ===========================================================================
-  // Reset style
+  // Cancel style
   // ===========================================================================
 
-  reset () {
+  cancel () {
     // Reinsert all children of parents of reordered elements at their original indices
     for (let [parent, orderedChildNodes] of this.childrenInOriginalOrder.entries()) {
       let parentNode = $(parent);

@@ -214,9 +214,9 @@ export class ProgressiveHighlightAndReorderItems implements AdaptationStyle {
     this.currentItemCharacteristics = currentItemCharacteristics;
   }
 
-  reset () {
-    this.progressiveReorder.reset();
-    this.progressiveHighlight.reset();
+  cancel () {
+    this.progressiveReorder.cancel();
+    this.progressiveHighlight.cancel();
 
     this.allItems = null;
     this.previousItemCharacteristics = null;

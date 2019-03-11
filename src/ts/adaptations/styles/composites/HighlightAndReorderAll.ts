@@ -32,10 +32,10 @@ export class HighlightAndReorderAll implements AdaptationStyle {
 
   // =============================================================== METHODS ===
 
-  reset () {
-    this.reorderGroups.reset();
-    this.reorderItems.reset();
-    this.highlight.reset();
+  cancel () {
+    this.reorderGroups.cancel();
+    this.reorderItems.cancel();
+    this.highlight.cancel();
   }
 
   apply (menuManager: MenuManager, policy: TargetPolicy, dataManager?: DataManager) {

@@ -203,10 +203,10 @@ export class Highlight implements AdaptationStyle {
 
 
   // ===========================================================================
-  // Reset style
+  // Cancel style
   // ===========================================================================
 
-  reset () {
+  cancel () {
     // Simply remove highlighting and HL level classe
     let classesToRemove = HIGHLIGHTING_LEVELS_CLASSES;
     classesToRemove.push(Highlight.HIGHLIGHTED_ELEMENT_CLASS);
