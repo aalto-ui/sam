@@ -1,12 +1,13 @@
 /** @module adaptation */
 
+import { DefaultTargetPolicy } from './DefaultTargetPolicy';
 import { MenuManager } from "../../elements/MenuManager";
 import { DataManager } from "../../data/DataManager";
 import { Item } from "../../elements/Item";
 import { ItemGroup } from "../../elements/ItemGroup";
 import { AdaptiveElement } from "../../elements/AdaptiveElement";
 import { ItemClicksAnalysis, ItemClicksAnalyser } from "../../data/ItemClicksAnalyser";
-import { TargetPolicy, ItemWithScore, ItemGroupWithScore } from "./TargetPolicy";
+import { ItemWithScore, ItemGroupWithScore } from "./TargetPolicy";
 
 
 /**
@@ -21,7 +22,7 @@ interface ElementWithNbClicks<E extends AdaptiveElement> {
 }
 
 
-export class MostClickedItemsPolicy extends TargetPolicy {
+export class MostClickedItemsPolicy extends DefaultTargetPolicy {
 
   // ============================================================ PROPERTIES ===
 

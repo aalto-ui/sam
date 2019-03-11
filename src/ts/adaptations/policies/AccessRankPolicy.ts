@@ -1,13 +1,14 @@
 /** @module adaptation */
 
+import { DefaultTargetPolicy } from './DefaultTargetPolicy';
 import { MenuManager } from "../../elements/MenuManager";
 import { DataManager } from "../../data/DataManager";
 import { Item } from "../../elements/Item";
 import { ItemClicksAnalysis, ItemClicksAnalyser } from "../../data/ItemClicksAnalyser";
-import { TargetPolicy, ItemWithScore } from "./TargetPolicy";
+import { ItemWithScore } from "./TargetPolicy";
 
 
-export class AccessRankPolicy extends TargetPolicy {
+export class AccessRankPolicy extends DefaultTargetPolicy {
 
   // ============================================================ PROPERTIES ===
 

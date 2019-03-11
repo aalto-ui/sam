@@ -1,10 +1,11 @@
 /** @module adaptation */
 
+import { DefaultTargetPolicy } from './DefaultTargetPolicy';
 import { MenuManager } from "../../elements/MenuManager";
-import { TargetPolicy, ItemWithScore, ItemGroupWithScore } from "./TargetPolicy";
+import { ItemWithScore, ItemGroupWithScore } from "./TargetPolicy";
 
 
-export class NodeIndexOrderPolicy extends TargetPolicy {
+export class NodeIndexOrderPolicy extends DefaultTargetPolicy {
 
   // ============================================================ PROPERTIES ===
 

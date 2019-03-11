@@ -1,14 +1,15 @@
 /** @module adaptation */
 
+import { DefaultTargetPolicy } from './DefaultTargetPolicy';
 import { MenuManager } from "../../elements/MenuManager";
 import { Item } from "../../elements/Item";
 import { PageVisitsAnalysis } from "../../data/PageVisitsAnalyser";
-import { TargetPolicy, ItemWithScore } from "./TargetPolicy";
+import { ItemWithScore } from "./TargetPolicy";
 import { DataManager } from "../../data/DataManager";
 import { PageID } from "../../Utilities";
 
 
-export abstract class LinkedPageScorePolicy extends TargetPolicy {
+export abstract class LinkedPageScorePolicy extends DefaultTargetPolicy {
 
   // ============================================================ PROPERTIES ===
 
