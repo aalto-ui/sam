@@ -61,8 +61,7 @@ export class SelfAdaptingMenus {
   clearHistory () {
     this.dataManager.database.empty();
 
-    this.adaptationManager.cancelCurrentAdaptation();
-    this.adaptationManager.applyCurrentAdaptation();
+    this.adaptationManager.updateCurrentAdaptation();
   }
 
 

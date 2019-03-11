@@ -280,6 +280,17 @@ export class AdaptationManager {
   }
 
   /**
+   * Successively cancel and re-apply the current adaptation to update it.
+   * 
+   * This method can be used for manual update of the adapted menus,
+   * e.g. on a single-page website where items only act as anchor links or script triggers.
+   */
+  updateCurrentAdaptation () {
+    this.cancelCurrentAdaptation();
+    this.applyCurrentAdaptation();
+  }
+
+  /**
    * Cancel any existing adaptation, switch to the given style and policy,
    * and update all adapted menus accordingly.
    *
