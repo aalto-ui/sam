@@ -14,8 +14,9 @@ script:
   - grunt
   - grunt doc
   - mkdir deploy deploy/build
+  - tar -cz -f build/sam.zip build/sam.css build/sam.min.js
+  - mv build/sam.zip build/sam.css build/sam.min.js deploy/build
   - mv doc deploy/docs
-  - mv build/sam.css build/sam.min.js deploy/build
 
 deploy:
   provider: pages
