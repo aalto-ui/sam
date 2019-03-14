@@ -54,3 +54,34 @@ The new `build` folder will contain your own build of SAM. You can also generate
 
 **Note on the `build/lib` directory:** this directory contains each TypeScript source file transpiled to JavaScript, along with TypeScript Declaration files (which provide type information). You can probably ignore this directory, except if you wish to build a web application in TypeScript with SAM as a npm dependency.
 
+
+
+## Extending SAM (for researchers)
+In SAM, **each adaptation technique is a combination of a policy and a style**. While the code of SAM can be extended in various ways, one of the most interesting kind of extension is the addition of a new policy or a new style:
+
+* A **policy** is a metric of importance for all items (or groups of items). It must assign a score to each item (or group of item), and sort them accordingly. It reflects _what_ to adapt in the menus (e.g. the most clicked items).
+* A **technique** is a certain way of updating the webpage menus to adapt them. It must modify the DOM in accordance with the output of the policy, and be able to cancel the changes at any time. It reflects _how_ to adapt the menus (e.g. highlight the top-3 items).
+
+We decided to make adaptation techniques modular in order to encourage researchers to re-use existing pieces of code, and spend more time on trying out new ideas (instead of constantly re-implementing features such as user logging and common metrics). In addition, SAM already provides some popular [policies](src/ts/adaptations/policies) and [styles](src/ts/adaptations/styles).
+
+
+### Adding a new target policy
+In order to add a new target policy, you must first create a new class which implements the [`TargetPolicy`](https://aalto-ui.github.io/sam/docs/interfaces/adaptation.targetpolicy.html) interface, and give it a unique name.
+
+For more convenience, you may want to extend the [`DefaultTargetPolicy`](https://aalto-ui.github.io/sam/docs/classes/adaptation.defaulttargetpolicy.html) class instead. It provides a default implementation of all methods of the interface but [`getSortedItemsWithScores`](https://aalto-ui.github.io/sam/docs/interfaces/adaptation.targetpolicy.html#getsorteditemswithscores), that must return a sorted array of objects containing an item and its score, and that you must implement yourself.
+
+Once your new class fully implements the interface, you must add an instance of your policy in the [`AVAILABLE_POLICIES`](https://aalto-ui.github.io/sam/docs/modules/adaptation.html#available_policies) array, and rebuild SAM. It will be available in the [adaptation manager](https://aalto-ui.github.io/sam/docs/classes/adaptation.adaptationmanager.html) by using the name you gave it.
+
+
+**Note on default implementations:** if your policy belongs to a specific kind of metric, you may want to check if there is an even **more specific abstract class** to extend. For instance, all the policies provided by SAM which sort items according to a score related to the page they link to extend the [`LinkedPageScorePolicy`](https://aalto-ui.github.io/sam/docs/classes/adaptation.linkedpagescorepolicy.html) class instead, which does almost all the work!
+
+
+### Adding a new adaptation style
+In order to add a new adaptation style, you must first create a new class which implements the [`AdaptationStyle`](https://aalto-ui.github.io/sam/docs/interfaces/adaptation.adaptationstyle.html) interface, and give it a unique name.
+
+Remember that the scores and/or the order of the items (or group of items) provided by the policy represent the importance of the different items (or groups of items) for the user (i.e. what the adapted menu should highlight).
+
+Once your new class fully implements the interface, you must add an instance of your style in the [`AVAILABLE_STYLES`](https://aalto-ui.github.io/sam/docs/modules/adaptation.html#available_styles) array, and rebuild SAM. It will be available in the [adaptation manager](https://aalto-ui.github.io/sam/docs/classes/adaptation.adaptationmanager.html) by using the name you gave it.
+
+
+**Note on composite styles:** another way of making it simpler to create new adaptation techniques lies in the notion of _style composition_: two or more styles can be chained inside a new style (which basically calls the `apply` and `cancel` methods of other styles in the right order). This kind of adaptation style is called a **composite style**. SAM provides [some examples of composite styles](https://github.com/aalto-ui/sam/tree/master/src/ts/adaptations/styles/composites).
