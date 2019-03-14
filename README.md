@@ -29,7 +29,7 @@ Several browser extensions allow you to inject custom JavaScript and CSS into th
         * URL pattern: `.*`
         * In the _CSS_ tab, paste the content of [`sam.css`](https://aalto-ui.github.io/sam/build/sam.css)
         * In the _JavaScript_ tab, paste the content of [`sam.min.js`](https://aalto-ui.github.io/sam/build/sam.min.js)
-3. **Add specific rules for each website containing menus you wish to adapt**. Let's take Wikipedia as an example, and add a new rule in Code Injector:
+3. **Add specific rules to initialise SAM on each website containing menus you wish to adapt**. Let's take Wikipedia as an example, and add a new rule in Code Injector:
     * URL pattern: `\.wikipedia\.org`
     * In the _JavaScript_ tab, paste [this initialisation script](examples/wikipedia.org/main.js) (which targets the main menu of Wikipedia).
 
