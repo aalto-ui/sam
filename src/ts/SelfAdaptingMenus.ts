@@ -14,6 +14,9 @@ export class SelfAdaptingMenus {
 
   // ============================================================ PROPERTIES ===
 
+  /** Version of the library. */
+  readonly VERSION: string = "1.0.0";
+
   /** Menu manager single instance of the library. */
   private readonly menuManager: MenuManager;
 
