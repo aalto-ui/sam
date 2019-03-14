@@ -12,7 +12,12 @@ export abstract class Reorder implements AdaptationStyle {
 
   // ============================================================ PROPERTIES ===
 
-  /** HTML class of container nodes whose children must *not* be reordered. */
+  /**
+   * HTML class of items or groups whose nodes must *not* be reordered.
+   * 
+   * Such elements are flagged accordingly when they are created
+   * (see [[Item.canBeReordered]] and [[ItemGroup.canBeReordered]]).
+   */
   static readonly NON_REORDERABLE_ELEMENT_CLASS = "sam-no-reordering";
 
   abstract readonly name: string;
