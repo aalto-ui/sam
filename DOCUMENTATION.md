@@ -1,7 +1,7 @@
 # Documentation of SAM
 
 This document aims at presenting the global architecture and logic of SAM, along with some more specific tutorials covering important topics.
-It naturally complements the formal documentation, which is available online.
+It naturally complements the formal documentation of the different objets available in SAM.
 
 
 
