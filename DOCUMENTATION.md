@@ -32,7 +32,7 @@ SAM follows a rather classical project structure for JavaScript libraries using 
 ## SAM pipeline 
 The logic of SAM is split in three complementary modules, which are used one after another in the adaptation pipeline. The following figure illustrates how do they relate to each other in the library pipeline.
 
-![SAM pipeline](misc/sam-pipeline.svg)
+![SAM pipeline](media://sam-pipeline.svg)
 
 * The **Menu abstraction** module is responsible for creating an abstract representation of the menus to adapt in a webpage, given jQuery selectors which target the DOM elements which constitute the menus.
 * The **User logging** module is responsible for loading (on page load), recordering, turning into convenient metrics and saving (on page exit) some of the interactions between the user and the webpage.

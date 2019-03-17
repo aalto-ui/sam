@@ -70,6 +70,8 @@ module.exports = function (grunt) {
   				name: "Adaptive Web Menus",
           target: "ES6",
           mode: "modules",
+          readme: "./DOCUMENTATION.md",
+          media: "./misc/media",
           exclude: ["**/src/ts/index.ts", "**/src/ts/sam.ts"]
   			},
 
