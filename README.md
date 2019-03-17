@@ -2,8 +2,9 @@
 
 SAM is a Javascript library which offers **Self-Adapting Menus** for websites.
 
-* **[⬇️ Download SAM](https://aalto-ui.github.io/sam/build/sam.zip)** (last build, compressed)
-* **[ℹ️ Read the full documentation](https://aalto-ui.github.io/sam/docs/)**
+**[⬇️ Download SAM](https://aalto-ui.github.io/sam/build/sam.zip)** (last build, compressed)
+
+**[ℹ️ Read the full documentation](https://aalto-ui.github.io/sam/docs/)**
 
 SAM can turn almost any kind of static webpage structure into a custom adaptive menu, in a few lines of code only. It comes with the following features:
 
