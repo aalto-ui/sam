@@ -36,7 +36,17 @@ The logic of SAM is split in three complementary modules, which are used one aft
 
 * The **Menu abstraction** module is responsible for creating an abstract representation of the menus to adapt in a webpage, given jQuery selectors which target the DOM elements which constitute the menus.
 * The **User logging** module is responsible for loading (on page load), recordering, turning into convenient metrics and saving (on page exit) some of the interactions between the user and the webpage.
-* The **Menu adaptation** module is responsible for actually modifying the DOM to adapt the abstracted menus, given the history of interactions recorded by the User logging module.
+* The **Menu adaptation** module is responsible for modifying the DOM to adapt the abstracted menus, given the history of interactions recorded by the User logging module.
+
+When an instance of SAM is created, the given selectors are used to fetch the elements they target in the DOM, in order to build an abstraction of the menus to adapt. If no selector is provided, or if they do not target any element, then SAM is initialised without any menu to adapt (they can be manually added at a later time).
+
+Immediately after that, the previous history of interactions is loaded into a database, and the interaction logger starts recording certains events on the page (such as clicks on menu items).
+
+The actual adaptation process only start at that point.
+First, the selected target policy first sort all the items (or groups of items) by giving them scores according to a certain metric.
+Then, the selected adaptation style makes certain changes to the DOM of the webpage to adapt the menu in accordance with the ranking made by the policy. 
+
+Apart from user interaction logging (or a manual update of the adaptation), nothing happens until the page is about to be left. At that moment, the content of the database is saved, in order to make the newly recorded events available to SAM during future visits of the same website.
 
 ## Menu abstraction
 
