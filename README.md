@@ -12,7 +12,7 @@ SAM can turn almost any kind of static webpage structure into a custom adaptive 
 * **Continuous logging of user interactions**, entirely local to the web browser of each user.
 * **Popular adaptation techniques**, split between target policies (_what_ to adapt in a menu) and adaptation styles (_how_ to adapt the target items).
 
-You can find more details about the framework in the following [IUI19 paper](https://dl.acm.org/citation.cfm?id=3308705).
+You can find more details about the framework in the following [IUI19 paper](https://arxiv.org/abs/1901.08289).
 
 
 
