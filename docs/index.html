@@ -1,0 +1,236 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Adaptive Web Menus</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">Adaptive Web Menus</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> Adaptive Web Menus</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="sam-build-status">SAM <a href="https://travis-ci.org/aalto-ui/sam"><img src="https://travis-ci.org/aalto-ui/sam.svg?branch=master" alt="Build Status"></a></h1>
+				<p>SAM is a Javascript library which offers <strong>Self-Adapting Menus</strong> for websites.</p>
+				<p><strong><a href="https://aalto-ui.github.io/sam/build/sam.zip">⬇️ Download SAM</a></strong> (last build, compressed)</p>
+				<p><strong><a href="https://aalto-ui.github.io/sam/docs/">ℹ️ Read the full documentation</a></strong></p>
+				<p>SAM can turn almost any kind of static webpage structure into a custom adaptive menu, in a few lines of code only. It comes with the following features:</p>
+				<ul>
+					<li><strong>Abstraction of webpage menus</strong>, easily built using JQuery selectors.</li>
+					<li><strong>Continuous logging of user interactions</strong>, entirely local to the web browser of each user.</li>
+					<li><strong>Popular adaptation techniques</strong>, split between target policies (<em>what</em> to adapt in a menu) and adaptation styles (<em>how</em> to adapt the target items).</li>
+				</ul>
+				<p>You can find more details about the framework in the following <a href="https://arxiv.org/abs/1901.08289">IUI19 paper</a>.</p>
+				<h2 id="running-sam-for-end-users-">Running SAM (for end-users)</h2>
+				<p>Since SAM is entirely client-side, it can be <em>injected</em> in any webpage. This process allows to adapt the menu of many websites, even though they were not built using SAM.</p>
+				<p>Several browser extensions allow you to inject custom JavaScript and CSS into the webpages you visit. We currently use <strong>Mozilla Firefox</strong> with <strong><a href="https://addons.mozilla.org/en-US/firefox/addon/codeinjector/">Code Injector</a></strong>. The tutorial below assumes you are using Code Injector—but you can adapt it to make it work with any similar browser extension.</p>
+				<ol>
+					<li>Open the Code Injector panel (click the icon).</li>
+					<li><strong>Create a global rule</strong> (common to all URLs) <strong>to inject SAM on every website you visit</strong>. If you prefer, you can also use more restrictive rules to only inject SAM on certain websites.<ol>
+							<li><strong>Inject jQuery:</strong><ul>
+									<li>URL pattern: <code>.*</code></li>
+									<li>In the <em>Files</em> tab, add the following URL: <a href="https://code.jquery.com/jquery-3.3.1.min.js">https://code.jquery.com/jquery-3.3.1.min.js</a></li>
+								</ul>
+							</li>
+							<li><strong>Inject SAM:</strong><ul>
+									<li>URL pattern: <code>.*</code></li>
+									<li>In the <em>CSS</em> tab, paste the content of <a href="https://aalto-ui.github.io/sam/build/sam.css"><code>sam.css</code></a></li>
+									<li>In the <em>JavaScript</em> tab, paste the content of <a href="https://aalto-ui.github.io/sam/build/sam.min.js"><code>sam.min.js</code></a></li>
+								</ul>
+							</li>
+						</ol>
+					</li>
+					<li><strong>Add specific rules to initialise SAM on each website containing menus you wish to adapt</strong>. Let&#39;s take Wikipedia as an example, and add a new rule in Code Injector:<ul>
+							<li>URL pattern: <code>\.wikipedia\.org</code></li>
+							<li>In the <em>JavaScript</em> tab, paste <a href="examples/wikipedia.org/main.js">this initialisation script</a> (which targets the main menu of Wikipedia).</li>
+						</ul>
+					</li>
+				</ol>
+				<h2 id="building-sam-for-developers-">Building SAM (for developers)</h2>
+				<p>SAM is written in <a href="https://www.TypeScriptlang.org/">TypeScript</a>, a typed language which can be transpiled to plain JavaScript. It relies on a few dependencies required to build it, and on a single runtime dependency (jQuery—which must be loaded <em>before</em> SAM on any webpage to adapt).</p>
+				<p>If you want to build SAM on your machine, you must start by installing all the dependencies using <a href="https://www.npmjs.com/">npm</a>. It is shipped along with Node.js, that you can install with one of the following ways:</p>
+				<ul>
+					<li>Using <a href="https://github.com/creationix/nvm">nvm</a> (Unix &amp; OSX): <code>nvm install node</code></li>
+					<li>Using <a href="https://brew.sh/">Homebrew</a> (OSX): <code>brew install node</code></li>
+					<li><a href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm">See other alternatives on npmjs.com</a></li>
+				</ul>
+				<p>Once this is done, <strong>open a terminal and run the following commands</strong>:</p>
+				<ol>
+					<li><code>git clone https://github.com/aalto-ui/sam.git</code> to clone this repository.</li>
+					<li><code>cd sam</code> to change you working directory to the clone you just made.</li>
+					<li><code>npm install -g grunt-cli</code> to install the CLI of <a href="https://gruntjs.com/">Grunt</a>, the build system we use.</li>
+					<li><code>npm install</code> to install all the other dependencies (listed in <a href="package.json"><code>package.json</code></a>).</li>
+					<li><code>grunt</code> to finally build SAM.</li>
+				</ol>
+				<p>The new <code>build</code> folder will contain your own build of SAM. You can also generate your own documentation by running <code>grunt doc</code>.</p>
+				<p><strong>Note on the <code>build/lib</code> directory:</strong> this directory contains each TypeScript source file transpiled to JavaScript, along with TypeScript Declaration files (which provide type information). You can probably ignore this directory, except if you wish to build a web application in TypeScript with SAM as a npm dependency.</p>
+				<h2 id="extending-sam-for-researchers-">Extending SAM (for researchers)</h2>
+				<p>In SAM, <strong>each adaptation technique is a combination of a policy and a style</strong>. While the code of SAM can be extended in various ways, one of the most interesting kind of extension is the addition of a new policy or a new style:</p>
+				<ul>
+					<li>A <strong>policy</strong> is a metric of importance for all items (or groups of items). It must assign a score to each item (or group of item), and sort them accordingly. It reflects <em>what</em> to adapt in the menus (e.g. the most clicked items).</li>
+					<li>A <strong>technique</strong> is a certain way of updating the webpage menus to adapt them. It must modify the DOM in accordance with the output of the policy, and be able to cancel the changes at any time. It reflects <em>how</em> to adapt the menus (e.g. highlight the top-3 items).</li>
+				</ul>
+				<p>We decided to make adaptation techniques modular in order to encourage researchers to re-use existing pieces of code, and spend more time on trying out new ideas (instead of constantly re-implementing features such as user logging and common metrics). In addition, SAM already provides some popular <a href="src/ts/adaptations/policies">policies</a> and <a href="src/ts/adaptations/styles">styles</a>.</p>
+				<h3 id="adding-a-new-target-policy">Adding a new target policy</h3>
+				<p>In order to add a new target policy, you must first create a new class which implements the <a href="https://aalto-ui.github.io/sam/docs/interfaces/adaptation.targetpolicy.html"><code>TargetPolicy</code></a> interface, and give it a unique name.</p>
+				<p>For more convenience, you may want to extend the <a href="https://aalto-ui.github.io/sam/docs/classes/adaptation.defaulttargetpolicy.html"><code>DefaultTargetPolicy</code></a> class instead. It provides a default implementation of all methods of the interface but <a href="https://aalto-ui.github.io/sam/docs/interfaces/adaptation.targetpolicy.html#getsorteditemswithscores"><code>getSortedItemsWithScores</code></a>, that must return a sorted array of objects containing an item and its score, and that you must implement yourself.</p>
+				<p>Once your new class fully implements the interface, you must add an instance of your policy in the <a href="https://aalto-ui.github.io/sam/docs/modules/adaptation.html#available_policies"><code>AVAILABLE_POLICIES</code></a> array, and rebuild SAM. It will be available in the <a href="https://aalto-ui.github.io/sam/docs/classes/adaptation.adaptationmanager.html">adaptation manager</a> by using the name you gave it.</p>
+				<p><strong>Note on default implementations:</strong> if your policy belongs to a specific kind of metric, you may want to check if there is an even <strong>more specific abstract class</strong> to extend. For instance, all the policies provided by SAM which sort items according to a score related to the page they link to extend the <a href="https://aalto-ui.github.io/sam/docs/classes/adaptation.linkedpagescorepolicy.html"><code>LinkedPageScorePolicy</code></a> class instead, which does almost all the work!</p>
+				<h3 id="adding-a-new-adaptation-style">Adding a new adaptation style</h3>
+				<p>In order to add a new adaptation style, you must first create a new class which implements the <a href="https://aalto-ui.github.io/sam/docs/interfaces/adaptation.adaptationstyle.html"><code>AdaptationStyle</code></a> interface, and give it a unique name.</p>
+				<p>Remember that the scores and/or the order of the items (or group of items) provided by the policy represent the importance of the different items (or groups of items) for the user (i.e. what the adapted menu should highlight).</p>
+				<p>Once your new class fully implements the interface, you must add an instance of your style in the <a href="https://aalto-ui.github.io/sam/docs/modules/adaptation.html#available_styles"><code>AVAILABLE_STYLES</code></a> array, and rebuild SAM. It will be available in the <a href="https://aalto-ui.github.io/sam/docs/classes/adaptation.adaptationmanager.html">adaptation manager</a> by using the name you gave it.</p>
+				<p><strong>Note on composite styles:</strong> another way of making it simpler to create new adaptation techniques lies in the notion of <em>style composition</em>: two or more styles can be chained inside a new style (which basically calls the <code>apply</code> and <code>cancel</code> methods of other styles in the right order). This kind of adaptation style is called a <strong>composite style</strong>. SAM provides <a href="https://github.com/aalto-ui/sam/tree/master/src/ts/adaptations/styles/composites">some examples of composite styles</a>.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/adaptation.html">adaptation</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/core.html">core</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/gui.html">gui</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/menu_abstraction.html">menu-<wbr>abstraction</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/user_data.html">user-<wbr>data</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

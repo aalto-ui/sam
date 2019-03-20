@@ -1,0 +1,897 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>AdaptationManager | Adaptive Web Menus</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">Adaptive Web Menus</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/adaptation.html">adaptation</a>
+				</li>
+				<li>
+					<a href="adaptation.adaptationmanager.html">AdaptationManager</a>
+				</li>
+			</ul>
+			<h1>Class AdaptationManager</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">AdaptationManager</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="adaptation.adaptationmanager.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="adaptation.adaptationmanager.html#currentpolicy" class="tsd-kind-icon">current<wbr>Policy</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="adaptation.adaptationmanager.html#currentstyle" class="tsd-kind-icon">current<wbr>Style</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="adaptation.adaptationmanager.html#datamanager" class="tsd-kind-icon">data<wbr>Manager</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="adaptation.adaptationmanager.html#menumanager" class="tsd-kind-icon">menu<wbr>Manager</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="adaptation.adaptationmanager.html#applycurrentadaptation" class="tsd-kind-icon">apply<wbr>Current<wbr>Adaptation</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="adaptation.adaptationmanager.html#cancelcurrentadaptation" class="tsd-kind-icon">cancel<wbr>Current<wbr>Adaptation</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="adaptation.adaptationmanager.html#getcurrentpolicyname" class="tsd-kind-icon">get<wbr>Current<wbr>Policy<wbr>Name</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="adaptation.adaptationmanager.html#getcurrentstylename" class="tsd-kind-icon">get<wbr>Current<wbr>Style<wbr>Name</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="adaptation.adaptationmanager.html#restoreadaptationfromdatabaseorsetdefault" class="tsd-kind-icon">restore<wbr>Adaptation<wbr>From<wbr>Database<wbr>OrSet<wbr>Default</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="adaptation.adaptationmanager.html#restorepolicyfromdatabaseorsetdefault" class="tsd-kind-icon">restore<wbr>Policy<wbr>From<wbr>Database<wbr>OrSet<wbr>Default</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="adaptation.adaptationmanager.html#restorestylefromdatabaseorsetdefault" class="tsd-kind-icon">restore<wbr>Style<wbr>From<wbr>Database<wbr>OrSet<wbr>Default</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="adaptation.adaptationmanager.html#setdefaultpolicy" class="tsd-kind-icon">set<wbr>Default<wbr>Policy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="adaptation.adaptationmanager.html#setdefaultstyle" class="tsd-kind-icon">set<wbr>Default<wbr>Style</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="adaptation.adaptationmanager.html#setpolicy" class="tsd-kind-icon">set<wbr>Policy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="adaptation.adaptationmanager.html#setstyle" class="tsd-kind-icon">set<wbr>Style</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="adaptation.adaptationmanager.html#switchtoadaptation" class="tsd-kind-icon">switch<wbr>ToAdaptation</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="adaptation.adaptationmanager.html#switchtopolicy" class="tsd-kind-icon">switch<wbr>ToPolicy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="adaptation.adaptationmanager.html#switchtostyle" class="tsd-kind-icon">switch<wbr>ToStyle</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="adaptation.adaptationmanager.html#updatecurrentadaptation" class="tsd-kind-icon">update<wbr>Current<wbr>Adaptation</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Adaptation<wbr>Manager<span class="tsd-signature-symbol">(</span>menuManager<span class="tsd-signature-symbol">: </span><a href="menu_abstraction.menumanager.html" class="tsd-signature-type">MenuManager</a>, dataManager<span class="tsd-signature-symbol">: </span><a href="user_data.datamanager.html" class="tsd-signature-type">DataManager</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="adaptation.adaptationmanager.html" class="tsd-signature-type">AdaptationManager</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L83">adaptations/AdaptationManager.ts:83</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a new instance of AdaptationManager.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>menuManager: <a href="menu_abstraction.menumanager.html" class="tsd-signature-type">MenuManager</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The menu manager containing the menus to adapt.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>dataManager: <a href="user_data.datamanager.html" class="tsd-signature-type">DataManager</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The data manager containing data for policies.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="adaptation.adaptationmanager.html" class="tsd-signature-type">AdaptationManager</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="currentpolicy" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> current<wbr>Policy</h3>
+					<div class="tsd-signature tsd-kind-icon">current<wbr>Policy<span class="tsd-signature-symbol">:</span> <a href="../interfaces/adaptation.targetpolicy.html" class="tsd-signature-type">TargetPolicy</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L83">adaptations/AdaptationManager.ts:83</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Current target policy.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="currentstyle" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> current<wbr>Style</h3>
+					<div class="tsd-signature tsd-kind-icon">current<wbr>Style<span class="tsd-signature-symbol">:</span> <a href="../interfaces/adaptation.adaptationstyle.html" class="tsd-signature-type">AdaptationStyle</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L80">adaptations/AdaptationManager.ts:80</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Current adaptation style.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="datamanager" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> data<wbr>Manager</h3>
+					<div class="tsd-signature tsd-kind-icon">data<wbr>Manager<span class="tsd-signature-symbol">:</span> <a href="user_data.datamanager.html" class="tsd-signature-type">DataManager</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L77">adaptations/AdaptationManager.ts:77</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Data manager of the library.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="menumanager" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> menu<wbr>Manager</h3>
+					<div class="tsd-signature tsd-kind-icon">menu<wbr>Manager<span class="tsd-signature-symbol">:</span> <a href="menu_abstraction.menumanager.html" class="tsd-signature-type">MenuManager</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L74">adaptations/AdaptationManager.ts:74</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Menu manager of the library.</p>
+						</div>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="applycurrentadaptation" class="tsd-anchor"></a>
+					<h3>apply<wbr>Current<wbr>Adaptation</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">apply<wbr>Current<wbr>Adaptation<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L270">adaptations/AdaptationManager.ts:270</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Apply the current adaptation style to all menus of the menu manager,
+									using the current target policy.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="cancelcurrentadaptation" class="tsd-anchor"></a>
+					<h3>cancel<wbr>Current<wbr>Adaptation</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">cancel<wbr>Current<wbr>Adaptation<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L278">adaptations/AdaptationManager.ts:278</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Cancel the current adaptation style on all the menus which are adapted.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getcurrentpolicyname" class="tsd-anchor"></a>
+					<h3>get<wbr>Current<wbr>Policy<wbr>Name</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Current<wbr>Policy<wbr>Name<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L190">adaptations/AdaptationManager.ts:190</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Return the name of the current target policy.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>The name of the current policy.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getcurrentstylename" class="tsd-anchor"></a>
+					<h3>get<wbr>Current<wbr>Style<wbr>Name</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Current<wbr>Style<wbr>Name<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L117">adaptations/AdaptationManager.ts:117</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Return the name of the current adaptation style.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>The name of the current style.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="restoreadaptationfromdatabaseorsetdefault" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> restore<wbr>Adaptation<wbr>From<wbr>Database<wbr>OrSet<wbr>Default</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">restore<wbr>Adaptation<wbr>From<wbr>Database<wbr>OrSet<wbr>Default<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L261">adaptations/AdaptationManager.ts:261</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the adaptation style and policy to the last ones which has been in use,
+									or to the default ones if no previous ones are found.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="restorepolicyfromdatabaseorsetdefault" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> restore<wbr>Policy<wbr>From<wbr>Database<wbr>OrSet<wbr>Default</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">restore<wbr>Policy<wbr>From<wbr>Database<wbr>OrSet<wbr>Default<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L230">adaptations/AdaptationManager.ts:230</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the target policy to the last one which has been in use,
+									or to the default policy if no previous policy is found.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="restorestylefromdatabaseorsetdefault" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> restore<wbr>Style<wbr>From<wbr>Database<wbr>OrSet<wbr>Default</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">restore<wbr>Style<wbr>From<wbr>Database<wbr>OrSet<wbr>Default<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L157">adaptations/AdaptationManager.ts:157</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the adaptation style to the last one which has been in use,
+									or to the default style if no previous style is found.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="setdefaultpolicy" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> set<wbr>Default<wbr>Policy</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Default<wbr>Policy<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L222">adaptations/AdaptationManager.ts:222</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the default target policy.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="setdefaultstyle" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> set<wbr>Default<wbr>Style</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Default<wbr>Style<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L149">adaptations/AdaptationManager.ts:149</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the default adaptation style.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="setpolicy" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> set<wbr>Policy</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Policy<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L200">adaptations/AdaptationManager.ts:200</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the current target policy.
+									If the name does not match any policy, the policy is not updated.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the new policy.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="setstyle" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> set<wbr>Style</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Style<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L127">adaptations/AdaptationManager.ts:127</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the current adaptation style.
+									If the name does not match any style, the style is not updated.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the new style.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="switchtoadaptation" class="tsd-anchor"></a>
+					<h3>switch<wbr>ToAdaptation</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">switch<wbr>ToAdaptation<span class="tsd-signature-symbol">(</span>styleName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, policyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L300">adaptations/AdaptationManager.ts:300</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Cancel any existing adaptation, switch to the given style and policy,
+									and update all adapted menus accordingly.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>styleName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the new style.</p>
+									</div>
+								</li>
+								<li>
+									<h5>policyName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the new policy.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="switchtopolicy" class="tsd-anchor"></a>
+					<h3>switch<wbr>ToPolicy</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">switch<wbr>ToPolicy<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L246">adaptations/AdaptationManager.ts:246</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Cancel any existing adaptation, switch to the given taget policy,
+									and update all adapted menus accordingly.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the new policy.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="switchtostyle" class="tsd-anchor"></a>
+					<h3>switch<wbr>ToStyle</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">switch<wbr>ToStyle<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L173">adaptations/AdaptationManager.ts:173</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Cancel any existing adaptation, switch to the given adaptation style,
+									and update all adapted menus accordingly.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the new style.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="updatecurrentadaptation" class="tsd-anchor"></a>
+					<h3>update<wbr>Current<wbr>Adaptation</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Current<wbr>Adaptation<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/aalto-ui/sam/blob/ee2fd31/src/ts/adaptations/AdaptationManager.ts#L288">adaptations/AdaptationManager.ts:288</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Successively cancel and re-apply the current adaptation to update it.</p>
+								</div>
+								<p>This method can be used for manual update of the adapted menus,
+								e.g. on a single-page website where items only act as anchor links or script triggers.</p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/adaptation.html">adaptation</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/core.html">core</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/gui.html">gui</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/menu_abstraction.html">menu-<wbr>abstraction</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/user_data.html">user-<wbr>data</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
+						<a href="../enums/adaptation.adaptationstate.html" class="tsd-kind-icon">Adaptation<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../enums/adaptation.highlightinglevel.html" class="tsd-kind-icon">Highlighting<wbr>Level</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.accessrankpolicy.html" class="tsd-kind-icon">Access<wbr>Rank<wbr>Policy</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.adaptationmanager.html" class="tsd-kind-icon">Adaptation<wbr>Manager</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="adaptation.adaptationmanager.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="adaptation.adaptationmanager.html#currentpolicy" class="tsd-kind-icon">current<wbr>Policy</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="adaptation.adaptationmanager.html#currentstyle" class="tsd-kind-icon">current<wbr>Style</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="adaptation.adaptationmanager.html#datamanager" class="tsd-kind-icon">data<wbr>Manager</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="adaptation.adaptationmanager.html#menumanager" class="tsd-kind-icon">menu<wbr>Manager</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="adaptation.adaptationmanager.html#applycurrentadaptation" class="tsd-kind-icon">apply<wbr>Current<wbr>Adaptation</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="adaptation.adaptationmanager.html#cancelcurrentadaptation" class="tsd-kind-icon">cancel<wbr>Current<wbr>Adaptation</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="adaptation.adaptationmanager.html#getcurrentpolicyname" class="tsd-kind-icon">get<wbr>Current<wbr>Policy<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="adaptation.adaptationmanager.html#getcurrentstylename" class="tsd-kind-icon">get<wbr>Current<wbr>Style<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="adaptation.adaptationmanager.html#restoreadaptationfromdatabaseorsetdefault" class="tsd-kind-icon">restore<wbr>Adaptation<wbr>From<wbr>Database<wbr>OrSet<wbr>Default</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="adaptation.adaptationmanager.html#restorepolicyfromdatabaseorsetdefault" class="tsd-kind-icon">restore<wbr>Policy<wbr>From<wbr>Database<wbr>OrSet<wbr>Default</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="adaptation.adaptationmanager.html#restorestylefromdatabaseorsetdefault" class="tsd-kind-icon">restore<wbr>Style<wbr>From<wbr>Database<wbr>OrSet<wbr>Default</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="adaptation.adaptationmanager.html#setdefaultpolicy" class="tsd-kind-icon">set<wbr>Default<wbr>Policy</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="adaptation.adaptationmanager.html#setdefaultstyle" class="tsd-kind-icon">set<wbr>Default<wbr>Style</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="adaptation.adaptationmanager.html#setpolicy" class="tsd-kind-icon">set<wbr>Policy</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="adaptation.adaptationmanager.html#setstyle" class="tsd-kind-icon">set<wbr>Style</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="adaptation.adaptationmanager.html#switchtoadaptation" class="tsd-kind-icon">switch<wbr>ToAdaptation</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="adaptation.adaptationmanager.html#switchtopolicy" class="tsd-kind-icon">switch<wbr>ToPolicy</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="adaptation.adaptationmanager.html#switchtostyle" class="tsd-kind-icon">switch<wbr>ToStyle</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="adaptation.adaptationmanager.html#updatecurrentadaptation" class="tsd-kind-icon">update<wbr>Current<wbr>Adaptation</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.defaulttargetpolicy.html" class="tsd-kind-icon">Default<wbr>Target<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.fold.html" class="tsd-kind-icon">Fold</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.highlight.html" class="tsd-kind-icon">Highlight</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.highlightandreorderall.html" class="tsd-kind-icon">Highlight<wbr>And<wbr>Reorder<wbr>All</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.highlightandreorderitems.html" class="tsd-kind-icon">Highlight<wbr>And<wbr>Reorder<wbr>Items</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.highlightreorderitemsandfold.html" class="tsd-kind-icon">Highlight<wbr>Reorder<wbr>Items<wbr>And<wbr>Fold</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.identity.html" class="tsd-kind-icon">Identity</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.linkedpagescorepolicy.html" class="tsd-kind-icon">Linked<wbr>Page<wbr>Score<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.longestvisitdurationpolicy.html" class="tsd-kind-icon">Longest<wbr>Visit<wbr>Duration<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.mostclickeditemspolicy.html" class="tsd-kind-icon">Most<wbr>Clicked<wbr>Items<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.mostrecentvisitspolicy.html" class="tsd-kind-icon">Most<wbr>Recent<wbr>Visits<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.mostvisitedpagespolicy.html" class="tsd-kind-icon">Most<wbr>Visited<wbr>Pages<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.nodeindexorderpolicy.html" class="tsd-kind-icon">Node<wbr>Index<wbr>Order<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.progressivehighlightandreorderitems.html" class="tsd-kind-icon">Progressive<wbr>Highlight<wbr>And<wbr>Reorder<wbr>Items</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.reorder.html" class="tsd-kind-icon">Reorder</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.reordergroups.html" class="tsd-kind-icon">Reorder<wbr>Groups</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.reorderitems.html" class="tsd-kind-icon">Reorder<wbr>Items</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.reorderitemsandfold.html" class="tsd-kind-icon">Reorder<wbr>Items<wbr>And<wbr>Fold</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="adaptation.serialpositioncurvepolicy.html" class="tsd-kind-icon">Serial<wbr>Position<wbr>Curve<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/adaptation.adaptationstyle.html" class="tsd-kind-icon">Adaptation<wbr>Style</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+						<a href="../interfaces/adaptation.elementwithnbclicks.html" class="tsd-kind-icon">Element<wbr>With<wbr>NbClicks</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/adaptation.itemcharacteristics.html" class="tsd-kind-icon">Item<wbr>Characteristics</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/adaptation.itemgroupwithscore.html" class="tsd-kind-icon">Item<wbr>Group<wbr>With<wbr>Score</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/adaptation.itemwithscore.html" class="tsd-kind-icon">Item<wbr>With<wbr>Score</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/adaptation.targetpolicy.html" class="tsd-kind-icon">Target<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/adaptation.html#availablepolicies" class="tsd-kind-icon">Available<wbr>Policies</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/adaptation.html#availablestyle" class="tsd-kind-icon">Available<wbr>Style</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="../modules/adaptation.html#available_policies" class="tsd-kind-icon">AVAILABLE_<wbr>POLICIES</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="../modules/adaptation.html#available_policy_names" class="tsd-kind-icon">AVAILABLE_<wbr>POLICY_<wbr>NAMES</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="../modules/adaptation.html#available_styles" class="tsd-kind-icon">AVAILABLE_<wbr>STYLES</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="../modules/adaptation.html#available_style_names" class="tsd-kind-icon">AVAILABLE_<wbr>STYLE_<wbr>NAMES</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/adaptation.html#highlighting_levels_classes" class="tsd-kind-icon">HIGHLIGHTING_<wbr>LEVELS_<wbr>CLASSES</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
